@@ -1,16 +1,28 @@
 <template>
   <section class="contents">
     <div class="backgroundWrapper">
-      <img :src="importedFirstBackground" alt="첫번째 이미지" />
+      <img
+        :src="importedFirstBackground"
+        alt="첫번째 이미지"
+        class="backgroundImgs"
+      />
       <button type="button" class="firstBackgroundBtn">
         <img :src="importedGoShop" alt="판매사이트로 이동" />
       </button>
     </div>
     <div class="backgroundWrapper">
-      <img :src="importedSecondBackground" alt="두번째 이미지" />
+      <img
+        :src="importedSecondBackground"
+        alt="두번째 이미지"
+        class="backgroundImgs"
+      />
     </div>
     <div class="backgroundWrapper">
-      <img :src="importedThirdBackground" alt="세번째 이미지" />
+      <img
+        :src="importedThirdBackground"
+        alt="세번째 이미지"
+        class="backgroundImgs"
+      />
     </div>
   </section>
 </template>
@@ -29,22 +41,5 @@ const importedGoShop = ref(goShop);
 </script>
 
 <style scoped>
-.contents {
-  display: flex;
-  flex-direction: column;
-  padding: 0 0 121px;
-  gap: 20px 0;
-}
-
-.backgroundWrapper {
-  padding: 0;
-  position: relative;
-}
-
-.firstBackgroundBtn {
-  position: absolute;
-  left: 50%;
-  bottom: 32px;
-  transform: translateX(-50%);
-}
+@import "./Contents.css";
 </style>

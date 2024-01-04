@@ -15,26 +15,5 @@
 <script setup></script>
 
 <style scoped>
-.nav {
-  display: flex;
-  padding: 28px 29px;
-  justify-content: center;
-}
-
-.navList {
-  display: flex;
-  gap: 62px;
-  font-weight: 300;
-  font-size: 20px;
-  letter-spacing: 1.6px;
-}
-
-.navItem {
-  text-decoration: none;
-  color: #000;
-}
-
-.navItem:visited {
-  color: #000;
-}
+@import "./Nav.css";
 </style>
