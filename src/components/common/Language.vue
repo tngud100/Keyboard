@@ -1,5 +1,5 @@
 <template>
-  <div class="languageWrapper" @click="changeLanguage">
+  <div class="languageWrapper" @click="toggleLanguage">
     <button type="button" class="world"></button>
     <button type="button" class="language" ref="animatedElement"></button>
   </div>
@@ -10,23 +10,24 @@ import { ref, onMounted } from "vue";
 import { animateLanguage } from "@/utils/anime";
 import { useLanguageStore } from "@/stores/useLanguageStore";
 
-const store = useLanguageStore();
+const language = useLanguageStore();
 const animatedElement = ref(null);
 
 onMounted(() => {
-  // null 처리
-  animatedElement.value.style.backgroundImage = store.isLanguage
-    ? "url('../src/assets/images/english.svg')"
-    : "url('../src/assets/images/korean.svg')";
+  setLanguageBackgroundImg();
 });
 
-const changeLanguage = () => {
+const toggleLanguage = () => {
   animateLanguage(() => {
-    store.toggleIsLanguage();
-    animatedElement.value.style.backgroundImage = store.isLanguage
-      ? "url('../src/assets/images/english.svg')"
-      : "url('../src/assets/images/korean.svg')";
+    language.toggleLanguage();
+    setLanguageBackgroundImg();
   });
+};
+
+const setLanguageBackgroundImg = () => {
+  animatedElement.value.style.backgroundImage = language.isLanguage
+    ? "url('../src/assets/images/english.svg')"
+    : "url('../src/assets/images/korean.svg')";
 };
 </script>
 

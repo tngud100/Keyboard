@@ -20,9 +20,9 @@
       </router-link>
     </h1>
     <div class="etc">
-      <div class="searchWrapper">
-        <input type="text" class="search" />
-        <button type="button" class="searchBtn">
+      <div class="searchWrapper" :class="isShowingSearchBoard">
+        <input type="text" class="search" v-show="isSearch" />
+        <button type="button" class="searchBtn" @click="toggleIsSearch">
           <img :src="importedSearch" alt="검색" />
         </button>
       </div>
@@ -33,15 +33,12 @@
         <img :src="importedBasket" alt="장바구니" />
       </button>
       <Language />
-      <!-- <button type="button">
-        <img :src="importedKorean" alt="한국어" />
-      </button> -->
     </div>
   </header>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import instagram from "@/assets/images/instagram.svg";
 import discord from "@/assets/images/discord.svg";
 import naver from "@/assets/images/naver.svg";
@@ -49,9 +46,8 @@ import youtube from "@/assets/images/youtube.svg";
 import search from "@/assets/images/search.svg";
 import myPage from "@/assets/images/mypage.svg";
 import basket from "@/assets/images/basket.svg";
-import korean from "@/assets/images/korean.svg";
 import logo from "@/assets/images/logo.svg";
-import Language from "@/components/common/Language.vue";
+import Language from "#/common/Language.vue";
 
 const importedInstagram = ref(instagram);
 const importedDiscord = ref(discord);
@@ -60,8 +56,16 @@ const importedYoutube = ref(youtube);
 const importedSearch = ref(search);
 const importedMyPage = ref(myPage);
 const importedBasket = ref(basket);
-const importedKorean = ref(korean);
 const importedLogo = ref(logo);
+const isSearch = ref(false);
+
+const isShowingSearchBoard = computed(
+  () => isSearch.value && "searchWrapperBorder"
+);
+
+const toggleIsSearch = () => {
+  isSearch.value = !isSearch.value;
+};
 </script>
 
 <style scoped>

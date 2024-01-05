@@ -1,7 +1,9 @@
 <template>
-  <div>Keyboard</div>
+  <Contents />
 </template>
 
-<script setup></script>
+<script setup>
+import Contents from "#/keyboard/Contents.vue";
+</script>
 
 <style scoped></style>

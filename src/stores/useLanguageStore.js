@@ -2,17 +2,19 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useLanguageStore = defineStore("language", () => {
-  const isLanguage = ref(
-    localStorage.getItem("language") === null
-      ? false
-      : Boolean(localStorage.getItem("language"))
-  );
+  const isLanguage = ref(false);
+  const localLanguage = localStorage.getItem("language");
 
-  const toggleIsLanguage = () => {
+  if (localLanguage === null || localLanguage === "false") {
+    isLanguage.value = false;
+  } else if (localLanguage === "true") {
+    isLanguage.value = true;
+  }
+
+  const toggleLanguage = () => {
     isLanguage.value = !isLanguage.value;
     localStorage.setItem("language", isLanguage.value);
-    console.log(localStorage.getItem("language"));
   };
 
-  return { isLanguage, toggleIsLanguage };
+  return { isLanguage, toggleLanguage };
 });

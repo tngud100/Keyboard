@@ -4,18 +4,20 @@ import Nav from "#/layout/Nav.vue";
 import Footer from "#/layout/Footer.vue";
 import Menu from "#/layout/Menu.vue";
 import { useMenuStore } from "@/stores/useMenuStore";
+import { useNavStore } from "@/stores/useNavStore";
 import { storeToRefs } from "pinia";
 
-const { isShowingMenuByLocation } = storeToRefs(useMenuStore());
+const { isShowingMenuByRoute } = storeToRefs(useMenuStore());
+const { isShowingNavByRoute } = storeToRefs(useNavStore());
 </script>
 
 <template>
   <div>
     <Header />
     <section class="contents">
-      <Nav />
+      <Nav v-show="isShowingNavByRoute" />
       <router-view />
-      <Menu v-show="isShowingMenuByLocation" />
+      <Menu v-show="isShowingMenuByRoute" />
     </section>
     <Footer />
   </div>

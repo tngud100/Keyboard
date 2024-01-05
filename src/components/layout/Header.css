@@ -41,12 +41,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #323232;
+  transition: all 1s;
 }
 
 .search {
   border: none;
   outline: none;
+}
+
+.searchWrapperBorder {
+  border-bottom: 1px solid #323232;
 }
 
 .etc {

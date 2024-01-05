@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import KeyBoardView from "@/views/KeyBoardView.vue";
+import KeyboardView from "@/views/KeyboardView.vue";
+import ProductDetailView from "@/views/ProductDetailView.vue";
 
 const routes = [
   {
@@ -9,7 +10,11 @@ const routes = [
   },
   {
     path: "/keyboard",
-    component: KeyBoardView,
+    component: KeyboardView,
+  },
+  {
+    path: "/keyboard/:id",
+    component: ProductDetailView,
   },
 ];
 

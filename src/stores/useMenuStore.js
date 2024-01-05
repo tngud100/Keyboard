@@ -4,10 +4,9 @@ import { useRoute } from "vue-router";
 
 export const useMenuStore = defineStore("menu", () => {
   const isShowingMenu = ref(false);
-
   const route = useRoute();
 
-  const isShowingMenuByLocation = computed(() => {
+  const isShowingMenuByRoute = computed(() => {
     if (route.path === "/") {
       isShowingMenu.value = true;
     } else if (route.path === "/keyboard") {
@@ -19,5 +18,5 @@ export const useMenuStore = defineStore("menu", () => {
     return isShowingMenu.value;
   });
 
-  return { isShowingMenu, isShowingMenuByLocation };
+  return { isShowingMenu, isShowingMenuByRoute };
 });

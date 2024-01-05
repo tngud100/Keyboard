@@ -1,11 +1,11 @@
 .menuList {
   position: fixed;
   bottom: 15%;
-  right: -100px;
+  right: -96px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 15px 11px 15px 23px;
+  padding: 11px 10px;
   border-radius: 6px 0px 0px 6px;
   background: #282828;
   color: #fff;
@@ -21,4 +21,7 @@
 
 .menuItem {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
