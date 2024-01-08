@@ -1,0 +1,9 @@
+.productDetailWrapper {
+  padding: 100px 143px;
+  display: flex;
+  gap: 80px;
+}
+
+.productImg {
+  width: 50%;
+}
