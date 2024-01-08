@@ -3,3 +3,5 @@ export const scrollToTop = () => {
     top: 0,
   });
 };
+
+export const formattedPrice = (value) => parseInt(value).toLocaleString();
