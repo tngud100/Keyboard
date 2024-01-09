@@ -1,5 +1,8 @@
 .productInfoWrapper {
   width: 50%;
+  position: sticky;
+  top: 64px;
+  height: 100%;
 }
 
 .productInfoHeader {
@@ -211,4 +214,39 @@
 .totalPriceMoney {
   font-size: 26px;
   font-weight: 600;
+}
+
+.productCountWrapper {
+  border: 2px solid #d1d1d1;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.productCount {
+  font-size: 20px;
+  font-weight: 600;
+  width: 60px;
+  text-align: center;
+}
+
+.productCountBtn {
+  padding: 12px 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.productCountBtn:first-child {
+  border-right: 2px solid #d1d1d1;
+}
+
+.productCountBtn:last-child {
+  border-left: 2px solid #d1d1d1;
+}
+
+.productRemoveBtn {
+  cursor: pointer;
 }

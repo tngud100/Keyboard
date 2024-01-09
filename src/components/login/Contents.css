@@ -1,0 +1,87 @@
+.loginWrapper {
+  height: calc(100vh - 329px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 55px;
+}
+
+.loginInput {
+  width: 449px;
+  font-size: 14px;
+  padding: 16px 10px;
+  border: 1px solid #8c8c8c;
+  border-radius: 5px;
+}
+
+.loginInput + .loginInput {
+  margin-top: 10px;
+}
+
+.loginInput:focus {
+  outline: none;
+}
+
+.loginInput::placeholder {
+  color: #a4a4a4;
+}
+
+.commonLoginBtn {
+  padding: 15px 0;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.loginBtn {
+  background-color: #000;
+  color: #fff;
+}
+
+.signupBtn {
+  border: 1px solid #8c8c8c;
+  background: #fff;
+  color: #000;
+}
+
+.commonLoginBtn + .commonLoginBtn {
+  margin-top: 10px;
+}
+
+.saveCheckBox {
+  margin-right: 6px;
+  width: 18px;
+  height: 18px;
+  accent-color: #2c2c2c;
+}
+
+.loginInfoWrapper {
+  padding: 8px 0 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loginInfoSavedWrapper {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.loginInfoFinder {
+  color: #111;
+  font-size: 13px;
+}

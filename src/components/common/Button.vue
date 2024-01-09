@@ -1,6 +1,6 @@
 <template>
   <button
-    type="button"
+    :type="computedBtnType"
     v-if="type === 'primary'"
     class="commonBtn primaryBtn"
     @click="handleBtnClick"
@@ -8,7 +8,7 @@
     {{ text }}
   </button>
   <button
-    type="button"
+    :type="computedBtnType"
     v-else
     class="commonBtn secondaryBtn"
     @click="handleBtnClick"
@@ -18,8 +18,17 @@
 </template>
 
 <script setup>
-const { type, text, eventName } = defineProps(["type", "text", "eventName"]);
+import { computed } from "vue";
+
+const { type, btnType, text, eventName } = defineProps([
+  "type",
+  "btnType",
+  "text",
+  "eventName",
+]);
 const emit = defineEmits();
+
+const computedBtnType = computed(() => (btnType ? "submit" : "button"));
 
 const handleBtnClick = (event) => {
   emit(eventName, { event });

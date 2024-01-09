@@ -9,7 +9,7 @@ export const useMenuStore = defineStore("menu", () => {
   const isShowingMenuByRoute = computed(() => {
     if (route.path === "/") {
       isShowingMenu.value = true;
-    } else if (route.path === "/keyboard") {
+    } else if (route.path.startsWith("/keyboard")) {
       isShowingMenu.value = true;
     } else {
       isShowingMenu.value = false;

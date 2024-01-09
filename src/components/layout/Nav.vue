@@ -2,17 +2,13 @@
   <nav class="nav">
     <ul class="navList">
       <li>
-        <router-link
-          class="navItem"
-          to="/keyboard"
-          v-show="!isShowingNavItemImg"
-          >Keyboard</router-link
-        >
-        <img
+        <router-link class="navItem" to="/keyboard">Keyboard</router-link>
+        <!-- v-show="!isShowingNavItemImg" -->
+        <!-- <img
           v-show="isShowingNavItemImg"
           :src="importedKeyboard"
           alt="키보드"
-        />
+        /> -->
       </li>
       <li><router-link class="navItem" to="/switch">Switch</router-link></li>
       <li><router-link class="navItem" to="/pcb">Pcb</router-link></li>
