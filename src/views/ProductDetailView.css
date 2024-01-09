@@ -2,8 +2,9 @@
   padding: 100px 143px;
   display: flex;
   gap: 80px;
+  height: auto;
 }
 
-.productImg {
-  width: 50%;
+.productDetailImgWrapper {
+  margin-top: 180px;
 }

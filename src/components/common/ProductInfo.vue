@@ -75,16 +75,41 @@
       <li
         v-for="selectedProduct in selectedProducts"
         class="selectedProductItem"
+        :key="selectedProduct.id"
       >
         <h5 class="selectedProductTitle">
           {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }}
-          <img :src="importedClose" alt="상품 제거" />
+          <button type="button" class="productRemoveBtn">
+            <img :src="importedClose" alt="상품 제거" />
+          </button>
         </h5>
         <div class="selectedProductPriceInfo">
-          <div>
-            <button type="button">-</button>
-            <div>{{ selectedProduct.count }}</div>
-            <button type="button">+</button>
+          <div class="productCountWrapper">
+            <button
+              type="button"
+              class="productCountBtn"
+              @click="updateSubtractedCount(selectedProduct.id)"
+              :disabled="selectedProduct.count === 1"
+            >
+              <img
+                v-show="selectedProduct.count === 1"
+                :src="importedMinusDisabled"
+                alt="상품 빼기"
+              />
+              <img
+                v-show="selectedProduct.count !== 1"
+                :src="importedMinus"
+                alt="상품 빼기"
+              />
+            </button>
+            <div class="productCount">{{ selectedProduct.count }}</div>
+            <button
+              type="button"
+              class="productCountBtn"
+              @click="updateAddedCount(selectedProduct.id)"
+            >
+              <img :src="importedPlus" alt="상품 더하기" />
+            </button>
           </div>
           <div class="totalPrice">
             <span class="totalPriceMoney">{{
@@ -98,17 +123,17 @@
     <div class="productPurchaseBtnWrapper">
       <Button
         type="primary"
-        text="구매하기"
-        eventName="onFirstClick"
-        @onFirstClick="clickFirstBtn"
+        text="구매 바로가기"
+        eventName="onPurchase"
+        @onPurchase="purchaseProduct"
       />
       <Button
         text="장바구니 담기"
-        eventName="onSecondClick"
-        @onSecondClick="clickSecondBtn"
+        eventName="onStore"
+        @onStore="storeProduct"
       />
     </div>
-    <div class="productPaymentMethod">
+    <!-- <div class="productPaymentMethod">
       <button type="button" class="productPaymentBtn">
         <img
           :src="importedNaverPay"
@@ -119,12 +144,12 @@
       <button type="button" class="productPaymentBtn">
         <img :src="importedPaypal" alt="페이팔" class="productPaymentImg" />
       </button>
-    </div>
+    </div> -->
   </section>
 </template>
 
 <script setup>
-import { ref, watchEffect, watch, watchPostEffect } from "vue";
+import { ref, watchEffect } from "vue";
 import { v4 as uuidv4 } from "uuid";
 import currency from "@/assets/images/currency.svg";
 import share from "@/assets/images/share.svg";
@@ -132,6 +157,10 @@ import selectArrow from "@/assets/images/smallDownArrow.svg";
 import naverPay from "@/assets/images/naverPay.svg";
 import paypal from "@/assets/images/paypal.svg";
 import close from "@/assets/images/close.svg";
+import plus from "@/assets/images/plus.svg";
+import minus from "@/assets/images/minus.svg";
+import plusDisabled from "@/assets/images/plus_disabled.svg";
+import minusDisabled from "@/assets/images/minus_disabled.svg";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
 
@@ -148,27 +177,15 @@ const importedSelctArrow = ref(selectArrow);
 const importedNaverPay = ref(naverPay);
 const importedPaypal = ref(paypal);
 const importedClose = ref(close);
+const importedPlus = ref(plus);
+const importedMinus = ref(minus);
+const importedPlusDisabled = ref(plusDisabled);
+const importedMinusDisabled = ref(minusDisabled);
 
 const isShowingType = ref(false);
 const isShowingColor = ref(false);
 const currentColor = ref("");
 const currentType = ref("");
-
-watch(
-  currentColor,
-  () => {
-    console.log("watch");
-  },
-  { immediate: true }
-);
-
-watchEffect(() => {
-  console.log("watchEffect");
-});
-
-watchPostEffect(() => {
-  console.log("watchPostEffect");
-});
 
 watchEffect(() => {
   if (!currentColor.value || !currentType.value) return;
@@ -203,11 +220,15 @@ const updateSelectedType = ({ target }) => {
   toggleProductTypeSelectBox();
 };
 
-const clickFirstBtn = ({ event }) => {
+const updateAddedCount = (id) => emit("addCount", { id });
+
+const updateSubtractedCount = (id) => emit("subtractCount", { id });
+
+const purchaseProduct = ({ event }) => {
   console.log(event);
 };
 
-const clickSecondBtn = ({ event }) => {
+const storeProduct = ({ event }) => {
   console.log(event);
 };
 

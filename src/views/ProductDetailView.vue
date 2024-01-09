@@ -1,10 +1,17 @@
 <template>
   <section class="productDetailWrapper">
-    <img :src="importedProduct" alt="상품 이미지" class="productImg" />
+    <div>
+      <img :src="importedProduct" alt="상품 이미지" class="productImg" />
+      <div class="productDetailImgWrapper">
+        <img :src="importedProductDetailImg" alt="상품 상세 이미지" />
+      </div>
+    </div>
     <ProductInfo
       :productInfo="productInfo"
       :selectedProducts="selectedProducts"
       @selectProduct="addProduct"
+      @addCount="addCount"
+      @subtractCount="subtractCount"
     />
   </section>
 </template>
@@ -13,9 +20,11 @@
 import { ref } from "vue";
 import ProductInfo from "#/common/ProductInfo.vue";
 import product from "@/assets/images/product.png";
+import productDetailImg from "@/assets/images/productDetailImg.png";
 
 const importedProduct = ref(product);
-const selectedProducts = [];
+const importedProductDetailImg = ref(productDetailImg);
+const selectedProducts = ref([]);
 
 const productInfo = ref({
   colors: [
@@ -34,13 +43,35 @@ const productInfo = ref({
 });
 
 const addProduct = (product) => {
-  const isDuplicatedProduct = selectedProducts.some(
+  const isDuplicatedProduct = selectedProducts.value.some(
     ({ color, type }) => product.color === color && product.type === type
   );
 
   if (isDuplicatedProduct) return;
 
-  selectedProducts.push({ ...product, count: 1 });
+  selectedProducts.value.push({ ...product, count: 1 });
+};
+
+const addCount = ({ id }) => {
+  console.log(calcCount(id, 1));
+  selectedProducts.value = calcCount(id, 1);
+};
+
+const subtractCount = ({ id }) => {
+  selectedProducts.value = calcCount(id, -1);
+};
+
+const calcCount = (id, calcUnit) => {
+  return selectedProducts.value.map((selectProduct) => {
+    if (selectProduct.id === id) {
+      return {
+        ...selectProduct,
+        count: selectProduct.count + calcUnit,
+      };
+    }
+
+    return selectProduct;
+  });
 };
 </script>
 
