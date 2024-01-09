@@ -71,7 +71,30 @@
         </li>
       </ul>
     </div>
-    <div class="productPrictInfo"></div>
+    <ul class="selectedProductList">
+      <li
+        v-for="selectedProduct in selectedProducts"
+        class="selectedProductItem"
+      >
+        <h5 class="selectedProductTitle">
+          {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }}
+          <img :src="importedClose" alt="상품 제거" />
+        </h5>
+        <div class="selectedProductPriceInfo">
+          <div>
+            <button type="button">-</button>
+            <div>{{ selectedProduct.count }}</div>
+            <button type="button">+</button>
+          </div>
+          <div class="totalPrice">
+            <span class="totalPriceMoney">{{
+              calcTotalPrice(selectedProduct.price, selectedProduct.count)
+            }}</span
+            >원
+          </div>
+        </div>
+      </li>
+    </ul>
     <div class="productPurchaseBtnWrapper">
       <Button
         type="primary"
@@ -101,21 +124,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect, watch, watchPostEffect } from "vue";
+import { v4 as uuidv4 } from "uuid";
 import currency from "@/assets/images/currency.svg";
 import share from "@/assets/images/share.svg";
 import selectArrow from "@/assets/images/smallDownArrow.svg";
 import naverPay from "@/assets/images/naverPay.svg";
 import paypal from "@/assets/images/paypal.svg";
+import close from "@/assets/images/close.svg";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
 
-const { productInfo, currentColor, currentType } = defineProps([
+const { productInfo, selectedProducts } = defineProps([
   "productInfo",
-  "currentColor",
-  "currentType",
+  "selectedProducts",
 ]);
-// const emit = defineEmits(["selectColor", "selectType"]);
+
 const emit = defineEmits();
 
 const importedCurrency = ref(currency);
@@ -123,9 +147,45 @@ const importedShare = ref(share);
 const importedSelctArrow = ref(selectArrow);
 const importedNaverPay = ref(naverPay);
 const importedPaypal = ref(paypal);
+const importedClose = ref(close);
 
 const isShowingType = ref(false);
 const isShowingColor = ref(false);
+const currentColor = ref("");
+const currentType = ref("");
+
+watch(
+  currentColor,
+  () => {
+    console.log("watch");
+  },
+  { immediate: true }
+);
+
+watchEffect(() => {
+  console.log("watchEffect");
+});
+
+watchPostEffect(() => {
+  console.log("watchPostEffect");
+});
+
+watchEffect(() => {
+  if (!currentColor.value || !currentType.value) return;
+
+  emit("selectProduct", {
+    id: uuidv4(),
+    color: currentColor.value,
+    type: currentType.value,
+    price: productInfo.price,
+  });
+  resetCurrentTypeAndColor();
+});
+
+const resetCurrentTypeAndColor = () => {
+  currentType.value = "";
+  currentColor.value = "";
+};
 
 const toggleProductTypeSelectBox = () =>
   (isShowingType.value = !isShowingType.value);
@@ -134,14 +194,12 @@ const toggleProductColorSelectBox = () =>
   (isShowingColor.value = !isShowingColor.value);
 
 const updateSelectedColor = ({ target }) => {
-  emit("selectColor", {
-    color: target.dataset.color,
-  });
+  currentColor.value = target.dataset.color;
   toggleProductColorSelectBox();
 };
 
 const updateSelectedType = ({ target }) => {
-  emit("selectType", { type: target.dataset.type });
+  currentType.value = target.dataset.type;
   toggleProductTypeSelectBox();
 };
 
@@ -152,6 +210,8 @@ const clickFirstBtn = ({ event }) => {
 const clickSecondBtn = ({ event }) => {
   console.log(event);
 };
+
+const calcTotalPrice = (price, count) => formattedPrice(price * count);
 </script>
 
 <style scoped>

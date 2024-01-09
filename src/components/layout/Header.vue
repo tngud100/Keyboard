@@ -21,7 +21,7 @@
     </h1>
     <div class="etc">
       <div class="searchWrapper" :class="isShowingSearchBoard">
-        <input type="text" class="search" v-show="isSearch" />
+        <input type="text" class="search" v-show="isSearch" ref="searchRef" />
         <button type="button" class="searchBtn" @click="toggleIsSearch">
           <img :src="importedSearch" alt="검색" />
         </button>
@@ -58,13 +58,23 @@ const importedMyPage = ref(myPage);
 const importedBasket = ref(basket);
 const importedLogo = ref(logo);
 const isSearch = ref(false);
+const searchRef = ref(null);
 
 const isShowingSearchBoard = computed(
   () => isSearch.value && "searchWrapperBorder"
 );
 
 const toggleIsSearch = () => {
+  let timer;
+
   isSearch.value = !isSearch.value;
+
+  if (isSearch.value) {
+    timer = setTimeout(() => {
+      searchRef.value.focus();
+      clearTimeout(timer);
+    }, 0);
+  }
 };
 </script>
 

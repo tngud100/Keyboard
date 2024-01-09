@@ -86,6 +86,7 @@
 
 .productTypeInfo + .productTypeInfo {
   padding-top: 0;
+  border-bottom: 1px solid #dcdcdc;
 }
 
 .productTypeTitle {
@@ -171,4 +172,43 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.selectedProductList {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selectedProductItem {
+  padding: 14px 16px 16px 19px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.selectedProductTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 500;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #cacaca;
+}
+
+.selectedProductPriceInfo {
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totalPrice {
+  font-size: 20px;
+}
+
+.totalPriceMoney {
+  font-size: 26px;
+  font-weight: 600;
 }
