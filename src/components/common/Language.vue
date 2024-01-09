@@ -9,9 +9,13 @@
 import { ref, onMounted } from "vue";
 import { animateLanguage } from "@/utils/anime";
 import { useLanguageStore } from "@/stores/useLanguageStore";
+import korean from "@/assets/images/korean.svg";
+import english from "@/assets/images/english.svg";
 
 const language = useLanguageStore();
 const animatedElement = ref(null);
+const importedKorean = ref(korean);
+const importedEnglish = ref(english);
 
 onMounted(() => {
   setLanguageBackgroundImg();
@@ -26,8 +30,8 @@ const toggleLanguage = () => {
 
 const setLanguageBackgroundImg = () => {
   animatedElement.value.style.backgroundImage = language.isLanguage
-    ? "url('../src/assets/images/english.svg')"
-    : "url('../src/assets/images/korean.svg')";
+    ? `url(${importedKorean.value})`
+    : `url(${importedEnglish.value})`;
 };
 </script>
 
