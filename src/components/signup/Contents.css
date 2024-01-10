@@ -1,0 +1,97 @@
+.signupWrapper {
+  padding: 0 278px 100px;
+}
+
+.header {
+  padding: 64px 0 14px;
+  border-bottom: 5px solid #0d0d0d;
+}
+
+.signupWrapper .title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.signupWrapper .desc {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.signupWrapper .subTitle {
+  margin-top: 37px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.signupWrapper .main {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  grid-template-rows: repeat(8, 1fr);
+}
+
+.tableLine {
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.signupWrapper .tableHead {
+  padding: 32px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #f8f8f8;
+}
+
+.signupWrapper .tableData {
+  padding: 15px 30px;
+}
+
+.signupWrapper .tableInput {
+  font-size: 14px;
+  width: 449px;
+  padding: 16px 10px;
+  border-radius: 5px;
+  border: 1px solid #8c8c8c;
+}
+
+.signupWrapper .tableInput::placeholder {
+  color: #a4a4a4;
+}
+
+.signupWrapper .tableInput:focus {
+  outline: none;
+}
+
+.signupWrapper .duplicatedBtn {
+  margin-left: 11px;
+}
+
+.signupWrapper .warning {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #f00;
+}
+
+.signupWrapper .signupBtn {
+  border-radius: 5px;
+  background: #111;
+  padding: 16px 30px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.signupWrapper .birthDayInput {
+  font-size: 14px;
+  width: 143px;
+  padding: 16px 10px;
+  border-radius: 5px;
+  border: 1px solid #8c8c8c;
+}
+
+.signupWrapper .birthDayInput:focus {
+  outline: none;
+}
+
+.signupWrapper .tableBirthdayLine {
+  display: flex;
+  gap: 10px;
+}
