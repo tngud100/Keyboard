@@ -1,0 +1,70 @@
+.agreementWrapper {
+  padding: 0 278px 100px;
+}
+
+.agreementWrapper .title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.agreementWrapper .desc {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.agreementWrapper .allCheckWrapper {
+  margin-top: 42px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.agreementWrapper .header {
+  padding: 64px 0 14px;
+  border-bottom: 5px solid #0d0d0d;
+}
+
+.agreementWrapper .main {
+  padding: 30px 20px;
+}
+
+.agreementWrapper .agreementBox {
+  margin-top: 40px;
+}
+
+.agreementWrapper .subTitle {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.agreementWrapper .subDescWrapper {
+  margin-top: 10px;
+  padding: 20px 10px;
+  font-size: 14px;
+  border: 1px solid #6f6f6f;
+  background: #f9f9f9;
+  line-height: 14px;
+}
+
+.agreementWrapper .subDesc {
+  margin-top: 28px;
+}
+
+.agreementWrapper .agreementLabel {
+  font-size: 14px;
+}
+
+.agreementWrapper .userAgreementWrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
+.agreementWrapper .userAgreementCheckboxWrapper {
+  display: flex;
+  align-items: center;
+}

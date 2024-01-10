@@ -136,3 +136,10 @@ button {
   cursor: pointer;
   padding: 0;
 }
+
+input[type="checkbox"] {
+  margin-right: 6px;
+  width: 18px;
+  height: 18px;
+  accent-color: #2c2c2c;
+}

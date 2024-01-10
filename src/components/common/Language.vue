@@ -9,7 +9,7 @@
 import { ref, onMounted } from "vue";
 import { animateLanguage } from "@/utils/anime";
 import { useLanguageStore } from "@/stores/useLanguageStore";
-import korean from "@/assets/images/korean.svg";
+import korean from "@/../public/korean.svg";
 import english from "@/assets/images/english.svg";
 
 const language = useLanguageStore();
