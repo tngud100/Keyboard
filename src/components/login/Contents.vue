@@ -22,12 +22,26 @@
         </div>
       </div>
       <button class="commonLoginBtn loginBtn" type="submit">로그인</button>
-      <button class="commonLoginBtn signupBtn" type="button">회원가입</button>
+      <button
+        class="commonLoginBtn signupBtn"
+        type="button"
+        @click="moveToAgreementPage()"
+      >
+        회원가입
+      </button>
     </form>
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const moveToAgreementPage = () => {
+  router.push("/agreement");
+};
+</script>
 
 <style scoped>
 @import "./Contents.css";
