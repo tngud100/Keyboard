@@ -110,14 +110,22 @@
         </div>
       </div>
     </main>
+    <footer class="footer">
+      <button class="confirmBtn" type="button" @click="moveToSignupPage()">
+        확인
+      </button>
+    </footer>
   </section>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const userAgreement = ref(null);
 const serviceAgreement = ref(null);
+
 const allAgreement = computed(
   () => userAgreement.value && serviceAgreement.value
 );
@@ -130,6 +138,10 @@ const updateAllCheck = ({ target }) => {
     userAgreement.value = null;
     serviceAgreement.value = null;
   }
+};
+
+const moveToSignupPage = () => {
+  if (userAgreement.value && serviceAgreement.value) router.push("/signup");
 };
 </script>
 

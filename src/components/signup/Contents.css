@@ -27,7 +27,7 @@
 .signupWrapper .main {
   display: grid;
   grid-template-columns: 230px 1fr;
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-rows: 80px 80px 80px 80px 80px 80px 80px 1fr;
 }
 
 .tableLine {
@@ -43,22 +43,6 @@
 
 .signupWrapper .tableData {
   padding: 15px 30px;
-}
-
-.signupWrapper .tableInput {
-  font-size: 14px;
-  width: 449px;
-  padding: 16px 10px;
-  border-radius: 5px;
-  border: 1px solid #8c8c8c;
-}
-
-.signupWrapper .tableInput::placeholder {
-  color: #a4a4a4;
-}
-
-.signupWrapper .tableInput:focus {
-  outline: none;
 }
 
 .signupWrapper .duplicatedBtn {
@@ -79,7 +63,15 @@
   color: #fff;
 }
 
-.signupWrapper .birthDayInput {
+.signupWrapper .tableBirthdayLine {
+  display: flex;
+  gap: 10px;
+}
+
+.signupWrapper .dropDownWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   width: 143px;
   padding: 16px 10px;
@@ -87,11 +79,72 @@
   border: 1px solid #8c8c8c;
 }
 
-.signupWrapper .birthDayInput:focus {
+.signupWrapper .email {
+  display: flex;
+  gap: 10px;
+}
+
+.signupWrapper .emailAt {
+  margin: 0 5px;
+  font-size: 18px;
+  color: #717171;
+}
+
+.signupWrapper .phoneNumberWrapper {
+  padding: 8px 15px 8px 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid #8c8c8c;
+  width: 449px;
+}
+
+.signupWrapper .phoneNumber {
+  border: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.signupWrapper .phoneNumber::placeholder {
+  color: #a4a4a4;
+}
+
+.signupWrapper .phoneNumber:focus {
   outline: none;
 }
 
-.signupWrapper .tableBirthdayLine {
+.signupWrapper .phoneNumberBtn {
+  padding: 8px 12px;
+  border-radius: 3px;
+  border: 1px solid #8c8c8c;
+  background-color: #fff;
+  flex-shrink: 0;
+  color: #5e5e5e;
+  font-size: 14px;
+}
+
+.signupWrapper .addressWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signupWrapper .address {
   display: flex;
   gap: 10px;
+}
+
+.signupWrapper .footer {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.signupWrapper .confirmBtn {
+  padding: 16px 165px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 5px;
+  background-color: #111;
+  color: #fff;
 }

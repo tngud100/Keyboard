@@ -108,15 +108,23 @@
   cursor: pointer;
 }
 
-.productTypeItem {
+.productTypeList {
+  margin-top: 10px;
   display: flex;
-  justify-content: space-between;
-  padding: 13px 16px;
+  gap: 10px;
+}
+
+.productTypeItem.active {
+  border: 1px solid #000;
+}
+
+.productTypeItem {
+  padding: 13px 18px;
   font-size: 16px;
   font-weight: 500;
+  border-radius: 5px;
   border: 1px solid #dcdcdc;
-  border-top: none;
-  cursor: pointer;
+  background: #fff;
 }
 
 .productDeliveryInfo {

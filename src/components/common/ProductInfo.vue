@@ -37,15 +37,12 @@
     </div>
     <div class="productTypeInfo">
       <h4 class="productTypeTitle">상품 목록</h4>
-      <div class="productTypeSelectBox" @click="toggleProductTypeSelectBox">
-        {{ currentType || "상품" }}
-        <img :src="importedSelctArrow" alt="목록 더보기" />
-      </div>
-      <ul v-show="isShowingType">
+      <ul class="productTypeList">
         <li
           v-for="type in productInfo.types"
           :key="type.id"
           class="productTypeItem"
+          :class="currentType === type.name && 'active'"
           @click="updateSelectedType"
           :data-type="type.name"
         >
@@ -55,15 +52,12 @@
     </div>
     <div class="productTypeInfo">
       <h4 class="productTypeTitle">색상</h4>
-      <div class="productTypeSelectBox" @click="toggleProductColorSelectBox">
-        {{ currentColor || "색상" }}
-        <img :src="importedSelctArrow" alt="목록 더보기" />
-      </div>
-      <ul v-show="isShowingColor">
+      <ul class="productTypeList">
         <li
           v-for="color in productInfo.colors"
           :key="color.id"
           class="productTypeItem"
+          :class="currentColor === color.name && 'active'"
           @click="updateSelectedColor"
           :data-color="color.name"
         >
