@@ -30,7 +30,9 @@
         <img :src="importedMyPage" alt="내정보" />
       </button>
       <button type="button">
-        <img :src="importedBasket" alt="장바구니" />
+        <router-link to="/basket">
+          <img :src="importedBasket" alt="장바구니" />
+        </router-link>
       </button>
       <Language />
     </div>
