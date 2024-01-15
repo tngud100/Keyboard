@@ -22,6 +22,9 @@ jobs:
           with:
             node-version: ${{ matrix.node-version }}
 
+        - name: List src/views directory
+          run: ls -l ${{ github.workspace }}/src/views
+
         - name: NPM Install
           run: npm install
 
