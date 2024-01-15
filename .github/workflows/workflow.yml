@@ -25,6 +25,9 @@ jobs:
         - name: List src/views directory
           run: ls -l ${{ github.workspace }}/src/views
 
+        - name: rename vue
+          run: git mv /src/components/Home /src/components/home
+
         - name: NPM Install
           run: npm install
 
