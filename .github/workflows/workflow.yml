@@ -14,10 +14,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [ 18 ]
     
     steps:
-        - uses: actions/checkout@v1
+        - name: checkout Github Action
+          uses: actions/checkout@v4
+          with:
+            node-version: ${{ matrix.node-version }}
 
         - name: NPM Install
           run: npm install
@@ -29,7 +32,7 @@ jobs:
           uses: lbertenasco/s3-deploy@v1
           with:
             folder: dist
-            bucket: ${{ secrets.S3_BUCKET }}
-            dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+            bucket: ${{ secrets.BUCKET_NAME }}
+            dist-id: ${{ secrets.DISTRIBUTION_ID }}
             invalidation: / *
 
