@@ -12,6 +12,7 @@
       @selectProduct="addProduct"
       @addCount="addCount"
       @subtractCount="subtractCount"
+      @addShoppingBasket="addShoppingBasket"
     />
   </section>
 </template>
@@ -21,10 +22,12 @@ import { ref } from "vue";
 import ProductInfo from "#/common/ProductInfo.vue";
 import product from "@/assets/images/product.png";
 import productDetailImg from "@/assets/images/productDetailImg.png";
+import { useRouter } from "vue-router";
 
 const importedProduct = ref(product);
 const importedProductDetailImg = ref(productDetailImg);
 const selectedProducts = ref([]);
+const router = useRouter();
 
 const productInfo = ref({
   colors: [
@@ -53,7 +56,6 @@ const addProduct = (product) => {
 };
 
 const addCount = ({ id }) => {
-  console.log(calcCount(id, 1));
   selectedProducts.value = calcCount(id, 1);
 };
 
@@ -72,6 +74,33 @@ const calcCount = (id, calcUnit) => {
 
     return selectProduct;
   });
+};
+
+const addShoppingBasket = () => {
+  localStorage.setItem("shopping", mergeBasket());
+};
+
+const mergeBasket = () => {
+  const parsedBasket = JSON.parse(localStorage.getItem("shopping"));
+
+  if (parsedBasket === null) {
+    return JSON.stringify(selectedProducts.value);
+  }
+  const newArray = Array.from([...parsedBasket, ...selectedProducts.value]);
+
+  const mapedNewArray = newArray
+    .map((product, index, self) => {
+      const idx = self.findIndex(
+        (item) => item.color === product.color && item.type === product.type
+      );
+
+      if (index === idx) {
+        return { ...product, count: product.count + newArray[idx].count };
+      }
+    })
+    .filter((arr) => arr);
+
+  return JSON.stringify(mapedNewArray);
 };
 </script>
 
