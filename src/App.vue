@@ -18,7 +18,7 @@ const { isShowingNavByRoute } = storeToRefs(useNavStore());
       <!-- <Nav v-show="isShowingNavByRoute" /> -->
       <Nav />
       <router-view />
-      <Menu v-show="isShowingMenuByRoute" />
+      <Menu v-if="isShowingMenuByRoute" />
     </section>
     <Footer />
   </div>

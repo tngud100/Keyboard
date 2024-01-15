@@ -25,3 +25,22 @@
   align-items: center;
   gap: 10px;
 }
+
+.menuItem .link {
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topMenuWrapper {
+    bottom: 5%;
+    right: 20px;
+    position: fixed;
+}
+
+.topMenu {
+  cursor: pointer;
+}

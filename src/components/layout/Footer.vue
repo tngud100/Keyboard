@@ -20,14 +20,6 @@
           </p>
         </div>
       </div>
-      <div class="topMenuWrapper">
-        <img
-          :src="importedTopMenu"
-          alt="맨위로 이동"
-          class="topMenu"
-          @click="scrollToTop"
-        />
-      </div>
     </section>
     <section class="bottomFooter">
       <div class="bottomFooterInner">
@@ -47,11 +39,8 @@
 <script setup>
 import { ref } from "vue";
 import logo from "@/assets/images/logo.svg";
-import topMenu from "@/assets/images/top.svg";
-import { scrollToTop } from "@/utils";
 
 const importedLogo = ref(logo);
-const importedTopMenu = ref(topMenu);
 </script>
 
 <style scoped>
