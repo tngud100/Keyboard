@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import Contents from "#/keyboard/Contents.vue";
+import Contents from "#/basket/Contents.vue";
 </script>
 
 <style scoped></style>

@@ -163,7 +163,13 @@ const { productInfo, selectedProducts } = defineProps([
   "selectedProducts",
 ]);
 
-const emit = defineEmits();
+const emit = defineEmits([
+  "selectProduct",
+  "addCount",
+  "subtractCount",
+  "addShoppingBasket",
+  "onStore",
+]);
 
 const importedCurrency = ref(currency);
 const importedShare = ref(share);
@@ -222,8 +228,8 @@ const purchaseProduct = ({ event }) => {
   console.log(event);
 };
 
-const storeProduct = ({ event }) => {
-  console.log(event);
+const storeProduct = () => {
+  emit("addShoppingBasket");
 };
 
 const calcTotalPrice = (price, count) => formattedPrice(price * count);

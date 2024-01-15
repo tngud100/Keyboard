@@ -3,7 +3,12 @@
     <li class="menuItem">
       <img :src="importedOrder" alt="주문조회" />주문조회
     </li>
-    <li class="menuItem"><img :src="importedReview" alt="리뷰" />리뷰</li>
+    <li class="menuItem">
+      <RouterLink to="/review" class="link"
+        ><img :src="importedReview" alt="리뷰" />리뷰</RouterLink
+      >
+    </li>
+
     <li class="menuItem">
       <img :src="importedNotice" alt="공지사항" />공지사항
     </li>
