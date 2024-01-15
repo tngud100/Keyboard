@@ -6,6 +6,7 @@ import AgreementView from "@/views/AgreementView.vue";
 import KeyboardView from "@/views/KeyboardView.vue";
 import ProductDetailView from "@/views/ProductDetailView.vue";
 import BasketView from "@/views/BasketView.vue";
+import ReviewView from "@/views/ReviewView.vue";
 
 const routes = [
   {
@@ -35,6 +36,10 @@ const routes = [
   {
     path: "/basket",
     component: BasketView,
+  },
+  {
+    path: "/review",
+    component: ReviewView,
   },
 ];
 
