@@ -1,7 +1,7 @@
 <template>
   <section class="wrapper">
     <header class="header">
-      <h3 class="title">리뷰</h3>
+      <h3 class="title">{{ currentTabName }}</h3>
       <p class="desc">(유저들의 문구)</p>
     </header>
     <nav class="nav">
@@ -41,13 +41,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue";
 import Review from "#/review/Review.vue";
-import Notice from "#/review/Notice.vue";
+import Notice from "#/review/temporary/Notice.vue";
+import Faq from "#/review/temporary/Faq.vue";
+import Download from "#/review/temporary/Download.vue";
+import { useTabNameStore } from "@/stores/temporaryStore";
+
+const store = useTabNameStore();
+const props = computed(() => {
+  return {
+    currentTabName: store.getCurrentTabName(),
+  };
+});
 
 const tabs = {
   Review,
   Notice,
+  Faq,
+  Download,
 };
 
 const TAB_NAME = {
@@ -56,11 +68,12 @@ const TAB_NAME = {
   FAQ: "Faq",
   DOWNLOAD: "Download",
 };
-const currentTabName = ref("Review");
+
+const currentTabName = computed(() => props.value.currentTabName);
 
 const isActiveTab = (value) => currentTabName.value === value && "active";
 
-const toggleTab = (value) => (currentTabName.value = value);
+const toggleTab = (value) => store.setCurrentTabName(value);
 </script>
 
 <style src="./Contents.css" scoped></style>

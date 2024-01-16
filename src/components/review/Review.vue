@@ -1,6 +1,6 @@
 <template>
   <section class="wrapper">
-    <Product title="[In-stock] GMK NTD." :views="11" v-for="n in 10" />
+    <Product title="[In-stock] GMK NTD." :views="11" v-for="n in 10" :key="n" />
   </section>
 </template>
 

@@ -27,10 +27,12 @@
         </button>
       </div>
       <button type="button">
-        <img :src="importedMyPage" alt="내정보" />
+        <router-link to="/login">
+          <img :src="importedMyPage" alt="내정보" />
+        </router-link>
       </button>
       <button type="button">
-        <router-link to="/basket">
+        <router-link to="/temporaryBasket">
           <img :src="importedBasket" alt="장바구니" />
         </router-link>
       </button>
