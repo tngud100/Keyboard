@@ -24,7 +24,7 @@
       alt="맨위로 이동"
       class="topMenu"
       @click="scrollToTop"
-      v-show="isScrollbarVisible"
+      v-if="shouldShowTopBtn"
     />
   </div>
 </template>
@@ -41,7 +41,7 @@ import notice from "@/assets/images/notice.svg";
 import download from "@/assets/images/download.svg";
 import topMenu from "@/assets/images/top.svg";
 
-const { isScrollbarVisible } = storeToRefs(useTopStore());
+const { shouldShowTopBtn } = storeToRefs(useTopStore());
 
 const importedOrder = ref(order);
 const importedReview = ref(review);

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref, onMounted, nextTick } from "vue";
+import { computed, onMounted, watch, nextTick, ref } from "vue";
 import { useRoute } from "vue-router";
 
 export const useMenuStore = defineStore("menu", () => {
@@ -28,32 +28,37 @@ export const useTopStore = defineStore("Top", () => {
   
   const checkScrollbarVisibility = () => {
     const documentHeight = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.offsetHeight,
-        document.body.clientHeight,
-        document.documentElement.clientHeight
-      );
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight
+    );
 
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
     isShowingTopBtn.value = documentHeight > viewportHeight
-
-    return isShowingTopBtn.value
   };
 
-  
-  if (route.path) {
-    onMounted(async () => {
-      await nextTick();
+  onMounted(() => {
+    nextTick(() => {
       checkScrollbarVisibility();
-        
-      window.addEventListener("resize", checkScrollbarVisibility);
     });
-  }
+    window.addEventListener("resize", checkScrollbarVisibility);
+  });
 
-  return { isShowingTopBtn, checkScrollbarVisibility }
+  watch(() => route.path, () => {
+    nextTick(() => {
+      checkScrollbarVisibility();
+    });
+  });
+
+  const shouldShowOnMainPage = computed(() => route.path === "/");
+
+  const shouldShowTopBtn = computed(() => shouldShowOnMainPage.value || isShowingTopBtn.value);
+
+  return { shouldShowTopBtn }
   
 });
 
