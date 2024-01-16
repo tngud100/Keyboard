@@ -10,7 +10,7 @@
 <script setup>
 import { ref } from "vue";
 import ImgMypageView from "@/assets/images/ImgMypage.svg";
-import ImgMypageModifyView from "@/assets/images/ImgMypageModify.svg";
+import ImgMypageModifyView from "@/assets/images/ImgMyPageModify.svg";
 
 const importedMypageView = ref(ImgMypageView);
 const importedModifyView = ref(ImgMypageModifyView);
