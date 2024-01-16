@@ -9,7 +9,7 @@ import ProductDetailView from "@/views/ProductDetailView.vue";
 import BasketView from "@/views/BasketView.vue";
 import ReviewView from "@/views/ReviewView.vue";
 
-import NoticeDetail from "@/components/review/temporary/noticeDetail.vue";
+import NoticeDetail from "@/components/review/temporary/NoticeDetail.vue";
 import TemporaryBasket from "@/components/review/temporary/basket.vue";
 
 const routes = [
