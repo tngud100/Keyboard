@@ -35,6 +35,4 @@ const handleBtnClick = (event) => {
 };
 </script>
 
-<style scoped>
-@import "./Button.css";
-</style>
+<style src="./Button.css" scoped></style>

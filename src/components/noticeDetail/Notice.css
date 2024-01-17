@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  border-bottom: 1px solid #cfcfcf;
+}
+
+.title {
+  padding: 22px 30px;
+  font-size: 20px;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.author,
+.createdDate,
+.views {
+  padding: 22px 30px;
+  color: #4e4e4e;
+  font-size: 16px;
+}
+
+.content {
+  padding: 30px;
+  font-size: 16px;
+  height: 636px;
+  border-bottom: 1px solid #707070;
+}
+
+.footer {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.backBtn {
+  border-radius: 5px;
+  width: 200px;
+  height: 46px;
+  background-color: #5e5e5e;
+  color: #fff;
+}

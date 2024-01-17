@@ -37,16 +37,6 @@
   line-height: 13px;
 }
 
-.topMenuWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.topMenu {
-  cursor: pointer;
-}
-
 .bottomFooter {
   padding: 12px 60px;
   display: flex;

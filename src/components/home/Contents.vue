@@ -40,6 +40,4 @@ const importedThirdBackground = ref(thirdBackground);
 const importedGoShop = ref(goShop);
 </script>
 
-<style scoped>
-@import "./Contents.css";
-</style>
+<style src="./Contents.css" scoped></style>
