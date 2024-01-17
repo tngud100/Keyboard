@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import Contents from "#/home/Contents.vue";
+import Contents from "#/download/Contents.vue";
 </script>
 
 <style scoped></style>

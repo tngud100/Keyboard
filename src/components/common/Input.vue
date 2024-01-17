@@ -30,6 +30,4 @@ const handleInput = (event) => {
 };
 </script>
 
-<style scoped>
-@import "./Input.css";
-</style>
+<style src="./Input.css" scoped></style>

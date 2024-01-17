@@ -235,6 +235,4 @@ const storeProduct = () => {
 const calcTotalPrice = (price, count) => formattedPrice(price * count);
 </script>
 
-<style scoped>
-@import "./ProductInfo.css";
-</style>
+<style src="./ProductInfo.css" scoped></style>

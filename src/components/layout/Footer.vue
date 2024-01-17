@@ -43,6 +43,4 @@ import logo from "@/assets/images/logo.svg";
 const importedLogo = ref(logo);
 </script>
 
-<style scoped>
-@import "./Footer.css";
-</style>
+<style src="./Footer.css" scoped></style>

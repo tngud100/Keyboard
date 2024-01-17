@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import Contents from "../components/review/Contents.vue";
+import Contents from "#/review/Contents.vue";
 </script>
 
 <style scoped></style>

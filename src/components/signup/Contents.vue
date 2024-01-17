@@ -187,6 +187,4 @@ const handlePhoneNumberChange = ({ target }) => {
 };
 </script>
 
-<style scoped>
-@import "./Contents.css";
-</style>
+<style src="./Contents.css" scoped></style>

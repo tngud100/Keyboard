@@ -4,24 +4,24 @@
       <img :src="importedOrder" alt="주문조회" />주문조회
     </li>
     <li class="menuItem">
-      <RouterLink to="/review" class="link" @click="setTabName('Review')">
+      <RouterLink :to="ROUTE_PATH.REVIEW" class="link">
         <img :src="importedReview" alt="리뷰" />리뷰
       </RouterLink>
     </li>
     <li class="menuItem">
-      <router-link to="/review" class="link" @click="setTabName('Notice')">
+      <RouterLink :to="ROUTE_PATH.NOTICE" class="link">
         <img :src="importedNotice" alt="공지사항" />공지사항
-      </router-link>
+      </RouterLink>
     </li>
     <li class="menuItem">
-      <router-link to="/review" class="link" @click="setTabName('Faq')">
+      <RouterLink :to="ROUTE_PATH.FAQ" class="link">
         <img :src="importedFAQ" alt="자주묻는질문" />자주묻는질문
-      </router-link>
+      </RouterLink>
     </li>
     <li class="menuItem">
-      <router-link to="/review" class="link" @click="setTabName('Download')">
+      <RouterLink :to="ROUTE_PATH.DOWNLOAD" class="link">
         <img :src="importedDownload" alt="자료실" />자료실
-      </router-link>
+      </RouterLink>
     </li>
   </ul>
 
@@ -37,10 +37,10 @@
 </template>
 
 <script setup>
+import { ROUTE_PATH } from "@/routes";
 import { ref } from "vue";
 import { scrollToTop } from "@/utils";
 import { useTopStore } from "@/stores/useMenuStore";
-import { useTabNameStore } from "@/stores/temporaryStore";
 import { storeToRefs } from "pinia";
 import order from "@/assets/images/order.svg";
 import review from "@/assets/images/review.svg";
@@ -51,21 +51,12 @@ import topMenu from "@/assets/images/top.svg";
 
 const { shouldShowTopBtn } = storeToRefs(useTopStore());
 
-const tabNameStore = useTabNameStore();
-
 const importedOrder = ref(order);
 const importedReview = ref(review);
 const importedFAQ = ref(faq);
 const importedNotice = ref(notice);
 const importedDownload = ref(download);
 const importedTopMenu = ref(topMenu);
-
-const setTabName = (value) => {
-  tabNameStore.setCurrentTabName(value);
-  console.log(tabNameStore.currentTabName);
-};
 </script>
 
-<style scoped>
-@import "./Menu.css";
-</style>
+<style src="./Menu.css" scoped></style>

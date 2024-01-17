@@ -82,6 +82,4 @@ const toggleIsSearch = () => {
 };
 </script>
 
-<style scoped>
-@import "./Header.css";
-</style>
+<style src="./Header.css" scoped></style>

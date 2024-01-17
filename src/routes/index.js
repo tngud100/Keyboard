@@ -8,16 +8,26 @@ import KeyboardView from "@/views/KeyboardView.vue";
 import ProductDetailView from "@/views/ProductDetailView.vue";
 import BasketView from "@/views/BasketView.vue";
 import ReviewView from "@/views/ReviewView.vue";
+import NoticeView from "@/views/NoticeView.vue";
+import NoticeDetailView from "@/views/NoticeDetailView.vue";
+import FaqView from "@/views/FaqView.vue";
+import DownloadView from "@/views/DownloadView.vue";
 
-import NoticeDetail from "@/components/review/temporary/NoticeDetail.vue";
 import TemporaryBasket from "@/components/review/temporary/basket.vue";
+
+export const ROUTE_PATH = {
+  REVIEW: "/review",
+  NOTICE: "/notice",
+  FAQ: "/faq",
+  DOWNLOAD: "/download",
+};
 
 const routes = [
   {
     path: "/",
     component: HomeView,
   },
-  
+
   {
     path: "/login",
     component: LoginView,
@@ -67,8 +77,21 @@ const routes = [
     component: ReviewView,
   },
   {
-    path: "/noticeDetail",
-    component: NoticeDetail,
+    path: "/notice",
+    component: NoticeView,
+  },
+
+  {
+    path: "/faq",
+    component: FaqView,
+  },
+  {
+    path: "/download",
+    component: DownloadView,
+  },
+  {
+    path: "/notice/:id",
+    component: NoticeDetailView,
   },
   {
     path: "/temporaryBasket",
