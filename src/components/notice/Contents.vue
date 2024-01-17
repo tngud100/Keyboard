@@ -1,13 +1,13 @@
 <template>
   <section class="wrapper">
     <CommonNav />
-    <Products />
+    <Notices />
   </section>
 </template>
 
 <script setup>
 import CommonNav from "#/layout/CommonNav.vue";
-import Products from "#/review/Products.vue";
+import Notices from "#/notice/Notices.vue";
 </script>
 
 <style src="./Contents.css" scoped></style>

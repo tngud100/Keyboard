@@ -104,6 +104,4 @@ const mergeBasket = () => {
 };
 </script>
 
-<style scoped>
-@import "./ProductDetailView.css";
-</style>
+<style src="./ProductDetailView.css" scoped></style>

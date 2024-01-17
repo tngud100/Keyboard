@@ -1,6 +1,6 @@
 <template>
   <section class="wrapper">
-    <Product title="[In-stock] GMK NTD." :views="11" v-for="n in 10" :key="n" />
+    <Product v-for="n in 10" title="[In-stock] GMK NTD." :views="11" />
   </section>
 </template>
 
@@ -8,4 +8,4 @@
 import Product from "#/review/Product.vue";
 </script>
 
-<style src="./Review.css" scoped></style>
+<style src="./Products.css" scoped></style>

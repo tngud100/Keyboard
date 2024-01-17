@@ -31,6 +31,4 @@ const toggleLanguage = () => {
 };
 </script>
 
-<style scoped>
-@import "./Language.css";
-</style>
+<style src="./Language.css" scoped></style>

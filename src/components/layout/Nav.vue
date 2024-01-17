@@ -29,6 +29,4 @@ const importedKeyboard = ref(keyboard);
 const isShowingNavItemImg = computed(() => route.path === "/keyboard");
 </script>
 
-<style scoped>
-@import "./Nav.css";
-</style>
+<style src="./Nav.css" scoped></style>
