@@ -1,4 +1,4 @@
-.signupWrapper {
+.wrapper {
   padding: 0 278px 100px;
 }
 
@@ -7,24 +7,24 @@
   border-bottom: 5px solid #0d0d0d;
 }
 
-.signupWrapper .title {
+.title {
   font-size: 32px;
   font-weight: 700;
 }
 
-.signupWrapper .desc {
+.desc {
   margin-top: 15px;
   font-size: 18px;
   font-weight: 500;
 }
 
-.signupWrapper .subTitle {
+.subTitle {
   margin-top: 37px;
   font-size: 22px;
   font-weight: 700;
 }
 
-.signupWrapper .main {
+.main {
   display: grid;
   grid-template-columns: 230px 1fr;
   grid-template-rows: 80px 80px 80px 80px 80px 80px 80px 1fr;
@@ -34,28 +34,28 @@
   border-bottom: 1px solid #d7d7d7;
 }
 
-.signupWrapper .tableHead {
+.tableHead {
   padding: 32px 20px;
   font-size: 16px;
   font-weight: 500;
   background-color: #f8f8f8;
 }
 
-.signupWrapper .tableData {
+.tableData {
   padding: 15px 30px;
 }
 
-.signupWrapper .duplicatedBtn {
+.duplicatedBtn {
   margin-left: 11px;
 }
 
-.signupWrapper .warning {
+.warning {
   margin-left: 6px;
   font-size: 14px;
   color: #f00;
 }
 
-.signupWrapper .signupBtn {
+.signupBtn {
   border-radius: 5px;
   background: #111;
   padding: 16px 30px;
@@ -63,12 +63,12 @@
   color: #fff;
 }
 
-.signupWrapper .tableBirthdayLine {
+.tableBirthdayLine {
   display: flex;
   gap: 10px;
 }
 
-.signupWrapper .dropDownWrapper {
+.dropDownWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,18 +79,18 @@
   border: 1px solid #8c8c8c;
 }
 
-.signupWrapper .email {
+.email {
   display: flex;
   gap: 10px;
 }
 
-.signupWrapper .emailAt {
+.emailAt {
   margin: 0 5px;
   font-size: 18px;
   color: #717171;
 }
 
-.signupWrapper .phoneNumberWrapper {
+.phoneNumberWrapper {
   padding: 8px 15px 8px 10px;
   display: flex;
   align-items: center;
@@ -99,21 +99,21 @@
   width: 449px;
 }
 
-.signupWrapper .phoneNumber {
+.phoneNumber {
   border: none;
   width: 100%;
   font-size: 14px;
 }
 
-.signupWrapper .phoneNumber::placeholder {
+.phoneNumber::placeholder {
   color: #a4a4a4;
 }
 
-.signupWrapper .phoneNumber:focus {
+.phoneNumber:focus {
   outline: none;
 }
 
-.signupWrapper .phoneNumberBtn {
+.phoneNumberBtn {
   padding: 8px 12px;
   border-radius: 3px;
   border: 1px solid #8c8c8c;
@@ -123,24 +123,24 @@
   font-size: 14px;
 }
 
-.signupWrapper .addressWrapper {
+.addressWrapper {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.signupWrapper .address {
+.address {
   display: flex;
   gap: 10px;
 }
 
-.signupWrapper .footer {
+.footer {
   margin-top: 60px;
   display: flex;
   justify-content: center;
 }
 
-.signupWrapper .confirmBtn {
+.confirmBtn {
   padding: 16px 165px;
   font-size: 18px;
   font-weight: 700;

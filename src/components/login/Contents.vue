@@ -1,24 +1,20 @@
 <template>
-  <section class="loginWrapper">
-    <form @submit.prevent="" class="loginForm">
-      <h2 class="loginTitle">로그인</h2>
+  <section class="wrapper">
+    <form @submit.prevent="" class="form">
+      <h2 class="title">로그인</h2>
 
-      <input
-        type="text"
-        placeholder="아이디를 입력해주세요"
-        class="loginInput"
-      />
+      <input type="text" placeholder="아이디를 입력해주세요" class="input" />
       <input
         type="password"
         placeholder="비밀번호를 입력해주세요"
-        class="loginInput"
+        class="input"
       />
-      <div class="loginInfoWrapper">
-        <div class="loginInfoSavedWrapper">
+      <div class="infoWrapper">
+        <div class="infoSavedWrapper">
           <input type="checkbox" id="savedId" class="saveCheckBox" />
           <label for="savedId">아이디 저장</label>
         </div>
-        <div class="loginInfoFinder">
+        <div class="infoFinder">
           아이디&nbsp;찾기&nbsp;|&nbsp;비밀번호&nbsp;찾기
         </div>
       </div>

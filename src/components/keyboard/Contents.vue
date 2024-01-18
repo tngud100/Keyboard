@@ -1,5 +1,5 @@
 <template>
-  <div class="productWrapper">
+  <div class="wrapper">
     <ul class="productList">
       <li class="productItem" @click="moveProductDetailPage">
         <img

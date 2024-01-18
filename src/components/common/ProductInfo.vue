@@ -4,14 +4,13 @@
       <div class="productInfo">
         <h2 class="productName">{{ productInfo.name }}</h2>
         <p class="productPrice">
-          <img :src="importedCurrency" alt="화폐 단위" />{{
-            formattedPrice(productInfo.price)
-          }}
+          <IconCurrency />
+          {{ formattedPrice(productInfo.price) }}
         </p>
       </div>
       <div class="shareBtnWrapper">
         <button type="button" class="shareBtn">
-          <img :src="importedShare" alt="공유하기" />
+          <IconShare />
         </button>
       </div>
     </header>
@@ -74,7 +73,7 @@
         <h5 class="selectedProductTitle">
           {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }}
           <button type="button" class="productRemoveBtn">
-            <img :src="importedClose" alt="상품 제거" />
+            <IconClose />
           </button>
         </h5>
         <div class="selectedProductPriceInfo">
@@ -85,16 +84,8 @@
               @click="updateSubtractedCount(selectedProduct.id)"
               :disabled="selectedProduct.count === 1"
             >
-              <img
-                v-show="selectedProduct.count === 1"
-                :src="importedMinusDisabled"
-                alt="상품 빼기"
-              />
-              <img
-                v-show="selectedProduct.count !== 1"
-                :src="importedMinus"
-                alt="상품 빼기"
-              />
+              <IconMinusDisabled v-show="selectedProduct.count === 1" />
+              <IconMinus v-show="selectedProduct.count !== 1" />
             </button>
             <div class="productCount">{{ selectedProduct.count }}</div>
             <button
@@ -102,7 +93,7 @@
               class="productCountBtn"
               @click="updateAddedCount(selectedProduct.id)"
             >
-              <img :src="importedPlus" alt="상품 더하기" />
+              <IconPlus />
             </button>
           </div>
           <div class="totalPrice">
@@ -145,18 +136,14 @@
 <script setup>
 import { ref, watchEffect } from "vue";
 import { v4 as uuidv4 } from "uuid";
-import currency from "@/assets/images/currency.svg";
-import share from "@/assets/images/share.svg";
-import selectArrow from "@/assets/images/smallDownArrow.svg";
-import naverPay from "@/assets/images/naverPay.svg";
-import paypal from "@/assets/images/paypal.svg";
-import close from "@/assets/images/close.svg";
-import plus from "@/assets/images/plus.svg";
-import minus from "@/assets/images/minus.svg";
-import plusDisabled from "@/assets/images/plus_disabled.svg";
-import minusDisabled from "@/assets/images/minus_disabled.svg";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
+import IconCurrency from "@/components/icons/IconCurrency.vue";
+import IconShare from "@/components/icons/IconShare.vue";
+import IconMinusDisabled from "@/components/icons/IconMinusDisabled.vue";
+import IconMinus from "@/components/icons/IconMinus.vue";
+import IconClose from "@/components/icons/IconClose.vue";
+import IconPlus from "@/components/icons/IconPlus.vue";
 
 const { productInfo, selectedProducts } = defineProps([
   "productInfo",
@@ -170,17 +157,6 @@ const emit = defineEmits([
   "addShoppingBasket",
   "onStore",
 ]);
-
-const importedCurrency = ref(currency);
-const importedShare = ref(share);
-const importedSelctArrow = ref(selectArrow);
-const importedNaverPay = ref(naverPay);
-const importedPaypal = ref(paypal);
-const importedClose = ref(close);
-const importedPlus = ref(plus);
-const importedMinus = ref(minus);
-const importedPlusDisabled = ref(plusDisabled);
-const importedMinusDisabled = ref(minusDisabled);
 
 const isShowingType = ref(false);
 const isShowingColor = ref(false);
