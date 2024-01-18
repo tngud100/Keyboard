@@ -40,7 +40,7 @@
     <footer class="footer">
       <div></div>
       <div class="pagination">
-        <PaginationLeftArrow class="paginationArrow" />
+        <IconPaginationLeftArrow class="paginationArrow" />
         <ul class="paginationList">
           <li class="paginationItem">1</li>
           <li class="paginationItem">2</li>
@@ -48,7 +48,7 @@
           <li class="paginationItem">4</li>
           <li class="paginationItem">5</li>
         </ul>
-        <PaginationRightArrow class="paginationArrow" />
+        <IconPaginationRightArrow class="paginationArrow" />
       </div>
       <button type="button" class="writeBtn">글쓰기</button>
     </footer>
@@ -57,8 +57,8 @@
 
 <script setup>
 import Notice from "#/notice/Notice.vue";
-import PaginationLeftArrow from "#/icons/PaginationLeftArrow.vue";
-import PaginationRightArrow from "#/icons/PaginationRightArrow.vue";
+import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
+import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
 </script>
 
 <style src="./Notices.css" scoped></style>

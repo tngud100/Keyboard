@@ -3,12 +3,6 @@
     <ul class="navList">
       <li>
         <router-link class="navItem" to="/keyboard">Keyboard</router-link>
-        <!-- v-show="!isShowingNavItemImg" -->
-        <!-- <img
-          v-show="isShowingNavItemImg"
-          :src="importedKeyboard"
-          alt="키보드"
-        /> -->
       </li>
       <li><router-link class="navItem" to="/switch">Switch</router-link></li>
       <li><router-link class="navItem" to="/pcb">Pcb</router-link></li>
@@ -19,14 +13,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
-import keyboard from "@/assets/images/keyboard.svg";
 
 const route = useRoute();
-const importedKeyboard = ref(keyboard);
-
-const isShowingNavItemImg = computed(() => route.path === "/keyboard");
 </script>
 
 <style src="./Nav.css" scoped></style>

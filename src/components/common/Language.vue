@@ -17,7 +17,7 @@
 import { ref } from "vue";
 import { animateLanguage } from "@/utils/anime";
 import { useLanguageStore } from "@/stores/useLanguageStore";
-import korean from "/korean.svg";
+import korean from "@/assets/images/korean.svg";
 import english from "@/assets/images/english.svg";
 
 const language = useLanguageStore();

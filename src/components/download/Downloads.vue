@@ -32,7 +32,7 @@
     </table>
     <footer class="footer">
       <div class="pagination">
-        <PaginationLeftArrow class="paginationArrow" />
+        <IconPaginationLeftArrow class="paginationArrow" />
         <ul class="paginationList">
           <li class="paginationItem">1</li>
           <li class="paginationItem">2</li>
@@ -40,7 +40,7 @@
           <li class="paginationItem">4</li>
           <li class="paginationItem">5</li>
         </ul>
-        <PaginationRightArrow class="paginationArrow" />
+        <IconPaginationRightArrow class="paginationArrow" />
       </div>
     </footer>
   </section>
@@ -48,8 +48,8 @@
 
 <script setup>
 import Download from "#/download/Download.vue";
-import PaginationLeftArrow from "#/icons/PaginationLeftArrow.vue";
-import PaginationRightArrow from "#/icons/PaginationRightArrow.vue";
+import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
+import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
 </script>
 
 <style src="./Downloads.css" scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="signupWrapper">
+  <section class="wrapper">
     <header class="header">
       <h2 class="title">회원가입</h2>
       <p class="desc">회원가입을 위한 정확한 정보를 입력해주세요.</p>
@@ -59,7 +59,7 @@
         <div class="dropDownWrapper">
           월
           <div>
-            <img :src="importedMediumDownArrow" alt="더보기" />
+            <IconMediumDownArrow />
           </div>
         </div>
         <Input
@@ -90,7 +90,7 @@
         <div class="dropDownWrapper">
           직접입력
           <div>
-            <img :src="importedMediumDownArrow" alt="더보기" />
+            <IconMediumDownArrow />
           </div>
         </div>
       </div>
@@ -134,9 +134,7 @@
 <script setup>
 import { ref } from "vue";
 import Input from "#/common/Input.vue";
-import mediumDownArrow from "@/assets/images/mediumDownArrow.svg";
-
-const importedMediumDownArrow = ref(mediumDownArrow);
+import IconMediumDownArrow from "@/components/icons/IconMediumDownArrow.vue";
 
 const id = ref("");
 const password = ref("");

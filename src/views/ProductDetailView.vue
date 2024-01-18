@@ -1,8 +1,8 @@
 <template>
-  <section class="productDetailWrapper">
+  <section class="wrapper">
     <div>
       <img :src="importedProduct" alt="상품 이미지" class="productImg" />
-      <div class="productDetailImgWrapper">
+      <div class="detailImgWrapper">
         <img :src="importedProductDetailImg" alt="상품 상세 이미지" />
       </div>
     </div>

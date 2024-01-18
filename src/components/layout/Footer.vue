@@ -3,7 +3,7 @@
     <section class="topFooter">
       <div class="topFooterInner">
         <div>
-          <img :src="importedLogo" alt="로고" />
+          <IconLogo />
         </div>
         <div class="footerListWrapper">
           <ul class="footerList">
@@ -37,10 +37,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import logo from "@/assets/images/logo.svg";
-
-const importedLogo = ref(logo);
+import IconLogo from "@/components/icons/IconLogo.vue";
 </script>
 
 <style src="./Footer.css" scoped></style>
