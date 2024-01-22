@@ -13,8 +13,6 @@ import NoticeDetailView from "@/views/NoticeDetailView.vue";
 import FaqView from "@/views/FaqView.vue";
 import DownloadView from "@/views/DownloadView.vue";
 
-import TemporaryBasket from "@/components/review/temporary/basket.vue";
-
 export const ROUTE_PATH = {
   REVIEW: "/review",
   NOTICE: "/notice",
@@ -92,10 +90,6 @@ const routes = [
   {
     path: "/notice/:id",
     component: NoticeDetailView,
-  },
-  {
-    path: "/temporaryBasket",
-    component: TemporaryBasket,
   },
 ];
 
