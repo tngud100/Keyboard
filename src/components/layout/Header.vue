@@ -32,7 +32,7 @@
         </router-link>
       </button>
       <button type="button">
-        <router-link to="/temporaryBasket">
+        <router-link to="/basket">
           <IconBasket />
         </router-link>
       </button>

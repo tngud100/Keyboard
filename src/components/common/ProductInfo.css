@@ -115,7 +115,8 @@
 }
 
 .productTypeItem.active {
-  border: 1px solid #000;
+  background-color: #333;
+  color: #fff;
 }
 
 .productTypeItem {
