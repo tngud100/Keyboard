@@ -77,30 +77,26 @@ const calcCount = (id, calcUnit) => {
 };
 
 const addShoppingBasket = () => {
-  localStorage.setItem("shopping", mergeBasket());
-};
+  const parsedBaskets = JSON.parse(localStorage.getItem("shopping"));
+  const mergedBaskets = [...selectedProducts.value, ...parsedBaskets];
 
-const mergeBasket = () => {
-  const parsedBasket = JSON.parse(localStorage.getItem("shopping"));
+  const newBaskets = [];
 
-  if (parsedBasket === null) {
-    return JSON.stringify(selectedProducts.value);
-  }
-  const newArray = Array.from([...parsedBasket, ...selectedProducts.value]);
+  mergedBaskets.forEach((item) => {
+    const existingItem = newBaskets.find(
+      (mergedItem) =>
+        mergedItem.color === item.color && mergedItem.type === item.type
+    );
 
-  const mapedNewArray = newArray
-    .map((product, index, self) => {
-      const idx = self.findIndex(
-        (item) => item.color === product.color && item.type === product.type
-      );
+    if (!existingItem) {
+      newBaskets.push({ ...item });
+    } else {
+      existingItem.count += item.count;
+    }
+  });
 
-      if (index === idx) {
-        return { ...product, count: product.count + newArray[idx].count };
-      }
-    })
-    .filter((arr) => arr);
-
-  return JSON.stringify(mapedNewArray);
+  localStorage.setItem("shopping", JSON.stringify(newBaskets));
+  router.push("/basket");
 };
 </script>
 

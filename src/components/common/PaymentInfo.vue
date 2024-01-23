@@ -36,8 +36,6 @@ const { totalProductsPrice, totalDelivery, totalPrice } = defineProps({
     required: true,
   },
 });
-
-console.log(totalProductsPrice);
 </script>
 
 <style src="./PaymentInfo.css" scoped></style>
