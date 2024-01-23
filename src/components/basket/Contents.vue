@@ -1,7 +1,7 @@
 <template>
   <section class="wrapper">
     <h3 class="title">장바구니</h3>
-    <div v-if="!isShoppingBasket || !formmatedShoppingBaskets.length">
+    <div v-if="!formmatedShoppingBaskets.length">
       <section class="contentWrapper">
         <p class="desc">장바구니에 담은 상품이 없습니다.</p>
         <button type="button" class="basketBtn">쇼핑 계속하기</button>
@@ -50,15 +50,14 @@ import { computed, ref } from "vue";
 import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 
-const shoppingBaskets = ref(JSON.parse(localStorage.getItem("shopping")));
+const shoppingBaskets = JSON.parse(localStorage.getItem("shopping"));
 const formmatedShoppingBaskets = ref(
-  shoppingBaskets.value.map((shoppingBasket) => ({
+  shoppingBaskets.map((shoppingBasket) => ({
     ...shoppingBasket,
     isPicked: false,
   }))
 );
 
-const isShoppingBasket = computed(() => !!shoppingBaskets.value);
 const isAllCheck = computed(() =>
   formmatedShoppingBaskets.value.every(
     (shoppingBasket) => shoppingBasket.isPicked
@@ -110,12 +109,14 @@ const deleteCheckedProduct = () => {
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.filter(
     (formmatedShoppingBasket) => formmatedShoppingBasket.isPicked === false
   );
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
 const deletProduct = (id) => {
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.filter(
     (formmatedShoppingBasket) => formmatedShoppingBasket.id !== id
   );
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
 const addProduct = (id) => {
@@ -131,6 +132,7 @@ const addProduct = (id) => {
       return formmatedShoppingBasket;
     }
   );
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
 const subtractProduct = (id) => {
@@ -146,6 +148,11 @@ const subtractProduct = (id) => {
       return formmatedShoppingBasket;
     }
   );
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
+};
+
+const storeShoppingBaksets = (recentBaskets) => {
+  localStorage.setItem("shopping", JSON.stringify(recentBaskets));
 };
 </script>
 
