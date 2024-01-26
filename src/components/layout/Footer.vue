@@ -3,7 +3,7 @@
     <section class="topFooter">
       <div class="topFooterInner">
         <div>
-          <IconLogo />
+          <img :src="logo" />
         </div>
         <div class="footerListWrapper">
           <ul class="footerList">
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import IconLogo from "@/components/icons/IconLogo.vue";
+import logo from "@/assets/images/logo.jpg";
 </script>
 
 <style src="./Footer.css" scoped></style>

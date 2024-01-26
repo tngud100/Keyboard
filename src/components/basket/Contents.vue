@@ -36,11 +36,13 @@
           @subtractedProduct="subtractProduct"
         />
       </div>
-      <PaymentInfo
-        :totalProductsPrice="totalProductsPrice"
-        :totalDelivery="totalDelivery"
-        :totalPrice="totalPrice"
-      />
+      <div class="paymentInfoOuterWrapper">
+        <PaymentInfo
+          :totalProductsPrice="totalProductsPrice"
+          :totalDelivery="totalDelivery"
+          :totalPrice="totalPrice"
+        />
+      </div>
     </div>
   </section>
 </template>

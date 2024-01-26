@@ -6,8 +6,8 @@
       class="language"
       :style="{
         backgroundImage: language.isLanguage
-          ? `url(${importedKorean})`
-          : `url(${importedEnglish})`,
+          ? `url(${korean})`
+          : `url(${english})`,
       }"
     ></button>
   </div>
@@ -21,8 +21,6 @@ import korean from "@/assets/images/korean.svg";
 import english from "@/assets/images/english.svg";
 
 const language = useLanguageStore();
-const importedKorean = ref(korean);
-const importedEnglish = ref(english);
 
 const toggleLanguage = () => {
   animateLanguage(() => {

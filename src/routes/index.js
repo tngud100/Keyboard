@@ -12,6 +12,7 @@ import NoticeView from "@/views/NoticeView.vue";
 import NoticeDetailView from "@/views/NoticeDetailView.vue";
 import FaqView from "@/views/FaqView.vue";
 import DownloadView from "@/views/DownloadView.vue";
+import OrderView from "@/views/OrderView.vue";
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -90,6 +91,10 @@ const routes = [
   {
     path: "/notice/:id",
     component: NoticeDetailView,
+  },
+  {
+    path: "/order",
+    component: OrderView,
   },
 ];
 
