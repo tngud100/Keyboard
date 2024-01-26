@@ -69,3 +69,7 @@
   gap: 10px;
   flex-grow: 1;
 }
+
+.paymentInfoOuterWrapper {
+  margin-top: 83px;
+}

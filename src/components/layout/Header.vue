@@ -16,7 +16,7 @@
     </div>
     <h1 class="title">
       <router-link to="/" class="titleLink">
-        <IconLogo />
+        <IconNewLogo />
       </router-link>
     </h1>
     <div class="etc">
@@ -48,7 +48,7 @@ import IconInstagram from "@/components/icons/IconInstagram.vue";
 import IconDiscord from "@/components/icons/IconDiscord.vue";
 import IconNaver from "@/components/icons/IconNaver.vue";
 import IconYoutube from "@/components/icons/IconYoutube.vue";
-import IconLogo from "@/components/icons/IconLogo.vue";
+import IconNewLogo from "@/components/icons/IconNewLogo.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import IconMyPage from "@/components/icons/IconMyPage.vue";
 import IconBasket from "@/components/icons/IconBasket.vue";

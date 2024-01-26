@@ -118,18 +118,6 @@
         @onStore="storeProduct"
       />
     </div>
-    <!-- <div class="productPaymentMethod">
-      <button type="button" class="productPaymentBtn">
-        <img
-          :src="importedNaverPay"
-          alt="네이버페이"
-          class="productPaymentImg"
-        />
-      </button>
-      <button type="button" class="productPaymentBtn">
-        <img :src="importedPaypal" alt="페이팔" class="productPaymentImg" />
-      </button>
-    </div> -->
   </section>
 </template>
 
@@ -144,6 +132,7 @@ import IconMinusDisabled from "@/components/icons/IconMinusDisabled.vue";
 import IconMinus from "@/components/icons/IconMinus.vue";
 import IconClose from "@/components/icons/IconClose.vue";
 import IconPlus from "@/components/icons/IconPlus.vue";
+import { routerKey, useRouter } from "vue-router";
 
 const { productInfo, selectedProducts } = defineProps([
   "productInfo",
@@ -162,6 +151,8 @@ const isShowingType = ref(false);
 const isShowingColor = ref(false);
 const currentColor = ref("");
 const currentType = ref("");
+
+const router = useRouter();
 
 watchEffect(() => {
   if (!currentColor.value || !currentType.value) return;
@@ -201,7 +192,7 @@ const updateAddedCount = (id) => emit("addCount", { id });
 const updateSubtractedCount = (id) => emit("subtractCount", { id });
 
 const purchaseProduct = ({ event }) => {
-  console.log(event);
+  router.push("/order");
 };
 
 const storeProduct = () => {

@@ -1,38 +1,33 @@
 <template>
-  <section class="contents">
-    <div class="backgroundWrapper">
+  <section :class="$style.contents">
+    <div :class="$style.backgroundWrapper">
       <img
-        :src="importedFirstBackground"
+        :src="firstBackground"
         alt="첫번째 이미지"
-        class="backgroundImgs"
+        :class="$style.backgroundImgs"
       />
     </div>
-    <div class="backgroundWrapper">
+    <div :class="$style.backgroundWrapper">
       <img
-        :src="importedSecondBackground"
+        :src="secondBackground"
         alt="두번째 이미지"
-        class="backgroundImgs"
+        :class="$style.backgroundImgs"
       />
     </div>
-    <div class="backgroundWrapper">
+    <div :class="$style.backgroundWrapper">
       <img
-        :src="importedThirdBackground"
+        :src="thirdBackground"
         alt="세번째 이미지"
-        class="backgroundImgs"
+        :class="$style.backgroundImgs"
       />
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import firstBackground from "@/assets/images/firstBackground.png";
 import secondBackground from "@/assets/images/secondBackground.png";
 import thirdBackground from "@/assets/images/thirdBackground.png";
-
-const importedFirstBackground = ref(firstBackground);
-const importedSecondBackground = ref(secondBackground);
-const importedThirdBackground = ref(thirdBackground);
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

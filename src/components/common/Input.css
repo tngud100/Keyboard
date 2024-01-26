@@ -12,3 +12,7 @@
 .commonInput:focus {
   outline: none;
 }
+
+.readonly {
+  background-color: #e8e8e8;
+}
