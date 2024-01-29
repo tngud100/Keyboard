@@ -120,7 +120,7 @@ import { ref, computed } from "vue";
 import Input from "#/common/Input.vue";
 import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
-import IconMediumDownArrow from "@/components/icons/IconMediumDownArrow.vue";
+import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping"));
 const formmatedShoppingBaskets = ref(

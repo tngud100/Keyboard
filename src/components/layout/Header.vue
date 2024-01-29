@@ -49,14 +49,14 @@
 <script setup>
 import { computed, ref, useCssModule } from "vue";
 import Language from "#/common/Language.vue";
-import IconInstagram from "@/components/icons/IconInstagram.vue";
-import IconDiscord from "@/components/icons/IconDiscord.vue";
-import IconNaver from "@/components/icons/IconNaver.vue";
-import IconYoutube from "@/components/icons/IconYoutube.vue";
-import IconNewLogo from "@/components/icons/IconNewLogo.vue";
-import IconSearch from "@/components/icons/IconSearch.vue";
-import IconMyPage from "@/components/icons/IconMyPage.vue";
-import IconBasket from "@/components/icons/IconBasket.vue";
+import IconInstagram from "#/icons/IconInstagram.vue";
+import IconDiscord from "#/icons/IconDiscord.vue";
+import IconNaver from "#/icons/IconNaver.vue";
+import IconYoutube from "#/icons/IconYoutube.vue";
+import IconNewLogo from "#/icons/IconNewLogo.vue";
+import IconSearch from "#/icons/IconSearch.vue";
+import IconMyPage from "#/icons/IconMyPage.vue";
+import IconBasket from "#/icons/IconBasket.vue";
 
 const isSearch = ref(false);
 const searchRef = ref(null);

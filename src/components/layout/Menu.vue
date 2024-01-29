@@ -35,12 +35,12 @@ import { ROUTE_PATH } from "@/routes";
 import { scrollToTop } from "@/utils";
 import { useTopStore } from "@/stores/useMenuStore";
 import { storeToRefs } from "pinia";
-import IconOrder from "@/components/icons/IconOrder.vue";
-import IconReview from "@/components/icons/IconReview.vue";
-import IconNotice from "@/components/icons/IconNotice.vue";
-import IconFaq from "@/components/icons/IconFaq.vue";
-import IconDownload from "@/components/icons/IconDownload.vue";
-import IconTop from "@/components/icons/IconTop.vue";
+import IconOrder from "#/icons/IconOrder.vue";
+import IconReview from "#/icons/IconReview.vue";
+import IconNotice from "#/icons/IconNotice.vue";
+import IconFaq from "#/icons/IconFaq.vue";
+import IconDownload from "#/icons/IconDownload.vue";
+import IconTop from "#/icons/IconTop.vue";
 
 const { shouldShowTopBtn } = storeToRefs(useTopStore());
 </script>

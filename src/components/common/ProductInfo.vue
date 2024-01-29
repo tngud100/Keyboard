@@ -132,12 +132,12 @@ import { ref, watchEffect } from "vue";
 import { v4 as uuidv4 } from "uuid";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
-import IconCurrency from "@/components/icons/IconCurrency.vue";
-import IconShare from "@/components/icons/IconShare.vue";
-import IconMinusDisabled from "@/components/icons/IconMinusDisabled.vue";
-import IconMinus from "@/components/icons/IconMinus.vue";
-import IconClose from "@/components/icons/IconClose.vue";
-import IconPlus from "@/components/icons/IconPlus.vue";
+import IconCurrency from "#/icons/IconCurrency.vue";
+import IconShare from "#/icons/IconShare.vue";
+import IconMinusDisabled from "#/icons/IconMinusDisabled.vue";
+import IconMinus from "#/icons/IconMinus.vue";
+import IconClose from "#/icons/IconClose.vue";
+import IconPlus from "#/icons/IconPlus.vue";
 import { useRouter } from "vue-router";
 
 const { productInfo, selectedProducts } = defineProps({

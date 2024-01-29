@@ -151,7 +151,7 @@
 <script setup>
 import { ref } from "vue";
 import Input from "#/common/Input.vue";
-import IconMediumDownArrow from "@/components/icons/IconMediumDownArrow.vue";
+import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
 const id = ref("");
 const password = ref("");
