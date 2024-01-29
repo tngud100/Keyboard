@@ -1,6 +1,6 @@
 <template>
-  <section class="wrapper">
-    <h2 class="header">공지사항</h2>
+  <section :class="$style.wrapper">
+    <h2 :class="$style.header">공지사항</h2>
     <Notice
       title="이 집 키보드 맛집이네!"
       author="조선타자기"
@@ -15,4 +15,4 @@
 import Notice from "#/noticeDetail/Notice.vue";
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

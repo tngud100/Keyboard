@@ -1,30 +1,30 @@
 <template>
-  <ul class="menuList">
-    <li class="menuItem"><IconOrder />주문조회</li>
-    <li class="menuItem">
-      <RouterLink :to="ROUTE_PATH.REVIEW" class="link">
+  <ul :class="$style.menuList">
+    <li :class="$style.menuItem"><IconOrder />주문조회</li>
+    <li :class="$style.menuItem">
+      <RouterLink :to="ROUTE_PATH.REVIEW" :class="$style.link">
         <IconReview />리뷰
       </RouterLink>
     </li>
-    <li class="menuItem">
-      <RouterLink :to="ROUTE_PATH.NOTICE" class="link">
+    <li :class="$style.menuItem">
+      <RouterLink :to="ROUTE_PATH.NOTICE" :class="$style.link">
         <IconNotice />공지사항
       </RouterLink>
     </li>
-    <li class="menuItem">
-      <RouterLink :to="ROUTE_PATH.FAQ" class="link">
+    <li :class="$style.menuItem">
+      <RouterLink :to="ROUTE_PATH.FAQ" :class="$style.link">
         <IconFaq />자주묻는질문
       </RouterLink>
     </li>
-    <li class="menuItem">
-      <RouterLink :to="ROUTE_PATH.DOWNLOAD" class="link">
+    <li :class="$style.menuItem">
+      <RouterLink :to="ROUTE_PATH.DOWNLOAD" :class="$style.link">
         <IconDownload />자료실
       </RouterLink>
     </li>
   </ul>
 
-  <div class="topMenuWrapper">
-    <div class="topMenu">
+  <div :class="$style.topMenuWrapper">
+    <div :class="$style.topMenu">
       <IconTop @click="scrollToTop" v-if="shouldShowTopBtn" />
     </div>
   </div>
@@ -45,4 +45,4 @@ import IconTop from "@/components/icons/IconTop.vue";
 const { shouldShowTopBtn } = storeToRefs(useTopStore());
 </script>
 
-<style src="./Menu.css" scoped></style>
+<style src="./Menu.css" module></style>

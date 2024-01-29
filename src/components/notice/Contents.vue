@@ -1,5 +1,5 @@
 <template>
-  <section class="wrapper">
+  <section :class="$style.wrapper">
     <CommonNav />
     <Notices />
   </section>
@@ -10,4 +10,4 @@ import CommonNav from "#/layout/CommonNav.vue";
 import Notices from "#/notice/Notices.vue";
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

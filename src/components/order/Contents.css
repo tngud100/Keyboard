@@ -68,7 +68,7 @@
   text-align: left;
 }
 
-.recipientCheckboxsWrapper {
+.paymentMethodCheckboxesWrapper {
   display: flex;
   gap: 30px;
   font-size: 16px;
@@ -112,7 +112,7 @@
   border-bottom: 1px solid #333;
 }
 
-.paymentMethodCheckboxsWrapper {
+.paymentMethodCheckboxesWrapper {
   display: flex;
   align-items: center;
   padding: 32px 15px;

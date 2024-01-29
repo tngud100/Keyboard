@@ -1,8 +1,8 @@
 <template>
-  <section class="wrapper">
+  <section :class="$style.wrapper">
     <div>
-      <img :src="importedProduct" alt="상품 이미지" class="productImg" />
-      <div class="detailImgWrapper">
+      <img :src="importedProduct" alt="상품 이미지" />
+      <div :class="$style.detailImgWrapper">
         <img :src="importedProductDetailImg" alt="상품 상세 이미지" />
       </div>
     </div>
@@ -100,4 +100,4 @@ const addShoppingBasket = () => {
 };
 </script>
 
-<style src="./ProductDetailView.css" scoped></style>
+<style src="./ProductDetailView.css" module></style>

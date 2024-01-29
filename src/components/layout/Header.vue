@@ -1,28 +1,33 @@
 <template>
-  <header class="header">
-    <div class="sites">
-      <button type="button" class="siteBtn">
+  <header :class="$style.header">
+    <div :class="$style.sites">
+      <button type="button" :class="$style.siteBtn">
         <IconInstagram />
       </button>
-      <button type="button" class="siteBtn">
+      <button type="button" :class="$style.siteBtn">
         <IconDiscord />
       </button>
-      <button type="button" class="siteBtn">
+      <button type="button" :class="$style.siteBtn">
         <IconNaver />
       </button>
-      <button type="button" class="siteBtn">
+      <button type="button" :class="$style.siteBtn">
         <IconYoutube />
       </button>
     </div>
-    <h1 class="title">
-      <router-link to="/" class="titleLink">
+    <h1 :class="$style.title">
+      <router-link to="/" :class="$style.titleLink">
         <IconNewLogo />
       </router-link>
     </h1>
-    <div class="etc">
-      <div class="searchWrapper" :class="isShowingSearchBoard">
-        <input type="text" class="search" v-show="isSearch" ref="searchRef" />
-        <button type="button" class="searchBtn" @click="toggleIsSearch">
+    <div :class="$style.etc">
+      <div :class="[$style.searchWrapper, isShowingSearchBoard]">
+        <input
+          type="text"
+          :class="$style.search"
+          v-show="isSearch"
+          ref="searchRef"
+        />
+        <button type="button" :class="$style.searchBtn" @click="toggleIsSearch">
           <IconSearch />
         </button>
       </div>
@@ -42,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, useCssModule } from "vue";
 import Language from "#/common/Language.vue";
 import IconInstagram from "@/components/icons/IconInstagram.vue";
 import IconDiscord from "@/components/icons/IconDiscord.vue";
@@ -55,9 +60,10 @@ import IconBasket from "@/components/icons/IconBasket.vue";
 
 const isSearch = ref(false);
 const searchRef = ref(null);
+const style = useCssModule();
 
 const isShowingSearchBoard = computed(
-  () => isSearch.value && "searchWrapperBorder"
+  () => isSearch.value && style.searchWrapperBorder
 );
 
 const toggleIsSearch = () => {
@@ -74,4 +80,4 @@ const toggleIsSearch = () => {
 };
 </script>
 
-<style src="./Header.css" scoped></style>
+<style src="./Header.css" module></style>

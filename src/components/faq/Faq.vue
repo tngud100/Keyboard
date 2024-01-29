@@ -1,16 +1,16 @@
 <template>
-  <li @click="isShowing = !isShowing" class="wrapper">
-    <div class="questionWrapper">
-      <div class="questionWrapperLeftSide">
-        <span class="questionType">Q</span>
-        <div class="tag">{{ tag }}</div>
+  <li @click="isShowing = !isShowing" :class="$style.questionWrapper">
+    <div :class="$style.questionInner">
+      <div :class="$style.questionSide">
+        <span :class="$style.questionType">Q</span>
+        <div :class="$style.questionTag">{{ tag }}</div>
         {{ question }}
       </div>
       <IconFaqUpArrow v-show="isShowing" />
       <IconFaqDownArrow v-show="!isShowing" />
     </div>
-    <div class="answerWrapper" v-show="isShowing">
-      <span class="answerType">A</span>{{ answer }}
+    <div :class="$style.answerWrapper" v-show="isShowing">
+      <span :class="$style.answerType">A</span>{{ answer }}
     </div>
   </li>
 </template>
@@ -38,4 +38,4 @@ defineProps({
 const isShowing = ref(false);
 </script>
 
-<style src="./Faq.css" scoped></style>
+<style src="./Faq.css" module></style>

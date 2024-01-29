@@ -3,32 +3,6 @@
   width: 1364px;
 }
 
-.header {
-  padding: 24px 0 13px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.header .headerLeftSide {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.header .headerRightSide {
-  display: flex;
-  gap: 10px;
-}
-
-.header .headerRightSide .btn {
-  font-size: 14px;
-  padding: 9px 13px;
-  border-radius: 5px;
-  border: 1px solid #cbcbcb;
-}
-
 .title {
   padding-bottom: 10px;
   font-size: 32px;
@@ -36,12 +10,19 @@
   border-bottom: 5px solid #555;
 }
 
-.desc {
+.notContentWrapper {
+  margin: 261px 0 301px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notContentDesc {
   font-size: 24px;
   font-weight: 600;
 }
 
-.basketBtn {
+.continueBtn {
   margin-top: 20px;
   padding: 18px 32px;
   border-radius: 5px;
@@ -52,24 +33,43 @@
 }
 
 .contentWrapper {
-  margin: 261px 0 301px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.pickedsWrapper {
   display: flex;
   gap: 34px;
 }
 
-.pickedInner {
+.pickedWrapper {
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-grow: 1;
 }
 
-.paymentInfoOuterWrapper {
+.header {
+  padding: 24px 0 13px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftSide {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.rightSide {
+  display: flex;
+  gap: 10px;
+}
+
+.commonBtn {
+  font-size: 14px;
+  padding: 9px 13px;
+  border-radius: 5px;
+  border: 1px solid #cbcbcb;
+}
+
+.paymentInfoWrapper {
   margin-top: 83px;
 }

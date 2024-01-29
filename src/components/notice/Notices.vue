@@ -1,12 +1,12 @@
 <template>
-  <section class="wrapper">
-    <table class="table">
+  <section>
+    <table :class="$style.table">
       <tr>
-        <th class="id head">번호</th>
-        <th class="title head">제목</th>
-        <th class="author head">작성자</th>
-        <th class="createdDate head">작성일</th>
-        <th class="views head">조회수</th>
+        <th :class="[$style.id, $style.head]">번호</th>
+        <th :class="[$style.title, $style.head]">제목</th>
+        <th :class="[$style.author, $style.head]">작성자</th>
+        <th :class="[$style.createdDate, $style.head]">작성일</th>
+        <th :class="[$style.views, $style.head]">조회수</th>
       </tr>
       <Notice
         :id="4"
@@ -37,20 +37,20 @@
         :views="1900"
       />
     </table>
-    <footer class="footer">
+    <footer :class="$style.footer">
       <div></div>
-      <div class="pagination">
-        <IconPaginationLeftArrow class="paginationArrow" />
-        <ul class="paginationList">
-          <li class="paginationItem">1</li>
-          <li class="paginationItem">2</li>
-          <li class="paginationItem">3</li>
-          <li class="paginationItem">4</li>
-          <li class="paginationItem">5</li>
+      <div :class="$style.pagination">
+        <IconPaginationLeftArrow :class="$style.arrow" />
+        <ul :class="$style.paginationList">
+          <li :class="$style.paginationItem">1</li>
+          <li :class="$style.paginationItem">2</li>
+          <li :class="$style.paginationItem">3</li>
+          <li :class="$style.paginationItem">4</li>
+          <li :class="$style.paginationItem">5</li>
         </ul>
-        <IconPaginationRightArrow class="paginationArrow" />
+        <IconPaginationRightArrow :class="$style.arrow" />
       </div>
-      <button type="button" class="writeBtn">글쓰기</button>
+      <button type="button" :class="$style.writeBtn">글쓰기</button>
     </footer>
   </section>
 </template>
@@ -61,4 +61,4 @@ import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
 import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
 </script>
 
-<style src="./Notices.css" scoped></style>
+<style src="./Notices.css" module></style>

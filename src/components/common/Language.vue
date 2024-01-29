@@ -1,9 +1,9 @@
 <template>
-  <div class="languageWrapper" @click="toggleLanguage">
-    <button type="button" class="world"></button>
+  <div :class="$style.wrapper" @click="toggleLanguage">
+    <button type="button" :class="$style.world"></button>
     <button
       type="button"
-      class="language"
+      :class="$style.language"
       :style="{
         backgroundImage: language.isLanguage
           ? `url(${korean})`
@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { animateLanguage } from "@/utils/anime";
 import { useLanguageStore } from "@/stores/useLanguageStore";
 import korean from "@/assets/images/korean.svg";
@@ -29,4 +28,4 @@ const toggleLanguage = () => {
 };
 </script>
 
-<style src="./Language.css" scoped></style>
+<style src="./Language.css" module></style>

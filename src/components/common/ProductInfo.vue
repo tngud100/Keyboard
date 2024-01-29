@@ -1,47 +1,51 @@
 <template>
-  <section class="productInfoWrapper">
-    <header class="productInfoHeader">
-      <div class="productInfo">
-        <h2 class="productName">{{ productInfo.name }}</h2>
-        <p class="productPrice">
+  <section :class="$style.wrapper">
+    <header :class="$style.header">
+      <div :class="$style.info">
+        <h2 :class="$style.name">{{ productInfo.name }}</h2>
+        <p :class="$style.price">
           <IconCurrency />
           {{ formattedPrice(productInfo.price) }}
         </p>
       </div>
-      <div class="shareBtnWrapper">
-        <button type="button" class="shareBtn">
+      <div :class="$style.shareBtnWrapper">
+        <button type="button" :class="$style.shareBtn">
           <IconShare />
         </button>
       </div>
     </header>
-    <div class="productDeliveryInfo">
-      <dl class="productDeliveryInfoList">
-        <dt class="productDeliveryInfoItem productDeliveryInfoTerm">
+    <div :class="$style.deliveryInfo">
+      <dl :class="$style.deliveryInfoList">
+        <dt :class="[$style.deliveryInfoItem, $style.deliveryInfoTerm]">
           배송정보
         </dt>
-        <dd class="productDeliveryInfoItem prouctDeliveryPlatformWrapper">
-          <div class="prouctDeliveryPlatform">
-            <span class="productDeliveryStrong">택배배송</span
-            >&nbsp;|&nbsp;<span class="productDeliveryStrong">한진택배</span>
+        <dd :class="[$style.deliveryInfoItem, $style.deliveryPlatformWrapper]">
+          <div :class="$style.deliveryPlatform">
+            <span :class="$style.deliveryStrong">택배배송</span
+            >&nbsp;|&nbsp;<span :class="$style.deliveryStrong">한진택배</span>
           </div>
           <p>1/10 도착 예정</p>
         </dd>
       </dl>
-      <dl class="productDeliveryInfoList">
-        <dt class="productDeliveryInfoItem productDeliveryInfoTerm">배송비</dt>
-        <dd class="productDeliveryInfoItem">
+      <dl :class="$style.deliveryInfoList">
+        <dt :class="[$style.deliveryInfoItem, $style.deliveryInfoTerm]">
+          배송비
+        </dt>
+        <dd :class="$style.deliveryInfoItem">
           {{ formattedPrice(productInfo.deliveryPrice) }}원
         </dd>
       </dl>
     </div>
-    <div class="productTypeInfo">
-      <h4 class="productTypeTitle">상품 목록</h4>
-      <ul class="productTypeList">
+    <div :class="$style.characterInfo">
+      <h4 :class="$style.characterTitle">상품 목록</h4>
+      <ul :class="$style.characterList">
         <li
           v-for="type in productInfo.types"
           :key="type.id"
-          class="productTypeItem"
-          :class="currentType === type.name && 'active'"
+          :class="[
+            $style.characterItem,
+            currentType === type.name && $style.active,
+          ]"
           @click="updateSelectedType"
           :data-type="type.name"
         >
@@ -49,14 +53,16 @@
         </li>
       </ul>
     </div>
-    <div class="productTypeInfo">
-      <h4 class="productTypeTitle">색상</h4>
-      <ul class="productTypeList">
+    <div :class="$style.characterInfo">
+      <h4 :class="$style.characterTitle">색상</h4>
+      <ul :class="$style.characterList">
         <li
           v-for="color in productInfo.colors"
           :key="color.id"
-          class="productTypeItem"
-          :class="currentColor === color.name && 'active'"
+          :class="[
+            $style.characterItem,
+            currentColor === color.name && $style.active,
+          ]"
           @click="updateSelectedColor"
           :data-color="color.name"
         >
@@ -64,40 +70,40 @@
         </li>
       </ul>
     </div>
-    <ul class="selectedProductList">
+    <ul :class="$style.selectedProductList">
       <li
         v-for="selectedProduct in selectedProducts"
-        class="selectedProductItem"
+        :class="$style.selectedProductItem"
         :key="selectedProduct.id"
       >
-        <h5 class="selectedProductTitle">
+        <h5 :class="$style.selectedProductTitle">
           {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }}
-          <button type="button" class="productRemoveBtn">
+          <button type="button" :class="$style.removeBtn">
             <IconClose />
           </button>
         </h5>
-        <div class="selectedProductPriceInfo">
-          <div class="productCountWrapper">
+        <div :class="$style.selectedProductPriceInfo">
+          <div :class="$style.countWrapper">
             <button
               type="button"
-              class="productCountBtn"
+              :class="$style.countBtn"
               @click="updateSubtractedCount(selectedProduct.id)"
               :disabled="selectedProduct.count === 1"
             >
               <IconMinusDisabled v-show="selectedProduct.count === 1" />
               <IconMinus v-show="selectedProduct.count !== 1" />
             </button>
-            <div class="productCount">{{ selectedProduct.count }}</div>
+            <div :class="$style.count">{{ selectedProduct.count }}</div>
             <button
               type="button"
-              class="productCountBtn"
+              :class="$style.countBtn"
               @click="updateAddedCount(selectedProduct.id)"
             >
               <IconPlus />
             </button>
           </div>
-          <div class="totalPrice">
-            <span class="totalPriceMoney">{{
+          <div :class="$style.totalPrice">
+            <span :class="$style.totalPriceStrong">{{
               calcTotalPrice(selectedProduct.price, selectedProduct.count)
             }}</span
             >원
@@ -105,7 +111,7 @@
         </div>
       </li>
     </ul>
-    <div class="productPurchaseBtnWrapper">
+    <div :class="$style.purchaseBtnWrapper">
       <Button
         type="primary"
         text="구매 바로가기"
@@ -132,12 +138,18 @@ import IconMinusDisabled from "@/components/icons/IconMinusDisabled.vue";
 import IconMinus from "@/components/icons/IconMinus.vue";
 import IconClose from "@/components/icons/IconClose.vue";
 import IconPlus from "@/components/icons/IconPlus.vue";
-import { routerKey, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
-const { productInfo, selectedProducts } = defineProps([
-  "productInfo",
-  "selectedProducts",
-]);
+const { productInfo, selectedProducts } = defineProps({
+  productInfo: {
+    type: Object,
+    required: true,
+  },
+  selectedProducts: {
+    type: Array,
+    required: true,
+  },
+});
 
 const emit = defineEmits([
   "selectProduct",
@@ -202,4 +214,4 @@ const storeProduct = () => {
 const calcTotalPrice = (price, count) => formattedPrice(price * count);
 </script>
 
-<style src="./ProductInfo.css" scoped></style>
+<style src="./ProductInfo.css" module></style>

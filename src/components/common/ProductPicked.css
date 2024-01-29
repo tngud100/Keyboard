@@ -1,9 +1,9 @@
-.pickedWrapper {
+.wrapper {
   border-radius: 6px;
   border: 1px solid #a5a5a5;
 }
 
-.pickedWrapper .header {
+.header {
   padding: 21px 17px;
   display: flex;
   justify-content: space-between;
@@ -11,55 +11,55 @@
   border-bottom: 1px solid #a5a5a5;
 }
 
-.pickedWrapper .headerSide {
+.headerSide {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.pickedWrapper .name {
+.name {
   font-size: 18px;
   font-weight: 600;
 }
 
-.pickedWrapper .content {
+.content {
   padding: 30px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.pickedWrapper .subName {
+.subName {
   font-size: 18px;
   font-weight: 600;
 }
 
-.pickedWrapper .tagList {
+.tagList {
   margin-top: 4px;
   display: flex;
   gap: 5px;
   font-size: 16px;
 }
 
-.pickedWrapper .tagItem {
+.tagItem {
   padding: 4px 6px;
   border-radius: 5px;
   border: 1px solid #c4c4c4;
 }
 
-.pickedWrapper .price {
+.price {
   margin-top: 10px;
   font-size: 16.481px;
   font-weight: 500;
 }
 
-.pickedWrapper .dilvery {
+.dilvery {
   margin-top: 8px;
   color: #e31c1c;
   font-size: 14px;
 }
 
-.productCountWrapper {
+.countWrapper {
   border: 2px solid #d1d1d1;
   display: flex;
   align-items: center;
@@ -67,14 +67,7 @@
   height: 40px;
 }
 
-.productCount {
-  font-size: 20px;
-  font-weight: 600;
-  width: 32px;
-  text-align: center;
-}
-
-.productCountBtn {
+.countBtn {
   padding: 7px 8px;
   display: flex;
   justify-content: center;
@@ -82,6 +75,9 @@
   height: 100%;
 }
 
-.productRemoveBtn {
-  cursor: pointer;
+.count {
+  font-size: 20px;
+  font-weight: 600;
+  width: 32px;
+  text-align: center;
 }
