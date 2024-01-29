@@ -1,32 +1,32 @@
 <template>
-  <div class="wrapper">
-    <ul class="productList">
-      <li class="productItem" @click="moveProductDetailPage">
+  <div :class="$style.wrapper">
+    <ul :class="$style.productList">
+      <li :class="$style.productItem" @click="moveProductDetailPage">
         <img
-          :src="importedFirstKeyboard"
+          :src="firstKeyboard"
           alt="상품 이미지"
-          class="productImg"
+          :class="$style.productImg"
         />
       </li>
-      <li class="productItem" @click="moveProductDetailPage">
+      <li :class="$style.productItem" @click="moveProductDetailPage">
         <img
-          :src="importedSecondKeyboard"
+          :src="secondKeyboard"
           alt="상품 이미지"
-          class="productImg"
+          :class="$style.productImg"
         />
       </li>
-      <li class="productItem" @click="moveProductDetailPage">
+      <li :class="$style.productItem" @click="moveProductDetailPage">
         <img
-          :src="importedThirdKeyboard"
+          :src="thirdKeyboard"
           alt="상품 이미지"
-          class="productImg"
+          :class="$style.productImg"
         />
       </li>
-      <li class="productItem" @click="moveProductDetailPage">
+      <li :class="$style.productItem" @click="moveProductDetailPage">
         <img
-          :src="importedFourthKeyboard"
+          :src="fourthKeyboard"
           alt="상품 이미지"
-          class="productImg"
+          :class="$style.productImg"
         />
       </li>
     </ul>
@@ -34,17 +34,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import firstKeyboard from "@/assets/images/keyboard_1.png";
 import secondKeyboard from "@/assets/images/keyboard_2.png";
 import thirdKeyboard from "@/assets/images/keyboard_3.png";
 import fourthKeyboard from "@/assets/images/keyboard_4.png";
 
-const importedFirstKeyboard = ref(firstKeyboard);
-const importedSecondKeyboard = ref(secondKeyboard);
-const importedThirdKeyboard = ref(thirdKeyboard);
-const importedFourthKeyboard = ref(fourthKeyboard);
 const router = useRouter();
 
 const moveProductDetailPage = () => {
@@ -52,4 +47,4 @@ const moveProductDetailPage = () => {
 };
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

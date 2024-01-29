@@ -1,130 +1,147 @@
 <template>
-  <section class="wrapper">
-    <header class="header">
-      <h2 class="title">회원가입</h2>
-      <p class="desc">회원가입을 위한 정확한 정보를 입력해주세요.</p>
-      <h3 class="subTitle">기본정보</h3>
+  <section :class="$style.wrapper">
+    <header :class="$style.header">
+      <h2 :class="$style.title">회원가입</h2>
+      <p :class="$style.desc">회원가입을 위한 정확한 정보를 입력해주세요.</p>
+      <h3 :class="$style.subTitle">기본정보</h3>
     </header>
-    <main class="main">
-      <div class="tableLine tableHead">아이디</div>
-      <div class="tableLine tableData">
-        <Input
-          type="text"
-          size="449px"
-          placeholder="아이디를 입력해주세요."
-          :value="id"
-          @input="handleIdChange"
-        />
-        <button type="button" class="signupBtn duplicatedBtn">중복확인</button>
-        <span class="warning">*(영문소문자/숫자,4~16자)</span>
-      </div>
-      <div class="tableLine tableHead">비밀번호</div>
-      <div class="tableLine tableData">
-        <Input
-          type="password"
-          size="449px"
-          placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력해주세요."
-          :value="password"
-          @input="handlePasswordChange"
-        />
-      </div>
-      <div class="tableLine tableHead">비밀번호 확인</div>
-      <div class="tableLine tableData">
-        <Input
-          type="password"
-          size="449px"
-          placeholder="비밀번호을 다시 입력해주세요."
-          v-model="handlePasswordConfirmChange"
-        />
-      </div>
-      <div class="tableLine tableHead">이름</div>
-      <div class="tableLine tableData">
-        <Input
-          type="text"
-          size="449px"
-          placeholder="이름을 입력해주세요."
-          :value="name"
-          @input="handleNameChange"
-        />
-      </div>
-      <div class="tableLine tableHead">생년월일</div>
-      <div class="tableLine tableData tableBirthdayLine">
-        <Input
-          type="text"
-          size="143px"
-          placeholder="년(4자)"
-          :value="birthday.year"
-          @input="handleBirthDayYearChange"
-        />
-        <div class="dropDownWrapper">
-          월
-          <div>
-            <IconMediumDownArrow />
-          </div>
-        </div>
-        <Input
-          type="text"
-          size="143px"
-          placeholder="일"
-          :value="birthday.date"
-          @input="handleBirthDayDateChange"
-        />
-      </div>
-      <div class="tableLine tableHead">이메일</div>
-      <div class="tableLine tableData email">
-        <div>
+    <form>
+      <main :class="$style.main">
+        <div :class="[$style.line, $style.head]">아이디</div>
+        <div :class="[$style.line, $style.data]">
           <Input
             type="text"
-            size="187px"
-            :value="email.front"
-            @input="handleEmailFrontChange"
+            size="449px"
+            placeholder="아이디를 입력해주세요."
+            :value="id"
+            @input="handleIdChange"
           />
-          <span class="emailAt">@</span>
-          <Input
-            type="text"
-            size="187px"
-            :value="email.back"
-            @input="handleEmailBackChange"
-          />
-        </div>
-        <div class="dropDownWrapper">
-          직접입력
-          <div>
-            <IconMediumDownArrow />
-          </div>
-        </div>
-      </div>
-      <div class="tableLine tableHead">휴대전화</div>
-      <div class="tableLine tableData">
-        <div class="phoneNumberWrapper">
-          <input
-            class="phoneNumber"
-            placeholder="휴대폰번호 (필수)"
-            :value="phoneNumber"
-            @input="handlePhoneNumberChange"
-          />
-          <button type="button" class="phoneNumberBtn">인증번호 발송</button>
-        </div>
-      </div>
-      <div class="tableLine tableHead">주소</div>
-      <div class="tableLine tableData addressWrapper">
-        <div>
-          <Input size="187px" placeholder="주소" />
-          <button type="button" class="signupBtn duplicatedBtn">
-            우편번호
+          <button
+            type="button"
+            :class="[$style.signupBtn, $style.duplicatedBtn]"
+          >
+            중복확인
           </button>
+          <span :class="$style.warning">*(영문소문자/숫자,4~16자)</span>
         </div>
-        <div class="address">
-          <Input size="400px" />
-          <Input size="400px" />
+        <div :class="[$style.line, $style.head]">비밀번호</div>
+        <div :class="[$style.line, $style.data]">
+          <Input
+            type="password"
+            size="449px"
+            placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력해주세요."
+            :value="password"
+            @input="handlePasswordChange"
+            autocomplete="off"
+          />
         </div>
-        <div>
-          <Input size="400px" />
+        <div :class="[$style.line, $style.head]">비밀번호 확인</div>
+        <div :class="[$style.line, $style.data]">
+          <Input
+            type="password"
+            size="449px"
+            placeholder="비밀번호을 다시 입력해주세요."
+            :value="passwordConfirm"
+            @input="handlePasswordConfirmChange"
+            autocomplete="off"
+          />
         </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <button class="confirmBtn" type="button" @click="moveToSignupPage()">
+        <div :class="[$style.line, $style.head]">이름</div>
+        <div :class="[$style.line, $style.data]">
+          <Input
+            type="text"
+            size="449px"
+            placeholder="이름을 입력해주세요."
+            :value="name"
+            @input="handleNameChange"
+          />
+        </div>
+        <div :class="[$style.line, $style.head]">생년월일</div>
+        <div :class="[$style.line, $style.data, $style.birthdayLine]">
+          <Input
+            type="text"
+            size="143px"
+            placeholder="년(4자)"
+            :value="birthday.year"
+            @input="handleBirthDayYearChange"
+          />
+          <div :class="$style.dropDownWrapper">
+            월
+            <div>
+              <IconMediumDownArrow />
+            </div>
+          </div>
+          <Input
+            type="text"
+            size="143px"
+            placeholder="일"
+            :value="birthday.date"
+            @input="handleBirthDayDateChange"
+          />
+        </div>
+        <div :class="[$style.line, $style.head]">이메일</div>
+        <div :class="[$style.line, $style.data, $style.email]">
+          <div>
+            <Input
+              type="text"
+              size="187px"
+              :value="email.front"
+              @input="handleEmailFrontChange"
+            />
+            <span :class="$style.emailAt">@</span>
+            <Input
+              type="text"
+              size="187px"
+              :value="email.back"
+              @input="handleEmailBackChange"
+            />
+          </div>
+          <div :class="$style.dropDownWrapper">
+            직접입력
+            <div>
+              <IconMediumDownArrow />
+            </div>
+          </div>
+        </div>
+        <div :class="[$style.line, $style.head]">휴대전화</div>
+        <div :class="[$style.line, $style.data]">
+          <div :class="$style.phoneNumberWrapper">
+            <input
+              :class="$style.phoneNumber"
+              placeholder="휴대폰번호 (필수)"
+              :value="phoneNumber"
+              @input="handlePhoneNumberChange"
+            />
+            <button type="button" :class="$style.authBtn">인증번호 발송</button>
+          </div>
+        </div>
+        <div :class="[$style.line, $style.head]">주소</div>
+        <div :class="[$style.line, $style.data, $style.addressWrapper]">
+          <div>
+            <Input size="187px" placeholder="주소" />
+            <button
+              type="button"
+              :class="[$style.signupBtn, $style.duplicatedBtn]"
+            >
+              우편번호
+            </button>
+          </div>
+          <div :class="$style.address">
+            <Input size="400px" />
+            <Input size="400px" />
+          </div>
+          <div>
+            <Input size="400px" />
+          </div>
+        </div>
+      </main>
+    </form>
+    <footer :class="$style.footer">
+      <button
+        :class="$style.confirmBtn"
+        type="button"
+        @click="moveToSignupPage()"
+      >
         회원가입
       </button>
     </footer>
@@ -134,7 +151,7 @@
 <script setup>
 import { ref } from "vue";
 import Input from "#/common/Input.vue";
-import IconMediumDownArrow from "@/components/icons/IconMediumDownArrow.vue";
+import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
 const id = ref("");
 const password = ref("");
@@ -185,4 +202,4 @@ const handlePhoneNumberChange = ({ target }) => {
 };
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

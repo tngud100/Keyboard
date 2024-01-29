@@ -1,4 +1,4 @@
-.topFooter {
+.topSideWrapper {
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #d6d6d6;
@@ -6,24 +6,24 @@
   padding: 20px 60px 25px;
 }
 
-.topFooterInner {
+.topSide {
   display: flex;
   gap: 19px;
 }
 
-.footerList {
+.topSideList {
   display: flex;
   gap: 6px;
   font-size: 14px;
 }
 
-.footerItem::after {
+.topSideList::after {
   margin-left: 6px;
   content: "|";
   font-weight: 400;
 }
 
-.footerItem:last-child:after {
+.topSideList:last-child:after {
   content: "";
 }
 
@@ -37,7 +37,7 @@
   line-height: 13px;
 }
 
-.bottomFooter {
+.bottomSideWrapper {
   padding: 12px 60px;
   display: flex;
   justify-content: space-between;
@@ -45,7 +45,7 @@
   font-size: 14px;
 }
 
-.bottomFooterInner {
+.bottomSide {
   display: flex;
   align-items: center;
   gap: 10px;

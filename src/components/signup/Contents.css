@@ -30,18 +30,18 @@
   grid-template-rows: 80px 80px 80px 80px 80px 80px 80px 1fr;
 }
 
-.tableLine {
+.line {
   border-bottom: 1px solid #d7d7d7;
 }
 
-.tableHead {
+.head {
   padding: 32px 20px;
   font-size: 16px;
   font-weight: 500;
   background-color: #f8f8f8;
 }
 
-.tableData {
+.data {
   padding: 15px 30px;
 }
 
@@ -63,7 +63,7 @@
   color: #fff;
 }
 
-.tableBirthdayLine {
+.birthdayLine {
   display: flex;
   gap: 10px;
 }
@@ -113,7 +113,7 @@
   outline: none;
 }
 
-.phoneNumberBtn {
+.authBtn {
   padding: 8px 12px;
   border-radius: 3px;
   border: 1px solid #8c8c8c;

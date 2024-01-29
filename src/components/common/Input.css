@@ -1,15 +1,15 @@
-.commonInput {
+.input {
   font-size: 14px;
   padding: 16px 10px;
   border-radius: 5px;
   border: 1px solid #8c8c8c;
 }
 
-.commonInput::placeholder {
+.input::placeholder {
   color: #a4a4a4;
 }
 
-.commonInput:focus {
+.input:focus {
   outline: none;
 }
 

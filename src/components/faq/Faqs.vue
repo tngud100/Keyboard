@@ -8,20 +8,20 @@
       :answer="info.answer"
     />
   </ul>
-  <footer class="footer">
+  <footer :class="$style.footer">
     <div></div>
-    <div class="pagination">
-      <IconPaginationLeftArrow class="paginationArrow" />
-      <ul class="paginationList">
-        <li class="paginationItem">1</li>
-        <li class="paginationItem">2</li>
-        <li class="paginationItem">3</li>
-        <li class="paginationItem">4</li>
-        <li class="paginationItem">5</li>
+    <div :class="$style.pagination">
+      <IconPaginationLeftArrow :class="$style.arrow" />
+      <ul :class="$style.paginationList">
+        <li :class="$style.paginationItem">1</li>
+        <li :class="$style.paginationItem">2</li>
+        <li :class="$style.paginationItem">3</li>
+        <li :class="$style.paginationItem">4</li>
+        <li :class="$style.paginationItem">5</li>
       </ul>
-      <IconPaginationRightArrow class="paginationArrow" />
+      <IconPaginationRightArrow :class="$style.arrow" />
     </div>
-    <button type="button" class="writeBtn">글쓰기</button>
+    <button type="button" :class="$style.writeBtn">글쓰기</button>
   </footer>
 </template>
 
@@ -64,4 +64,4 @@ const data = [
 ];
 </script>
 
-<style src="./Faqs.css" scoped></style>
+<style src="./Faqs.css" module></style>

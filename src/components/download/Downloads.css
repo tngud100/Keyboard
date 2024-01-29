@@ -32,8 +32,9 @@
   align-items: center;
 }
 
-.paginationArrow {
+.arrow {
   padding: 16px;
+  cursor: pointer;
 }
 
 .paginationList {
@@ -43,5 +44,6 @@
 }
 
 .paginationItem {
+  cursor: pointer;
   padding: 16px;
 }

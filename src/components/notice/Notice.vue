@@ -1,10 +1,10 @@
 <template>
   <tr @click="moveToDetailPage(id)">
-    <td class="data">{{ id }}</td>
-    <td class="data">{{ views }}</td>
-    <td class="data">{{ title }}</td>
-    <td class="data">{{ author }}</td>
-    <td class="data">{{ createdDate }}</td>
+    <td :class="$style.data">{{ id }}</td>
+    <td :class="$style.data">{{ views }}</td>
+    <td :class="$style.data">{{ title }}</td>
+    <td :class="$style.data">{{ author }}</td>
+    <td :class="$style.data">{{ createdDate }}</td>
   </tr>
 </template>
 
@@ -41,4 +41,4 @@ const moveToDetailPage = (id) => {
 };
 </script>
 
-<style src="./Notice.css" scoped></style>
+<style src="./Notice.css" module></style>

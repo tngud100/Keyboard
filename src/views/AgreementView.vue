@@ -6,4 +6,4 @@
 import Contents from "#/agreement/Contents.vue";
 </script>
 
-<style scoped></style>
+<style></style>

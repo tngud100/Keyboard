@@ -6,4 +6,4 @@
 import Contents from "#/noticeDetail/Contents.vue";
 </script>
 
-<style scoped></style>
+<style></style>

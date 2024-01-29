@@ -1,11 +1,11 @@
 <template>
-  <section class="agreementWrapper">
-    <header class="header">
-      <h2 class="title">약관 동의</h2>
-      <p class="desc">
+  <section :class="$style.wrapper">
+    <header :class="$style.header">
+      <h2 :class="$style.title">약관 동의</h2>
+      <p :class="$style.desc">
         이용약관과 개인정보처리방침에 대한 안내를 읽고 동의 해주세요.
       </p>
-      <div class="allCheckWrapper">
+      <div :class="$style.checkWrapper">
         <input
           type="checkbox"
           id="all"
@@ -15,18 +15,18 @@
         <label for="all">모든 약관을 확인하고 전체 동의함</label>
       </div>
     </header>
-    <main class="main">
-      <div class="agreementBox">
-        <h3 class="subTitle">(필수) 회원 약관</h3>
-        <div class="subDescWrapper">
+    <main :class="$style.main">
+      <div :class="$style.agreementWrapper">
+        <h3 :class="$style.subTitle">(필수) 회원 약관</h3>
+        <div :class="$style.subDescWrapper">
           <p>조선타자기의 서비스 이용과 관련하여 필요한 사항들을 규정합니다.</p>
-          <p class="subDesc">
+          <p :class="$style.subDesc">
             제1조 목적<br />
             본 약관은 조선타자기(이하 "회사"라 합니다)가 제공하는 인터넷
             서비스의 이용과 관련하여 회원의 권리, 의무 및 기타 필요한 사항을
             규정함을 목적으로 합니다.
           </p>
-          <p class="subDesc">
+          <p :class="$style.subDesc">
             제2조 (용어의 정의)<br />
             회원 : 회사와 서비스 이용 계약을 체결한 자, 카카오톡 회원가입을 한
             자 아이디 : 카카오톡 ID를 티키앤타카에 부여한 자 비밀번호 : 따로
@@ -39,8 +39,8 @@
             있습니다.
           </p>
         </div>
-        <div class="userAgreementWrapper">
-          <div class="userAgreementCheckboxWrapper">
+        <div :class="$style.userAgreementWrapper">
+          <div :class="$style.userAgreementCheckboxWrapper">
             <input
               type="checkbox"
               id="userNotAgreement"
@@ -48,32 +48,34 @@
               :checked="userAgreement === null ? false : !userAgreement"
               @change="() => (userAgreement = false)"
             />
-            <label class="agreementLabel" for="userNotAgreement"
+            <label :class="$style.userAgreementLabel" for="userNotAgreement"
               >동의하지 않음</label
             >
           </div>
-          <div class="userAgreementCheckboxWrapper">
+          <div :class="$style.userAgreementCheckboxWrapper">
             <input
               type="checkbox"
               id="userAgreement"
               :checked="userAgreement"
               @change="() => (userAgreement = true)"
             />
-            <label class="agreementLabel" for="userAgreement">동의함</label>
+            <label :class="$style.userAgreementLabel" for="userAgreement"
+              >동의함</label
+            >
           </div>
         </div>
       </div>
-      <div class="agreementBox">
-        <h3 class="subTitle">(필수) 조선타자기 서비스 이용 약관</h3>
-        <div class="subDescWrapper">
+      <div :class="$style.agreementBox">
+        <h3 :class="$style.subTitle">(필수) 조선타자기 서비스 이용 약관</h3>
+        <div :class="$style.subDescWrapper">
           <p>조선타자기의 서비스 이용과 관련하여 필요한 사항들을 규정합니다.</p>
-          <p class="subDesc">
+          <p :class="$style.subDesc">
             제1조 목적<br />
             본 약관은 조선타자기(이하 "회사"라 합니다)가 제공하는 인터넷
             서비스의 이용과 관련하여 회원의 권리, 의무 및 기타 필요한 사항을
             규정함을 목적으로 합니다.
           </p>
-          <p class="subDesc">
+          <p :class="$style.subDesc">
             제2조 (용어의 정의)<br />
             회원 : 회사와 서비스 이용 계약을 체결한 자, 카카오톡 회원가입을 한
             자 아이디 : 카카오톡 ID를 티키앤타카에 부여한 자 비밀번호 : 따로
@@ -86,32 +88,38 @@
             있습니다.
           </p>
         </div>
-        <div class="userAgreementWrapper">
-          <div class="userAgreementCheckboxWrapper">
+        <div :class="$style.userAgreementWrapper">
+          <div :class="$style.userAgreementCheckboxWrapper">
             <input
               type="checkbox"
               id="serviceNotAgreement"
               :checked="serviceAgreement === null ? false : !serviceAgreement"
               @change="() => (serviceAgreement = false)"
             />
-            <label class="agreementLabel" for="serviceNotAgreement"
+            <label :class="$style.userAgreementLabel" for="serviceNotAgreement"
               >동의하지 않음</label
             >
           </div>
-          <div class="userAgreementCheckboxWrapper">
+          <div :class="$style.userAgreementCheckboxWrapper">
             <input
               type="checkbox"
               id="serviceAgreement"
               :checked="serviceAgreement"
               @change="() => (serviceAgreement = true)"
             />
-            <label class="agreementLabel" for="serviceAgreement">동의함</label>
+            <label :class="$style.userAgreementLabel" for="serviceAgreement"
+              >동의함</label
+            >
           </div>
         </div>
       </div>
     </main>
-    <footer class="footer">
-      <button class="confirmBtn" type="button" @click="moveToSignupPage()">
+    <footer :class="$style.footer">
+      <button
+        :class="$style.confirmBtn"
+        type="button"
+        @click="moveToSignupPage()"
+      >
         확인
       </button>
     </footer>
@@ -145,4 +153,4 @@ const moveToSignupPage = () => {
 };
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

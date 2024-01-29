@@ -1,16 +1,16 @@
 <template>
-  <section class="wrapper">
-    <h3 class="title">장바구니</h3>
+  <section :class="$style.wrapper">
+    <h3 :class="$style.title">장바구니</h3>
     <div v-if="!formmatedShoppingBaskets.length">
-      <section class="contentWrapper">
-        <p class="desc">장바구니에 담은 상품이 없습니다.</p>
-        <button type="button" class="basketBtn">쇼핑 계속하기</button>
+      <section :class="$style.notContentWrapper">
+        <p :class="$style.notContentDesc">장바구니에 담은 상품이 없습니다.</p>
+        <button type="button" :class="$style.continueBtn">쇼핑 계속하기</button>
       </section>
     </div>
-    <div v-else class="pickedsWrapper">
-      <div class="pickedInner">
-        <header class="header">
-          <div class="headerLeftSide">
+    <div v-else :class="$style.contentWrapper">
+      <div :class="$style.pickedWrapper">
+        <header :class="$style.header">
+          <div :class="$style.leftSide">
             <input
               type="checkbox"
               id="all"
@@ -19,9 +19,15 @@
             />
             <label for="all">상품 정보</label>
           </div>
-          <div class="headerRightSide">
-            <button type="button" class="btn">품절상품삭제</button>
-            <button type="button" class="btn" @click="deleteCheckedProduct">
+          <div :class="$style.rightSide">
+            <button type="button" :class="$style.commonBtn">
+              품절상품삭제
+            </button>
+            <button
+              type="button"
+              :class="$style.commonBtn"
+              @click="deleteCheckedProduct"
+            >
               선택삭제
             </button>
           </div>
@@ -36,7 +42,7 @@
           @subtractedProduct="subtractProduct"
         />
       </div>
-      <div class="paymentInfoOuterWrapper">
+      <div :class="$style.paymentInfoWrapper">
         <PaymentInfo
           :totalProductsPrice="totalProductsPrice"
           :totalDelivery="totalDelivery"
@@ -158,4 +164,4 @@ const storeShoppingBaksets = (recentBaskets) => {
 };
 </script>
 
-<style src="./Contents.css" scoped></style>
+<style src="./Contents.css" module></style>

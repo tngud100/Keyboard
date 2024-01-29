@@ -1,27 +1,27 @@
-.productInfoWrapper {
+.wrapper {
   width: 50%;
   position: sticky;
   top: 64px;
   height: 100%;
 }
 
-.productInfoHeader {
+.header {
   display: flex;
   justify-content: space-between;
   border-bottom: 2px solid #111;
 }
 
-.productInfo {
+.info {
   margin-bottom: 17px;
 }
 
-.productName {
+.name {
   font-size: 26px;
   font-weight: 600;
   line-height: 26px;
 }
 
-.productPrice {
+.price {
   margin: 5px;
   display: flex;
   gap: 3px;
@@ -41,63 +41,21 @@
   align-items: center;
 }
 
-.productColorInfo {
-  padding: 20px 0;
-  border-bottom: 1px solid #b7b7b7;
-}
-
-.productColorTitle {
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 18px;
-}
-
-.productColorStrong {
-  font-size: 18px;
-  font-weight: 500;
-  color: #ff3434;
-}
-
-.colorRadio {
-  position: absolute;
-  opacity: 0;
-}
-
-.colors {
-  margin-top: 10px;
-  display: flex;
-  gap: 5px;
-}
-
-.colorLabel {
-  padding: 12px 18px;
-  display: block;
-  border-radius: 5px;
-  border: 1px solid #dcdcdc;
-  background: #fff;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.activeColorLabel {
-  border: 1px solid #767676;
-}
-
-.productTypeInfo {
+.characterInfo {
   padding: 18px 0;
 }
 
-.productTypeInfo + .productTypeInfo {
+.characterInfo + .characterInfo {
   padding-top: 0;
   border-bottom: 1px solid #dcdcdc;
 }
 
-.productTypeTitle {
+.characterTitle {
   font-size: 16px;
   font-weight: 500;
 }
 
-.productTypeSelectBox {
+.characterSelectBox {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -108,82 +66,63 @@
   cursor: pointer;
 }
 
-.productTypeList {
+.characterList {
   margin-top: 10px;
   display: flex;
   gap: 10px;
 }
 
-.productTypeItem.active {
-  background-color: #333;
-  color: #fff;
-}
-
-.productTypeItem {
+.characterItem {
   padding: 13px 18px;
   font-size: 16px;
   font-weight: 500;
   border-radius: 5px;
   border: 1px solid #dcdcdc;
   background: #fff;
+  cursor: pointer;
 }
 
-.productDeliveryInfo {
+.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.deliveryInfo {
   padding: 19px 0 16px;
   border-bottom: 1px solid #b7b7b7;
 }
 
-.productDeliveryInfoList {
+.deliveryInfoList {
   display: flex;
   gap: 53px;
 }
 
-.productDeliveryInfoList + .productDeliveryInfoList {
+.deliveryInfoList + .deliveryInfoList {
   margin-top: 15px;
 }
 
-.prouctDeliveryPlatformWrapper {
+.deliveryPlatformWrapper {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.prouctDeliveryPlatform {
+.deliveryPlatform {
   display: flex;
 }
 
-.productDeliveryInfoItem {
+.deliveryInfoItem {
   font-size: 16px;
 }
 
-.productDeliveryInfoTerm {
+.deliveryInfoTerm {
   font-size: 18px;
   font-weight: 500;
   width: 64px;
 }
 
-.productDeliveryStrong {
+.deliveryStrong {
   font-weight: 600;
-}
-
-.productPaymentMethod {
-  display: flex;
-  gap: 10px;
-}
-
-.productPaymentBtn {
-  width: 50%;
-}
-
-.productPaymentBtn .productPaymentImg {
-  width: 100%;
-}
-
-.productPurchaseBtnWrapper {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 .selectedProductList {
@@ -220,12 +159,12 @@
   font-size: 20px;
 }
 
-.totalPriceMoney {
+.totalPriceStrong {
   font-size: 26px;
   font-weight: 600;
 }
 
-.productCountWrapper {
+.countWrapper {
   border: 2px solid #d1d1d1;
   display: flex;
   align-items: center;
@@ -233,14 +172,14 @@
   height: 40px;
 }
 
-.productCount {
+.count {
   font-size: 20px;
   font-weight: 600;
   width: 60px;
   text-align: center;
 }
 
-.productCountBtn {
+.countBtn {
   padding: 12px 11px;
   display: flex;
   justify-content: center;
@@ -248,14 +187,21 @@
   height: 100%;
 }
 
-.productCountBtn:first-child {
+.countBtn:first-child {
   border-right: 2px solid #d1d1d1;
 }
 
-.productCountBtn:last-child {
+.countBtn:last-child {
   border-left: 2px solid #d1d1d1;
 }
 
-.productRemoveBtn {
+.removeBtn {
   cursor: pointer;
+}
+
+.purchaseBtnWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
