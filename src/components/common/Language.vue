@@ -16,13 +16,15 @@
 <script setup>
 import { animateLanguage } from "@/utils/anime";
 import { useLanguageStore } from "@/stores/useLanguageStore";
+import { useCssModule } from "vue";
 import korean from "@/assets/images/korean.svg";
 import english from "@/assets/images/english.svg";
 
 const language = useLanguageStore();
+const style = useCssModule();
 
 const toggleLanguage = () => {
-  animateLanguage(() => {
+  animateLanguage(style.world, style.language, () => {
     language.toggleLanguage();
   });
 };

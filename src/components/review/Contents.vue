@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import CommonNav from "#/layout/CommonNav.vue";
+import CommonNav from "@/layouts/CommonNav.vue";
 import Products from "#/review/Products.vue";
 </script>
 
