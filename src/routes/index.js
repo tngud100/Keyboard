@@ -12,6 +12,10 @@ import NoticeDetailView from "@/views/NoticeDetailView.vue";
 import FaqView from "@/views/FaqView.vue";
 import DownloadView from "@/views/DownloadView.vue";
 import OrderView from "@/views/OrderView.vue";
+import SwitchView from "@/views/SwitchView.vue";
+import PcbView from "@/views/PcbView.vue";
+import KeycapView from "@/views/KeycapView.vue";
+import ToolView from "@/views/ToolView.vue";
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -48,19 +52,19 @@ const routes = [
   },
   {
     path: "/switch",
-    component: KeyboardView,
+    component: SwitchView,
   },
   {
     path: "/pcb",
-    component: KeyboardView,
+    component: PcbView,
   },
   {
     path: "/keycap",
-    component: KeyboardView,
+    component: KeycapView,
   },
   {
     path: "/tool",
-    component: KeyboardView,
+    component: ToolView,
   },
   {
     path: "/basket",
