@@ -1,16 +1,16 @@
 <template>
   <button
-    :type="computedBtnType"
+    :type="btnType"
     v-if="type === 'primary'"
-    class="commonBtn primaryBtn"
+    :class="[$style.commonBtn, $style.primaryBtn]"
     @click="handleBtnClick"
   >
     {{ text }}
   </button>
   <button
-    :type="computedBtnType"
+    :type="btnType"
     v-else
-    class="commonBtn secondaryBtn"
+    :class="[$style.commonBtn, $style.secondaryBtn]"
     @click="handleBtnClick"
   >
     {{ text }}
@@ -18,21 +18,30 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+const { type, btnType, text, eventName } = defineProps({
+  type: {
+    type: String,
+    requried: true,
+  },
+  btnType: {
+    type: String,
+    default: "button",
+  },
+  text: {
+    type: String,
+    requried: true,
+  },
+  eventName: {
+    type: String,
+    requried: true,
+  },
+});
 
-const { type, btnType, text, eventName } = defineProps([
-  "type",
-  "btnType",
-  "text",
-  "eventName",
-]);
 const emit = defineEmits();
-
-const computedBtnType = computed(() => (btnType ? "submit" : "button"));
 
 const handleBtnClick = (event) => {
   emit(eventName, { event });
 };
 </script>
 
-<style src="./Button.css" scoped></style>
+<style src="@/assets/css/common/Button.css" module></style>

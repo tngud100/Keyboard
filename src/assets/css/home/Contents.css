@@ -1,0 +1,77 @@
+.contents {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 121px;
+  gap: 20px 0;
+}
+
+.backgroundWrapper {
+  padding: 0;
+  position: relative;
+}
+
+.descWrapper {
+  position: absolute;
+  bottom: 35px;
+  left: 40px;
+}
+
+.nameWrapper {
+  margin-top: 15px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.productBlackName {
+  color: #575757;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.14px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.productWhiteName {
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.14px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.firstName {
+  color: #373737;
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -2px;
+}
+
+.secondName {
+  color: #512c96;
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -2px;
+}
+
+.thirdName {
+  color: #169882;
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -2px;
+}
+
+.backgroundImgs {
+  width: 100%;
+}
+
+.arrowWrapper {
+  transition: all 0.2s;
+}
+
+.backgroundWrapper:hover .arrowWrapper {
+  transform: translateX(50px);
+}

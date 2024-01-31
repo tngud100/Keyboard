@@ -1,19 +1,24 @@
-.agreementWrapper {
+.wrapper {
   padding: 0 278px 100px;
 }
 
-.agreementWrapper .title {
+.header {
+  padding: 64px 0 14px;
+  border-bottom: 5px solid #0d0d0d;
+}
+
+.title {
   font-size: 32px;
   font-weight: 700;
 }
 
-.agreementWrapper .desc {
+.desc {
   margin-top: 15px;
   font-size: 18px;
   font-weight: 500;
 }
 
-.agreementWrapper .allCheckWrapper {
+.checkWrapper {
   margin-top: 42px;
   display: flex;
   justify-content: flex-end;
@@ -22,25 +27,20 @@
   font-weight: 500;
 }
 
-.agreementWrapper .header {
-  padding: 64px 0 14px;
-  border-bottom: 5px solid #0d0d0d;
-}
-
-.agreementWrapper .main {
+.main {
   padding: 30px 20px;
 }
 
-.agreementWrapper .agreementBox {
+.agreementWrapper {
   margin-top: 40px;
 }
 
-.agreementWrapper .subTitle {
+.subTitle {
   font-size: 22px;
   font-weight: 500;
 }
 
-.agreementWrapper .subDescWrapper {
+.subDescWrapper {
   margin-top: 10px;
   padding: 20px 10px;
   font-size: 14px;
@@ -49,33 +49,33 @@
   line-height: 14px;
 }
 
-.agreementWrapper .subDesc {
+.subDesc {
   margin-top: 28px;
 }
 
-.agreementWrapper .agreementLabel {
+.userAgreementLabel {
   font-size: 14px;
 }
 
-.agreementWrapper .userAgreementWrapper {
+.userAgreementWrapper {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
   gap: 30px;
 }
 
-.agreementWrapper .userAgreementCheckboxWrapper {
+.userAgreementCheckboxWrapper {
   display: flex;
   align-items: center;
 }
 
-.agreementWrapper .footer {
+.footer {
   margin-top: 97px;
   display: flex;
   justify-content: center;
 }
 
-.agreementWrapper .confirmBtn {
+.confirmBtn {
   padding: 16px 165px;
   font-size: 18px;
   font-weight: 700;

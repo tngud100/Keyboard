@@ -1,12 +1,12 @@
 <template>
-  <section class="wrapper">
-    <table class="table">
+  <section>
+    <table :class="$style.table">
       <tr>
-        <th class="id head">번호</th>
-        <th class="category head">카테고리</th>
-        <th class="title head">제목</th>
-        <th class="author head">작성자</th>
-        <th class="createdDate head">작성일</th>
+        <th :class="[$style.id, $style.head]">번호</th>
+        <th :class="[$style.category, $style.head]">카테고리</th>
+        <th :class="[$style.title, $style.head]">제목</th>
+        <th :class="[$style.author, $style.head]">작성자</th>
+        <th :class="[$style.createdDate, $style.head]">작성일</th>
       </tr>
       <Download
         :id="3"
@@ -30,17 +30,17 @@
         createdDate="2023-01-09"
       />
     </table>
-    <footer class="footer">
-      <div class="pagination">
-        <PaginationLeftArrow class="paginationArrow" />
-        <ul class="paginationList">
-          <li class="paginationItem">1</li>
-          <li class="paginationItem">2</li>
-          <li class="paginationItem">3</li>
-          <li class="paginationItem">4</li>
-          <li class="paginationItem">5</li>
+    <footer :class="$style.footer">
+      <div :class="$style.pagination">
+        <IconPaginationLeftArrow :class="$style.arrow" />
+        <ul :class="$style.paginationList">
+          <li :class="$style.paginationItem">1</li>
+          <li :class="$style.paginationItem">2</li>
+          <li :class="$style.paginationItem">3</li>
+          <li :class="$style.paginationItem">4</li>
+          <li :class="$style.paginationItem">5</li>
         </ul>
-        <PaginationRightArrow class="paginationArrow" />
+        <IconPaginationRightArrow :class="$style.arrow" />
       </div>
     </footer>
   </section>
@@ -48,8 +48,8 @@
 
 <script setup>
 import Download from "#/download/Download.vue";
-import PaginationLeftArrow from "#/icons/PaginationLeftArrow.vue";
-import PaginationRightArrow from "#/icons/PaginationRightArrow.vue";
+import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
+import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
 </script>
 
-<style src="./Downloads.css" scoped></style>
+<style src="@/assets/css/download/Downloads.css" module></style>

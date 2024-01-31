@@ -1,0 +1,10 @@
+.wrapper {
+  padding: 100px 143px;
+  display: flex;
+  gap: 80px;
+  height: auto;
+}
+
+.detailImgWrapper {
+  margin-top: 32px;
+}

@@ -1,48 +1,51 @@
 <template>
-  <section class="productInfoWrapper">
-    <header class="productInfoHeader">
-      <div class="productInfo">
-        <h2 class="productName">{{ productInfo.name }}</h2>
-        <p class="productPrice">
-          <img :src="importedCurrency" alt="화폐 단위" />{{
-            formattedPrice(productInfo.price)
-          }}
+  <section :class="$style.wrapper">
+    <header :class="$style.header">
+      <div :class="$style.info">
+        <h2 :class="$style.name">{{ productInfo.name }}</h2>
+        <p :class="$style.price">
+          <IconCurrency />
+          {{ formattedPrice(productInfo.price) }}
         </p>
       </div>
-      <div class="shareBtnWrapper">
-        <button type="button" class="shareBtn">
-          <img :src="importedShare" alt="공유하기" />
+      <div :class="$style.shareBtnWrapper">
+        <button type="button" :class="$style.shareBtn">
+          <IconShare />
         </button>
       </div>
     </header>
-    <div class="productDeliveryInfo">
-      <dl class="productDeliveryInfoList">
-        <dt class="productDeliveryInfoItem productDeliveryInfoTerm">
+    <div :class="$style.deliveryInfo">
+      <dl :class="$style.deliveryInfoList">
+        <dt :class="[$style.deliveryInfoItem, $style.deliveryInfoTerm]">
           배송정보
         </dt>
-        <dd class="productDeliveryInfoItem prouctDeliveryPlatformWrapper">
-          <div class="prouctDeliveryPlatform">
-            <span class="productDeliveryStrong">택배배송</span
-            >&nbsp;|&nbsp;<span class="productDeliveryStrong">한진택배</span>
+        <dd :class="[$style.deliveryInfoItem, $style.deliveryPlatformWrapper]">
+          <div :class="$style.deliveryPlatform">
+            <span :class="$style.deliveryStrong">택배배송</span
+            >&nbsp;|&nbsp;<span :class="$style.deliveryStrong">한진택배</span>
           </div>
           <p>1/10 도착 예정</p>
         </dd>
       </dl>
-      <dl class="productDeliveryInfoList">
-        <dt class="productDeliveryInfoItem productDeliveryInfoTerm">배송비</dt>
-        <dd class="productDeliveryInfoItem">
+      <dl :class="$style.deliveryInfoList">
+        <dt :class="[$style.deliveryInfoItem, $style.deliveryInfoTerm]">
+          배송비
+        </dt>
+        <dd :class="$style.deliveryInfoItem">
           {{ formattedPrice(productInfo.deliveryPrice) }}원
         </dd>
       </dl>
     </div>
-    <div class="productTypeInfo">
-      <h4 class="productTypeTitle">상품 목록</h4>
-      <ul class="productTypeList">
+    <div :class="$style.characterInfo">
+      <h4 :class="$style.characterTitle">상품 목록</h4>
+      <ul :class="$style.characterList">
         <li
           v-for="type in productInfo.types"
           :key="type.id"
-          class="productTypeItem"
-          :class="currentType === type.name && 'active'"
+          :class="[
+            $style.characterItem,
+            currentType === type.name && $style.active,
+          ]"
           @click="updateSelectedType"
           :data-type="type.name"
         >
@@ -50,14 +53,16 @@
         </li>
       </ul>
     </div>
-    <div class="productTypeInfo">
-      <h4 class="productTypeTitle">색상</h4>
-      <ul class="productTypeList">
+    <div :class="$style.characterInfo">
+      <h4 :class="$style.characterTitle">색상</h4>
+      <ul :class="$style.characterList">
         <li
           v-for="color in productInfo.colors"
           :key="color.id"
-          class="productTypeItem"
-          :class="currentColor === color.name && 'active'"
+          :class="[
+            $style.characterItem,
+            currentColor === color.name && $style.active,
+          ]"
           @click="updateSelectedColor"
           :data-color="color.name"
         >
@@ -65,48 +70,40 @@
         </li>
       </ul>
     </div>
-    <ul class="selectedProductList">
+    <ul :class="$style.selectedProductList">
       <li
         v-for="selectedProduct in selectedProducts"
-        class="selectedProductItem"
+        :class="$style.selectedProductItem"
         :key="selectedProduct.id"
       >
-        <h5 class="selectedProductTitle">
+        <h5 :class="$style.selectedProductTitle">
           {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }}
-          <button type="button" class="productRemoveBtn">
-            <img :src="importedClose" alt="상품 제거" />
+          <button type="button" :class="$style.removeBtn">
+            <IconClose />
           </button>
         </h5>
-        <div class="selectedProductPriceInfo">
-          <div class="productCountWrapper">
+        <div :class="$style.selectedProductPriceInfo">
+          <div :class="$style.countWrapper">
             <button
               type="button"
-              class="productCountBtn"
+              :class="$style.countBtn"
               @click="updateSubtractedCount(selectedProduct.id)"
               :disabled="selectedProduct.count === 1"
             >
-              <img
-                v-show="selectedProduct.count === 1"
-                :src="importedMinusDisabled"
-                alt="상품 빼기"
-              />
-              <img
-                v-show="selectedProduct.count !== 1"
-                :src="importedMinus"
-                alt="상품 빼기"
-              />
+              <IconMinusDisabled v-show="selectedProduct.count === 1" />
+              <IconMinus v-show="selectedProduct.count !== 1" />
             </button>
-            <div class="productCount">{{ selectedProduct.count }}</div>
+            <div :class="$style.count">{{ selectedProduct.count }}</div>
             <button
               type="button"
-              class="productCountBtn"
+              :class="$style.countBtn"
               @click="updateAddedCount(selectedProduct.id)"
             >
-              <img :src="importedPlus" alt="상품 더하기" />
+              <IconPlus />
             </button>
           </div>
-          <div class="totalPrice">
-            <span class="totalPriceMoney">{{
+          <div :class="$style.totalPrice">
+            <span :class="$style.totalPriceStrong">{{
               calcTotalPrice(selectedProduct.price, selectedProduct.count)
             }}</span
             >원
@@ -114,7 +111,7 @@
         </div>
       </li>
     </ul>
-    <div class="productPurchaseBtnWrapper">
+    <div :class="$style.purchaseBtnWrapper">
       <Button
         type="primary"
         text="구매 바로가기"
@@ -127,41 +124,32 @@
         @onStore="storeProduct"
       />
     </div>
-    <!-- <div class="productPaymentMethod">
-      <button type="button" class="productPaymentBtn">
-        <img
-          :src="importedNaverPay"
-          alt="네이버페이"
-          class="productPaymentImg"
-        />
-      </button>
-      <button type="button" class="productPaymentBtn">
-        <img :src="importedPaypal" alt="페이팔" class="productPaymentImg" />
-      </button>
-    </div> -->
   </section>
 </template>
 
 <script setup>
 import { ref, watchEffect } from "vue";
 import { v4 as uuidv4 } from "uuid";
-import currency from "@/assets/images/currency.svg";
-import share from "@/assets/images/share.svg";
-import selectArrow from "@/assets/images/smallDownArrow.svg";
-import naverPay from "@/assets/images/naverPay.svg";
-import paypal from "@/assets/images/paypal.svg";
-import close from "@/assets/images/close.svg";
-import plus from "@/assets/images/plus.svg";
-import minus from "@/assets/images/minus.svg";
-import plusDisabled from "@/assets/images/plus_disabled.svg";
-import minusDisabled from "@/assets/images/minus_disabled.svg";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
+import IconCurrency from "#/icons/IconCurrency.vue";
+import IconShare from "#/icons/IconShare.vue";
+import IconMinusDisabled from "#/icons/IconMinusDisabled.vue";
+import IconMinus from "#/icons/IconMinus.vue";
+import IconClose from "#/icons/IconClose.vue";
+import IconPlus from "#/icons/IconPlus.vue";
+import { useRouter } from "vue-router";
 
-const { productInfo, selectedProducts } = defineProps([
-  "productInfo",
-  "selectedProducts",
-]);
+const { productInfo, selectedProducts } = defineProps({
+  productInfo: {
+    type: Object,
+    required: true,
+  },
+  selectedProducts: {
+    type: Array,
+    required: true,
+  },
+});
 
 const emit = defineEmits([
   "selectProduct",
@@ -171,21 +159,12 @@ const emit = defineEmits([
   "onStore",
 ]);
 
-const importedCurrency = ref(currency);
-const importedShare = ref(share);
-const importedSelctArrow = ref(selectArrow);
-const importedNaverPay = ref(naverPay);
-const importedPaypal = ref(paypal);
-const importedClose = ref(close);
-const importedPlus = ref(plus);
-const importedMinus = ref(minus);
-const importedPlusDisabled = ref(plusDisabled);
-const importedMinusDisabled = ref(minusDisabled);
-
 const isShowingType = ref(false);
 const isShowingColor = ref(false);
 const currentColor = ref("");
 const currentType = ref("");
+
+const router = useRouter();
 
 watchEffect(() => {
   if (!currentColor.value || !currentType.value) return;
@@ -225,7 +204,7 @@ const updateAddedCount = (id) => emit("addCount", { id });
 const updateSubtractedCount = (id) => emit("subtractCount", { id });
 
 const purchaseProduct = ({ event }) => {
-  console.log(event);
+  router.push("/order");
 };
 
 const storeProduct = () => {
@@ -235,4 +214,4 @@ const storeProduct = () => {
 const calcTotalPrice = (price, count) => formattedPrice(price * count);
 </script>
 
-<style src="./ProductInfo.css" scoped></style>
+<style src="@/assets/css/common/ProductInfo.css" module></style>

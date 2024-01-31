@@ -3,17 +3,20 @@ import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SignupView from "@/views/SignupView.vue";
 import AgreementView from "@/views/AgreementView.vue";
-import MypageView from "@/views/MypageView.vue";
 import KeyboardView from "@/views/KeyboardView.vue";
 import ProductDetailView from "@/views/ProductDetailView.vue";
 import BasketView from "@/views/BasketView.vue";
 import ReviewView from "@/views/ReviewView.vue";
 import NoticeView from "@/views/NoticeView.vue";
+import NoticeEditView from "@/views/NoticeEditView.vue";
 import NoticeDetailView from "@/views/NoticeDetailView.vue";
 import FaqView from "@/views/FaqView.vue";
 import DownloadView from "@/views/DownloadView.vue";
-
-import TemporaryBasket from "@/components/review/temporary/basket.vue";
+import OrderView from "@/views/OrderView.vue";
+import SwitchView from "@/views/SwitchView.vue";
+import PcbView from "@/views/PcbView.vue";
+import KeycapView from "@/views/KeycapView.vue";
+import ToolView from "@/views/ToolView.vue";
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -41,10 +44,6 @@ const routes = [
     component: AgreementView,
   },
   {
-    path: "/mypage",
-    component: MypageView,
-  },
-  {
     path: "/keyboard",
     component: KeyboardView,
   },
@@ -54,19 +53,19 @@ const routes = [
   },
   {
     path: "/switch",
-    component: KeyboardView,
+    component: SwitchView,
   },
   {
     path: "/pcb",
-    component: KeyboardView,
+    component: PcbView,
   },
   {
     path: "/keycap",
-    component: KeyboardView,
+    component: KeycapView,
   },
   {
     path: "/tool",
-    component: KeyboardView,
+    component: ToolView,
   },
   {
     path: "/basket",
@@ -79,6 +78,10 @@ const routes = [
   {
     path: "/notice",
     component: NoticeView,
+  },
+  {
+    path: "/notice/edit",
+    component: NoticeEditView,
   },
 
   {
@@ -94,8 +97,8 @@ const routes = [
     component: NoticeDetailView,
   },
   {
-    path: "/temporaryBasket",
-    component: TemporaryBasket,
+    path: "/order",
+    component: OrderView,
   },
 ];
 

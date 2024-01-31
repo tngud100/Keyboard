@@ -1,17 +1,17 @@
 import anime from "animejs";
-import { useLanguageStore } from "@/stores/useLanguageStore";
+import { useLanguageStore } from "@/store/useLanguageStore";
 
-export function animateLanguage(callback) {
+export function animateLanguage(worldClass, languageClass, callback) {
   const store = useLanguageStore();
 
   const worldAnim = anime({
-    targets: ".world",
+    targets: `.${worldClass}`,
     translateX: store.isLanguage ? [28, 0] : [0, 28],
     easing: "linear",
     duration: 200,
   });
   const languageAnim = anime({
-    targets: ".language",
+    targets: `.${languageClass}`,
     translateX: store.isLanguage ? [-24, 0] : [0, -24],
     easing: "linear",
     duration: 200,

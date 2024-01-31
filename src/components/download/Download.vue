@@ -1,10 +1,10 @@
 <template>
-  <tr>
-    <td class="data">{{ id }}</td>
-    <td class="data">{{ category }}</td>
-    <td class="data title">{{ title }}</td>
-    <td class="data">{{ author }}</td>
-    <td class="data">{{ createdDate }}</td>
+  <tr :class="$style.row">
+    <td :class="$style.data">{{ id }}</td>
+    <td :class="$style.data">{{ category }}</td>
+    <td :class="[$style.data, $style.title]">{{ title }}</td>
+    <td :class="$style.data">{{ author }}</td>
+    <td :class="$style.data">{{ createdDate }}</td>
   </tr>
 </template>
 
@@ -33,4 +33,4 @@ defineProps({
 });
 </script>
 
-<style src="./Download.css" scoped></style>
+<style src="@/assets/css/download/Download.css" module></style>

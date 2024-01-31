@@ -1,13 +1,17 @@
 <template>
-  <header class="header">
-    <h3 class="title">{{ title }}</h3>
-    <div class="author">{{ author }}</div>
-    <div class="createdDate">{{ createdDate }}</div>
-    <div class="views">{{ views }}</div>
+  <header :class="$style.header">
+    <h3 :class="$style.title">{{ title }}</h3>
+    <div :class="$style.author">{{ author }}</div>
+    <div :class="$style.createdDate">{{ createdDate }}</div>
+    <div :class="$style.views">{{ views }}</div>
   </header>
-  <div v-html="content" class="content" />
-  <footer class="footer">
-    <button type="button" class="backBtn" @click="$router.push('/notice')">
+  <div v-html="content" :class="$style.content" />
+  <footer :class="$style.footer">
+    <button
+      type="button"
+      :class="$style.listBtn"
+      @click="$router.push('/notice')"
+    >
       목록
     </button>
   </footer>
@@ -38,4 +42,4 @@ defineProps({
 });
 </script>
 
-<style src="./Notice.css" scoped></style>
+<style src="@/assets/css/noticeDetail/Notice.css" module></style>

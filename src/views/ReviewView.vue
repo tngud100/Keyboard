@@ -6,4 +6,4 @@
 import Contents from "#/review/Contents.vue";
 </script>
 
-<style scoped></style>
+<style></style>

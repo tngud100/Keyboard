@@ -1,34 +1,33 @@
 <template>
-  <div class="languageWrapper" @click="toggleLanguage">
-    <button type="button" class="world"></button>
+  <div :class="$style.wrapper" @click="toggleLanguage">
+    <button type="button" :class="$style.world"></button>
     <button
       type="button"
-      class="language"
+      :class="$style.language"
       :style="{
         backgroundImage: language.isLanguage
-          ? `url(${importedKorean})`
-          : `url(${importedEnglish})`,
+          ? `url(${korean})`
+          : `url(${english})`,
       }"
     ></button>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { animateLanguage } from "@/utils/anime";
-import { useLanguageStore } from "@/stores/useLanguageStore";
-import korean from "/korean.svg";
+import { useLanguageStore } from "@/store/useLanguageStore";
+import { useCssModule } from "vue";
+import korean from "@/assets/images/korean.svg";
 import english from "@/assets/images/english.svg";
 
 const language = useLanguageStore();
-const importedKorean = ref(korean);
-const importedEnglish = ref(english);
+const style = useCssModule();
 
 const toggleLanguage = () => {
-  animateLanguage(() => {
+  animateLanguage(style.world, style.language, () => {
     language.toggleLanguage();
   });
 };
 </script>
 
-<style src="./Language.css" scoped></style>
+<style src="@/assets/css/common/Language.css" module></style>

@@ -1,8 +1,8 @@
 <template>
   <section>
     <img :src="importedReviewImg" alt="리뷰 이미지" />
-    <h3 class="title">{{ title }}</h3>
-    <p class="views">조회수 {{ views }}회</p>
+    <h3 :class="$style.title">{{ title }}</h3>
+    <p :class="$style.views">조회수 {{ views }}회</p>
   </section>
 </template>
 
@@ -23,4 +23,4 @@ defineProps({
 const importedReviewImg = ref(reviewImg);
 </script>
 
-<style src="./Product.css" scoped></style>
+<style src="@/assets/css/review/Product.css" module></style>
