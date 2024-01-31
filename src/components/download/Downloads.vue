@@ -52,4 +52,4 @@ import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
 import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
 </script>
 
-<style src="./Downloads.css" module></style>
+<style src="@/assets/css/download/Downloads.css" module></style>

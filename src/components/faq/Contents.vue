@@ -10,4 +10,4 @@ import CommonNav from "@/layouts/CommonNav.vue";
 import Faqs from "#/faq/Faqs.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/faq/Contents.css" module></style>

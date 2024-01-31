@@ -38,4 +38,4 @@ defineProps({
 const isShowing = ref(false);
 </script>
 
-<style src="./Faq.css" module></style>
+<style src="@/assets/css/faq/Faq.css" module></style>

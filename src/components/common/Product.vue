@@ -102,4 +102,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style src="./Product.css" module></style>
+<style src="@/assets/css/common/Product.css" module></style>

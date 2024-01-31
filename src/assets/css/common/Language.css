@@ -1,5 +1,5 @@
 .wrapper {
-  background-image: url("../../assets/images/languageWrapper.svg");
+  background-image: url("@/assets/images/languageWrapper.svg");
   width: 55px;
   height: 24px;
   position: relative;
@@ -10,7 +10,7 @@
 }
 
 .world {
-  background-image: url("../../assets/images/world.svg");
+  background-image: url("@/assets/images/world.svg");
   width: 18px;
   height: 18px;
   background-repeat: no-repeat;

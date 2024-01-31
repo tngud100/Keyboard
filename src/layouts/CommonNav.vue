@@ -63,4 +63,4 @@ const onTabClick = (path) => router.push(path);
 const activeTab = (path) => path === route.path && style.active;
 </script>
 
-<style src="./CommonNav.css" module></style>
+<style src="@/assets/css/layouts/CommonNav.css" module></style>

@@ -41,4 +41,4 @@ import fourthKeycap from "@/assets/images/keycap_4.jpg";
 import Product from "#/common/Product.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/keycap/Contents.css" module></style>

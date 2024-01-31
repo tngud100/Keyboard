@@ -33,4 +33,4 @@ defineProps({
 });
 </script>
 
-<style src="./Download.css" module></style>
+<style src="@/assets/css/download/Download.css" module></style>

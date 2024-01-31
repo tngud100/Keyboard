@@ -15,7 +15,7 @@
 
 <script setup>
 import { animateLanguage } from "@/utils/anime";
-import { useLanguageStore } from "@/stores/useLanguageStore";
+import { useLanguageStore } from "@/store/useLanguageStore";
 import { useCssModule } from "vue";
 import korean from "@/assets/images/korean.svg";
 import english from "@/assets/images/english.svg";
@@ -30,4 +30,4 @@ const toggleLanguage = () => {
 };
 </script>
 
-<style src="./Language.css" module></style>
+<style src="@/assets/css/common/Language.css" module></style>

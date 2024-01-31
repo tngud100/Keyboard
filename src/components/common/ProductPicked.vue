@@ -68,4 +68,4 @@ const { shoppingBasket } = defineProps({
 });
 </script>
 
-<style src="./ProductPicked.css" module></style>
+<style src="@/assets/css/common/ProductPicked.css" module></style>

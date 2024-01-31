@@ -58,4 +58,4 @@ const moveKeyboardDetailPage = (id) => {
 };
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/keyboard/Contents.css" module></style>

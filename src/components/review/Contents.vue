@@ -10,4 +10,4 @@ import CommonNav from "@/layouts/CommonNav.vue";
 import Products from "#/review/Products.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/review/Contents.css" module></style>

@@ -23,4 +23,4 @@ defineProps({
 const importedReviewImg = ref(reviewImg);
 </script>
 
-<style src="./Product.css" module></style>
+<style src="@/assets/css/review/Product.css" module></style>

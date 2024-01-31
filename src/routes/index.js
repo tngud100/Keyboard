@@ -8,6 +8,7 @@ import ProductDetailView from "@/views/ProductDetailView.vue";
 import BasketView from "@/views/BasketView.vue";
 import ReviewView from "@/views/ReviewView.vue";
 import NoticeView from "@/views/NoticeView.vue";
+import NoticeEditView from "@/views/NoticeEditView.vue";
 import NoticeDetailView from "@/views/NoticeDetailView.vue";
 import FaqView from "@/views/FaqView.vue";
 import DownloadView from "@/views/DownloadView.vue";
@@ -77,6 +78,10 @@ const routes = [
   {
     path: "/notice",
     component: NoticeView,
+  },
+  {
+    path: "/notice/edit",
+    component: NoticeEditView,
   },
 
   {

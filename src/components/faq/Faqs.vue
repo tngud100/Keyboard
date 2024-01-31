@@ -64,4 +64,4 @@ const data = [
 ];
 </script>
 
-<style src="./Faqs.css" module></style>
+<style src="@/assets/css/faq/Faqs.css" module></style>

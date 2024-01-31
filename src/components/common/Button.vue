@@ -44,4 +44,4 @@ const handleBtnClick = (event) => {
 };
 </script>
 
-<style src="./Button.css" module></style>
+<style src="@/assets/css/common/Button.css" module></style>

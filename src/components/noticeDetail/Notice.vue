@@ -42,4 +42,4 @@ defineProps({
 });
 </script>
 
-<style src="./Notice.css" module></style>
+<style src="@/assets/css/noticeDetail/Notice.css" module></style>

@@ -61,4 +61,4 @@ import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
 import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
 </script>
 
-<style src="./Notices.css" module></style>
+<style src="@/assets/css/notice/Notices.css" module></style>

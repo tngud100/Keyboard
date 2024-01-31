@@ -214,4 +214,4 @@ const storeProduct = () => {
 const calcTotalPrice = (price, count) => formattedPrice(price * count);
 </script>
 
-<style src="./ProductInfo.css" module></style>
+<style src="@/assets/css/common/ProductInfo.css" module></style>

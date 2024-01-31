@@ -77,7 +77,7 @@ const calcCount = (id, calcUnit) => {
 };
 
 const addShoppingBasket = () => {
-  const parsedBaskets = JSON.parse(localStorage.getItem("shopping"));
+  const parsedBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
   const mergedBaskets = [...selectedProducts.value, ...parsedBaskets];
 
   const newBaskets = [];
@@ -100,4 +100,4 @@ const addShoppingBasket = () => {
 };
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/productDetail/Contents.css" module></style>

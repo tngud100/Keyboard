@@ -52,4 +52,4 @@ const moveToAgreementPage = () => {
 const moveToMypage = () => {};
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/login/Contents.css" module></style>

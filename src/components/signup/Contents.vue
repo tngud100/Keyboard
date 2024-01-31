@@ -202,4 +202,4 @@ const handlePhoneNumberChange = ({ target }) => {
 };
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/signup/Contents.css" module></style>

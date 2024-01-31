@@ -32,4 +32,4 @@ const handleInput = (event) => {
 };
 </script>
 
-<style src="./Input.css" module></style>
+<style src="@/assets/css/common/Input.css" module></style>
