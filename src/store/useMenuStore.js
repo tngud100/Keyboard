@@ -9,8 +9,6 @@ export const useMenuStore = defineStore("menu", () => {
   const isShowingMenuByRoute = computed(() => {
     if (route.path === "/login") {
       isShowingMenu.value = false;
-    // } else if (route.path.startsWith("/keyboard")) {
-    //   isShowingMenu.value = true;
     } else {
       isShowingMenu.value = true;
     }
@@ -21,11 +19,10 @@ export const useMenuStore = defineStore("menu", () => {
   return { isShowingMenu, isShowingMenuByRoute };
 });
 
-
 export const useTopStore = defineStore("Top", () => {
   const isShowingTopBtn = ref(false);
   const route = useRoute();
-  
+
   const checkScrollbarVisibility = () => {
     const documentHeight = Math.max(
       document.body.scrollHeight,
@@ -36,9 +33,10 @@ export const useTopStore = defineStore("Top", () => {
       document.documentElement.clientHeight
     );
 
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
 
-    isShowingTopBtn.value = documentHeight > viewportHeight
+    isShowingTopBtn.value = documentHeight > viewportHeight;
   };
 
   onMounted(() => {
@@ -48,17 +46,20 @@ export const useTopStore = defineStore("Top", () => {
     window.addEventListener("resize", checkScrollbarVisibility);
   });
 
-  watch(() => route.path, () => {
-    nextTick(() => {
-      checkScrollbarVisibility();
-    });
-  });
+  watch(
+    () => route.path,
+    () => {
+      nextTick(() => {
+        checkScrollbarVisibility();
+      });
+    }
+  );
 
   const shouldShowOnMainPage = computed(() => route.path === "/");
 
-  const shouldShowTopBtn = computed(() => shouldShowOnMainPage.value || isShowingTopBtn.value);
+  const shouldShowTopBtn = computed(
+    () => shouldShowOnMainPage.value || isShowingTopBtn.value
+  );
 
-  return { shouldShowTopBtn }
-  
+  return { shouldShowTopBtn };
 });
-

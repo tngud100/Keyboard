@@ -44,4 +44,4 @@
 import logo from "@/assets/images/logo.jpg";
 </script>
 
-<style src="./Footer.css" module></style>
+<style src="@/assets/css/layouts/Footer.css" module></style>

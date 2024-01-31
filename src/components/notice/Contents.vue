@@ -10,4 +10,4 @@ import CommonNav from "@/layouts/CommonNav.vue";
 import Notices from "#/notice/Notices.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/notice/Contents.css" module></style>

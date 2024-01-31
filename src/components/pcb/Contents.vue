@@ -38,4 +38,4 @@ import firstPcb from "@/assets/images/pcb_1.jpg";
 import Product from "#/common/Product.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/pcb/Contents.css" module></style>

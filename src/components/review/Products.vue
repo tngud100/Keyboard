@@ -8,4 +8,4 @@
 import Product from "#/review/Product.vue";
 </script>
 
-<style src="./Products.css" module></style>
+<style src="@/assets/css/review/Products.css" module></style>

@@ -58,7 +58,12 @@ import { computed, ref } from "vue";
 import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 
-const shoppingBaskets = JSON.parse(localStorage.getItem("shopping"));
+const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
+
+if (!shoppingBaskets.length) {
+  localStorage.setItem("shopping", JSON.stringify([]));
+}
+
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.map((shoppingBasket) => ({
     ...shoppingBasket,

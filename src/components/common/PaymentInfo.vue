@@ -52,4 +52,4 @@ const moveOrderPage = () => {
 };
 </script>
 
-<style src="./PaymentInfo.css" module></style>
+<style src="@/assets/css/common/PaymentInfo.css" module></style>

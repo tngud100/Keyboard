@@ -41,4 +41,4 @@ const moveToDetailPage = (id) => {
 };
 </script>
 
-<style src="./Notice.css" module></style>
+<style src="@/assets/css/notice/Notice.css" module></style>

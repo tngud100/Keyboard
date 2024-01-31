@@ -65,4 +65,4 @@ const isShowinKeycapImg = computed(() => route.path === "/keycap");
 const isShowinToolImg = computed(() => route.path === "/tool");
 </script>
 
-<style src="./Nav.css" module></style>
+<style src="@/assets/css/layouts/Nav.css" module></style>

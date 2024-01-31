@@ -15,4 +15,4 @@
 import Notice from "#/noticeDetail/Notice.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/noticeDetail/Contents.css" module></style>

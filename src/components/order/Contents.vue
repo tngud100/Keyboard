@@ -122,7 +122,7 @@ import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
-const shoppingBaskets = JSON.parse(localStorage.getItem("shopping"));
+const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.map((shoppingBasket) => ({
     ...shoppingBasket,
@@ -204,4 +204,4 @@ const storeShoppingBaksets = (recentBaskets) => {
 };
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/order/Contents.css" module></style>

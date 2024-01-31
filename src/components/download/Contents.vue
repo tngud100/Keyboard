@@ -10,4 +10,4 @@ import CommonNav from "@/layouts/CommonNav.vue";
 import Downloads from "#/download/Downloads.vue";
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/download/Contents.css" module></style>

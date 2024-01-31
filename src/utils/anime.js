@@ -1,5 +1,5 @@
 import anime from "animejs";
-import { useLanguageStore } from "@/stores/useLanguageStore";
+import { useLanguageStore } from "@/store/useLanguageStore";
 
 export function animateLanguage(worldClass, languageClass, callback) {
   const store = useLanguageStore();

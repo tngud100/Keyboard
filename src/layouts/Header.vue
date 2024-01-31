@@ -80,4 +80,4 @@ const toggleIsSearch = () => {
 };
 </script>
 
-<style src="./Header.css" module></style>
+<style src="@/assets/css/layouts/Header.css" module></style>

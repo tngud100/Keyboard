@@ -33,7 +33,7 @@
 <script setup>
 import { ROUTE_PATH } from "@/routes";
 import { scrollToTop } from "@/utils";
-import { useTopStore } from "@/stores/useMenuStore";
+import { useTopStore } from "@/store/useMenuStore";
 import { storeToRefs } from "pinia";
 import IconOrder from "#/icons/IconOrder.vue";
 import IconReview from "#/icons/IconReview.vue";
@@ -45,4 +45,4 @@ import IconTop from "#/icons/IconTop.vue";
 const { shouldShowTopBtn } = storeToRefs(useTopStore());
 </script>
 
-<style src="./Menu.css" module></style>
+<style src="@/assets/css/layouts/Menu.css" module></style>
