@@ -3,6 +3,7 @@
     <header :class="$style.header">
       <div :class="$style.headerSide">
         <input
+          v-if="type === 'normal'"
           type="checkbox"
           :checked="shoppingBasket.isPicked"
           @change="$emit('checkedProduct', shoppingBasket.id)"
@@ -12,7 +13,11 @@
           shoppingBasket.type
         }}</label>
       </div>
-      <button type="button" @click="$emit('deletedProduct', shoppingBasket.id)">
+      <button
+        v-if="type === 'normal'"
+        type="button"
+        @click="$emit('deletedProduct', shoppingBasket.id)"
+      >
         <IconGrayClose />
       </button>
     </header>
@@ -33,6 +38,7 @@
       <div :class="$style.countWrapper">
         <button
           type="button"
+          v-if="type === 'normal'"
           :class="$style.countBtn"
           :disabled="shoppingBasket.count === 1"
           @click="$emit('subtractedProduct', shoppingBasket.id)"
@@ -42,6 +48,7 @@
         </button>
         <div :class="$style.count">{{ shoppingBasket.count }}</div>
         <button
+          v-if="type === 'normal'"
           type="button"
           :class="$style.countBtn"
           @click="$emit('addedProduct', shoppingBasket.id)"
@@ -61,6 +68,10 @@ import IconMinus from "#/icons/IconMinus.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 
 const { shoppingBasket } = defineProps({
+  type: {
+    type: String,
+    default: "normal",
+  },
   shoppingBasket: {
     type: Object,
     required: true,

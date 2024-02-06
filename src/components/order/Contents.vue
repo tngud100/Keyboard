@@ -9,6 +9,7 @@
         <div :class="$style.pickedWrapper">
           <ProductPicked
             v-for="shoppingBasket in formmatedShoppingBaskets"
+            type="order"
             :key="shoppingBasket.id"
             :shoppingBasket="shoppingBasket"
             @checkedProduct="checkProduct"
