@@ -17,7 +17,7 @@ jobs:
         node-version: [ 18 ]
     
     steps:
-        - name: Checkout Github Action
+        - name: checkout Github Action
           uses: actions/checkout@v4
           with:
             node-version: ${{ matrix.node-version }}
