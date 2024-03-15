@@ -3,14 +3,24 @@ import Header from "@/layouts/Header.vue";
 import Nav from "@/layouts/Nav.vue";
 import Footer from "@/layouts/Footer.vue";
 import Menu from "@/layouts/Menu.vue";
+import AdminHeader from "@/layouts/AdminHeader.vue";
+import AdminSideBar from "@/layouts/AdminSideBar.vue";
+
 import { useMenuStore } from "@/store/useMenuStore";
+import { useAdminStore } from "@/store/useAdminStore";
 import { storeToRefs } from "pinia";
 
 const { isShowingMenuByRoute } = storeToRefs(useMenuStore());
+const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
 </script>
 
 <template>
-  <div>
+  <div v-if="isAdminPageRouter">
+    <AdminHeader v-if="isAdminLoginPage" />
+    <router-view />
+    <AdminSideBar v-if="isAdminLoginPage" />
+  </div>
+  <div v-else>
     <Header />
     <section class="contents">
       <Nav />
@@ -20,6 +30,7 @@ const { isShowingMenuByRoute } = storeToRefs(useMenuStore());
     <Footer />
   </div>
 </template>
+
 
 <style scoped>
 .contents {

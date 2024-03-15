@@ -17,6 +17,7 @@ import SwitchView from "@/views/SwitchView.vue";
 import PcbView from "@/views/PcbView.vue";
 import KeycapView from "@/views/KeycapView.vue";
 import ToolView from "@/views/ToolView.vue";
+import AdminLoginView from "@/views/AdminLoginView.vue";
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -99,6 +100,12 @@ const routes = [
   {
     path: "/order",
     component: OrderView,
+  },
+
+
+  {
+    path: "/adminLogin",
+    component: AdminLoginView,
   },
 ];
 

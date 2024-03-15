@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { computed, onMounted, watch, nextTick, ref } from "vue";
 import { useRoute } from "vue-router";
+import { compileScript } from "vue/compiler-sfc";
+
 
 export const useMenuStore = defineStore("menu", () => {
   const isShowingMenu = ref(false);
