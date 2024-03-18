@@ -15,10 +15,13 @@ const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
 </script>
 
 <template>
-  <div v-if="isAdminPageRouter">
-    <AdminHeader v-if="isAdminLoginPage" />
-    <router-view />
-    <AdminSideBar v-if="isAdminLoginPage" />
+  <div v-if="isAdminPageRouter" class="adminLayout">
+    <AdminSideBar v-if="isAdminLoginPage" class="sideBar" />
+    <div class="headerContent" v-if="isAdminLoginPage">
+      <AdminHeader />
+      <router-view />
+    </div>
+    <router-view v-if="!isAdminLoginPage" />
   </div>
   <div v-else>
     <Header />
@@ -35,5 +38,12 @@ const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
 <style scoped>
 .contents {
   padding: 0 20px;
+}
+.adminLayout {
+  display: flex;
+  justify-content: center;
+}
+.headerContent {
+  width: calc(100% - 300px);
 }
 </style>

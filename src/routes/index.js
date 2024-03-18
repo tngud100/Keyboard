@@ -18,6 +18,7 @@ import PcbView from "@/views/PcbView.vue";
 import KeycapView from "@/views/KeycapView.vue";
 import ToolView from "@/views/ToolView.vue";
 import AdminLoginView from "@/views/AdminLoginView.vue";
+import AdminHomeView from "@/views/AdminHomeView.vue";
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -106,6 +107,10 @@ const routes = [
   {
     path: "/adminLogin",
     component: AdminLoginView,
+  },
+  {
+    path: "/adminHome",
+    component: AdminHomeView,
   },
 ];
 

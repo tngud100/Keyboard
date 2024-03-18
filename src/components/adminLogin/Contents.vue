@@ -1,13 +1,7 @@
 <template>
   <section :class="$style.wrapper" ref="wrapperRef">
     <form @submit.prevent="" :class="$style.form" ref="formRef">
-      <router-link
-        to="/admin"
-        :class="$style.titleLink"
-        style="margin-bottom: 105px"
-      >
-        <IconNewLogo />
-      </router-link>
+      <IconNewLogo :class="$style.titleLink" style="margin-bottom: 105px" />
       <h2 :class="$style.title">로그인</h2>
       <input
         type="text"
@@ -58,7 +52,7 @@ const findElAndSetWrapperHeight = () => {
 };
 
 const moveToAdminPage = () => {
-  router.push("/admin");
+  router.push("/adminHome");
 };
 </script>
 

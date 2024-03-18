@@ -6,7 +6,7 @@ export const useAdminStore = defineStore("Admin", () => {
     const route = useRoute();
 
     const isAdminPageRouter = computed(() => {
-        return route.path.includes("/admin");
+        return route.path.startsWith("/admin");
     });
 
     const isAdminLoginPage = computed(() => {

@@ -1,0 +1,41 @@
+.container{
+    height: 100vh;
+    background-color: #d2d2d2;
+    padding: 32px;
+}
+.title{
+    font-size: 20px;
+    font-weight: bold;
+}
+.nav{
+    display: flex;
+    margin-top: 32px;
+    font-size: 16px;
+}
+.nav li{
+    margin-right:30px;
+    cursor: pointer;
+}
+.selected{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.wrapper{
+    font-size: 16px;
+    margin-top: 32px;
+}
+
+.addBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #d2d2d2;
+    border-radius: 7px;
+    background-color: white;
+    width:100%;
+    height:125px;
+}
+.addBtnImg{
+    width: 100%;
+    height: 40px;
+}

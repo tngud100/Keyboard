@@ -1,0 +1,33 @@
+
+.productList{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    margin-bottom:15px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 3px 0px rgba(0,0,0,0.1);
+    text-align: center;
+    overflow: hidden;
+}
+.productRepresentImg{
+    padding: 12px;
+    width:160px;
+}
+.iconBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #e8e8e8;
+    width: 75px;
+    height: 125px;
+}
+.iconBox:hover{
+    background-color: #ebebeb;
+}
+.smallLetterItem{
+    width:190px;
+}
+.item{
+    width: 190px;
+}
