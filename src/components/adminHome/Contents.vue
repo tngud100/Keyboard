@@ -32,10 +32,13 @@
         :class="$style.addBtn"
         @mouseover="handleHover(true)"
         @mouseleave="handleHover(false)"
+        @click="changeModalState"
       >
-        <IconPlus :class="$style.addBtnImg" v-if="iconHover" />
-        <IconPlusDisabled :class="$style.addBtnImg" v-else />
+        <IconPlus v-if="iconHover" :class="$style.addBtnImg" />
+        <IconPlusDisabled v-else :class="$style.addBtnImg" />
       </button>
+
+      <modal v-if="modalState" :item="item" @close="changeModalState" />
     </div>
   </div>
 </template>
@@ -46,10 +49,18 @@ import keyboardImg from "@/assets/images/product.png";
 import Card from "@/components/adminProduct/Cards.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import IconPlusDisabled from "#/icons/IconPlusDisabled.vue";
+import modal from "#/modal/Contents.vue";
 import { ref } from "vue";
 
 const navState = ref(1);
 const iconHover = ref(false);
+
+const modalState = ref(false);
+
+const changeModalState = () => {
+  modalState.value = !modalState.value;
+  console.log(modalState.value);
+};
 
 const handleHover = (value) => {
   iconHover.value = value;
@@ -58,6 +69,12 @@ const handleHover = (value) => {
 const selectIndex = (value) => {
   navState.value = value;
 };
+
+const item = [
+  {
+    title: "상품명",
+  },
+];
 
 const productList = [
   {
