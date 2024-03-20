@@ -10,17 +10,46 @@
         ></IconClose>
       </div>
 
-      <modalContents :class="$style.contents" />
+      <div :class="$style.contents">
+        <div :class="$style.productEl" ref="productEl">
+          <EnrollProduct />
+        </div>
+        <div :class="$style.categoryEl" ref="categoryEl">
+          <EnrollCategory />
+        </div>
+      </div>
 
-      <!-- <button :class="$style.verifyBtn"></button> -->
-      <button :class="$style.cancelBtn" @click="$emit('close', false)"></button>
+      <div :class="$style.footer">
+        <button :class="$style.nextBtn" @click="nextModal">다음</button>
+      </div>
+      <!-- <button :class="$style.cancelBtn" @click="$emit('close', false)"></button> -->
     </div>
   </section>
 </template>
 
 <script setup>
 import IconClose from "#/icons/IconClose.vue";
-import modalContents from "#/modal/EnrollProduct.vue";
+import EnrollProduct from "#/modal/EnrollProduct.vue";
+import EnrollCategory from "#/modal/EnrollCategory.vue";
+import { animateSlide } from "@/utils/anime.js";
+import { onMounted, ref, useCssModule } from "vue";
+
+const style = useCssModule();
+
+const productEl = ref(null);
+const categoryEl = ref(null);
+
+const nextModal = () => {
+  animateSlide(style.productEl, productEl, 0);
+  animateSlide(style.categoryEl, categoryEl, 0);
+};
+
+onMounted(() => {
+  // const calcRect = (el) => {
+  //   const productElWidth = el.value.offsetWidth;
+  //   return productElWidth;
+  // };
+});
 
 const props = defineProps({
   item: Object,

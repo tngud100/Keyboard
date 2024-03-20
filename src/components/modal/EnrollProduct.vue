@@ -7,7 +7,7 @@
   </div>
   <div :class="$style.textBox">
     <span :class="$style.optionName">누끼사진</span>
-    <div @click="imgUpload()" :class="$style.uploadBox">
+    <div :class="$style.uploadBox">
       <input
         type="file"
         placeholder="사진을 선택하세요."
@@ -26,7 +26,7 @@
   </div>
   <div :class="$style.textBox">
     <span :class="$style.optionName">배경사진</span>
-    <div @click="imgUpload()" :class="$style.uploadBox">
+    <div :class="$style.uploadBox">
       <input
         type="file"
         placeholder="사진을 선택하세요."
@@ -45,7 +45,7 @@
   </div>
   <div :class="$style.textBox">
     <span :class="$style.optionName">대표사진</span>
-    <div @click="imgUpload()" :class="$style.uploadBox">
+    <div :class="$style.uploadBox">
       <input
         type="file"
         placeholder="사진을 선택하세요."
@@ -65,7 +65,7 @@
 
   <div :class="$style.textBox">
     <span :class="$style.optionName">상세설명</span>
-    <div @click="imgUpload()" :class="$style.uploadList">
+    <div :class="$style.uploadList">
       <div :class="$style.listBox">
         <input
           type="file"
@@ -86,7 +86,7 @@
       <div :class="$style.listMenu">
         <div v-for="(item, index) in blobList" :key="item" :class="$style.list">
           {{ index + 1 }}. {{ item.name }}
-          <IconClose :class="$style.deleteBtn" @click="deleteList()" />
+          <IconClose :class="$style.deleteBtn" @click="deleteList(index)" />
         </div>
       </div>
     </div>
@@ -101,9 +101,6 @@
         :class="$style.optionValue"
       />
     </div>
-  </div>
-  <div :class="$style.footer">
-    <button :class="$style.nextBtn">다음</button>
   </div>
 </template>
 
@@ -126,13 +123,6 @@ const blobList = ref([]);
 const handleFileUpload = (event, type) => {
   const selectedFile = event.target.files[0];
 
-  if (selectedFile) {
-    for (let i = 0; i < selectedFile.length; i++) {
-      const file = selectedFile[i];
-      blobList.value.push(file);
-    }
-  }
-
   if (type === "productImg") {
     productImg.value = selectedFile;
     productImgName.value = selectedFile.name;
@@ -143,9 +133,25 @@ const handleFileUpload = (event, type) => {
     representImg.value = selectedFile;
     representImgName.value = selectedFile.name;
   } else if (type === "describeImg") {
-    describeImg.value = selectedFile;
-    describeImgName.value = selectedFile.name;
+    const selectedFiles = event.target.files;
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      blobList.value.push(file);
+    }
+
+    describeImgName.value = selectedFiles[selectedFiles.length - 1].name;
   }
+};
+
+const deleteList = (index) => {
+  blobList.value.splice(index, 1);
+  console.log(blobList.value.length);
+  if (blobList.value.length === 0) {
+    describeImgName.value = "";
+    return;
+  }
+  describeImgName.value = blobList.value[blobList.value.length - 1].name;
 };
 
 const uploadImage = () => {
