@@ -1,0 +1,39 @@
+.wrapper{
+    position: absolute;
+}
+
+.checkModal{
+    width: 265px;
+    box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.2);
+    background-color: white;
+    border-radius: 5px;
+}
+
+.textBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+}
+.comment{
+    font-size: 16;
+    color: #ee2020;
+}
+.btnBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+}
+
+.btn{
+    width:60px;
+    height:35px;
+    text-align: center;
+    align-self: center;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    margin-right: 5px;
+}

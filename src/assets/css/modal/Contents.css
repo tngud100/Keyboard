@@ -1,5 +1,5 @@
 .modal{
-    position:absolute;
+    position:fixed;
     width: 100vw;
     height: 100vh;
     top:0;
@@ -10,7 +10,7 @@
     overflow: hidden;
 }
 .background{
-    position: absolute;
+    position: fixed;
     background-color: rgba(0,0,0,0.5);
     z-index: 0;
     width: 100%;
@@ -21,10 +21,15 @@
     position: fixed;
     border-radius: 10px;
     box-shadow: 0px 5px 3px 0px rgba(0,0,0,0.15);
+    width: 590px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
 }
 
 .header{
     height: 60px;
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: center;

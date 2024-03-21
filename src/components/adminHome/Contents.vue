@@ -59,7 +59,11 @@ const modalState = ref(false);
 
 const changeModalState = () => {
   modalState.value = !modalState.value;
-  console.log(modalState.value);
+  if (modalState.value === true) {
+    document.body.style.overflow = "hidden";
+    return;
+  }
+  document.body.style.overflow = "auto";
 };
 
 const handleHover = (value) => {
@@ -87,6 +91,7 @@ const productList = [
       amount: 3000,
       stock: 5,
       createDate: "2024.03.15",
+      default: false,
     },
   },
 ];

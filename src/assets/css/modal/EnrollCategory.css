@@ -14,7 +14,6 @@
 
 .inputBox{
     display: flex;
-    justify-content: space-between;
     align-items: center;
     border: 1px solid #C5C5C5;
     font-size: 16px;
@@ -53,9 +52,9 @@
     width: 550px;
     height: 260px;
     font-size: 16px;
-    display: grid;
     border: 1px solid #7e7e7e;
     margin: auto;
+    overflow-y: scroll;
 }
 .categoryBox{
     display: flex;
@@ -68,12 +67,16 @@
 .categoryBox .categoryName{
     font-size: 16px;
     border: 0px;
-    background-color: white
+    background-color: white;
+    font-weight: 600;
 }
 
 .buttonBox{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.editBtn{
     font-size: 16px;
+    font-weight: 500;
 }

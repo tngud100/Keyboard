@@ -15,14 +15,16 @@
           <EnrollProduct />
         </div>
         <div :class="$style.categoryEl" ref="categoryEl">
-          <EnrollCategory />
+          <EnrollCategory :defaultState="defaultState" />
         </div>
       </div>
 
       <div :class="$style.footer">
         <button :class="$style.nextBtn" @click="nextModal">다음</button>
       </div>
+
       <!-- <button :class="$style.cancelBtn" @click="$emit('close', false)"></button> -->
+      <CheckModal v-if="isOpenVerifyModal" @isVerifyState="isDefaultState" />
     </div>
   </section>
 </template>
@@ -31,29 +33,32 @@
 import IconClose from "#/icons/IconClose.vue";
 import EnrollProduct from "#/modal/EnrollProduct.vue";
 import EnrollCategory from "#/modal/EnrollCategory.vue";
+import CheckModal from "#/modal/CheckModal.vue";
 import { animateSlide } from "@/utils/anime.js";
-import { onMounted, ref, useCssModule } from "vue";
+import { computed, ref, useCssModule, watch } from "vue";
+
+import { useModalStore } from "@/store/useModalStore";
 
 const style = useCssModule();
+const modalStore = useModalStore();
 
 const productEl = ref(null);
 const categoryEl = ref(null);
+const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
+const defaultState = ref(false);
+
+const props = defineProps({
+  item: Object,
+});
+
+const isDefaultState = (isVerifyState) => {
+  defaultState.value = isVerifyState;
+};
 
 const nextModal = () => {
   animateSlide(style.productEl, productEl, 0);
   animateSlide(style.categoryEl, categoryEl, 0);
 };
-
-onMounted(() => {
-  // const calcRect = (el) => {
-  //   const productElWidth = el.value.offsetWidth;
-  //   return productElWidth;
-  // };
-});
-
-const props = defineProps({
-  item: Object,
-});
 </script>
 
 <style src="@/assets/css/modal/Contents.css" module></style>
