@@ -24,7 +24,7 @@
       </div>
 
       <!-- <button :class="$style.cancelBtn" @click="$emit('close', false)"></button> -->
-      <CheckModal v-if="isOpenVerifyModal" @isVerifyState="isDefaultState" />
+      <CheckModal v-if="isOpenVerifyModal" @isVerifyState="setDefaultState" />
     </div>
   </section>
 </template>
@@ -45,13 +45,13 @@ const modalStore = useModalStore();
 const productEl = ref(null);
 const categoryEl = ref(null);
 const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
-const defaultState = ref(false);
+const defaultState = ref(null);
 
 const props = defineProps({
   item: Object,
 });
 
-const isDefaultState = (isVerifyState) => {
+const setDefaultState = (isVerifyState) => {
   defaultState.value = isVerifyState;
 };
 

@@ -32,7 +32,7 @@
     outline: none;
 }
 
-.enrollCategoryBtn{
+.addCategoryBtn{
     width:100px;
     height: 43px;
     display: flex;
@@ -44,7 +44,7 @@
     margin:6px;
     cursor: pointer;
 }
-.enrollCategoryBtn:hover{
+.addCategoryBtn:hover{
     background-color: #b7b7b7;
 }
 
@@ -66,9 +66,9 @@
 }
 .categoryBox .categoryName{
     font-size: 16px;
-    border: 0px;
     background-color: white;
     font-weight: 600;
+    padding: 6px;
 }
 
 .buttonBox{

@@ -84,7 +84,11 @@
       </div>
 
       <div :class="$style.listMenu">
-        <div v-for="(item, index) in blobList" :key="item" :class="$style.list">
+        <div
+          v-for="(item, index) in describeBlobList"
+          :key="item"
+          :class="$style.list"
+        >
           {{ index + 1 }}. {{ item.name }}
           <IconClose :class="$style.deleteBtn" @click="deleteList(index)" />
         </div>
@@ -111,14 +115,14 @@ import { ref } from "vue";
 const representImg = ref("");
 const backgroundImg = ref("");
 const productImg = ref("");
+const describeImg = ref("");
+
 const representImgName = ref("");
 const backgroundImgName = ref("");
 const productImgName = ref("");
-
-const describeImg = ref("");
 const describeImgName = ref("");
 
-const blobList = ref([]);
+const describeBlobList = ref([]);
 
 const handleFileUpload = (event, type) => {
   const selectedFile = event.target.files[0];
@@ -137,7 +141,7 @@ const handleFileUpload = (event, type) => {
 
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
-      blobList.value.push(file);
+      describeBlobList.value.push(file);
     }
 
     describeImgName.value = selectedFiles[selectedFiles.length - 1].name;
@@ -145,13 +149,14 @@ const handleFileUpload = (event, type) => {
 };
 
 const deleteList = (index) => {
-  blobList.value.splice(index, 1);
-  console.log(blobList.value.length);
-  if (blobList.value.length === 0) {
+  describeBlobList.value.splice(index, 1);
+  console.log(describeBlobList.value.length);
+  if (describeBlobList.value.length === 0) {
     describeImgName.value = "";
     return;
   }
-  describeImgName.value = blobList.value[blobList.value.length - 1].name;
+  describeImgName.value =
+    describeBlobList.value[describeBlobList.value.length - 1].name;
 };
 
 const uploadImage = () => {

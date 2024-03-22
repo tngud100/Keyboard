@@ -2,7 +2,12 @@
   <div :class="$style.textBox">
     <span :class="$style.title">카테고리*</span>
     <div :class="$style.inputBox">
-      <input type="text" placeholder="카테고리명" :class="$style.inputValue" />
+      <input
+        type="text"
+        placeholder="카테고리명"
+        :class="$style.inputValue"
+        ref="inputCategory"
+      />
     </div>
     <div :class="$style.addCategoryBtn" @click="addCategory">추가</div>
   </div>
@@ -16,19 +21,26 @@
         <input
           type="checkbox"
           v-model="item.isDefault"
-          @change="openVerifyModal(item.isDefault)"
+          @click="openVerifyModal(index)"
         />
         <input
           type="text"
           :class="$style.categoryName"
           :value="item.categoryName"
-          disabled
+          :disabled="item.isDisabled"
+          :style="{
+            border: item.isDisabled ? 'none' : '1px solid #7e7e7e',
+          }"
         />
       </div>
       <div :class="$style.buttonBox">
-        <button :class="$style.editBtn" @click="modifyCategory">수정</button>
+        <button :class="$style.editBtn" @click="modifyCategory(index)">
+          수정
+        </button>
         &nbsp;|&nbsp;
-        <button :class="$style.editBtn" @click="modifyCategory">삭제</button>
+        <button :class="$style.editBtn" @click="deleteCategory(index)">
+          삭제
+        </button>
       </div>
     </div>
   </div>
@@ -36,49 +48,74 @@
 
 <script setup>
 import { useModalStore } from "@/store/useModalStore";
-import { computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 const store = useModalStore();
 
-const openVerifyModal = (defaultState) => {
-  store.setOpenVerifyModal(true);
-  // 이부분에 설정은 됐으나 제대로 체크박스가 풀리지 않음
-  defaultState = setDefaultState();
-  console.log(defaultState, props.defaultState);
-};
+const checkBoxIdx = ref(null);
 
-const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
+const isOpenVerifyModal = computed(() => store.isOpenVerifyModal);
 
 const props = defineProps({
   defaultState: Boolean,
 });
 
-const setDefaultState = () => {
-  return props.defaultState === true ? true : false;
+const inputCategory = ref(null);
+
+const categoryList = ref([
+  {
+    categoryName: "키캡",
+    isDefault: false,
+    isDisabled: true,
+  },
+  {
+    categoryName: "키캡",
+    isDefault: false,
+    isDisabled: true,
+  },
+  {
+    categoryName: "키캡",
+    isDefault: false,
+    isDisabled: true,
+  },
+]);
+
+const addCategory = () => {
+  const categoryName = inputCategory.value;
+
+  for (let i = 0; i < categoryList.value.length; i++) {
+    if (categoryList.value[i].categoryName === categoryName.value) {
+      alert("중복된 카테고리 이름은 사용이 불가합니다.");
+      return;
+    }
+    console.log(categoryList.value[i].categoryName);
+  }
+
+  if (categoryName) {
+    categoryList.value.push({
+      categoryName: categoryName.value,
+      isDefault: false,
+    });
+    inputCategory.value.value = "";
+  }
 };
 
-// 제대로 확인이 안됨.
-watch(
-  () => isOpenVerifyModal,
-  () => {
-    console.log(categoryList.isDefault);
-  }
-);
+const modifyCategory = (index) => {
+  const category = categoryList.value[index];
+  category.isDisabled = !category.isDisabled;
+  console.log(category.isDisabled);
+};
 
-const categoryList = [
-  {
-    categoryName: "키캡",
-    isDefault: false,
-  },
-  {
-    categoryName: "키캡",
-    isDefault: false,
-  },
-  {
-    categoryName: "키캡",
-    isDefault: false,
-  },
-];
+const openVerifyModal = (index) => {
+  store.setOpenVerifyModal(true);
+  checkBoxIdx.value = index;
+};
+
+watch(isOpenVerifyModal, (newValue) => {
+  if (newValue === false) {
+    categoryList.value[checkBoxIdx.value].isDefault = props.defaultState;
+  }
+});
 </script>
 
 <style src="@/assets/css/modal/EnrollCategory.css" module></style>

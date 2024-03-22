@@ -24,6 +24,11 @@ const cancel = () => {
   modalStore.setOpenVerifyModal(false);
   emit("isVerifyState", false);
 };
+const verify = () => {
+  modalStore.setOpenVerifyModal(false);
+  emit("isVerifyState", true);
+  // Ajax 통신 저장
+};
 
 //props로 바꾸기
 const comments = "기본값을 설정하시겠습니까?";
