@@ -1,15 +1,14 @@
 import anime from "animejs";
 import { useLanguageStore } from "@/store/useLanguageStore";
 
-export function animateSlide(el, moveEl, direction) {
-  const elWidth = () => {
+export function animateSlide(el, moveEl, direction, page) {
     const elWidth = moveEl.value.offsetWidth;
-    return direction > 0 ? elWidth : - elWidth;
-  }
+    const offset = direction > 0 ? elWidth * (page - 1) : - elWidth * ( page - 1 );
+    const moveOffset =  direction > 0 ? elWidth * page : - elWidth * page;
 
   anime({
     targets: `.${el}`,
-    translateX: [0, elWidth], // 음수 왼족, 양수 오른쪽 
+    translateX: [offset, moveOffset], // 음수 왼족, 양수 오른쪽 
     easing: 'easeOutExpo',
     duration: 1000, 
   })

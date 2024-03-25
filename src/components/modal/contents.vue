@@ -10,12 +10,18 @@
         ></IconClose>
       </div>
 
-      <div :class="$style.contents">
+      <div :class="$style.contents" ref="contentEl">
         <div :class="$style.productEl" ref="productEl">
           <EnrollProduct />
         </div>
         <div :class="$style.categoryEl" ref="categoryEl">
-          <EnrollCategory :defaultState="defaultState" />
+          <EnrollCategory
+            :defaultState="modalItem.defaultState"
+            @commentCode="setCommentCode"
+          />
+        </div>
+        <div :class="$style.detailEl" ref="detailEl">
+          <EnrollDetail />
         </div>
       </div>
 
@@ -24,7 +30,11 @@
       </div>
 
       <!-- <button :class="$style.cancelBtn" @click="$emit('close', false)"></button> -->
-      <CheckModal v-if="isOpenVerifyModal" @isVerifyState="setDefaultState" />
+      <CheckModal
+        v-if="isOpenVerifyModal"
+        @isVerifyState="setDefaultState"
+        :commentCode="modalItem.commentCode"
+      />
     </div>
   </section>
 </template>
@@ -33,6 +43,7 @@
 import IconClose from "#/icons/IconClose.vue";
 import EnrollProduct from "#/modal/EnrollProduct.vue";
 import EnrollCategory from "#/modal/EnrollCategory.vue";
+import EnrollDetail from "#/modal/EnrollProductDetail.vue";
 import CheckModal from "#/modal/CheckModal.vue";
 import { animateSlide } from "@/utils/anime.js";
 import { computed, ref, useCssModule, watch } from "vue";
@@ -44,20 +55,36 @@ const modalStore = useModalStore();
 
 const productEl = ref(null);
 const categoryEl = ref(null);
+const detailEl = ref(null);
+
+const contentEl = ref(null);
+
+let page = 1;
+
 const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
-const defaultState = ref(null);
+
+const modalItem = ref({
+  defaultState: null,
+  commentCode: null,
+});
 
 const props = defineProps({
   item: Object,
 });
 
 const setDefaultState = (isVerifyState) => {
-  defaultState.value = isVerifyState;
+  modalItem.value.defaultState = isVerifyState;
+};
+
+const setCommentCode = (commentCode) => {
+  modalItem.value.commentCode = commentCode;
 };
 
 const nextModal = () => {
-  animateSlide(style.productEl, productEl, 0);
-  animateSlide(style.categoryEl, categoryEl, 0);
+  animateSlide(style.productEl, contentEl, 0, page);
+  animateSlide(style.categoryEl, contentEl, 0, page);
+  animateSlide(style.detailEl, contentEl, 0, page);
+  page++;
 };
 </script>
 
