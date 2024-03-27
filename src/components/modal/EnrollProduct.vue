@@ -2,7 +2,12 @@
   <div :class="$style.textBox">
     <span :class="$style.optionName">제품명</span>
     <div :class="$style.uploadBox">
-      <input type="text" placeholder="상품명" :class="$style.optionValue" />
+      <input
+        type="text"
+        placeholder="상품명"
+        :class="$style.optionValue"
+        ref="productName"
+      />
     </div>
   </div>
   <div :class="$style.textBox">
@@ -103,8 +108,12 @@
         type="text"
         placeholder="종류 ex) 키보드, 키캡, 등"
         :class="$style.optionValue"
+        ref="productType"
       />
     </div>
+  </div>
+  <div :class="$style.submit">
+    <button :class="$style.submitBtn" @click="enrollProduct">상품 등록</button>
   </div>
 </template>
 
@@ -123,6 +132,16 @@ const productImgName = ref("");
 const describeImgName = ref("");
 
 const describeBlobList = ref([]);
+
+const productName = ref("");
+const productType = ref("");
+
+const productItem = ref({
+  productName: null,
+  isfilled: false,
+});
+
+const emit = defineEmits(["productItem"]);
 
 const handleFileUpload = (event, type) => {
   const selectedFile = event.target.files[0];
@@ -157,6 +176,24 @@ const deleteList = (index) => {
   }
   describeImgName.value =
     describeBlobList.value[describeBlobList.value.length - 1].name;
+};
+
+const enrollProduct = () => {
+  if (
+    productName.value &&
+    representImg.value &&
+    backgroundImg.value &&
+    productImg.value &&
+    describeImg.value &&
+    productType.value &&
+    describeBlobList.value.length > 0
+  ) {
+    productItem.value.productName = productName.value;
+    productItem.value.isFilled = true;
+    emit("productItem", productItem.value);
+    alert("상품이 등록되었습니다.");
+  }
+  console.log(productItem.value);
 };
 
 const uploadImage = () => {

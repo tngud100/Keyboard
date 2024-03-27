@@ -2,13 +2,17 @@ import anime from "animejs";
 import { useLanguageStore } from "@/store/useLanguageStore";
 
 export function animateSlide(el, moveEl, direction, page) {
-    const elWidth = moveEl.value.offsetWidth;
-    const offset = direction > 0 ? elWidth * (page - 1) : - elWidth * ( page - 1 );
-    const moveOffset =  direction > 0 ? elWidth * page : - elWidth * page;
-
+  const elWidth = moveEl.value.offsetWidth;
+  const offset = () => {
+    if (page === 1) return 0;
+    if (page === 2) return -elWidth;
+    if (page === 3) return -elWidth * 2;
+  };
+  const moveOffset = direction < 0 ? offset() + elWidth : offset() - elWidth;
+  
   anime({
     targets: `.${el}`,
-    translateX: [offset, moveOffset], // 음수 왼족, 양수 오른쪽 
+    translateX: [offset(), moveOffset], // 음수 왼족, 양수 오른쪽 
     easing: 'easeOutExpo',
     duration: 1000, 
   })

@@ -76,11 +76,16 @@
 .listCard{
     display: flex;
     align-items: center;
-    border: 1px solid #C5C5C5;
     font-size: 16px;
     padding: 4px;
     height: 35px;
 }
+.titleBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .productBox {
     display: flex;
     justify-content: space-between;
@@ -92,7 +97,7 @@
 
 .productBox .productName {
     text-align: center;
-    width:160px;
+    width:130px;
     font-size: 16px;
     background-color: white;
     font-weight: 600;
@@ -101,7 +106,7 @@
 }
 .productBox .productPrice {
     text-align: center;
-    width:110px;
+    width:90px;
     font-size: 16px;
     background-color: white;
     font-weight: 600;
@@ -110,7 +115,7 @@
 }
 .productBox .productStock {
     text-align: center;
-    width:65px;
+    width:55px;
     font-size: 16px;
     background-color: white;
     font-weight: 600;
@@ -122,10 +127,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 150px;
+    width: 180px;
 }
 
 .editBtn {
     font-size: 16px;
     font-weight: 500;
 }
+.hidden {
+    display: none;
+};

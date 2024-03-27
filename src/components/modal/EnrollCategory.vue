@@ -18,20 +18,15 @@
       :class="$style.categoryBox"
     >
       <div :class="$style.inputBox" style="border: 0px">
-        <input
-          type="checkbox"
-          v-model="item.isDefault"
-          @click="clickDefaultBox(index)"
-        />
+        <input type="checkbox" @click="clickDefaultBox(index)" />
         <input
           type="text"
           :class="$style.categoryName"
           :value="item.categoryName"
           :disabled="item.isDisabled"
-          :style="{
-            border: item.isDisabled ? 'none' : '1px solid #7e7e7e',
-          }"
+          :style="{ border: item.isDisabled ? 'none' : '1px solid #7e7e7e' }"
           @change="item.categoryName = $event.target.value"
+          @click="emitCategoryItem"
         />
       </div>
       <div :class="$style.buttonBox">
@@ -62,10 +57,26 @@ const verifyModalCode = ref(null);
 
 const props = defineProps({
   defaultState: Boolean,
+  productName: String,
 });
 
 const inputCategory = ref(null);
-const categoryList = ref([]);
+
+const categoryItem = ref({
+  productName: props.productName,
+  categoryName: null,
+  categoryDefault: null,
+  isClicked: false,
+});
+
+const categoryList = ref([
+  {
+    productName: props.productName,
+    categoryName: null,
+    isDefault: null,
+    isDisabled: null,
+  },
+]);
 
 const addCategory = () => {
   const categoryName = inputCategory.value;
@@ -88,6 +99,7 @@ const addCategory = () => {
 
   if (categoryList.value.length === 0) {
     categoryList.value.push({
+      productName: productName.value,
       categoryName: categoryName.value,
       isDefault: true,
       isDisabled: true,
@@ -111,13 +123,14 @@ const clickDefaultBox = (index) => {
   openVerifyModal(index, verifyModalCode.value);
 };
 const clickModifyBtn = (index) => {
+  console.log(categoryList.value[index].isDisabled);
   if (!categoryList.value[index].isDisabled) {
     verifyModalCode.value = 1;
     openVerifyModal(index, 1);
-    return;
+  } else {
+    categoryList.value[index].isDisabled =
+      !categoryList.value[index].isDisabled;
   }
-
-  categoryList.value[index].isDisabled = !categoryList.value[index].isDisabled;
 };
 const clickDeleteBtn = (index) => {
   verifyModalCode.value = 2;
@@ -140,15 +153,17 @@ const setCategoryName = (index, changeStr) => {
     }
   }
 
+  categoryList.value[index].isDisabled = !categoryList.value[index].isDisabled;
+
   const updatedCategory = {
     ...categoryList.value[index],
-    isDisabled: !categoryList.value[index].isDisabled,
     categoryName: changeStr,
   };
 
   categoryList.value.splice(index, 1, updatedCategory);
   categoryList.value = [...categoryList.value];
 };
+
 const deleteCategory = (index) => {
   categoryList.value.splice(index, 1);
 };
@@ -159,8 +174,16 @@ const openVerifyModal = (index, commentCode) => {
   categoryListIdx.value = index;
 };
 
+const emitCategoryItem = () => {
+  inputCategory.value.categoryName =
+    categoryList.value[categoryListIdx.value].categoryName;
+  inputCategory.value.categoryDefault =
+    categoryList.value[categoryListIdx.value].isDefault;
+  categoryItem.value.isClicked = true;
+  emit("categoryItem", categoryItem.value);
+};
+
 watch(isOpenVerifyModal, (newValue) => {
-  console.log(verifyModalCode, props.defaultState);
   if (newValue === false && verifyModalCode.value === 0) {
     setDefaultState(categoryListIdx.value);
   }

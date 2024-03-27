@@ -12,21 +12,31 @@
 
       <div :class="$style.contents" ref="contentEl">
         <div :class="$style.productEl" ref="productEl">
-          <EnrollProduct />
+          <EnrollProduct @productItem="setProductItem" />
         </div>
         <div :class="$style.categoryEl" ref="categoryEl">
           <EnrollCategory
             :defaultState="modalItem.defaultState"
+            :productName="productItem.productName"
+            @categoryItem="categoryItem"
             @commentCode="setCommentCode"
           />
         </div>
         <div :class="$style.detailEl" ref="detailEl">
-          <EnrollDetail />
+          <EnrollDetail
+            :defaultState="modalItem.defaultState"
+            @commentCode="setCommentCode"
+          />
         </div>
       </div>
 
       <div :class="$style.footer">
-        <button :class="$style.nextBtn" @click="nextModal">다음</button>
+        <button v-show="page > 1" :class="$style.nextBtn" @click="prevModal">
+          이전
+        </button>
+        <button v-show="page < 2" :class="$style.nextBtn" @click="nextModal">
+          다음
+        </button>
       </div>
 
       <!-- <button :class="$style.cancelBtn" @click="$emit('close', false)"></button> -->
@@ -59,13 +69,18 @@ const detailEl = ref(null);
 
 const contentEl = ref(null);
 
-let page = 1;
+let page = ref(1);
 
 const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
 
 const modalItem = ref({
   defaultState: null,
   commentCode: null,
+});
+
+const productItem = ref({
+  productName: null,
+  isFilled: false,
 });
 
 const props = defineProps({
@@ -80,11 +95,32 @@ const setCommentCode = (commentCode) => {
   modalItem.value.commentCode = commentCode;
 };
 
+const setProductItem = (ProductItem) => {
+  productItem.value.productName = ProductItem.productName;
+  productItem.value.isFilled = ProductItem.isFilled;
+};
+
 const nextModal = () => {
-  animateSlide(style.productEl, contentEl, 0, page);
-  animateSlide(style.categoryEl, contentEl, 0, page);
-  animateSlide(style.detailEl, contentEl, 0, page);
-  page++;
+  if (productItem.value.isFilled === false) {
+    alert("상품을 등록해주세요");
+    // return;
+  }
+  if (page.value >= 3) {
+    return;
+  }
+  animateSlide(style.productEl, contentEl, 1, page.value);
+  animateSlide(style.categoryEl, contentEl, 1, page.value);
+  animateSlide(style.detailEl, contentEl, 1, page.value);
+  page.value++;
+};
+const prevModal = () => {
+  if (page.value <= 1) {
+    return;
+  }
+  animateSlide(style.productEl, contentEl, -1, page.value);
+  animateSlide(style.categoryEl, contentEl, -1, page.value);
+  animateSlide(style.detailEl, contentEl, -1, page.value);
+  page.value--;
 };
 </script>
 

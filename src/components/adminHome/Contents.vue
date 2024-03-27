@@ -76,7 +76,7 @@ const selectIndex = (value) => {
 
 const item = [
   {
-    title: "상품명",
+    title: "상품등록",
   },
 ];
 

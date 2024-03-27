@@ -6,9 +6,9 @@
         <div :class="$style.inputBox">
           <input
             type="text"
-            placeholder="카테고리명"
+            placeholder="상세 상품명을 입력하세요."
             :class="$style.inputValue"
-            ref="inputCategory"
+            ref="productName"
           />
         </div>
       </div>
@@ -17,9 +17,9 @@
         <div :class="$style.inputBox">
           <input
             type="text"
-            placeholder="카테고리명"
+            placeholder="상세 상품 가격을 입력하세요."
             :class="$style.inputValue"
-            ref="inputCategory"
+            ref="productPrice"
           />
         </div>
       </div>
@@ -28,26 +28,26 @@
         <div :class="$style.inputBox">
           <input
             type="text"
-            placeholder="카테고리명"
+            placeholder="상세 상품 재고를 입력하세요."
             :class="$style.inputValue"
-            ref="inputCategory"
+            ref="productStock"
           />
         </div>
       </div>
     </div>
-    <div :class="$style.addCategoryBtn" @click="addCategory">추가</div>
+    <div :class="$style.addCategoryBtn" @click="addProduct">추가</div>
   </div>
   <div :class="$style.listBox">
     <div :class="$style.productBox">
       <div :class="$style.listCard">
-        <div>
-          <span :class="$style.categoryName">상품명</span>
+        <div :class="$style.titleBox">
+          <span :class="$style.productName">상품명</span>
           <span :class="$style.productPrice">가격</span>
           <span :class="$style.productStock">재고</span>
         </div>
-        <div :class="$style.buttonBox">
-          <span class="">기본값</span>
-        </div>
+      </div>
+      <div :class="$style.buttonBox">
+        <span class="">기본값</span>
       </div>
     </div>
     <div
@@ -64,7 +64,7 @@
           :style="{
             border: item.isDisabled ? 'none' : '1px solid #7e7e7e',
           }"
-          @change="item.categoryName = $event.target.value"
+          @change="item.productName = $event.target.value"
         />
         <input
           type="text"
@@ -74,7 +74,7 @@
           :style="{
             border: item.isDisabled ? 'none' : '1px solid #7e7e7e',
           }"
-          @change="item.categoryName = $event.target.value"
+          @change="item.productPrice = $event.target.value"
         />
         <input
           type="text"
@@ -84,12 +84,19 @@
           :style="{
             border: item.isDisabled ? 'none' : '1px solid #7e7e7e',
           }"
-          @change="item.categoryName = $event.target.value"
+          @change="item.productStock = $event.target.value"
         />
       </div>
 
       <div :class="$style.buttonBox">
-        <button :class="$style.editBtn" @click="clickModifyBtn(index)">
+        <input
+          v-if="item.isDisabled"
+          type="checkbox"
+          :checked="item.isDefault"
+          @change="setDefaultValue(index)"
+          disabled
+        />
+        <button :class="$style.editBtn" @click="clickDefaultBtn(index)">
           {{ item.isDisabled ? "기본값" : "" }}
         </button>
 
@@ -108,7 +115,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useModalStore } from "@/store/useModalStore";
+
+const store = useModalStore();
 
 const productDetailList = ref([
   {
@@ -116,44 +126,139 @@ const productDetailList = ref([
     productPrice: "1",
     productStock: "2",
     isDisabled: true,
+    isDefault: true,
   },
   {
-    productName: "asd",
-    productPrice: "1",
-    productStock: "2",
-    isDisabled: false,
+    productName: "vcc",
+    productPrice: "12",
+    productStock: "123",
+    isDisabled: true,
+    isDefault: false,
   },
 ]);
+const emit = defineEmits(["commentCode"]);
 
-const productName = ref("");
-const productPrice = ref("");
-const productStock = ref("");
+const props = defineProps({
+  defaultState: Boolean,
+});
+
+const productName = ref(null);
+const productPrice = ref(null);
+const productStock = ref(null);
+
+const productIdx = ref(null);
+
+const verifyModalCode = ref(null);
 
 const addProduct = () => {
-  if (productName.value.trim() === "") {
-    alert("상품명을 입력하세요.");
+  let isDefault = false;
+  if (
+    productName.value.value === "" ||
+    productPrice.value.value === "" ||
+    productStock.value.value === ""
+  ) {
+    alert("모든 항목을 입력해주세요.");
     return;
   }
 
-  productList.value.push({
-    name: productName.value,
-    price: productPrice.value,
-    stock: productStock.value,
+  if (productDetailList.value.length === 0) {
+    isDefault = true;
+  }
+
+  productDetailList.value.push({
+    productName: productName.value.value,
+    productPrice: productPrice.value.value.endsWith("원")
+      ? productPrice.value.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      : productPrice.value.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원",
+    productStock: productStock.value.value.endsWith("개")
+      ? productStock.value.value
+      : productStock.value.value + "개",
     isDisabled: true, // 수정 상태인지 확인하기 위한 상태
+    isDefault: isDefault, // 기본값인지 확인하기 위한 상태
   });
 
   // 입력 필드 초기화
-  productName.value = "";
-  productPrice.value = "";
-  productStock.value = "";
+  productName.value.value = "";
+  productPrice.value.value = "";
+  productStock.value.value = "";
 };
 
+const updateProduct = (index) => {
+  toggleEdit(index);
+  const updateDetailList = productDetailList.value[index],
+    { productName, productPrice, productStock } = updateDetailList;
+  updateDetailList.productName = productName;
+  updateDetailList.productPrice = productPrice.endsWith("원")
+    ? productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    : productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+  updateDetailList.productStock = productStock.endsWith("개")
+    ? productStock
+    : productStock + "개";
+
+  productDetailList.value.splice(index, 1, updateDetailList);
+  productDetailList.value = [...productDetailList.value];
+};
+
+const clickModifyBtn = (index) => {
+  verifyModalCode.value = 1;
+  if (productDetailList.value[index].isDisabled) {
+    toggleEdit(index);
+  } else {
+    openVerifyModal(index, 1);
+  }
+};
 const toggleEdit = (index) => {
-  productList.value[index].isDisabled = !productList.value[index].isDisabled;
+  productDetailList.value[index].isDisabled =
+    !productDetailList.value[index].isDisabled;
+};
+
+const clickDefaultBtn = (index) => {
+  verifyModalCode.value = 0;
+  if (productDetailList.value[index].isDisabled) {
+    openVerifyModal(index, 0);
+  }
+};
+const setDefaultValue = (index, isDefault) => {
+  productDetailList.value.forEach((item) => {
+    item.isDefault = false;
+  });
+  productDetailList.value[index].isDefault = isDefault;
+};
+
+const openVerifyModal = (index, verifyModalCode) => {
+  store.setOpenVerifyModal(true);
+  emit("commentCode", verifyModalCode);
+  productIdx.value = index;
+};
+
+const clickDeleteBtn = (index) => {
+  verifyModalCode.value = 2;
+  openVerifyModal(index, 2);
 };
 
 const deleteProduct = (index) => {
-  productList.value.splice(index, 1);
+  productDetailList.value.splice(index, 1);
 };
+
+watch(
+  () => store.isOpenVerifyModal,
+  (value) => {
+    console.log(verifyModalCode.value, props.defaultState);
+    console.log(value);
+
+    if (value) {
+      return;
+    }
+
+    if (verifyModalCode.value === 0 && props.defaultState) {
+      setDefaultValue(productIdx.value, props.defaultState);
+    } else if (verifyModalCode.value === 1 && props.defaultState) {
+      console.log("modify");
+      updateProduct(productIdx.value);
+    } else if (verifyModalCode.value === 2 && props.defaultState) {
+      deleteProduct(productIdx.value);
+    }
+  }
+);
 </script>
 <style src="@/assets/css/modal/EnrollProductDetail.css" module></style>
