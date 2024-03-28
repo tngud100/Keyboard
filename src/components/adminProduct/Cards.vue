@@ -8,14 +8,10 @@
     <div :class="$style.item">{{ item.name }}</div>
     <div :class="$style.smallLetterItem">{{ item.type }}</div>
     <div :class="$style.smallLetterItem">{{ item.category }}</div>
-    <div :class="$style.item">{{ item.productDetailList.name }}</div>
-    <div :class="$style.smallLetterItem">
-      {{ item.productDetailList.amount }}원
-    </div>
-    <div :class="$style.smallLetterItem">
-      {{ item.productDetailList.stock }}개
-    </div>
-    <div :class="$style.item">{{ item.productDetailList.createDate }}</div>
+    <!-- <div :class="$style.item">{{ item.productDetailList.name }}</div> -->
+    <div :class="$style.smallLetterItem">{{ item.amount }}원</div>
+    <div :class="$style.item">{{ item.createDate }}</div>
+    <div :class="$style.smallLetterItem">{{ item.modifiedDate }}개</div>
     <div style="display: flex">
       <button :class="$style.iconBox">
         <writeIcon />

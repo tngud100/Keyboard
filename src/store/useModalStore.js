@@ -7,16 +7,32 @@ export const useModalStore = defineStore({
         verifyContent: [
             {
                 code: 0,
-                comments:"기본값으로 설정 하시겠습니까?"
+                comments:"상품을 등록하시겠습니까?"
             },
             {
                 code: 1,
-                comments:"정말로 수정 하시겠습니까?"
+                comments:"해당 카테고리를 상품의 기본값으로 설정 하시겠습니까?"
             },
             {
                 code: 2,
-                comments:"정말로 삭제 하시겠습니까?"
-            }
+                comments:"해당 카테고리를 정말로 수정 하시겠습니까?"
+            },
+            {
+                code: 3,
+                comments:"해당 카테고리를 정말로 삭제 하시겠습니까?"
+            },
+            {
+                code: 4,
+                comments:"해당 상세상품을 카테고리의 기본값으로 설정 하시겠습니까?"
+            },
+            {
+                code: 5,
+                comments:"해당 상세상품을 정말로 수정 하시겠습니까?"
+            },
+            {
+                code: 6,
+                comments:"해당 상세상품을 정말로 삭제 하시겠습니까?"
+            },
         ]
     }),
     getters: {

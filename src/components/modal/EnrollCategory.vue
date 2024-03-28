@@ -18,15 +18,22 @@
       :class="$style.categoryBox"
     >
       <div :class="$style.inputBox" style="border: 0px">
-        <input type="checkbox" @click="clickDefaultBox(index)" />
+        <input
+          type="checkbox"
+          @click="clickDefaultBox(index)"
+          v-model="item.isDefault"
+        />
         <input
           type="text"
           :class="$style.categoryName"
           :value="item.categoryName"
-          :disabled="item.isDisabled"
-          :style="{ border: item.isDisabled ? 'none' : '1px solid #7e7e7e' }"
+          :style="{
+            border: item.isDisabled ? 'none' : '1px solid #7e7e7e',
+          }"
+          :readonly="item.isDisabled"
+          @mouseover="$style.textDecoration = 'underline'"
           @change="item.categoryName = $event.target.value"
-          @click="emitCategoryItem"
+          @click="item.isDisabled ? emitCategoryItem(index) : null"
         />
       </div>
       <div :class="$style.buttonBox">
@@ -45,38 +52,24 @@
 
 <script setup>
 import { useModalStore } from "@/store/useModalStore";
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, defineEmits, defineProps } from "vue";
 
-const store = useModalStore();
+const modalStore = useModalStore();
 
 const categoryListIdx = ref(null);
-const isOpenVerifyModal = computed(() => store.isOpenVerifyModal);
+const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
 const emit = defineEmits(["commentCode"]);
-
 const verifyModalCode = ref(null);
 
 const props = defineProps({
   defaultState: Boolean,
   productName: String,
+  page: Number,
 });
 
 const inputCategory = ref(null);
 
-const categoryItem = ref({
-  productName: props.productName,
-  categoryName: null,
-  categoryDefault: null,
-  isClicked: false,
-});
-
-const categoryList = ref([
-  {
-    productName: props.productName,
-    categoryName: null,
-    isDefault: null,
-    isDisabled: null,
-  },
-]);
+const categoryList = ref([]);
 
 const addCategory = () => {
   const categoryName = inputCategory.value;
@@ -99,41 +92,46 @@ const addCategory = () => {
 
   if (categoryList.value.length === 0) {
     categoryList.value.push({
-      productName: productName.value,
+      productName: props.productName,
       categoryName: categoryName.value,
       isDefault: true,
       isDisabled: true,
+      isClicked: false,
     });
     inputCategory.value.value = "";
+    console.log(categoryList.value);
     return;
   }
 
   if (categoryName) {
     categoryList.value.push({
+      productName: props.productName,
       categoryName: categoryName.value,
       isDefault: false,
       isDisabled: true,
+      isClicked: false,
     });
     inputCategory.value.value = "";
+    console.log(categoryList.value);
   }
 };
 
 const clickDefaultBox = (index) => {
-  verifyModalCode.value = 0;
+  verifyModalCode.value = 1;
   openVerifyModal(index, verifyModalCode.value);
 };
 const clickModifyBtn = (index) => {
   console.log(categoryList.value[index].isDisabled);
   if (!categoryList.value[index].isDisabled) {
-    verifyModalCode.value = 1;
-    openVerifyModal(index, 1);
+    verifyModalCode.value = 2;
+    openVerifyModal(index, verifyModalCode.value);
   } else {
     categoryList.value[index].isDisabled =
       !categoryList.value[index].isDisabled;
   }
 };
 const clickDeleteBtn = (index) => {
-  verifyModalCode.value = 2;
+  verifyModalCode.value = 3;
   openVerifyModal(index, verifyModalCode.value);
 };
 
@@ -169,31 +167,34 @@ const deleteCategory = (index) => {
 };
 
 const openVerifyModal = (index, commentCode) => {
-  store.setOpenVerifyModal(true);
+  modalStore.setOpenVerifyModal(true);
   emit("commentCode", commentCode);
   categoryListIdx.value = index;
 };
 
-const emitCategoryItem = () => {
-  inputCategory.value.categoryName =
-    categoryList.value[categoryListIdx.value].categoryName;
-  inputCategory.value.categoryDefault =
-    categoryList.value[categoryListIdx.value].isDefault;
-  categoryItem.value.isClicked = true;
-  emit("categoryItem", categoryItem.value);
+const emitCategoryItem = (index) => {
+  categoryList.value[index].isClicked = true;
+  emit("categoryItem", categoryList.value[index]);
 };
 
 watch(isOpenVerifyModal, (newValue) => {
-  if (newValue === false && verifyModalCode.value === 0) {
+  if (newValue === true) {
+    return;
+  }
+  if (props.page !== 2) {
+    return;
+  }
+
+  if (verifyModalCode.value === 1) {
     setDefaultState(categoryListIdx.value);
   }
-  if (newValue === false && verifyModalCode.value === 1 && props.defaultState) {
+  if (verifyModalCode.value === 2 && props.defaultState) {
     setCategoryName(
       categoryListIdx.value,
       categoryList.value[categoryListIdx.value].categoryName
     );
   }
-  if (newValue === false && verifyModalCode.value === 2 && props.defaultState) {
+  if (verifyModalCode.value === 3 && props.defaultState) {
     deleteCategory(categoryListIdx.value);
   }
 });

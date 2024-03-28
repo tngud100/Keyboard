@@ -12,19 +12,27 @@
 
       <div :class="$style.contents" ref="contentEl">
         <div :class="$style.productEl" ref="productEl">
-          <EnrollProduct @productItem="setProductItem" />
+          <EnrollProduct
+            @productItem="setProductItem"
+            @commentCode="setCommentCode"
+            :defaultState="modalItem.defaultState"
+            :page="page"
+          />
         </div>
         <div :class="$style.categoryEl" ref="categoryEl">
           <EnrollCategory
             :defaultState="modalItem.defaultState"
             :productName="productItem.productName"
-            @categoryItem="categoryItem"
+            :page="page"
+            @categoryItem="setCategoryItme"
             @commentCode="setCommentCode"
           />
         </div>
         <div :class="$style.detailEl" ref="detailEl">
           <EnrollDetail
             :defaultState="modalItem.defaultState"
+            :categoryItem="categoryItem"
+            :page="page"
             @commentCode="setCommentCode"
           />
         </div>
@@ -83,9 +91,23 @@ const productItem = ref({
   isFilled: false,
 });
 
+const categoryItem = ref({
+  productName: null,
+  productCategoryName: null,
+  isDefault: false,
+});
+
 const props = defineProps({
   item: Object,
 });
+
+const setCategoryItme = (item) => {
+  console.log(categoryItem);
+  categoryItem.value.productName = item.productName;
+  categoryItem.value.productCategoryName = item.productCategoryName;
+  categoryItem.value.isDefault = item.isDefault;
+  nextModal();
+};
 
 const setDefaultState = (isVerifyState) => {
   modalItem.value.defaultState = isVerifyState;
@@ -103,7 +125,7 @@ const setProductItem = (ProductItem) => {
 const nextModal = () => {
   if (productItem.value.isFilled === false) {
     alert("상품을 등록해주세요");
-    // return;
+    return;
   }
   if (page.value >= 3) {
     return;

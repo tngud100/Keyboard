@@ -115,7 +115,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, defineEmits, defineProps } from "vue";
 import { useModalStore } from "@/store/useModalStore";
 
 const store = useModalStore();
@@ -140,6 +140,12 @@ const emit = defineEmits(["commentCode"]);
 
 const props = defineProps({
   defaultState: Boolean,
+  categoryItem: {
+    productName: String,
+    productCategoryName: String,
+    isDefault: Boolean,
+  },
+  page: Number,
 });
 
 const productName = ref(null);
@@ -200,11 +206,11 @@ const updateProduct = (index) => {
 };
 
 const clickModifyBtn = (index) => {
-  verifyModalCode.value = 1;
+  verifyModalCode.value = 5;
   if (productDetailList.value[index].isDisabled) {
     toggleEdit(index);
   } else {
-    openVerifyModal(index, 1);
+    openVerifyModal(index, verifyModalCode.value);
   }
 };
 const toggleEdit = (index) => {
@@ -213,9 +219,9 @@ const toggleEdit = (index) => {
 };
 
 const clickDefaultBtn = (index) => {
-  verifyModalCode.value = 0;
+  verifyModalCode.value = 4;
   if (productDetailList.value[index].isDisabled) {
-    openVerifyModal(index, 0);
+    openVerifyModal(index, verifyModalCode.value);
   }
 };
 const setDefaultValue = (index, isDefault) => {
@@ -232,8 +238,8 @@ const openVerifyModal = (index, verifyModalCode) => {
 };
 
 const clickDeleteBtn = (index) => {
-  verifyModalCode.value = 2;
-  openVerifyModal(index, 2);
+  verifyModalCode.value = 6;
+  openVerifyModal(index, verifyModalCode.value);
 };
 
 const deleteProduct = (index) => {
@@ -242,20 +248,19 @@ const deleteProduct = (index) => {
 
 watch(
   () => store.isOpenVerifyModal,
-  (value) => {
-    console.log(verifyModalCode.value, props.defaultState);
-    console.log(value);
-
-    if (value) {
+  (newValue) => {
+    if (newValue) {
+      return;
+    }
+    if (props.page !== 3) {
       return;
     }
 
-    if (verifyModalCode.value === 0 && props.defaultState) {
+    if (verifyModalCode.value === 4 && props.defaultState) {
       setDefaultValue(productIdx.value, props.defaultState);
-    } else if (verifyModalCode.value === 1 && props.defaultState) {
-      console.log("modify");
+    } else if (verifyModalCode.value === 5 && props.defaultState) {
       updateProduct(productIdx.value);
-    } else if (verifyModalCode.value === 2 && props.defaultState) {
+    } else if (verifyModalCode.value === 6 && props.defaultState) {
       deleteProduct(productIdx.value);
     }
   }

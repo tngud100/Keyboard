@@ -119,7 +119,8 @@
 
 <script setup>
 import IconClose from "#/icons/IconClose.vue";
-import { ref } from "vue";
+import { useModalStore } from "@/store/useModalStore";
+import { computed, ref, watch } from "vue";
 
 const representImg = ref("");
 const backgroundImg = ref("");
@@ -141,7 +142,14 @@ const productItem = ref({
   isfilled: false,
 });
 
-const emit = defineEmits(["productItem"]);
+const modalstore = useModalStore();
+
+const emit = defineEmits(["productItem", "commentCode"]);
+
+const props = defineProps({ defaultState: Boolean, page: Number });
+
+const verifyModalCode = ref(null);
+const isOpenVerifyModal = computed(() => modalstore.isOpenVerifyModal);
 
 const handleFileUpload = (event, type) => {
   const selectedFile = event.target.files[0];
@@ -188,13 +196,32 @@ const enrollProduct = () => {
     productType.value &&
     describeBlobList.value.length > 0
   ) {
+    verifyModalCode.value = 0;
+    openVerifyModal(verifyModalCode.value);
+  } else {
+    alert("모든 항목을 입력해주세요.");
+  }
+};
+
+const openVerifyModal = (commentCode) => {
+  modalstore.setOpenVerifyModal(true);
+  emit("commentCode", commentCode);
+};
+
+watch(isOpenVerifyModal, (newValue) => {
+  if (newValue) {
+    return;
+  }
+  if (props.page !== 1) {
+    return;
+  }
+
+  if (props.defaultState && verifyModalCode.value === 0) {
     productItem.value.productName = productName.value;
     productItem.value.isFilled = true;
     emit("productItem", productItem.value);
-    alert("상품이 등록되었습니다.");
   }
-  console.log(productItem.value);
-};
+});
 
 const uploadImage = () => {
   // FormData를 사용하여 이미지 파일을 서버에 업로드합니다.
