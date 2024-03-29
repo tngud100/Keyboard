@@ -6,7 +6,7 @@ import "@/assets/css/font.css";
 import router from "@/routes";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import axios from 'axios'
-import "@/utils/axios";
+import "@/utils/axiosInstance.js";
 
 const app = createApp(App);
 const pinia = createPinia();
