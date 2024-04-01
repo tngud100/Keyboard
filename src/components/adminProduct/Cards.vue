@@ -8,10 +8,19 @@
     <div :class="$style.item">{{ item.name }}</div>
     <div :class="$style.smallLetterItem">{{ item.type }}</div>
     <div :class="$style.smallLetterItem">{{ item.category }}</div>
-    <!-- <div :class="$style.item">{{ item.productDetailList.name }}</div> -->
+    <div :class="$style.detailAndCategoryItem">
+      <div v-for="detail in item.detailList" :key="detail">
+        {{ detail.productDetailList.name }}
+      </div>
+    </div>
+    <div :class="$style.detailAndCategoryItem">
+      <div v-for="(detailList, index) in item.detailList" :key="index">
+        {{ detailList.productDetailList.category }}
+      </div>
+    </div>
     <div :class="$style.smallLetterItem">{{ item.amount }}원</div>
     <div :class="$style.item">{{ item.createDate }}</div>
-    <div :class="$style.smallLetterItem">{{ item.modifiedDate }}개</div>
+    <div :class="$style.smallLetterItem">{{ item.modifiedDate }}</div>
     <div style="display: flex">
       <button :class="$style.iconBox">
         <writeIcon />

@@ -26,8 +26,17 @@
     background-color: #ebebeb;
 }
 .smallLetterItem{
-    width:190px;
+    width:95px;
+}
+.detailAndCategoryItem{
+    display: grid;
+    align-content: center;
+    width: 95px;
+    height: 113px;
+    overflow-y: scroll;
+    padding: 6px;
+    scrollbar-width: none;
 }
 .item{
-    width: 190px;
+    width: 95px;
 }

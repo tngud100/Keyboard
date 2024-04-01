@@ -19,7 +19,6 @@
         :class="$style.optionValue"
         name="productImg"
         id="productImg"
-        ref="productImg"
         @change="handleFileUpload($event, 'productImg')"
         style="display: none"
       />
@@ -38,7 +37,6 @@
         :class="$style.optionValue"
         name="file"
         id="backgroundImg"
-        ref="backgroundImg"
         @change="handleFileUpload($event, 'backgroundImg')"
         style="display: none"
       />
@@ -57,7 +55,6 @@
         :class="$style.optionValue"
         name="representImg"
         id="representImg"
-        ref="representImg"
         @change="handleFileUpload($event, 'representImg')"
         style="display: none"
       />
@@ -113,7 +110,7 @@
     </div>
   </div>
   <div :class="$style.submit">
-    <button :class="$style.submitBtn" @click="enrollProduct">상품 등록</button>
+    <button :class="$style.submitBtn" @click="enrollBtn">상품 등록</button>
   </div>
 </template>
 
@@ -121,6 +118,7 @@
 import IconClose from "#/icons/IconClose.vue";
 import { useModalStore } from "@/store/useModalStore";
 import { computed, ref, watch } from "vue";
+import { postProductAPI } from "@/api/ProductPostDataAPI.js";
 
 const representImg = ref("");
 const backgroundImg = ref("");
@@ -141,6 +139,8 @@ const productItem = ref({
   productName: null,
   isfilled: false,
 });
+
+const { enrollProduct, uploadImg } = postProductAPI();
 
 const modalstore = useModalStore();
 
@@ -186,7 +186,7 @@ const deleteList = (index) => {
     describeBlobList.value[describeBlobList.value.length - 1].name;
 };
 
-const enrollProduct = () => {
+const enrollBtn = () => {
   if (
     productName.value &&
     representImg.value &&
@@ -217,19 +217,26 @@ watch(isOpenVerifyModal, (newValue) => {
   }
 
   if (props.defaultState && verifyModalCode.value === 0) {
-    productItem.value.productName = productName.value;
+    productItem.value.productName = productName.value.value;
     productItem.value.isFilled = true;
     emit("productItem", productItem.value);
+    uploadImage();
   }
 });
 
 const uploadImage = () => {
-  // FormData를 사용하여 이미지 파일을 서버에 업로드합니다.
   let formData = new FormData();
-  formData.append("image", file.value);
+  // formData.append("name", productName.value.value);
+  formData.append("represent_picture", representImg.value);
+  formData.append("list_back_picture", backgroundImg.value);
+  formData.append("list_picture", productImg.value);
+  describeBlobList.value.forEach((item) => {
+    formData.append("desc_picture", item);
+  });
+  // formData.append("productType", productType.value.value);
 
-  // 실제로는 서버로 HTTP 요청을 보내야 하겠지만, 여기서는 예시를 위해 console.log로 FormData를 출력합니다.
   console.log(formData);
+  uploadImg(formData);
 };
 </script>
 
