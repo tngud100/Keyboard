@@ -88,7 +88,7 @@ const productList = ref([]);
 const fetchProductList = async () => {
   const data = await getProductList(); // api.js의 getProductList 함수 호출
   productList.value = data;
-  // console.log("productList", productList.value.value);
+  console.log("productList", productList.value.value);
 };
 
 fetchProductList();

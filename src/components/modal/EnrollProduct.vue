@@ -226,17 +226,18 @@ watch(isOpenVerifyModal, (newValue) => {
 
 const uploadImage = () => {
   let formData = new FormData();
-  // formData.append("name", productName.value.value);
+  formData.append("name", productName.value.value);
   formData.append("represent_picture", representImg.value);
   formData.append("list_back_picture", backgroundImg.value);
   formData.append("list_picture", productImg.value);
   describeBlobList.value.forEach((item) => {
     formData.append("desc_picture", item);
   });
-  // formData.append("productType", productType.value.value);
+  formData.append("product_type", productType.value.value);
+  formData.append("product_id", 66);
 
   console.log(formData);
-  uploadImg(formData);
+  enrollProduct(formData);
 };
 </script>
 

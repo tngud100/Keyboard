@@ -9,7 +9,7 @@ export const postProductAPI = () => {
         })
             .then((res) => {
                 console.log(res);
-                console.log("전송 성공");
+                alert("전송 성공");
             return res;
         })
         .catch((err) => {
@@ -18,22 +18,5 @@ export const postProductAPI = () => {
         });
     }
 
-    const uploadImg = async (formData) => {
-        await instance.post('/images/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then((res) => {
-                console.log(res);
-                console.log("이미지 업로드 성공");
-            return res;
-        })
-            .catch((err) => {
-                console.error(err);
-                return null;
-        });
-    }
-
-    return { enrollProduct, uploadImg };
+    return { enrollProduct };
 }
