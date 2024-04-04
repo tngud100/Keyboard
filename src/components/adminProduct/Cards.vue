@@ -22,10 +22,10 @@
     <div :class="$style.item">{{ item.createDate }}</div>
     <div :class="$style.smallLetterItem">{{ item.modifiedDate }}</div>
     <div style="display: flex">
-      <button :class="$style.iconBox">
+      <button @click="modifyBtn" :class="$style.iconBox">
         <writeIcon />
       </button>
-      <button :class="$style.iconBox">
+      <button @click="deleteBtn" :class="$style.iconBox">
         <closeIcon />
       </button>
     </div>
@@ -38,9 +38,20 @@ import { defineProps } from "vue";
 import writeIcon from "#/icons/IconWrite.vue";
 import closeIcon from "#/icons/IconClose.vue";
 
+const emit = defineEmits(["clickModifyBtn"]);
+
 const props = defineProps({
   item: Object,
 });
+
+const modifyBtn = () => {
+  emit("clickModifyBtn", props.item);
+  console.log(props.item);
+};
+const deleteBtn = () => {
+  // emit("clickModifyBtn", props.item);
+  // console.log(props.item);
+};
 </script>
 
 <style src="@/assets/css/adminProduct/Cards.css" module></style>

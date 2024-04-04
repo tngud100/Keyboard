@@ -256,11 +256,11 @@ watch(
       return;
     }
 
-    if (verifyModalCode.value === 4 && props.defaultState) {
+    if (verifyModalCode.value === 10 && props.defaultState) {
       setDefaultValue(productIdx.value, props.defaultState);
-    } else if (verifyModalCode.value === 5 && props.defaultState) {
+    } else if (verifyModalCode.value === 11 && props.defaultState) {
       updateProduct(productIdx.value);
-    } else if (verifyModalCode.value === 6 && props.defaultState) {
+    } else if (verifyModalCode.value === 12 && props.defaultState) {
       deleteProduct(productIdx.value);
     }
   }

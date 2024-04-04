@@ -27,6 +27,7 @@
         :key="index"
         :item="item"
         :class="$style.productList"
+        @clickModifyBtn="cardModify"
       />
       <button
         :class="$style.addBtn"
@@ -38,7 +39,12 @@
         <IconPlusDisabled v-else :class="$style.addBtnImg" />
       </button>
 
-      <modal v-if="modalState" :item="item" @close="changeModalState" />
+      <modal
+        v-if="modalState"
+        :item="item"
+        @close="closeModal"
+        :cardItem="cardItem"
+      />
     </div>
   </div>
 </template>
@@ -59,14 +65,12 @@ const modalState = ref(false);
 
 const { getProductList } = getProductAPI();
 
-const changeModalState = () => {
-  modalState.value = !modalState.value;
-  if (modalState.value === true) {
-    document.body.style.overflow = "hidden";
-    return;
-  }
-  document.body.style.overflow = "auto";
-};
+const item = [
+  {
+    title: "상품등록",
+  },
+];
+const cardItem = ref();
 
 const handleHover = (value) => {
   iconHover.value = value;
@@ -76,11 +80,25 @@ const selectIndex = (value) => {
   navState.value = value;
 };
 
-const item = [
-  {
-    title: "상품등록",
-  },
-];
+const changeModalState = () => {
+  modalState.value = !modalState.value;
+  if (modalState.value === true) {
+    document.body.style.overflow = "hidden";
+    return;
+  }
+  document.body.style.overflow = "auto";
+};
+
+const closeModal = () => {
+  cardItem.value = null;
+  changeModalState();
+  console.log(cardItem.value);
+};
+
+const cardModify = (value) => {
+  cardItem.value = value;
+  changeModalState();
+};
 
 // const productDetail = ref([]);
 const productList = ref([]);

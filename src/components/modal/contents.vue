@@ -1,13 +1,10 @@
 <template>
   <section :class="$style.modal">
-    <div :class="$style.background" @click="$emit('close', false)"></div>
+    <div :class="$style.background" @click="closeBtn"></div>
     <div :class="$style.modalBox" @click.stop="">
       <div :class="$style.header">
         <span :class="$style.title">{{ item[0].title }}</span>
-        <IconClose
-          :class="$style.closeBtn"
-          @click="$emit('close', false)"
-        ></IconClose>
+        <IconClose :class="$style.closeBtn" @click="closeBtn"></IconClose>
       </div>
 
       <div :class="$style.contents" ref="contentEl">
@@ -17,6 +14,7 @@
             @commentCode="setCommentCode"
             :defaultState="modalItem.defaultState"
             :page="page"
+            :cardItem="props.cardItem ? props.cardItem : null"
           />
         </div>
         <div :class="$style.categoryEl" ref="categoryEl">
@@ -24,8 +22,9 @@
             :defaultState="modalItem.defaultState"
             :productName="productItem.productName"
             :page="page"
-            @categoryItem="setCategoryItme"
+            @categoryItem="setCategoryItem"
             @commentCode="setCommentCode"
+            :cardProductId="props.cardItem ? props.cardItem.productId : null"
           />
         </div>
         <div :class="$style.detailEl" ref="detailEl">
@@ -81,6 +80,8 @@ let page = ref(1);
 
 const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
 
+const emit = defineEmits(["close"]);
+
 const modalItem = ref({
   defaultState: null,
   commentCode: null,
@@ -99,10 +100,10 @@ const categoryItem = ref({
 
 const props = defineProps({
   item: Object,
+  cardItem: Object,
 });
 
-const setCategoryItme = (item) => {
-  console.log(categoryItem);
+const setCategoryItem = (item) => {
   categoryItem.value.productName = item.productName;
   categoryItem.value.productCategoryName = item.productCategoryName;
   categoryItem.value.isDefault = item.isDefault;
@@ -122,7 +123,19 @@ const setProductItem = (ProductItem) => {
   productItem.value.isFilled = ProductItem.isFilled;
 };
 
+const closeBtn = () => {
+  emit("close", false);
+  props.cardItem = null;
+};
+
 const nextModal = () => {
+  if (props.cardItem) {
+    animateSlide(style.productEl, contentEl, 1, page.value);
+    animateSlide(style.categoryEl, contentEl, 1, page.value);
+    animateSlide(style.detailEl, contentEl, 1, page.value);
+    page.value++;
+    return;
+  }
   if (productItem.value.isFilled === false) {
     alert("상품을 등록해주세요");
     return;

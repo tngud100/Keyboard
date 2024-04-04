@@ -8,6 +8,20 @@ export const getProductAPI = () => {
     const productList = ref([]);
     const productDetail = ref([]);
 
+    const backendCall = (url) => {
+        if (Array.isArray(url)) {
+            return url.map(url => `http://localhost:8080${url.trim()}`);
+        }
+        return `http://localhost:8080${url}`
+    };
+
+    const logicCheck = (state) => {
+        if (state === 1) {
+            return true;
+        }
+        return false;
+    };
+
     // getProductList 함수 정의
     const getProductList = async () => {
         return instance.get('/product/get')
@@ -15,15 +29,19 @@ export const getProductAPI = () => {
                 if (res.data === null) {
                     return 'No data';
                 }
-                Promise.all(res.data.map(async(item) => {
+                Promise.all(res.data.map(async (item) => {
                     await getProductDetailList(item.product_id);
                     productList.value.push({
                         productId: item.product_id,
                         mainImg: item.main_picture,
-                        representImg: item.represent_picture,
-                        listImg: item.list_picture,
-                        listBackImg: item.list_back_picture,
-                        descImg: item.desc_picture,
+                        representImg: backendCall(item.represent_picture),
+                        representImgName: item.represent_picture_name,
+                        listImg: backendCall(item.list_picture),
+                        listImgName: item.list_picture_name,
+                        listBackImg: backendCall(item.list_back_picture),
+                        listBackImgName: item.list_back_picture_name,
+                        descImg: backendCall(item.desc_picture),
+                        descImgName: item.desc_picture_name,
                         mainPicState: item.main_pic_state,
                         name: item.name,
                         type: item.type,
@@ -44,39 +62,69 @@ export const getProductAPI = () => {
     // getProductDetailList 함수 정의
     const getProductDetailList = (productId) => {
         return instance.get(`/product/${productId}/productDetail/get`)
-        .then((res) => {
-            productDetail.value = [];
-            if (res.data === null) {
-                return 'No data';
-            }
+            .then((res) => {
+                productDetail.value = [];
+                if (res.data === null) {
+                    return 'No data';
+                }
 
-            res.data.forEach((item) => {
-                productDetail.value.push({
-                    productDetailList: {
-                        productDetailId: item.product_detail_id,
-                        productId: item.product_id,
-                        productCategoryId: item.product_category_id,
-                        category: item.category_name,
-                        name: item.name,
-                        amount: item.amount,
-                        default: item.default_state,
-                        stock: item.stock,
-                        soldStock: item.sold_stock,
-                        faultyState: item.faulty_state,
-                        createDate: item.create_date,
-                        modifiedDate: item.modified_date,
-                        isDelete: item.isdelete,
-                    },
+                res.data.forEach((item) => {
+                    productDetail.value.push({
+                        productDetailList: {
+                            productDetailId: item.product_detail_id,
+                            productId: item.product_id,
+                            productCategoryId: item.product_category_id,
+                            category: item.category_name,
+                            name: item.name,
+                            amount: item.amount,
+                            default: item.default_state,
+                            stock: item.stock,
+                            soldStock: item.sold_stock,
+                            faultyState: item.faulty_state,
+                            createDate: item.create_date,
+                            modifiedDate: item.modified_date,
+                            isDelete: item.isdelete,
+                        },
+                    });
                 });
+                return productDetail;
+            })
+            .catch((err) => {
+                console.error(err);
+                return null;
             });
-            return productDetail;
-        })
-        .catch((err) => {
-            console.error(err);
-            return null;
-        });
     };
 
+
+
+    const getProductCategoryList = async (productId) => {
+        return instance.get(`/product/${productId}/category/get`)
+            .then((res) => {
+                const data = res.data;
+                const productCategoryList = [];
+
+                if (data === null) {
+                    return 'No data';
+                }
+
+                data.forEach((item) => {
+                    productCategoryList.push({
+                        productId: item.product_id,
+                        productCategoryid: item.product_category_id,
+                        categoryName: item.category_name,
+                        isDefault: logicCheck(item.category_state),
+                    });
+                });
+
+                console.log(productCategoryList);
+                return productCategoryList;
+            })
+            .catch((err) => {
+                console.error(err);
+                return null;
+            });
+        };
+
     // getProductList와 getProductDetailList 함수 반환
-    return { getProductList, getProductDetailList };
+    return { getProductList, getProductDetailList, getProductCategoryList };
 }

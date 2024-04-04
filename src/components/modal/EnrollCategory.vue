@@ -9,7 +9,7 @@
         ref="inputCategory"
       />
     </div>
-    <div :class="$style.addCategoryBtn" @click="addCategory">추가</div>
+    <div :class="$style.addCategoryBtn" @click="addCategoryBtn">추가</div>
   </div>
   <div :class="$style.listBox">
     <div
@@ -52,7 +52,10 @@
 
 <script setup>
 import { useModalStore } from "@/store/useModalStore";
-import { computed, ref, watch, defineEmits, defineProps } from "vue";
+import { computed, ref, watch, defineEmits, defineProps, onMounted } from "vue";
+import { postProductAPI } from "@/api/ProductPostDataAPI.js";
+import { getProductAPI } from "@/api/ProductGetDataAPI.js";
+import { putProductAPI } from "@/api/ProductPutDataAPI.js";
 
 const modalStore = useModalStore();
 
@@ -61,15 +64,26 @@ const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
 const emit = defineEmits(["commentCode"]);
 const verifyModalCode = ref(null);
 
+const { enrollProductCategory } = postProductAPI();
+const { getProductCategoryList } = getProductAPI();
+const { setCategoryDefault } = putProductAPI();
+
 const props = defineProps({
   defaultState: Boolean,
-  productName: String,
   page: Number,
+  cardProductId: Number,
+  productName: String,
 });
 
 const inputCategory = ref(null);
 
 const categoryList = ref([]);
+
+const addCategoryBtn = () => {
+  verifyModalCode.value = 5;
+  modalStore.setOpenVerifyModal(true);
+  emit("commentCode", verifyModalCode.value);
+};
 
 const addCategory = () => {
   const categoryName = inputCategory.value;
@@ -93,13 +107,18 @@ const addCategory = () => {
   if (categoryList.value.length === 0) {
     categoryList.value.push({
       productName: props.productName,
+      productId: props.cardProductId,
       categoryName: categoryName.value,
       isDefault: true,
       isDisabled: true,
       isClicked: false,
     });
     inputCategory.value.value = "";
-    console.log(categoryList.value);
+    enrollCategory(
+      props.cardProductId,
+      categoryList.value[categoryList.value.length - 1].categoryName,
+      categoryList.value[categoryList.value.length - 1].isDefault
+    );
     return;
   }
 
@@ -112,7 +131,11 @@ const addCategory = () => {
       isClicked: false,
     });
     inputCategory.value.value = "";
-    console.log(categoryList.value);
+    enrollCategory(
+      props.cardProductId,
+      categoryList.value[categoryList.value.length - 1].categoryName,
+      categoryList.value[categoryList.value.length - 1].isDefault
+    );
   }
 };
 
@@ -130,13 +153,19 @@ const clickModifyBtn = (index) => {
       !categoryList.value[index].isDisabled;
   }
 };
+
 const clickDeleteBtn = (index) => {
   verifyModalCode.value = 3;
   openVerifyModal(index, verifyModalCode.value);
 };
 
+// 카테고리 설정 부분 하기
 const setDefaultState = (index) => {
-  categoryList.value[index].isDefault = props.defaultState;
+  // categoryList.value[index].isDefault = props.defaultState;
+  setCategoryDefault(
+    props.cardProductId,
+    categoryList.value[index].product_category_id
+  );
 };
 const setCategoryName = (index, changeStr) => {
   if (changeStr === "") {
@@ -185,17 +214,49 @@ watch(isOpenVerifyModal, (newValue) => {
     return;
   }
 
-  if (verifyModalCode.value === 1) {
-    setDefaultState(categoryListIdx.value);
+  if (verifyModalCode.value === 5 && props.defaultState) {
+    addCategory();
   }
-  if (verifyModalCode.value === 2 && props.defaultState) {
+
+  if (verifyModalCode.value === 6) {
+    setDefaultState(categoryListIdx.value);
+    getCategoryList(props.cardProductId);
+  }
+  if (verifyModalCode.value === 7 && props.defaultState) {
     setCategoryName(
       categoryListIdx.value,
       categoryList.value[categoryListIdx.value].categoryName
     );
   }
-  if (verifyModalCode.value === 3 && props.defaultState) {
+  if (verifyModalCode.value === 8 && props.defaultState) {
     deleteCategory(categoryListIdx.value);
+  }
+});
+
+const enrollCategory = async (product_id, category_name, category_state) => {
+  const data = await enrollProductCategory(
+    product_id,
+    category_name,
+    category_state
+  );
+};
+
+const getCategoryList = async (cardProductId) => {
+  const data = await getProductCategoryList(cardProductId);
+  console.log("data", data);
+
+  categoryList.value = data;
+  categoryList.value = categoryList.value.map((item) => {
+    return {
+      ...item,
+      isDisabled: true,
+      isClicked: false,
+    };
+  });
+};
+onMounted(() => {
+  if (props.cardProductId) {
+    getCategoryList(props.cardProductId);
   }
 });
 </script>

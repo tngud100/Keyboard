@@ -13,6 +13,8 @@
 .productRepresentImg{
     padding: 12px;
     width:160px;
+    height: 125px;
+    object-fit: scale-down;
 }
 .iconBox{
     display: flex;

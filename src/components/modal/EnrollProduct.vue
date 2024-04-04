@@ -6,6 +6,7 @@
         type="text"
         placeholder="상품명"
         :class="$style.optionValue"
+        :value="props.cardItem ? props.cardItem.name : ''"
         ref="productName"
       />
     </div>
@@ -22,6 +23,9 @@
         @change="handleFileUpload($event, 'productImg')"
         style="display: none"
       />
+      <div v-if="props.cardItem && !productImgName" :class="$style.optionValue">
+        {{ props.cardItem.listImgName }}
+      </div>
       <div :class="$style.optionValue">{{ productImgName }}</div>
       <label for="productImg">
         <div :class="$style.chooseImgBtn">선택</div>
@@ -40,6 +44,12 @@
         @change="handleFileUpload($event, 'backgroundImg')"
         style="display: none"
       />
+      <div
+        v-if="props.cardItem && !backgroundImgName"
+        :class="$style.optionValue"
+      >
+        {{ props.cardItem.listBackImgName }}
+      </div>
       <div :class="$style.optionValue">{{ backgroundImgName }}</div>
       <label for="backgroundImg">
         <div :class="$style.chooseImgBtn">선택</div>
@@ -58,6 +68,12 @@
         @change="handleFileUpload($event, 'representImg')"
         style="display: none"
       />
+      <div
+        v-if="props.cardItem && !representImgName"
+        :class="$style.optionValue"
+      >
+        {{ props.cardItem.representImgName }}
+      </div>
       <div :class="$style.optionValue">{{ representImgName }}</div>
       <label for="representImg">
         <div :class="$style.chooseImgBtn">선택</div>
@@ -86,6 +102,16 @@
       </div>
 
       <div :class="$style.listMenu">
+        <div v-if="props.cardItem && describeBlobList.length === 0">
+          <div
+            v-for="(item, index) in props.cardItem.descImgName"
+            :key="index"
+            :class="$style.list"
+          >
+            {{ index + 1 }}. {{ item }}
+          </div>
+        </div>
+
         <div
           v-for="(item, index) in describeBlobList"
           :key="item"
@@ -105,6 +131,7 @@
         type="text"
         placeholder="종류 ex) 키보드, 키캡, 등"
         :class="$style.optionValue"
+        :value="props.cardItem ? props.cardItem.type : ''"
         ref="productType"
       />
     </div>
@@ -140,13 +167,17 @@ const productItem = ref({
   isfilled: false,
 });
 
-const { enrollProduct, uploadImg } = postProductAPI();
+const { enrollProduct } = postProductAPI();
 
 const modalstore = useModalStore();
 
 const emit = defineEmits(["productItem", "commentCode"]);
 
-const props = defineProps({ defaultState: Boolean, page: Number });
+const props = defineProps({
+  defaultState: Boolean,
+  page: Number,
+  cardItem: Object,
+});
 
 const verifyModalCode = ref(null);
 const isOpenVerifyModal = computed(() => modalstore.isOpenVerifyModal);
@@ -188,17 +219,19 @@ const deleteList = (index) => {
 
 const enrollBtn = () => {
   if (
-    productName.value &&
+    productName.value.value &&
     representImg.value &&
     backgroundImg.value &&
     productImg.value &&
     describeImg.value &&
-    productType.value &&
+    productType.value.value &&
     describeBlobList.value.length > 0
   ) {
     verifyModalCode.value = 0;
     openVerifyModal(verifyModalCode.value);
+    console.log(productName.value, productType.value);
   } else {
+    console.log(productName.value.value, productType.value.value);
     alert("모든 항목을 입력해주세요.");
   }
 };
@@ -236,7 +269,6 @@ const uploadImage = () => {
   formData.append("product_type", productType.value.value);
   formData.append("product_id", 66);
 
-  console.log(formData);
   enrollProduct(formData);
 };
 </script>
