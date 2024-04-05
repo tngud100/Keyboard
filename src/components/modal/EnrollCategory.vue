@@ -56,6 +56,7 @@ import { computed, ref, watch, defineEmits, defineProps, onMounted } from "vue";
 import { postProductAPI } from "@/api/ProductPostDataAPI.js";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 import { putProductAPI } from "@/api/ProductPutDataAPI.js";
+import { deleteProductAPI } from "@/api/ProductDeleteDataAPI.js";
 
 const modalStore = useModalStore();
 
@@ -66,7 +67,8 @@ const verifyModalCode = ref(null);
 
 const { enrollProductCategory } = postProductAPI();
 const { getProductCategoryList } = getProductAPI();
-const { setCategoryDefault } = putProductAPI();
+const { setCategoryDefault, updateProductCategory } = putProductAPI();
+const { deleteProductCategory } = deleteProductAPI();
 
 const props = defineProps({
   defaultState: Boolean,
@@ -140,13 +142,22 @@ const addCategory = () => {
 };
 
 const clickDefaultBox = (index) => {
-  verifyModalCode.value = 1;
+  verifyModalCode.value = 6;
   openVerifyModal(index, verifyModalCode.value);
 };
+// 카테고리 설정 부분 하기
+const setDefaultState = (index) => {
+  console.log(props.cardProductId, categoryList.value[index]);
+  setCategoryDefault(
+    props.cardProductId,
+    categoryList.value[index].productCategoryId
+  );
+};
+
 const clickModifyBtn = (index) => {
-  console.log(categoryList.value[index].isDisabled);
+  // console.log(categoryList.value[index].isDisabled);
   if (!categoryList.value[index].isDisabled) {
-    verifyModalCode.value = 2;
+    verifyModalCode.value = 7;
     openVerifyModal(index, verifyModalCode.value);
   } else {
     categoryList.value[index].isDisabled =
@@ -155,18 +166,10 @@ const clickModifyBtn = (index) => {
 };
 
 const clickDeleteBtn = (index) => {
-  verifyModalCode.value = 3;
+  verifyModalCode.value = 8;
   openVerifyModal(index, verifyModalCode.value);
 };
 
-// 카테고리 설정 부분 하기
-const setDefaultState = (index) => {
-  // categoryList.value[index].isDefault = props.defaultState;
-  setCategoryDefault(
-    props.cardProductId,
-    categoryList.value[index].product_category_id
-  );
-};
 const setCategoryName = (index, changeStr) => {
   if (changeStr === "") {
     alert("카테고리명을 입력해주세요");
@@ -187,12 +190,25 @@ const setCategoryName = (index, changeStr) => {
     categoryName: changeStr,
   };
 
+  updateProductCategory(
+    props.cardProductId,
+    categoryList.value[index].productCategoryId,
+    updatedCategory.categoryName
+  );
+
   categoryList.value.splice(index, 1, updatedCategory);
   categoryList.value = [...categoryList.value];
 };
 
-const deleteCategory = (index) => {
-  categoryList.value.splice(index, 1);
+const deleteCategory = async (index) => {
+  console.log(categoryList);
+  const deleteConfirm = await deleteProductCategory(
+    categoryList.value[index].productCategoryId
+  );
+  if (deleteConfirm) {
+    categoryList.value.splice(index, 1);
+  }
+  console.log(categoryList);
 };
 
 const openVerifyModal = (index, commentCode) => {
@@ -218,10 +234,14 @@ watch(isOpenVerifyModal, (newValue) => {
     addCategory();
   }
 
-  if (verifyModalCode.value === 6) {
+  if (verifyModalCode.value === 6 && props.defaultState) {
     setDefaultState(categoryListIdx.value);
-    getCategoryList(props.cardProductId);
+  } else if (verifyModalCode.value === 6 && !props.defaultState) {
+    // 모달을 띄우고 취소를 누를시 체크박스가 원래대로 돌아가게
+    categoryList.value[categoryListIdx.value].isDefault =
+      !categoryList.value[categoryListIdx.value].isDefault;
   }
+
   if (verifyModalCode.value === 7 && props.defaultState) {
     setCategoryName(
       categoryListIdx.value,
@@ -234,16 +254,12 @@ watch(isOpenVerifyModal, (newValue) => {
 });
 
 const enrollCategory = async (product_id, category_name, category_state) => {
-  const data = await enrollProductCategory(
-    product_id,
-    category_name,
-    category_state
-  );
+  await enrollProductCategory(product_id, category_name, category_state);
+  await getCategoryList(props.cardProductId);
 };
 
 const getCategoryList = async (cardProductId) => {
   const data = await getProductCategoryList(cardProductId);
-  console.log("data", data);
 
   categoryList.value = data;
   categoryList.value = categoryList.value.map((item) => {
@@ -254,11 +270,16 @@ const getCategoryList = async (cardProductId) => {
     };
   });
 };
-onMounted(() => {
-  if (props.cardProductId) {
+
+watch(
+  () => props.page,
+  (newValue) => {
+    if (newValue !== 2) {
+      return;
+    }
     getCategoryList(props.cardProductId);
   }
-});
+);
 </script>
 
 <style src="@/assets/css/modal/EnrollCategory.css" module></style>

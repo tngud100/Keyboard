@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div :class="$style.addCategoryBtn" @click="addProduct">추가</div>
+    <div :class="$style.addCategoryBtn" @click="clickAddBtn">추가</div>
   </div>
   <div :class="$style.listBox">
     <div :class="$style.productBox">
@@ -117,32 +117,36 @@
 <script setup>
 import { ref, watch, defineEmits, defineProps } from "vue";
 import { useModalStore } from "@/store/useModalStore";
+import { getProductAPI } from "@/api/ProductGetDataAPI.js";
+import { postProductAPI } from "@/api/ProductPostDataAPI.js";
 
 const store = useModalStore();
+const { getProductDetailListForEnroll } = getProductAPI();
+const { enrollProductDetail } = postProductAPI();
 
 const productDetailList = ref([
-  {
-    productName: "asd",
-    productPrice: "1",
-    productStock: "2",
-    isDisabled: true,
-    isDefault: true,
-  },
-  {
-    productName: "vcc",
-    productPrice: "12",
-    productStock: "123",
-    isDisabled: true,
-    isDefault: false,
-  },
+  // {
+  //   productName: "asd",
+  //   productPrice: "1",
+  //   productStock: "2",
+  //   isDisabled: true,
+  //   isDefault: true,
+  // },
+  // {
+  //   productName: "vcc",
+  //   productPrice: "12",
+  //   productStock: "123",
+  //   isDisabled: true,
+  //   isDefault: false,
+  // },
 ]);
 const emit = defineEmits(["commentCode"]);
 
 const props = defineProps({
   defaultState: Boolean,
   categoryItem: {
-    productName: String,
-    productCategoryName: String,
+    productId: String,
+    productCategoryId: String,
     isDefault: Boolean,
   },
   page: Number,
@@ -169,24 +173,49 @@ const addProduct = () => {
 
   if (productDetailList.value.length === 0) {
     isDefault = true;
+    productIdx.value = 0;
   }
 
   productDetailList.value.push({
     productName: productName.value.value,
-    productPrice: productPrice.value.value.endsWith("원")
-      ? productPrice.value.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      : productPrice.value.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원",
-    productStock: productStock.value.value.endsWith("개")
-      ? productStock.value.value
-      : productStock.value.value + "개",
+    productPrice: productPrice.value.value,
+    productStock: productStock.value.value,
     isDisabled: true, // 수정 상태인지 확인하기 위한 상태
     isDefault: isDefault, // 기본값인지 확인하기 위한 상태
   });
+
+  let formData = new FormData();
+  formData.append("product_id", props.categoryItem.productId);
+  formData.append("product_category_id", props.categoryItem.productCategoryId);
+  formData.append(
+    "name",
+    productDetailList.value[productDetailList.value.length - 1].productName
+  );
+  formData.append(
+    "amount",
+    productDetailList.value[productDetailList.value.length - 1].productPrice
+  );
+  formData.append(
+    "stock",
+    productDetailList.value[productDetailList.value.length - 1].productStock
+  );
+  formData.append(
+    "default_state",
+    productDetailList.value[productDetailList.value.length - 1].isDefault
+      ? 1
+      : 0
+  );
+  enrollProductDetail(formData);
 
   // 입력 필드 초기화
   productName.value.value = "";
   productPrice.value.value = "";
   productStock.value.value = "";
+};
+const clickAddBtn = () => {
+  verifyModalCode.value = 9;
+  store.setOpenVerifyModal(true);
+  emit("commentCode", verifyModalCode);
 };
 
 const updateProduct = (index) => {
@@ -206,7 +235,7 @@ const updateProduct = (index) => {
 };
 
 const clickModifyBtn = (index) => {
-  verifyModalCode.value = 5;
+  verifyModalCode.value = 11;
   if (productDetailList.value[index].isDisabled) {
     toggleEdit(index);
   } else {
@@ -219,7 +248,7 @@ const toggleEdit = (index) => {
 };
 
 const clickDefaultBtn = (index) => {
-  verifyModalCode.value = 4;
+  verifyModalCode.value = 10;
   if (productDetailList.value[index].isDisabled) {
     openVerifyModal(index, verifyModalCode.value);
   }
@@ -238,7 +267,7 @@ const openVerifyModal = (index, verifyModalCode) => {
 };
 
 const clickDeleteBtn = (index) => {
-  verifyModalCode.value = 6;
+  verifyModalCode.value = 12;
   openVerifyModal(index, verifyModalCode.value);
 };
 
@@ -256,6 +285,9 @@ watch(
       return;
     }
 
+    if (verifyModalCode.value === 9 && props.defaultState) {
+      addProduct();
+    }
     if (verifyModalCode.value === 10 && props.defaultState) {
       setDefaultValue(productIdx.value, props.defaultState);
     } else if (verifyModalCode.value === 11 && props.defaultState) {
@@ -265,5 +297,35 @@ watch(
     }
   }
 );
+
+watch(
+  () => props.page,
+  (newValue) => {
+    if (newValue !== 3) {
+      return;
+    }
+    getProductDetailList();
+  }
+);
+const getProductDetailList = async () => {
+  const data = await getProductDetailListForEnroll(
+    props.categoryItem.productId,
+    props.categoryItem.productCategoryId
+  );
+  productDetailList.value = data;
+  productDetailList.value = productDetailList.value.map((item) => {
+    return {
+      ...item,
+      // productPrice: item.productPrice.endsWith("원")
+      //   ? item.productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      //   : item.productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원",
+      // productStock: item.productStock.endsWith("개")
+      //   ? item.productStock
+      //   : item.productStock + "개",
+      isDisabled: true,
+    };
+  });
+  console.log(productDetailList.value);
+};
 </script>
 <style src="@/assets/css/modal/EnrollProductDetail.css" module></style>

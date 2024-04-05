@@ -267,7 +267,6 @@ const uploadImage = () => {
     formData.append("desc_picture", item);
   });
   formData.append("product_type", productType.value.value);
-  formData.append("product_id", 66);
 
   enrollProduct(formData);
 };

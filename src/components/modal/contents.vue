@@ -33,7 +33,9 @@
             :categoryItem="categoryItem"
             :page="page"
             @commentCode="setCommentCode"
+            :cardProductId="props.cardItem ? props.cardItem.productId : null"
           />
+          <!-- :cardProductCategoryId="props.cardItem ? props.cardItem.productCategoryId : null" -->
         </div>
       </div>
 
@@ -93,8 +95,8 @@ const productItem = ref({
 });
 
 const categoryItem = ref({
-  productName: null,
-  productCategoryName: null,
+  productId: null,
+  productCategoryId: null,
   isDefault: false,
 });
 
@@ -104,8 +106,8 @@ const props = defineProps({
 });
 
 const setCategoryItem = (item) => {
-  categoryItem.value.productName = item.productName;
-  categoryItem.value.productCategoryName = item.productCategoryName;
+  categoryItem.value.productId = item.productId;
+  categoryItem.value.productCategoryId = item.productCategoryId;
   categoryItem.value.isDefault = item.isDefault;
   nextModal();
 };
