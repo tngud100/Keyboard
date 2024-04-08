@@ -119,10 +119,14 @@ import { ref, watch, defineEmits, defineProps } from "vue";
 import { useModalStore } from "@/store/useModalStore";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 import { postProductAPI } from "@/api/ProductPostDataAPI.js";
+import { putProductAPI } from "@/api/ProductPutDataAPI.js";
+import { deleteProductAPI } from "@/api/ProductDeleteDataAPI.js";
 
 const store = useModalStore();
 const { getProductDetailListForEnroll } = getProductAPI();
 const { enrollProductDetail } = postProductAPI();
+const { updateProductDetail, setProductDetailDefault } = putProductAPI();
+const { deleteProductDetail } = deleteProductAPI();
 
 const productDetailList = ref([
   // {
@@ -160,7 +164,7 @@ const productIdx = ref(null);
 
 const verifyModalCode = ref(null);
 
-const addProduct = () => {
+const addProduct = async () => {
   let isDefault = false;
   if (
     productName.value.value === "" ||
@@ -205,7 +209,8 @@ const addProduct = () => {
       ? 1
       : 0
   );
-  enrollProductDetail(formData);
+  await enrollProductDetail(formData);
+  await getProductDetailList();
 
   // 입력 필드 초기화
   productName.value.value = "";
@@ -218,20 +223,21 @@ const clickAddBtn = () => {
   emit("commentCode", verifyModalCode);
 };
 
-const updateProduct = (index) => {
+const updateProduct = async (index) => {
   toggleEdit(index);
-  const updateDetailList = productDetailList.value[index],
-    { productName, productPrice, productStock } = updateDetailList;
-  updateDetailList.productName = productName;
-  updateDetailList.productPrice = productPrice.endsWith("원")
-    ? productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    : productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
-  updateDetailList.productStock = productStock.endsWith("개")
-    ? productStock
-    : productStock + "개";
+  const updateDetailList = productDetailList.value[index];
+  // { productName, productPrice, productStock } = updateDetailList;
+  const productName = updateDetailList.productName;
+  let productPrice = updateDetailList.productPrice;
+  let productStock = updateDetailList.productStock;
 
-  productDetailList.value.splice(index, 1, updateDetailList);
-  productDetailList.value = [...productDetailList.value];
+  let formData = new FormData();
+  formData.append("name", productName);
+  formData.append("amount", productPrice);
+  formData.append("stock", productStock);
+
+  await updateProductDetail(formData, updateDetailList.productDetailId);
+  await getProductDetailList();
 };
 
 const clickModifyBtn = (index) => {
@@ -253,11 +259,12 @@ const clickDefaultBtn = (index) => {
     openVerifyModal(index, verifyModalCode.value);
   }
 };
-const setDefaultValue = (index, isDefault) => {
-  productDetailList.value.forEach((item) => {
-    item.isDefault = false;
-  });
-  productDetailList.value[index].isDefault = isDefault;
+const setDefaultValue = async (index, isDefault) => {
+  await setProductDetailDefault(
+    props.categoryItem.productId,
+    productDetailList.value[index].productDetailId
+  );
+  await getProductDetailList();
 };
 
 const openVerifyModal = (index, verifyModalCode) => {
@@ -271,8 +278,14 @@ const clickDeleteBtn = (index) => {
   openVerifyModal(index, verifyModalCode.value);
 };
 
-const deleteProduct = (index) => {
-  productDetailList.value.splice(index, 1);
+const deleteProduct = async (index) => {
+  const deleteConfirm = await deleteProductDetail(
+    productDetailList.value[index].productDetailId
+  );
+  console.log(deleteConfirm);
+  if (deleteConfirm) {
+    productDetailList.value.splice(index, 1);
+  }
 };
 
 watch(
@@ -325,7 +338,6 @@ const getProductDetailList = async () => {
       isDisabled: true,
     };
   });
-  console.log(productDetailList.value);
 };
 </script>
 <style src="@/assets/css/modal/EnrollProductDetail.css" module></style>

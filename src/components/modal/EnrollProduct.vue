@@ -6,7 +6,7 @@
         type="text"
         placeholder="상품명"
         :class="$style.optionValue"
-        :value="props.cardItem ? props.cardItem.name : ''"
+        :value="props.cardItem ? props.cardItem.name : productName.value"
         ref="productName"
       />
     </div>
@@ -131,13 +131,15 @@
         type="text"
         placeholder="종류 ex) 키보드, 키캡, 등"
         :class="$style.optionValue"
-        :value="props.cardItem ? props.cardItem.type : ''"
+        :value="props.cardItem ? props.cardItem.type : productType.value"
         ref="productType"
       />
     </div>
   </div>
   <div :class="$style.submit">
-    <button :class="$style.submitBtn" @click="enrollBtn">상품 등록</button>
+    <button :class="$style.submitBtn" @click="productBtn">
+      {{ props.cardItem ? "상품 수정" : "상품 등록" }}
+    </button>
   </div>
 </template>
 
@@ -146,6 +148,7 @@ import IconClose from "#/icons/IconClose.vue";
 import { useModalStore } from "@/store/useModalStore";
 import { computed, ref, watch } from "vue";
 import { postProductAPI } from "@/api/ProductPostDataAPI.js";
+import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 
 const representImg = ref("");
 const backgroundImg = ref("");
@@ -164,10 +167,12 @@ const productType = ref("");
 
 const productItem = ref({
   productName: null,
+  productId: null,
   isfilled: false,
 });
 
 const { enrollProduct } = postProductAPI();
+const { getProductList } = getProductAPI();
 
 const modalstore = useModalStore();
 
@@ -216,8 +221,7 @@ const deleteList = (index) => {
   describeImgName.value =
     describeBlobList.value[describeBlobList.value.length - 1].name;
 };
-
-const enrollBtn = () => {
+const enrollForm = () => {
   if (
     productName.value.value &&
     representImg.value &&
@@ -229,11 +233,50 @@ const enrollBtn = () => {
   ) {
     verifyModalCode.value = 0;
     openVerifyModal(verifyModalCode.value);
-    console.log(productName.value, productType.value);
   } else {
-    console.log(productName.value.value, productType.value.value);
     alert("모든 항목을 입력해주세요.");
   }
+};
+
+// 수정 필요
+const modifyForm = async () => {
+  console.log(props.cardItem.descImgName, describeImgName.value);
+  props.cardItem.descImgName.forEach((item) => {
+    describeBlobList.value.push();
+    console.log(describeBlobList.value);
+    console.log(item);
+  });
+  let formData = new FormData();
+  if (props.cardItem.representImgName !== representImgName.value) {
+    formData.append("represent_picture", representImg.value);
+  }
+  if (props.cardItem.listBackImgName !== backgroundImgName.value) {
+    formData.append("list_back_picture", backgroundImg.value);
+  }
+  if (props.cardItem.listImgName !== productImgName.value) {
+    formData.append("list_picture", productImg.value);
+  }
+  if (props.cardItem.descImgName !== productDescName.value) {
+    describeBlobList.value.forEach((item) => {
+      formData.append("desc_picture", item);
+    });
+  }
+
+  console.log(formData);
+
+  // formData.append("name", productName.value.value);
+  // formData.append("list_back_picture", backgroundImg.value);
+  // formData.append("list_picture", productImg.value);
+  // describeBlobList.value.forEach((item) => {
+  //   formData.append("desc_picture", item);
+  // });
+  // formData.append("product_type", productType.value.value);
+
+  // await updateProduct(formData, props.cardItem.productId);
+};
+
+const productBtn = () => {
+  props.cardItem ? modifyForm() : enrollForm();
 };
 
 const openVerifyModal = (commentCode) => {
@@ -250,14 +293,12 @@ watch(isOpenVerifyModal, (newValue) => {
   }
 
   if (props.defaultState && verifyModalCode.value === 0) {
-    productItem.value.productName = productName.value.value;
-    productItem.value.isFilled = true;
-    emit("productItem", productItem.value);
-    uploadImage();
+    uploadForm();
   }
 });
 
-const uploadImage = () => {
+const uploadForm = async () => {
+  const productData = ref([]);
   let formData = new FormData();
   formData.append("name", productName.value.value);
   formData.append("represent_picture", representImg.value);
@@ -268,7 +309,20 @@ const uploadImage = () => {
   });
   formData.append("product_type", productType.value.value);
 
-  enrollProduct(formData);
+  await enrollProduct(formData);
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  productData.value = await getProductList();
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  productItem.value.productName = productName.value.value;
+  productItem.value.isFilled = true;
+
+  productItem.value.productId =
+    productData.value.value[productData.value.value.length - 1].productId;
+
+  console.log(productItem.value);
+  emit("productItem", productItem.value);
+  emit("nextModal");
 };
 </script>
 

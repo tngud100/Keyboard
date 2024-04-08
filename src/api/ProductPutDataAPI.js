@@ -1,29 +1,23 @@
 import instance from '@/utils/axiosInstance.js';
 
 export const putProductAPI = () => {
-
-    const setCategoryDefault = async (product_id, product_category_id) => {
-        await instance.put('/productDetail/setCategoryDefault',{}, { 
-            params: {
-                product_id: product_id,
-                product_category_id: product_category_id
-            }
-         }, {
-            Headers: {
-                'Content-Type': 'application/json'
+    const updateProduct = async (formData, product_id) => {
+        await instance.put(`/product/${product_id}/update`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
             }
         })
         .then((res) => {
             console.log(res);
-            alert("카테고리 기본값 설정 성공");
+            alert("상품 수정 성공");
             return res;
         })
         .catch((err) => {
-            alert(err.response.data);
+            console.error(err);
             return null;
-        })
+        });
     }
-
+    
     const updateProductCategory = async (product_id, product_category_id, category_name) => {
         await instance.put(`/product/${product_id}/category/update`,{}, { 
             params: {
@@ -32,7 +26,7 @@ export const putProductAPI = () => {
                 category_name: category_name
             }
          }, {
-            Headers: {
+            headers: {
                 'Content-Type': 'application/json'
             }
         })
@@ -47,6 +41,70 @@ export const putProductAPI = () => {
         })
     }
 
+    const setCategoryDefault = async (product_id, product_category_id) => {
+        return await instance.put('/productDetail/setCategoryDefault',{}, { 
+            params: {
+                product_id: product_id,
+                product_category_id: product_category_id
+            }
+         }, {
+            Headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            alert("카테고리 기본값 설정 성공");
+            return res;
+        })
+        .catch((err) => {
+            alert(err.response.data);
+            return false;
+        })
+    }
 
-    return { setCategoryDefault, updateProductCategory };
+    const updateProductDetail = async (formData, product_detail_id) => {
+        await instance.put(`/productDetail/${product_detail_id}/update`, formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            console.log(res);
+            alert("상세상품 수정 성공");
+            return res;
+        })
+        .catch((err) => {
+            console.error(err);
+            return null;
+        });
+    }
+
+    const setProductDetailDefault = async (product_id, product_detail_id) => {
+        await instance.put("/productDetail/setProductDefault", {}, {
+            params: {
+                product_id: product_id,
+                product_detail_id: product_detail_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                alert("상세상품 기본값 설정 성공");
+                return res;
+            })
+            .catch((err) => {
+                alert(err.response.data);
+                return false;
+            })
+    }
+
+    return {
+        setCategoryDefault,
+        updateProductCategory,
+        updateProductDetail,
+        setProductDetailDefault,
+        updateProduct
+    };
 }

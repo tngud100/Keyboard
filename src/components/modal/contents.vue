@@ -12,6 +12,7 @@
           <EnrollProduct
             @productItem="setProductItem"
             @commentCode="setCommentCode"
+            @nextModal="nextModal"
             :defaultState="modalItem.defaultState"
             :page="page"
             :cardItem="props.cardItem ? props.cardItem : null"
@@ -24,7 +25,9 @@
             :page="page"
             @categoryItem="setCategoryItem"
             @commentCode="setCommentCode"
-            :cardProductId="props.cardItem ? props.cardItem.productId : null"
+            :cardProductId="
+              props.cardItem ? props.cardItem.productId : productItem.productId
+            "
           />
         </div>
         <div :class="$style.detailEl" ref="detailEl">
@@ -91,6 +94,7 @@ const modalItem = ref({
 
 const productItem = ref({
   productName: null,
+  productId: null,
   isFilled: false,
 });
 
@@ -122,6 +126,7 @@ const setCommentCode = (commentCode) => {
 
 const setProductItem = (ProductItem) => {
   productItem.value.productName = ProductItem.productName;
+  productItem.value.productId = ProductItem.productId;
   productItem.value.isFilled = ProductItem.isFilled;
 };
 

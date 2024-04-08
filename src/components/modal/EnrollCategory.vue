@@ -146,12 +146,14 @@ const clickDefaultBox = (index) => {
   openVerifyModal(index, verifyModalCode.value);
 };
 // 카테고리 설정 부분 하기
-const setDefaultState = (index) => {
-  console.log(props.cardProductId, categoryList.value[index]);
-  setCategoryDefault(
+const setDefaultState = async (index) => {
+  const data = await setCategoryDefault(
     props.cardProductId,
     categoryList.value[index].productCategoryId
   );
+  if (data === false) {
+    categoryList.value[index].isDefault = !categoryList.value[index].isDefault;
+  }
 };
 
 const clickModifyBtn = (index) => {

@@ -72,6 +72,8 @@ const item = [
 ];
 const cardItem = ref();
 
+const productList = ref([]);
+
 const handleHover = (value) => {
   iconHover.value = value;
 };
@@ -86,27 +88,25 @@ const changeModalState = () => {
     document.body.style.overflow = "hidden";
     return;
   }
+  if (modalState.value === false) {
+  }
   document.body.style.overflow = "auto";
 };
 
 const closeModal = () => {
   cardItem.value = null;
   changeModalState();
-  console.log(cardItem.value);
+  fetchProductList();
+  console.log("cardItem", cardItem.value);
 };
 
 const cardModify = (value) => {
   cardItem.value = value;
   changeModalState();
 };
-
-// const productDetail = ref([]);
-const productList = ref([]);
-
 const fetchProductList = async () => {
   const data = await getProductList(); // api.js의 getProductList 함수 호출
   productList.value = data;
-  console.log("productList", productList.value.value);
 };
 
 fetchProductList();

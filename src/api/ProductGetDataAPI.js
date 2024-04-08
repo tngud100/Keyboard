@@ -26,6 +26,7 @@ export const getProductAPI = () => {
     const getProductList = async () => {
         return instance.get('/product/get')
             .then((res) => {
+                productList.value = [];
                 if (res.data === null) {
                     return 'No data';
                 }
