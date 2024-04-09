@@ -1,7 +1,8 @@
 import instance from '@/utils/axiosInstance.js';
 
 export const putProductAPI = () => {
-    const updateProduct = async (formData, product_id) => {
+    const updateProduct = async (formData) => {
+        const product_id = formData.get('product_id');
         await instance.put(`/product/${product_id}/update`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'

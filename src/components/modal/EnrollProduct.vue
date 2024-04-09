@@ -149,6 +149,7 @@ import { useModalStore } from "@/store/useModalStore";
 import { computed, ref, watch } from "vue";
 import { postProductAPI } from "@/api/ProductPostDataAPI.js";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
+import { putProductAPI } from "@/api/ProductPutDataAPI.js";
 
 const representImg = ref("");
 const backgroundImg = ref("");
@@ -173,6 +174,7 @@ const productItem = ref({
 
 const { enrollProduct } = postProductAPI();
 const { getProductList } = getProductAPI();
+const { updateProduct } = putProductAPI();
 
 const modalstore = useModalStore();
 
@@ -240,39 +242,52 @@ const enrollForm = () => {
 
 // 수정 필요
 const modifyForm = async () => {
-  console.log(props.cardItem.descImgName, describeImgName.value);
-  props.cardItem.descImgName.forEach((item) => {
-    describeBlobList.value.push();
-    console.log(describeBlobList.value);
-    console.log(item);
-  });
+  console.log(props.cardItem);
+  console.log(props.cardItem.descImgName);
+  // props.cardItem.descImgName.forEach((item) => {
+  //   console.log(item);
+  // });
+
   let formData = new FormData();
+  if (props.cardItem.name !== productName.value) {
+    formData.append("name", productName.value.value);
+  } else {
+    formData.append("name", props.cardItem.name);
+  }
+
   if (props.cardItem.representImgName !== representImgName.value) {
-    formData.append("represent_picture", representImg.value);
+    if (representImg.value) {
+      formData.append("represent_picture", representImg.value);
+    }
   }
   if (props.cardItem.listBackImgName !== backgroundImgName.value) {
-    formData.append("list_back_picture", backgroundImg.value);
+    if (backgroundImg.value) {
+      formData.append("list_back_picture", backgroundImg.value);
+    }
   }
   if (props.cardItem.listImgName !== productImgName.value) {
-    formData.append("list_picture", productImg.value);
+    if (productImg.value) {
+      formData.append("list_picture", productImg.value);
+    }
   }
-  if (props.cardItem.descImgName !== productDescName.value) {
+  if (props.cardItem.descImgName !== describeImgName.value) {
+    // console.log("descBlob", describeBlobList.value);
     describeBlobList.value.forEach((item) => {
       formData.append("desc_picture", item);
     });
   }
 
-  console.log(formData);
+  if (props.cardItem.type !== productType.value.value) {
+    formData.append("product_type", productType.value.value);
+  } else {
+    formData.append("product_type", props.cardItem.type);
+  }
+  formData.append("product_id", props.cardItem.productId);
+  for (let pair of formData.entries()) {
+    console.log(pair[0] + ", " + pair[1]);
+  }
 
-  // formData.append("name", productName.value.value);
-  // formData.append("list_back_picture", backgroundImg.value);
-  // formData.append("list_picture", productImg.value);
-  // describeBlobList.value.forEach((item) => {
-  //   formData.append("desc_picture", item);
-  // });
-  // formData.append("product_type", productType.value.value);
-
-  // await updateProduct(formData, props.cardItem.productId);
+  await updateProduct(formData, props.cardItem.productId);
 };
 
 const productBtn = () => {
