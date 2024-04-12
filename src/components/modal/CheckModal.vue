@@ -28,7 +28,6 @@ const cancel = () => {
 const verify = () => {
   modalStore.setOpenVerifyModal(false);
   emit("isVerifyState", true);
-  // Ajax 통신 저장
 };
 
 let props = defineProps({

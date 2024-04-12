@@ -27,7 +27,8 @@
         :key="index"
         :item="item"
         :class="$style.productList"
-        @clickModifyBtn="cardModify"
+        @clickModifyBtn="cardModifyBtn"
+        @clickDeleteBtn="cardDeleteBtn"
       />
       <button
         :class="$style.addBtn"
@@ -45,25 +46,42 @@
         @close="closeModal"
         :cardItem="cardItem"
       />
+
+      <div v-if="isOpenVerifyModal && !modalState" :class="$style.CheckModal">
+        <CheckModal
+          :commentCode="commentCode"
+          @isVerifyState="setDefaultState"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import keyboardImg from "@/assets/images/product.png";
 import Card from "@/components/adminProduct/Cards.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import IconPlusDisabled from "#/icons/IconPlusDisabled.vue";
 import modal from "#/modal/Contents.vue";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
-import { ref } from "vue";
+import { deleteProductAPI } from "@/api/ProductDeleteDataAPI.js";
+import { computed, ref, watch } from "vue";
+import { useModalStore } from "@/store/useModalStore";
+import CheckModal from "#/modal/CheckModal.vue";
 
 const navState = ref(1);
 const iconHover = ref(false);
 
 const modalState = ref(false);
 
+const modalStore = useModalStore();
+
+const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
+const commentCode = ref(null);
+const defaultState = ref(null);
+const cardProductId = ref(null);
+
 const { getProductList } = getProductAPI();
+const { deleteProduct } = deleteProductAPI();
 
 const item = [
   {
@@ -97,17 +115,49 @@ const closeModal = () => {
   cardItem.value = null;
   changeModalState();
   fetchProductList();
-  console.log("cardItem", cardItem.value);
 };
 
-const cardModify = (value) => {
+const cardModifyBtn = (value) => {
   cardItem.value = value;
   changeModalState();
 };
+
+const cardDeleteBtn = (cardId) => {
+  cardProductId.value = cardId;
+  commentCode.value = 2;
+  openVerifyModal(commentCode.value);
+};
+
+const deleteSelectedProduct = async (productId) => {
+  await deleteProduct(productId);
+  await fetchProductList();
+};
+
+const openVerifyModal = (Code) => {
+  commentCode.value = Code;
+  modalStore.setOpenVerifyModal(true);
+};
+
+const setDefaultState = (boolean) => {
+  defaultState.value = boolean;
+};
+
 const fetchProductList = async () => {
   const data = await getProductList(); // api.js의 getProductList 함수 호출
   productList.value = data;
 };
+
+watch(isOpenVerifyModal, (newValue) => {
+  if (newValue === true) {
+    return;
+  }
+
+  if (commentCode.value === 2 && defaultState.value) {
+    deleteSelectedProduct(cardProductId.value);
+    commentCode.value = null;
+    cardProductId.value = null;
+  }
+});
 
 fetchProductList();
 </script>

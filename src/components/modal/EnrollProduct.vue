@@ -223,7 +223,7 @@ const deleteList = (index) => {
   describeImgName.value =
     describeBlobList.value[describeBlobList.value.length - 1].name;
 };
-const enrollForm = () => {
+const enrollbtn = () => {
   if (
     productName.value.value &&
     representImg.value &&
@@ -238,6 +238,11 @@ const enrollForm = () => {
   } else {
     alert("모든 항목을 입력해주세요.");
   }
+};
+
+const modifyBtn = () => {
+  verifyModalCode.value = 1;
+  openVerifyModal(verifyModalCode.value);
 };
 
 // 수정 필요
@@ -291,7 +296,7 @@ const modifyForm = async () => {
 };
 
 const productBtn = () => {
-  props.cardItem ? modifyForm() : enrollForm();
+  props.cardItem ? modifyBtn() : enrollbtn();
 };
 
 const openVerifyModal = (commentCode) => {
@@ -309,6 +314,10 @@ watch(isOpenVerifyModal, (newValue) => {
 
   if (props.defaultState && verifyModalCode.value === 0) {
     uploadForm();
+  }
+
+  if (props.defaultState && verifyModalCode.value === 1) {
+    modifyForm();
   }
 });
 

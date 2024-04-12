@@ -46,11 +46,9 @@ const props = defineProps({
 
 const modifyBtn = () => {
   emit("clickModifyBtn", props.item);
-  console.log(props.item);
 };
 const deleteBtn = () => {
-  // emit("clickModifyBtn", props.item);
-  // console.log(props.item);
+  emit("clickDeleteBtn", props.item.productId);
 };
 </script>
 
