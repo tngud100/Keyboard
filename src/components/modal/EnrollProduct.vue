@@ -334,9 +334,7 @@ const uploadForm = async () => {
   formData.append("product_type", productType.value.value);
 
   await enrollProduct(formData);
-  await new Promise((resolve) => setTimeout(resolve, 500));
   productData.value = await getProductList();
-  await new Promise((resolve) => setTimeout(resolve, 500));
 
   productItem.value.productName = productName.value.value;
   productItem.value.isFilled = true;

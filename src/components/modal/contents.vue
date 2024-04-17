@@ -3,11 +3,11 @@
     <div :class="$style.background" @click="closeBtn"></div>
     <div :class="$style.modalBox" @click.stop="">
       <div :class="$style.header">
-        <span :class="$style.title">{{ item[0].title }}</span>
+        <span :class="$style.title">{{ item.title }}</span>
         <IconClose :class="$style.closeBtn" @click="closeBtn"></IconClose>
       </div>
 
-      <div :class="$style.contents" ref="contentEl">
+      <div v-if="item.modalNum != 2" :class="$style.contents" ref="contentEl">
         <div :class="$style.productEl" ref="productEl">
           <EnrollProduct
             @productItem="setProductItem"
@@ -38,11 +38,13 @@
             @commentCode="setCommentCode"
             :cardProductId="props.cardItem ? props.cardItem.productId : null"
           />
-          <!-- :cardProductCategoryId="props.cardItem ? props.cardItem.productCategoryId : null" -->
         </div>
       </div>
+      <div v-if="item.modalNum === 2">
+        <EnrollMain />
+      </div>
 
-      <div :class="$style.footer">
+      <div v-if="item.modalNum != 2" :class="$style.footer">
         <button v-show="page > 1" :class="$style.nextBtn" @click="prevModal">
           이전
         </button>
@@ -51,7 +53,6 @@
         </button>
       </div>
 
-      <!-- <button :class="$style.cancelBtn" @click="$emit('close', false)"></button> -->
       <CheckModal
         v-if="isOpenVerifyModal"
         @isVerifyState="setDefaultState"
@@ -66,6 +67,7 @@ import IconClose from "#/icons/IconClose.vue";
 import EnrollProduct from "#/modal/EnrollProduct.vue";
 import EnrollCategory from "#/modal/EnrollCategory.vue";
 import EnrollDetail from "#/modal/EnrollProductDetail.vue";
+import EnrollMain from "#/modal/EnrollProductMain.vue";
 import CheckModal from "#/modal/CheckModal.vue";
 import { animateSlide } from "@/utils/anime.js";
 import { computed, ref, useCssModule, watch } from "vue";

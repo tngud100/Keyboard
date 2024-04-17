@@ -205,7 +205,8 @@ const setCategoryName = (index, changeStr) => {
 const deleteCategory = async (index) => {
   console.log(categoryList);
   const deleteConfirm = await deleteProductCategory(
-    categoryList.value[index].productCategoryId
+    categoryList.value[index].productCategoryId,
+    categoryList.value[index].productId
   );
   if (deleteConfirm) {
     categoryList.value.splice(index, 1);

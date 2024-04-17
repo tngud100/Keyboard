@@ -21,7 +21,7 @@
         상품 내역
       </li>
     </ul>
-    <div :class="$style.wrapper">
+    <div :class="$style.wrapper" v-if="navState === 1">
       <Card
         v-for="(item, index) in productList.value"
         :key="index"
@@ -34,31 +34,32 @@
         :class="$style.addBtn"
         @mouseover="handleHover(true)"
         @mouseleave="handleHover(false)"
-        @click="changeModalState"
+        @click="addProduct"
       >
         <IconPlus v-if="iconHover" :class="$style.addBtnImg" />
         <IconPlusDisabled v-else :class="$style.addBtnImg" />
       </button>
+    </div>
 
-      <modal
-        v-if="modalState"
-        :item="item"
-        @close="closeModal"
-        :cardItem="cardItem"
-      />
+    <div :class="$style.wrapper" v-if="navState === 0">
+      <MainPicCard :navState="navState" @openModal="addMainPic" />
+    </div>
 
-      <div v-if="isOpenVerifyModal && !modalState" :class="$style.CheckModal">
-        <CheckModal
-          :commentCode="commentCode"
-          @isVerifyState="setDefaultState"
-        />
-      </div>
+    <modal
+      v-if="modalState"
+      :item="item[modalNum]"
+      @close="closeModal"
+      :cardItem="cardItem"
+    />
+    <div v-if="isOpenVerifyModal && !modalState" :class="$style.CheckModal">
+      <CheckModal :commentCode="commentCode" @isVerifyState="setDefaultState" />
     </div>
   </div>
 </template>
 
 <script setup>
 import Card from "@/components/adminProduct/Cards.vue";
+import MainPicCard from "@/components/adminProduct/MainPicCards.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import IconPlusDisabled from "#/icons/IconPlusDisabled.vue";
 import modal from "#/modal/Contents.vue";
@@ -68,7 +69,7 @@ import { computed, ref, watch } from "vue";
 import { useModalStore } from "@/store/useModalStore";
 import CheckModal from "#/modal/CheckModal.vue";
 
-const navState = ref(1);
+const navState = ref(0);
 const iconHover = ref(false);
 
 const modalState = ref(false);
@@ -83,9 +84,20 @@ const cardProductId = ref(null);
 const { getProductList } = getProductAPI();
 const { deleteProduct } = deleteProductAPI();
 
+const modalNum = ref(null);
+
 const item = [
   {
     title: "상품등록",
+    modalNum: 0,
+  },
+  {
+    title: "상품수정",
+    modalNum: 1,
+  },
+  {
+    title: "화보등록",
+    modalNum: 2,
   },
 ];
 const cardItem = ref();
@@ -100,8 +112,22 @@ const selectIndex = (value) => {
   navState.value = value;
 };
 
+const addMainPic = () => {
+  modalNum.value = 2;
+  changeModalState();
+};
+
+const addProduct = () => {
+  modalNum.value = 0;
+  changeModalState();
+};
+
 const changeModalState = () => {
   modalState.value = !modalState.value;
+  if (cardItem.value) {
+    cardItem.value = null;
+  }
+
   if (modalState.value === true) {
     document.body.style.overflow = "hidden";
     return;
@@ -118,8 +144,9 @@ const closeModal = () => {
 };
 
 const cardModifyBtn = (value) => {
-  cardItem.value = value;
+  modalNum.value = 1;
   changeModalState();
+  cardItem.value = value;
 };
 
 const cardDeleteBtn = (cardId) => {

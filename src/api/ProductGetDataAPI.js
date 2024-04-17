@@ -25,33 +25,34 @@ export const getProductAPI = () => {
     // getProductList 함수 정의
     const getProductList = async () => {
         return instance.get('/product/get')
-            .then((res) => {
+            .then(async (res) => {
                 productList.value = [];
                 if (res.data === null) {
                     return 'No data';
                 }
-                Promise.all(res.data.map(async (item) => {
-                    await getProductDetailList(item.product_id);
-                    productList.value.push({
-                        productId: item.product_id,
-                        mainImg: item.main_picture,
-                        representImg: backendCall(item.represent_picture),
-                        representImgName: item.represent_picture_name,
-                        listImg: backendCall(item.list_picture),
-                        listImgName: item.list_picture_name,
-                        listBackImg: backendCall(item.list_back_picture),
-                        listBackImgName: item.list_back_picture_name,
-                        descImg: backendCall(item.desc_picture),
-                        descImgName: item.desc_picture_name,
-                        mainPicState: item.main_pic_state,
-                        name: item.name,
-                        type: item.type,
-                        amount: item.amount,
-                        createDate: item.create_date,
-                        modifiedDate: item.modified_date,
-                        detailList: productDetail.value.filter(detail => detail.productDetailList.productId === item.product_id), // productId === productDetail.productId가 같을시 데이터 삽입
-                    });
-                }))
+                await Promise.all(
+                    res.data.map(async (item) => {
+                        await getProductDetailList(item.product_id);
+                        productList.value.push({
+                            productId: item.product_id,
+                            mainImg: item.main_picture,
+                            representImg: backendCall(item.represent_picture),
+                            representImgName: item.represent_picture_name,
+                            listImg: backendCall(item.list_picture),
+                            listImgName: item.list_picture_name,
+                            listBackImg: backendCall(item.list_back_picture),
+                            listBackImgName: item.list_back_picture_name,
+                            descImg: backendCall(item.desc_picture),
+                            descImgName: item.desc_picture_name,
+                            mainPicState: item.main_pic_state,
+                            name: item.name,
+                            type: item.type,
+                            amount: item.amount,
+                            createDate: item.create_date,
+                            modifiedDate: item.modified_date,
+                            detailList: productDetail.value.filter(detail => detail.productDetailList.productId === item.product_id), // productId === productDetail.productId가 같을시 데이터 삽입
+                        });
+                    }))
                 return productList;
             })
             .catch((err) => {
@@ -154,12 +155,39 @@ export const getProductAPI = () => {
             return null;
         });
     }
+
+    const getProductMainList = async () => {
+        return await instance.get('/product/getMain')
+        .then((res) => {
+            const data = res.data;
+            const productMainList = [];
+
+            if (data === null) {
+                return 'No data';
+            }
+
+            data.forEach((item) => {
+                productMainList.push({
+                    productId: item.product_id,
+                    mainPicState: item.main_pic_state,
+                    title: item.name,
+                });
+            });
+
+            return productMainList;
+        })
+        .catch((err) => {
+            console.error(err);
+            return null;
+        });
+    }
         
 
     return {
         getProductList,
         getProductDetailList,
         getProductCategoryList,
-        getProductDetailListForEnroll
+        getProductDetailListForEnroll,
+        getProductMainList,
     };
 }

@@ -1,0 +1,48 @@
+.container{
+    padding: 12px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    height: 660px;
+}
+.productCard{
+    width: calc(45% - 24px); /* 기존 width에서 margin 값을 빼서 설정 */
+    border-radius: 10px;
+    border: 3px solid #C5C5C5;
+    overflow: hidden;
+    margin: 10px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+.productCard:hover{
+    border: 3px solid #940B0B;
+    cursor: pointer;
+}
+.product{
+    display: flex;
+    justify-content: space-between;
+    margin: 4px;
+}
+.cardTitle{
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+.productName{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.cardContent{
+    font-size: 16px;
+}
+.imgBox{
+    width: 100%;
+    margin-right: 20px;
+}
+.img{
+    width: 100%;
+}
