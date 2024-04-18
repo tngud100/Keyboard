@@ -42,7 +42,14 @@
     </div>
 
     <div :class="$style.wrapper" v-if="navState === 0">
-      <MainPicCard :navState="navState" @openModal="addMainPic" />
+      <MainPicCard
+        :navState="navState"
+        :modalState="modalState"
+        :defaultState="defaultState"
+        :commentCode="commentCode"
+        @openModal="addMainPic"
+        @openCheckModal="openChekcModalByMainPic"
+      />
     </div>
 
     <modal
@@ -52,7 +59,11 @@
       :cardItem="cardItem"
     />
     <div v-if="isOpenVerifyModal && !modalState" :class="$style.CheckModal">
-      <CheckModal :commentCode="commentCode" @isVerifyState="setDefaultState" />
+      <CheckModal
+        :commentCode="commentCode"
+        @isVerifyState="setDefaultState"
+        :key="commentCode"
+      />
     </div>
   </div>
 </template>
@@ -147,6 +158,12 @@ const cardModifyBtn = (value) => {
   modalNum.value = 1;
   changeModalState();
   cardItem.value = value;
+};
+
+const openChekcModalByMainPic = (Code) => {
+  console.log(Code);
+  commentCode.value = Code;
+  openVerifyModal(commentCode.value);
 };
 
 const cardDeleteBtn = (cardId) => {

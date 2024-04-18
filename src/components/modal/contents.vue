@@ -32,7 +32,6 @@
         </div>
         <div :class="$style.detailEl" ref="detailEl">
           <EnrollDetail
-            :defaultState="modalItem.defaultState"
             :categoryItem="categoryItem"
             :page="page"
             @commentCode="setCommentCode"
@@ -41,7 +40,10 @@
         </div>
       </div>
       <div v-if="item.modalNum === 2">
-        <EnrollMain />
+        <EnrollMain
+          @commentCode="setCommentCode"
+          :defaultState="modalItem.defaultState"
+        />
       </div>
 
       <div v-if="item.modalNum != 2" :class="$style.footer">
@@ -133,7 +135,7 @@ const setProductItem = (ProductItem) => {
 };
 
 const closeBtn = () => {
-  emit("close", false);
+  emit("close", true);
   props.cardItem = null;
 };
 

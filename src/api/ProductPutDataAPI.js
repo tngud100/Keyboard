@@ -100,12 +100,70 @@ export const putProductAPI = () => {
                 return false;
             })
     }
+    const setProductMain = async (product_id) => {
+        await instance.put("/product/setMain", {}, {
+            params: {
+                product_id: product_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                alert("메인상품 설정 성공");
+                return res;
+            })
+            .catch((err) => {
+                alert(err.response.data);
+                return false;
+            })
+    }
+    const uploadProductMainImg = async (formData) => {
+        await instance.put("/product/insertMainPicture", formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((res) => {
+                alert("메인이미지 업로드 성공");
+                return res;
+            })
+            .catch((err) => {
+                alert(err.response.data);
+                return false;
+            })
+    }
+
+    const resetMainPicture = async (product_id) => {
+        await instance.put("/product/resetMainPicture", {}, {
+            params: {
+                product_id: product_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((res) => {
+                alert("메인이미지 초기화 성공");
+                return res;
+            })
+            .catch((err) => {
+                alert(err.response.data);
+                return false;
+            })
+    }
+
 
     return {
         setCategoryDefault,
         updateProductCategory,
         updateProductDetail,
         setProductDetailDefault,
-        updateProduct
+        updateProduct,
+        setProductMain,
+        uploadProductMainImg,
+        resetMainPicture,
     };
 }

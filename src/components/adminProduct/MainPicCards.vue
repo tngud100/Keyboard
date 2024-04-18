@@ -3,9 +3,12 @@
     <div v-for="(item, index) in mainProduct" :key="index" :class="$style.card">
       <div :class="$style.titleCard">
         <div :class="$style.title">
-          {{ "1. " + item.title }}
+          {{ index + 1 + ". " + item.title }}
         </div>
-        <button :class="$style.deleteButton" @click="deleteMainProduct(index)">
+        <button
+          :class="$style.deleteButton"
+          @click="deleteMainProductBtn(index)"
+        >
           <closeIcon />
         </button>
       </div>
@@ -14,14 +17,16 @@
           <input
             :class="$style.uploadInput"
             type="file"
-            id="uploadButton"
-            @change="uploadMainPic($event, index)"
+            :id="'uploadButton' + index"
+            @change="uploadProductMainPicBtn($event, index)"
           />
-          <span v-if="mainProduct[index].img" :class="$style.fileName">{{
-            mainProduct[index].img
+          <span v-if="item.mainImgName" :class="$style.fileName">{{
+            item.mainImgName
           }}</span>
           <span v-else :class="$style.placeHolder">파일을 선택해 주세요</span>
-          <label for="uploadButton" :class="$style.uploadButton">선택</label>
+          <label :for="'uploadButton' + index" :class="$style.uploadButton"
+            >선택</label
+          >
         </div>
       </div>
     </div>
@@ -29,7 +34,7 @@
       :class="$style.addBtn"
       @mouseover="handleHover(true)"
       @mouseleave="handleHover(false)"
-      @click="enrollMainPic"
+      @click="$emit('openModal')"
     >
       <IconPlus v-if="iconHover" :class="$style.addBtnImg" />
       <IconPlusDisabled v-else :class="$style.addBtnImg" />
@@ -41,33 +46,65 @@
 import closeIcon from "#/icons/IconClose.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import IconPlusDisabled from "#/icons/IconPlusDisabled.vue";
-import { ref, watch } from "vue";
+import { computed, ref, watch, watchEffect } from "vue";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
+import { putProductAPI } from "@/api/ProductPutDataAPI.js";
+import { useModalStore } from "@/store/useModalStore";
 
 const { getProductMainList } = getProductAPI();
+const { uploadProductMainImg, resetMainPicture } = putProductAPI();
 
-const mainProduct = ref([]);
+const modalStore = useModalStore();
+const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
 
-const emit = defineEmits(["openModal"]);
+const mainProduct = ref([
+  // productId: item.product_id,
+  // mainPicState: item.main_pic_state,
+  // imgPath: item.img_path,
+  // title: item.name,
+]);
+
+const selectedProductIdx = ref(null);
+
+const emit = defineEmits(["uploadMainPic"]);
 
 const iconHover = ref(false);
 
 const props = defineProps({
   navState: Number,
+  modalState: Boolean,
+  defaultState: Boolean,
+  commentCode: Number,
 });
 
 const handleHover = (value) => {
   iconHover.value = value;
 };
 
-const uploadMainPic = (event, index) => {
-  mainProduct.value[index].img = event.target.files[0].name;
-
-  console.log(mainProduct.value);
+const uploadProductMainPicBtn = (event, index) => {
+  mainProduct.value[index].mainImgName = event.target.files[0].name;
+  mainProduct.value[index].imgFile = event.target.files[0];
+  selectedProductIdx.value = index;
+  emit("openCheckModal", 4);
 };
 
-const enrollMainPic = () => {
-  emit("openModal");
+const deleteMainProductBtn = (index) => {
+  selectedProductIdx.value = index;
+  emit("openCheckModal", 13);
+};
+
+const deleteMainProduct = async (index) => {
+  const data = await resetMainPicture(mainProduct.value[index].productId);
+  console.log(data);
+};
+
+const uploadProductMainPic = async (index) => {
+  const formData = new FormData();
+  formData.append("main_picture", mainProduct.value[index].imgFile);
+  formData.append("product_id", mainProduct.value[index].productId);
+
+  const data = await uploadProductMainImg(formData);
+  console.log(data);
 };
 
 const getProductMain = async () => {
@@ -77,11 +114,36 @@ const getProductMain = async () => {
       mainProduct.value.push(data[i]);
     }
   }
-
-  console.log("mainPic", mainProduct.value);
+  console.log(mainProduct.value);
 };
 
-getProductMain();
+watchEffect(() => {
+  if (!props.modalState && props.navState === 0) {
+    mainProduct.value = [];
+    getProductMain();
+  }
+});
+
+watch(isOpenVerifyModal, async (newValue) => {
+  if (newValue) {
+    return;
+  }
+
+  if (props.defaultState && props.commentCode === 13) {
+    await deleteMainProduct(selectedProductIdx.value);
+    mainProduct.value = [];
+    getProductMain();
+  }
+  if (props.defaultState && props.commentCode === 4) {
+    await uploadProductMainPic(selectedProductIdx.value);
+    mainProduct.value = [];
+    getProductMain();
+  }
+  if (!props.defaultState && props.commentCode === 4) {
+    mainProduct.value[selectedProductIdx.value].mainImgName = "";
+    mainProduct.value[selectedProductIdx.value].imgFile = "";
+  }
+});
 </script>
 
 <style src="@/assets/css/adminProduct/MainPicCards.css" module>

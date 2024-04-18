@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { computed, defineEmits, defineProps } from "vue";
+import { computed, defineEmits, defineProps, watch } from "vue";
 import { useModalStore } from "@/store/useModalStore.js";
 
 const modalStore = useModalStore();

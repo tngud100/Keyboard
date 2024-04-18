@@ -169,6 +169,8 @@ export const getProductAPI = () => {
             data.forEach((item) => {
                 productMainList.push({
                     productId: item.product_id,
+                    mainImgName: item.main_picture_name,
+                    mainImg: backendCall(item.main_picture),
                     mainPicState: item.main_pic_state,
                     title: item.name,
                 });

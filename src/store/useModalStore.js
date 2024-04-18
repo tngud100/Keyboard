@@ -22,6 +22,10 @@ export const useModalStore = defineStore({
                 comments:"상품을 메인상품에 등록 하시겠습니까?"
             },
             {
+                code: 4,
+                comments:"해당 상품의 이미지를 등록 하시겠습니까?"
+            },
+            {
                 code: 5,
                 comments:"해당 카테고리를 등록 하시겠습니까?"
             },
@@ -53,6 +57,10 @@ export const useModalStore = defineStore({
                 code: 12,
                 comments:"해당 상세상품을 정말로 삭제 하시겠습니까?"
             },
+            {
+                code: 13,
+                comments:"해당 상품의 이미지를 삭제 하시겠습니까??"
+            }
         ]
     }),
     getters: {

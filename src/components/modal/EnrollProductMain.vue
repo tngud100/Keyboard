@@ -4,7 +4,7 @@
       v-for="(item, index) in productList"
       :key="index"
       :class="$style.productCard"
-      @click="enrollProductMainPic"
+      @click="enrollProductMainPic(item.productId)"
     >
       <div :class="$style.imgBox">
         <img :src="item.representImg" alt="대표사진" :class="$style.img" />
@@ -42,13 +42,36 @@
 
 <script setup>
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
-import { ref } from "vue";
-
-const enrollProductMainPic = () => {};
+import { putProductAPI } from "@/api/ProductPutDataAPI.js";
+import { useModalStore } from "@/store/useModalStore";
+import { computed, ref, watch } from "vue";
 
 const { getProductList } = getProductAPI();
+const { setProductMain } = putProductAPI();
+const modalstore = useModalStore();
+
+const emit = defineEmits(["commentCode"]);
 
 const productList = ref([]);
+const isOpenVerifyModal = computed(() => modalstore.isOpenVerifyModal);
+const commentCode = ref(null);
+
+const selectedProductId = ref(null);
+
+const props = defineProps({
+  defaultState: Boolean,
+});
+
+const enrollProductMainPic = (product_id) => {
+  selectedProductId.value = product_id;
+  commentCode.value = 3;
+  openVerifyModal(commentCode.value);
+};
+
+const openVerifyModal = (commentCode) => {
+  modalstore.setOpenVerifyModal(true);
+  emit("commentCode", commentCode);
+};
 
 const fetchProductList = async () => {
   const data = await getProductList(); // api.js의 getProductList 함수 호출
@@ -59,7 +82,23 @@ const fetchProductList = async () => {
   }
 };
 
+// product_id에 해당하는 상품을 메인 상품으로 설정 (구해야함)
+const setProductMainState = async (product_id) => {
+  await setProductMain(product_id);
+  productList.value = [];
+  await fetchProductList();
+};
+
 fetchProductList();
+
+watch(isOpenVerifyModal, (newValue) => {
+  if (newValue) {
+    return;
+  }
+  if (commentCode.value === 3 && props.defaultState) {
+    setProductMainState(selectedProductId.value);
+  }
+});
 </script>
 
 <style src="@/assets/css/modal/EnrollProductMain.css" module>
