@@ -34,12 +34,13 @@
           <EnrollDetail
             :categoryItem="categoryItem"
             :page="page"
+            :defaultState="modalItem.defaultState"
             @commentCode="setCommentCode"
             :cardProductId="props.cardItem ? props.cardItem.productId : null"
           />
         </div>
       </div>
-      <div v-if="item.modalNum === 2">
+      <div v-if="item.modalNum === 2" :class="$style.mainEnrollModal">
         <EnrollMain
           @commentCode="setCommentCode"
           :defaultState="modalItem.defaultState"

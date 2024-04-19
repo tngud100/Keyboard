@@ -62,7 +62,7 @@ const modalStore = useModalStore();
 
 const categoryListIdx = ref(null);
 const isOpenVerifyModal = computed(() => modalStore.isOpenVerifyModal);
-const emit = defineEmits(["commentCode"]);
+const emit = defineEmits(["commentCode", "categoryItem"]);
 const verifyModalCode = ref(null);
 
 const { enrollProductCategory } = postProductAPI();

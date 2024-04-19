@@ -178,7 +178,7 @@ const { updateProduct } = putProductAPI();
 
 const modalstore = useModalStore();
 
-const emit = defineEmits(["productItem", "commentCode"]);
+const emit = defineEmits(["productItem", "commentCode", "nextModal"]);
 
 const props = defineProps({
   defaultState: Boolean,

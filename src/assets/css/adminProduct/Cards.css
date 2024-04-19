@@ -14,7 +14,7 @@
     padding: 12px;
     width:160px;
     height: 125px;
-    object-fit: scale-down;
+    object-fit: cover;
 }
 .iconBox{
     display: flex;
@@ -27,9 +27,7 @@
 .iconBox:hover{
     background-color: #ebebeb;
 }
-.smallLetterItem{
-    width:95px;
-}
+
 .detailAndCategoryItem{
     display: grid;
     align-content: center;
@@ -39,6 +37,10 @@
     padding: 6px;
     scrollbar-width: none;
 }
+
 .item{
     width: 95px;
+    text-wrap: nowrap;
+    overflow-x: scroll;
+    scrollbar-width: none;
 }

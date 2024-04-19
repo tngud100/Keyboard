@@ -6,21 +6,24 @@
       :class="$style.productRepresentImg"
     />
     <div :class="$style.item">{{ item.name }}</div>
-    <div :class="$style.smallLetterItem">{{ item.type }}</div>
-    <div :class="$style.smallLetterItem">{{ item.category }}</div>
+    <div :class="$style.item">{{ item.type }}</div>
     <div :class="$style.detailAndCategoryItem">
-      <div v-for="detail in item.detailList" :key="detail">
+      <div v-for="detail in item.detailList" :key="detail" :class="$style.item">
         {{ detail.productDetailList.name }}
       </div>
     </div>
     <div :class="$style.detailAndCategoryItem">
-      <div v-for="(detailList, index) in item.detailList" :key="index">
+      <div
+        v-for="(detailList, index) in item.detailList"
+        :class="$style.item"
+        :key="index"
+      >
         {{ detailList.productDetailList.category }}
       </div>
     </div>
-    <div :class="$style.smallLetterItem">{{ item.amount }}원</div>
+    <div :class="$style.item">{{ item.amount }}원</div>
     <div :class="$style.item">{{ item.createDate }}</div>
-    <div :class="$style.smallLetterItem">{{ item.modifiedDate }}</div>
+    <div :class="$style.item">{{ item.modifiedDate }}</div>
     <div style="display: flex">
       <button @click="modifyBtn" :class="$style.iconBox">
         <writeIcon />

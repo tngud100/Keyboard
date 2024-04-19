@@ -34,7 +34,7 @@
       :class="$style.addBtn"
       @mouseover="handleHover(true)"
       @mouseleave="handleHover(false)"
-      @click="$emit('openModal')"
+      @click="emit('openModal')"
     >
       <IconPlus v-if="iconHover" :class="$style.addBtnImg" />
       <IconPlusDisabled v-else :class="$style.addBtnImg" />
@@ -66,7 +66,7 @@ const mainProduct = ref([
 
 const selectedProductIdx = ref(null);
 
-const emit = defineEmits(["uploadMainPic"]);
+const emit = defineEmits(["openModal", "uploadMainPic"]);
 
 const iconHover = ref(false);
 
@@ -142,6 +142,8 @@ watch(isOpenVerifyModal, async (newValue) => {
   if (!props.defaultState && props.commentCode === 4) {
     mainProduct.value[selectedProductIdx.value].mainImgName = "";
     mainProduct.value[selectedProductIdx.value].imgFile = "";
+    mainProduct.value = [];
+    getProductMain();
   }
 });
 </script>

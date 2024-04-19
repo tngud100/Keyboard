@@ -20,9 +20,7 @@
       </div>
       <div :class="$style.product">
         <div :class="$style.cardTitle">상품 가격</div>
-        <div :class="$style.cardContent">
-          {{ item.amount }}
-        </div>
+        <div :class="$style.cardContent">{{ item.amount }}원</div>
       </div>
       <div :class="$style.product">
         <div :class="$style.cardTitle">상품 종류</div>

@@ -154,6 +154,7 @@ const props = defineProps({
     isDefault: Boolean,
   },
   page: Number,
+  cardProductId: Number,
 });
 
 const productName = ref(null);
@@ -297,7 +298,6 @@ watch(
     if (props.page !== 3) {
       return;
     }
-
     if (verifyModalCode.value === 9 && props.defaultState) {
       addProduct();
     }
