@@ -2,44 +2,14 @@
   <div :class="$style.wrapper">
     <ul :class="$style.productList">
       <Product
-        :id="1"
-        name="SG87W"
-        :price="189000"
-        :productImg="keyboardImg"
-        :backgroundImg="keyboardBackgroundImg"
-        @click="moveKeyboardDetailPage"
-      />
-      <Product
-        :id="2"
-        name="SG87W"
-        :price="189000"
-        :productImg="keyboardImg"
-        :backgroundImg="keyboardBackgroundImg"
-        @click="moveKeyboardDetailPage"
-      />
-      <Product
-        :id="3"
-        name="SG87W"
-        :price="189000"
-        :productImg="keyboardImg"
-        :backgroundImg="keyboardBackgroundImg"
-        @click="moveKeyboardDetailPage"
-      />
-      <Product
-        :id="4"
-        name="SG87W"
-        :price="189000"
-        :productImg="keyboardImg"
-        :backgroundImg="keyboardBackgroundImg"
-        @click="moveKeyboardDetailPage"
-      />
-      <Product
-        :id="5"
-        name="SG87W"
-        :price="189000"
-        :productImg="keyboardImg"
-        :backgroundImg="keyboardBackgroundImg"
-        @click="moveKeyboardDetailPage"
+        v-for="item in productList"
+        :key="item.id"
+        :id="item.id + 1"
+        :productImg="item.listImg"
+        :backgroundImg="item.listBackImg"
+        :price="item.amount"
+        :name="item.name"
+        @click="moveKeyboardDetailPage(item.id)"
       />
     </ul>
   </div>
@@ -48,14 +18,40 @@
 <script setup>
 import { useRouter } from "vue-router";
 import Product from "#/common/Product.vue";
-import keyboardImg from "@/assets/images/keyboardImg.jpg";
-import keyboardBackgroundImg from "@/assets/images/keyboardBackgroundImg.jpg";
+import { getProductAPI } from "@/api/ProductGetDataAPI.js";
+import { onMounted, ref } from "vue";
+
+const { getProductList } = getProductAPI();
 
 const router = useRouter();
 
+const productList = ref([]);
+
 const moveKeyboardDetailPage = (id) => {
-  router.push(`/keyboard/${id}`);
+  router.push({
+    path: `/keyboard/${id}`,
+    query: { productId: id },
+  });
 };
+const getProductData = async () => {
+  const dataList = await getProductList();
+  for (let i = 0; i < dataList.value.length; i++) {
+    if (dataList.value[i].type === "keyboard") {
+      const data = dataList.value[i];
+      productList.value.push({
+        id: data.productId,
+        name: data.name,
+        listImg: data.listImg,
+        listBackImg: data.listBackImg,
+        amount: data.amount,
+      });
+    }
+  }
+};
+
+onMounted(() => {
+  getProductData();
+});
 </script>
 
 <style src="@/assets/css/keyboard/Contents.css" module></style>

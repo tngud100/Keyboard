@@ -18,16 +18,21 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import ProductInfo from "#/common/ProductInfo.vue";
 import product from "@/assets/images/product.png";
 import productDetailImg from "@/assets/images/productDetailImg.png";
 import { useRouter } from "vue-router";
+import { getProductAPI } from "@/api/ProductGetDataAPI.js";
+import { onMounted, ref } from "vue";
+
+const { getProductDetailList, getProductVO } = getProductAPI();
+const router = useRouter();
+
+const productId = router.currentRoute.value.query.productId;
 
 const importedProduct = ref(product);
 const importedProductDetailImg = ref(productDetailImg);
 const selectedProducts = ref([]);
-const router = useRouter();
 
 const productInfo = ref({
   colors: [
@@ -98,6 +103,28 @@ const addShoppingBasket = () => {
   localStorage.setItem("shopping", JSON.stringify(newBaskets));
   router.push("/basket");
 };
+
+const getProductData = async () => {
+  const dataList = await getProductDetailList(productId);
+  const listVO = await getProductVO(productId);
+  console.log("dataList", dataList.value);
+  console.log("listVO", listVO.value);
+  for (let i = 0; i < dataList.value.length; i++) {
+    if (dataList.value[i].type === "keyboard") {
+      const data = dataList.value[i];
+      productList.push({
+        id: i,
+        name: data.name,
+        categoryName: data.categoryName,
+        amount: data.amount,
+      });
+    }
+  }
+};
+
+onMounted(() => {
+  getProductData();
+});
 </script>
 
 <style src="@/assets/css/productDetail/Contents.css" module></style>

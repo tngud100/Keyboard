@@ -9,7 +9,7 @@
     <div :class="$style.item">{{ item.type }}</div>
     <div :class="$style.detailAndCategoryItem">
       <div v-for="detail in item.detailList" :key="detail" :class="$style.item">
-        {{ detail.productDetailList.name }}
+        {{ detail.name }}
       </div>
     </div>
     <div :class="$style.detailAndCategoryItem">
@@ -18,7 +18,7 @@
         :class="$style.item"
         :key="index"
       >
-        {{ detailList.productDetailList.category }}
+        {{ detailList.category }}
       </div>
     </div>
     <div :class="$style.item">{{ item.amount }}원</div>

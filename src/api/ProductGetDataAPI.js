@@ -50,7 +50,7 @@ export const getProductAPI = () => {
                             amount: item.amount,
                             createDate: item.create_date,
                             modifiedDate: item.modified_date,
-                            detailList: productDetail.value.filter(detail => detail.productDetailList.productId === item.product_id), // productId === productDetail.productId가 같을시 데이터 삽입
+                            detailList: productDetail.value.filter(detail => detail.productId === item.product_id), // productId === productDetail.productId가 같을시 데이터 삽입
                         });
                     }))
                 return productList;
@@ -69,10 +69,8 @@ export const getProductAPI = () => {
                 if (res.data === null) {
                     return 'No data';
                 }
-
-                res.data.forEach((item) => {
+                res.data.productDetailList.forEach((item) => {
                     productDetail.value.push({
-                        productDetailList: {
                             productDetailId: item.product_detail_id,
                             productId: item.product_id,
                             productCategoryId: item.product_category_id,
@@ -86,7 +84,6 @@ export const getProductAPI = () => {
                             createDate: item.create_date,
                             modifiedDate: item.modified_date,
                             isDelete: item.isdelete,
-                        },
                     });
                 });
                 return productDetail;
@@ -96,7 +93,40 @@ export const getProductAPI = () => {
                 return null;
             });
     };
-
+    const getProductVO = (productId) => {
+        return instance.get(`/product/${productId}/productDetail/get`)
+            .then((res) => {
+                const productVO = [];
+                if (res.data === null) {
+                    return 'No data';
+                }
+                console.log(res.data.productVO)
+                const item = res.data.productVO
+                productVO.value.push({
+                        productId: item.product_id,
+                        mainImg: item.main_picture,
+                        representImg: backendCall(item.represent_picture),
+                        representImgName: item.represent_picture_name,
+                        listImg: backendCall(item.list_picture),
+                        listImgName: item.list_picture_name,
+                        listBackImg: backendCall(item.list_back_picture),
+                        listBackImgName: item.list_back_picture_name,
+                        descImg: backendCall(item.desc_picture),
+                        descImgName: item.desc_picture_name,
+                        mainPicState: item.main_pic_state,
+                        name: item.name,
+                        type: item.type,
+                        amount: item.amount,
+                        createDate: item.create_date,
+                        modifiedDate: item.modified_date,
+                });
+                return productVO;
+            })
+            .catch((err) => {
+                console.error(err);
+                return null;
+            });
+    };
 
     const getProductCategoryList = async (productId) => {
         return instance.get(`/product/${productId}/category/get`)
@@ -117,7 +147,7 @@ export const getProductAPI = () => {
                 });
             });
 
-            console.log(productCategoryList);
+            // console.log(productCategoryList);
             return productCategoryList;
         })
         .catch((err) => {
@@ -147,7 +177,7 @@ export const getProductAPI = () => {
                 });   
             });
 
-            console.log(productDetailList);
+            // console.log(productDetailList);
             return productDetailList;
         })
         .catch((err) => {
@@ -188,6 +218,7 @@ export const getProductAPI = () => {
     return {
         getProductList,
         getProductDetailList,
+        getProductVO,
         getProductCategoryList,
         getProductDetailListForEnroll,
         getProductMainList,

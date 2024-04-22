@@ -1,27 +1,32 @@
 <template>
   <li :class="$style.productItem" @click="clickProduct">
     <div v-if="isNormalType" :class="$style.imgWrapper">
-      <img :src="backgroundImg" alt="배경 이미지" :class="$style.normalImg" />
+      {{ props.backgroundImg }}
+      <img
+        :src="props.backgroundImg"
+        alt="배경 이미지"
+        :class="$style.normalImg"
+      />
     </div>
     <div v-else :class="$style.imgWrapper" ref="imgWrapperRef">
       <img
-        :src="backgroundImg"
+        :src="props.backgroundImg"
         alt="배경 이미지"
         :class="$style.backgroundImg"
         ref="backgroundRef"
       />
       <img
-        :src="productImg"
+        :src="props.productImg"
         alt="상품 이미지"
         :class="$style.productImg"
         ref="productRef"
       />
     </div>
     <div :class="$style.infoWrapper">
-      <h3 :class="$style.name">{{ name }}</h3>
+      <h3 :class="$style.name">{{ props.name }}</h3>
       <p :class="$style.price">
         <IconCurrency :style="{ width: '17.33px', height: '13px' }" />{{
-          price.toLocaleString()
+          props.price
         }}
       </p>
     </div>
@@ -36,7 +41,7 @@ const TYPE = {
   NORMAL: "normal",
 };
 
-const { type, id } = defineProps({
+const props = defineProps({
   type: {
     type: String,
   },
@@ -67,9 +72,9 @@ const imgWrapperRef = ref(null);
 const backgroundRef = ref(null);
 const productRef = ref(null);
 
-const isNormalType = computed(() => type === TYPE.NORMAL);
+const isNormalType = computed(() => props.type === TYPE.NORMAL);
 
-const clickProduct = () => emit("click", id);
+const clickProduct = () => emit("click", props.id);
 
 const mouseenterImgCallback = () => {
   backgroundRef.value.style.filter = "blur(1px)";
