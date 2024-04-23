@@ -100,25 +100,19 @@ export const getProductAPI = () => {
                 if (res.data === null) {
                     return 'No data';
                 }
-                console.log(res.data.productVO)
+                // console.log(res.data.productVO)
                 const item = res.data.productVO
-                productVO.value.push({
-                        productId: item.product_id,
-                        mainImg: item.main_picture,
-                        representImg: backendCall(item.represent_picture),
-                        representImgName: item.represent_picture_name,
-                        listImg: backendCall(item.list_picture),
-                        listImgName: item.list_picture_name,
-                        listBackImg: backendCall(item.list_back_picture),
-                        listBackImgName: item.list_back_picture_name,
-                        descImg: backendCall(item.desc_picture),
-                        descImgName: item.desc_picture_name,
-                        mainPicState: item.main_pic_state,
-                        name: item.name,
-                        type: item.type,
-                        amount: item.amount,
-                        createDate: item.create_date,
-                        modifiedDate: item.modified_date,
+                productVO.push({
+                    productId: item.product_id,
+                    representImg: backendCall(item.represent_picture),
+                    representImgName: item.represent_picture_name,
+                    descImg: backendCall(item.desc_picture),
+                    descImgName: item.desc_picture_name,
+                    name: item.name,
+                    type: item.type,
+                    amount: item.amount,
+                    createDate: item.create_date,
+                    modifiedDate: item.modified_date,
                 });
                 return productVO;
             })

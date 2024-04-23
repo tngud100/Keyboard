@@ -1,38 +1,54 @@
 <template>
   <section :class="$style.wrapper">
-    <div>
-      <img :src="importedProduct" alt="상품 이미지" />
+    <div :class="$style.container">
+      <img
+        :src="productList.importedProduct"
+        alt="상품 이미지"
+        :class="$style.representImg"
+      />
       <div :class="$style.detailImgWrapper">
-        <img :src="importedProductDetailImg" alt="상품 상세 이미지" />
+        <img
+          v-for="(item, index) in productList.importedProductDetailImg"
+          :key="index"
+          :src="item"
+          alt="상품 상세 이미지"
+          :class="$style.detailImg"
+        />
       </div>
     </div>
     <ProductInfo
       :productInfo="productInfo"
+      :productList="productList"
       :selectedProducts="selectedProducts"
       @selectProduct="addProduct"
       @addCount="addCount"
       @subtractCount="subtractCount"
       @addShoppingBasket="addShoppingBasket"
+      v-if="productList.name"
     />
   </section>
 </template>
 
 <script setup>
 import ProductInfo from "#/common/ProductInfo.vue";
-import product from "@/assets/images/product.png";
-import productDetailImg from "@/assets/images/productDetailImg.png";
+// import product from "@/assets/images/product.png";
+// import productDetailImg from "@/assets/images/productDetailImg.png";
 import { useRouter } from "vue-router";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
-import { onMounted, ref } from "vue";
+import { onMounted, provide, ref } from "vue";
 
 const { getProductDetailList, getProductVO } = getProductAPI();
 const router = useRouter();
 
 const productId = router.currentRoute.value.query.productId;
 
-const importedProduct = ref(product);
-const importedProductDetailImg = ref(productDetailImg);
+// const importedProduct = ref(product);
+// const importedProductDetailImg = ref(productDetailImg);
 const selectedProducts = ref([]);
+
+const productList = ref({
+  deliveryPrice: 3000,
+});
 
 const productInfo = ref({
   colors: [
@@ -105,21 +121,42 @@ const addShoppingBasket = () => {
 };
 
 const getProductData = async () => {
-  const dataList = await getProductDetailList(productId);
-  const listVO = await getProductVO(productId);
-  console.log("dataList", dataList.value);
-  console.log("listVO", listVO.value);
-  for (let i = 0; i < dataList.value.length; i++) {
-    if (dataList.value[i].type === "keyboard") {
-      const data = dataList.value[i];
-      productList.push({
-        id: i,
-        name: data.name,
-        categoryName: data.categoryName,
-        amount: data.amount,
-      });
-    }
+  const [dataList, productVO] = await Promise.all([
+    getProductDetailList(productId),
+    getProductVO(productId),
+  ]);
+
+  productList.value = {
+    ...productList.value,
+    name: productVO[0].name,
+    price: productVO[0].amount,
+    importedProduct: productVO[0].representImg,
+    importedProductDetailImg: productVO[0].descImg,
+    detailProduct: [],
+  };
+
+  if (!productList && !Array.isArray(productList.value)) {
+    console.error("productList is not defined or not reactive");
+    return;
   }
+
+  const detailProductPromises = dataList.value.map((data, i) => {
+    return new Promise((resolve) => {
+      productList.value.detailProduct.push({
+        id: i,
+        category: data.category,
+        categoryName: data.name,
+        categoryPrice: data.amount,
+        categoryDefault: data.default,
+        leftStock: data.stock - data.soldStock,
+      });
+      resolve();
+    });
+  });
+
+  await Promise.all(detailProductPromises);
+
+  console.log(productList.value);
 };
 
 onMounted(() => {

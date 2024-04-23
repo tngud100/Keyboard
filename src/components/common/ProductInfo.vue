@@ -2,10 +2,10 @@
   <section :class="$style.wrapper">
     <header :class="$style.header">
       <div :class="$style.info">
-        <h2 :class="$style.name">{{ productInfo.name }}</h2>
+        <h2 :class="$style.name">{{ productList.name }}</h2>
         <p :class="$style.price">
           <IconCurrency />
-          {{ formattedPrice(productInfo.price) }}
+          {{ formattedPrice(productList.price) }}
         </p>
       </div>
       <div :class="$style.shareBtnWrapper">
@@ -14,6 +14,7 @@
         </button>
       </div>
     </header>
+
     <div :class="$style.deliveryInfo">
       <dl :class="$style.deliveryInfoList">
         <dt :class="[$style.deliveryInfoItem, $style.deliveryInfoTerm]">
@@ -32,32 +33,37 @@
           배송비
         </dt>
         <dd :class="$style.deliveryInfoItem">
-          {{ formattedPrice(productInfo.deliveryPrice) }}원
+          {{ formattedPrice(productList.deliveryPrice) }}원
         </dd>
       </dl>
     </div>
-    <div :class="$style.characterInfo">
-      <h4 :class="$style.characterTitle">상품 목록</h4>
+    <div :class="$style.characterInfo" v-for="item in category" :key="item.id">
+      <h4 :class="$style.characterTitle">
+        {{ item }}
+      </h4>
       <ul :class="$style.characterList">
         <li
-          v-for="type in productInfo.types"
-          :key="type.id"
+          v-for="(detailItem, index) in categoryItem.filter(
+            (item) => detailItem.category === item
+          )"
+          :key="index"
           :class="[
             $style.characterItem,
-            currentType === type.name && $style.active,
+            currentType === detailItem.categoryName && $style.active,
           ]"
           @click="updateSelectedType"
-          :data-type="type.name"
+          :data-type="detailItem.categoryName"
         >
-          {{ type.name }}
+          {{ detailItem.categoryName }}
         </li>
       </ul>
     </div>
-    <div :class="$style.characterInfo">
+
+    <!-- <div :class="$style.characterInfo">
       <h4 :class="$style.characterTitle">색상</h4>
       <ul :class="$style.characterList">
         <li
-          v-for="color in productInfo.colors"
+          v-for="color in productList.detailProduct"
           :key="color.id"
           :class="[
             $style.characterItem,
@@ -69,7 +75,8 @@
           {{ color.name }}
         </li>
       </ul>
-    </div>
+    </div> -->
+
     <ul :class="$style.selectedProductList">
       <li
         v-for="selectedProduct in selectedProducts"
@@ -111,6 +118,7 @@
         </div>
       </li>
     </ul>
+
     <div :class="$style.purchaseBtnWrapper">
       <Button
         type="primary"
@@ -128,7 +136,15 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
+import {
+  computed,
+  inject,
+  onMounted,
+  ref,
+  toRefs,
+  watch,
+  watchEffect,
+} from "vue";
 import { v4 as uuidv4 } from "uuid";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
@@ -140,23 +156,29 @@ import IconClose from "#/icons/IconClose.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import { useRouter } from "vue-router";
 
-const { productInfo, selectedProducts } = defineProps({
-  productInfo: {
-    type: Object,
-    required: true,
-  },
-  selectedProducts: {
-    type: Array,
-    required: true,
-  },
-});
+const { productInfo, selectedProducts, productList, productData } = defineProps(
+  {
+    productInfo: {
+      type: Object,
+      required: true,
+    },
+    selectedProducts: {
+      type: Array,
+      required: true,
+    },
+    productList: {
+      type: Object,
+      required: true,
+    },
+  }
+);
 
 const emit = defineEmits([
   "selectProduct",
   "addCount",
   "subtractCount",
-  "addShoppingBasket",
   "onStore",
+  "addShoppingBasket",
 ]);
 
 const isShowingType = ref(false);
@@ -165,6 +187,24 @@ const currentColor = ref("");
 const currentType = ref("");
 
 const router = useRouter();
+
+// const productDetailList = ref([]);
+
+const category = ref([]);
+const categoryItem = ref([]);
+
+onMounted(() => {
+  productList.detailProduct.forEach((item) => {
+    category.value.push(item.category);
+    categoryItem.value.push({
+      category: item.category,
+      categoryName: item.categoryName,
+    });
+  });
+  category.value = [...new Set(category.value)];
+  console.log(category.value);
+  console.log(categoryItem.value);
+});
 
 watchEffect(() => {
   if (!currentColor.value || !currentType.value) return;
