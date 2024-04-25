@@ -16,11 +16,11 @@
         />
       </div>
     </div>
+    <!-- :productInfo="productInfo" -->
     <ProductInfo
-      :productInfo="productInfo"
       :productList="productList"
       :selectedProducts="selectedProducts"
-      @selectProduct="addProduct"
+      @selectedDetail="addProduct"
       @addCount="addCount"
       @subtractCount="subtractCount"
       @addShoppingBasket="addShoppingBasket"
@@ -35,7 +35,7 @@ import ProductInfo from "#/common/ProductInfo.vue";
 // import productDetailImg from "@/assets/images/productDetailImg.png";
 import { useRouter } from "vue-router";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
-import { onMounted, provide, ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const { getProductDetailList, getProductVO } = getProductAPI();
 const router = useRouter();
@@ -50,30 +50,37 @@ const productList = ref({
   deliveryPrice: 3000,
 });
 
-const productInfo = ref({
-  colors: [
-    { id: 1, name: "블랙" },
-    { id: 2, name: "화이트" },
-    { id: 3, name: "그린" },
-  ],
-  types: [
-    { id: 1, name: "SG87W" },
-    { id: 2, name: "SG88W" },
-    { id: 3, name: "SG89W" },
-  ],
-  name: "SG87W",
-  price: 189000,
-  deliveryPrice: 3000,
-});
+// const productInfo = ref({
+//   colors: [
+//     { id: 1, name: "블랙" },
+//     { id: 2, name: "화이트" },
+//     { id: 3, name: "그린" },
+//   ],
+//   types: [
+//     { id: 1, name: "SG87W" },
+//     { id: 2, name: "SG88W" },
+//     { id: 3, name: "SG89W" },
+//   ],
+//   name: "SG87W",
+//   price: 189000,
+//   deliveryPrice: 3000,
+// });
 
 const addProduct = (product) => {
-  const isDuplicatedProduct = selectedProducts.value.some(
-    ({ color, type }) => product.color === color && product.type === type
-  );
+  // const isDuplicatedProduct = selectedProducts.value.some(
+  //   (productItem) =>
+  //     product.item.category === productItem.item.category &&
+  //     product.item.detailName === productItem.item.detailName
+  // );
 
-  if (isDuplicatedProduct) return;
+  // if (isDuplicatedProduct) return;
 
   selectedProducts.value.push({ ...product, count: 1 });
+
+  console.log(
+    "content seletedProducts",
+    JSON.stringify(selectedProducts.value, null, 2)
+  );
 };
 
 const addCount = ({ id }) => {
@@ -126,6 +133,11 @@ const getProductData = async () => {
     getProductVO(productId),
   ]);
 
+  if (!productList && !Array.isArray(productList.value)) {
+    console.error("productList is not defined or not reactive");
+    return;
+  }
+
   productList.value = {
     ...productList.value,
     name: productVO[0].name,
@@ -135,19 +147,14 @@ const getProductData = async () => {
     detailProduct: [],
   };
 
-  if (!productList && !Array.isArray(productList.value)) {
-    console.error("productList is not defined or not reactive");
-    return;
-  }
-
   const detailProductPromises = dataList.value.map((data, i) => {
     return new Promise((resolve) => {
       productList.value.detailProduct.push({
         id: i,
         category: data.category,
-        categoryName: data.name,
-        categoryPrice: data.amount,
         categoryDefault: data.default,
+        detailName: data.name,
+        detailPrice: data.amount,
         leftStock: data.stock - data.soldStock,
       });
       resolve();
@@ -159,8 +166,8 @@ const getProductData = async () => {
   console.log(productList.value);
 };
 
-onMounted(() => {
-  getProductData();
+onMounted(async () => {
+  await getProductData();
 });
 </script>
 

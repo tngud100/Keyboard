@@ -37,45 +37,34 @@
         </dd>
       </dl>
     </div>
+
     <div :class="$style.characterInfo" v-for="item in category" :key="item.id">
       <h4 :class="$style.characterTitle">
         {{ item }}
       </h4>
       <ul :class="$style.characterList">
-        <li
-          v-for="(detailItem, index) in categoryItem.filter(
-            (item) => detailItem.category === item
-          )"
-          :key="index"
-          :class="[
-            $style.characterItem,
-            currentType === detailItem.categoryName && $style.active,
-          ]"
-          @click="updateSelectedType"
-          :data-type="detailItem.categoryName"
-        >
-          {{ detailItem.categoryName }}
+        <li v-for="detailItem in categoryItem" :key="detailItem.id">
+          <span
+            v-if="detailItem.category === item"
+            :data-detail="detailItem.detailName"
+            :data-category="item"
+            @click="updateSelectedItem"
+            :class="[
+              $style.characterItem,
+              selectedDetail.some(
+                (item) =>
+                  item.categoryName === detailItem.category &&
+                  item.detailName === detailItem.detailName
+              )
+                ? $style.active
+                : '',
+            ]"
+          >
+            {{ detailItem.detailName }}
+          </span>
         </li>
       </ul>
     </div>
-
-    <!-- <div :class="$style.characterInfo">
-      <h4 :class="$style.characterTitle">색상</h4>
-      <ul :class="$style.characterList">
-        <li
-          v-for="color in productList.detailProduct"
-          :key="color.id"
-          :class="[
-            $style.characterItem,
-            currentColor === color.name && $style.active,
-          ]"
-          @click="updateSelectedColor"
-          :data-color="color.name"
-        >
-          {{ color.name }}
-        </li>
-      </ul>
-    </div> -->
 
     <ul :class="$style.selectedProductList">
       <li
@@ -84,7 +73,16 @@
         :key="selectedProduct.id"
       >
         <h5 :class="$style.selectedProductTitle">
-          {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }}
+          <div>
+            <span v-for="(item, i) in selectedProduct.item" :key="i">
+              {{ item.detailName }}
+              <span v-if="i < selectedProduct.item.length - 1">
+                &nbsp; / &nbsp;
+              </span>
+            </span>
+          </div>
+
+          <!-- {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }} -->
           <button type="button" :class="$style.removeBtn">
             <IconClose />
           </button>
@@ -110,9 +108,13 @@
             </button>
           </div>
           <div :class="$style.totalPrice">
-            <span :class="$style.totalPriceStrong">{{
-              calcTotalPrice(selectedProduct.price, selectedProduct.count)
-            }}</span
+            <span :class="$style.totalPriceStrong">
+              {{
+                selectedProduct.item.reduce(
+                  (total, item) => total + item.detailPrice,
+                  0
+                )
+              }} </span
             >원
           </div>
         </div>
@@ -136,15 +138,7 @@
 </template>
 
 <script setup>
-import {
-  computed,
-  inject,
-  onMounted,
-  ref,
-  toRefs,
-  watch,
-  watchEffect,
-} from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { v4 as uuidv4 } from "uuid";
 import { formattedPrice } from "@/utils";
 import Button from "#/common/Button.vue";
@@ -156,87 +150,100 @@ import IconClose from "#/icons/IconClose.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import { useRouter } from "vue-router";
 
-const { productInfo, selectedProducts, productList, productData } = defineProps(
-  {
-    productInfo: {
-      type: Object,
-      required: true,
-    },
-    selectedProducts: {
-      type: Array,
-      required: true,
-    },
-    productList: {
-      type: Object,
-      required: true,
-    },
-  }
-);
+const { selectedProducts, productList } = defineProps({
+  selectedProducts: {
+    type: Array,
+    required: true,
+  },
+  productList: {
+    type: Object,
+    required: true,
+  },
+});
 
 const emit = defineEmits([
-  "selectProduct",
+  "selectedDetail",
   "addCount",
   "subtractCount",
   "onStore",
   "addShoppingBasket",
 ]);
 
-const isShowingType = ref(false);
-const isShowingColor = ref(false);
-const currentColor = ref("");
-const currentType = ref("");
+// const isShowingType = ref(false);
+// const isShowingColor = ref(false);
+// const currentColor = ref("");
+// const currentType = ref("");
 
 const router = useRouter();
 
-// const productDetailList = ref([]);
-
 const category = ref([]);
 const categoryItem = ref([]);
+
+const selectedDetail = ref([]);
+
+const currentSelect = ref({
+  category: "",
+  detailName: "",
+});
 
 onMounted(() => {
   productList.detailProduct.forEach((item) => {
     category.value.push(item.category);
     categoryItem.value.push({
       category: item.category,
-      categoryName: item.categoryName,
+      detailName: item.detailName,
     });
   });
   category.value = [...new Set(category.value)];
-  console.log(category.value);
-  console.log(categoryItem.value);
 });
 
-watchEffect(() => {
-  if (!currentColor.value || !currentType.value) return;
+// const toggleProductTypeSelectBox = () =>
+// (isShowingType.value = !isShowingType.value);
 
-  emit("selectProduct", {
-    id: uuidv4(),
-    color: currentColor.value,
-    type: currentType.value,
-    price: productInfo.price,
-  });
-  resetCurrentTypeAndColor();
-});
+// const toggleProductColorSelectBox = () =>
 
-const resetCurrentTypeAndColor = () => {
-  currentType.value = "";
-  currentColor.value = "";
+watch(
+  () => selectedDetail.value,
+  (newValue) => {
+    console.log(newValue);
+    if (newValue.length < category.value.length || newValue.length === 0) {
+      return;
+    }
+
+    emit("selectedDetail", {
+      id: uuidv4(),
+      item: newValue,
+    });
+    resetSelectedItem();
+  },
+  { deep: true }
+);
+
+const resetSelectedItem = () => {
+  selectedDetail.value = [];
 };
 
-const toggleProductTypeSelectBox = () =>
-  (isShowingType.value = !isShowingType.value);
+const updateSelectedItem = (event) => {
+  const detailName = event.target.dataset.detail;
+  const categoryName = event.target.dataset.category;
 
-const toggleProductColorSelectBox = () =>
-  (isShowingColor.value = !isShowingColor.value);
+  const detailItem = productList.detailProduct.find(
+    (item) => item.category === categoryName && item.detailName === detailName
+  );
+  const detailPrice = detailItem.detailPrice;
 
-const updateSelectedColor = ({ target }) => {
-  currentColor.value = target.dataset.color;
-  toggleProductColorSelectBox();
-};
+  const key = {
+    categoryName: categoryName,
+    detailName: detailName,
+    detailPrice: detailPrice,
+  };
 
-const updateSelectedType = ({ target }) => {
-  currentType.value = target.dataset.type;
-  toggleProductTypeSelectBox();
+  for (let i = 0; i < selectedDetail.value.length; i++) {
+    if (selectedDetail.value[i].categoryName.includes(categoryName)) {
+      selectedDetail.value.splice(i, 1);
+    }
+  }
+  selectedDetail.value.push(key);
 };
 
 const updateAddedCount = (id) => emit("addCount", { id });

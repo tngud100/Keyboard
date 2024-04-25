@@ -245,14 +245,7 @@ const modifyBtn = () => {
   openVerifyModal(verifyModalCode.value);
 };
 
-// 수정 필요
 const modifyForm = async () => {
-  console.log(props.cardItem);
-  console.log(props.cardItem.descImgName);
-  // props.cardItem.descImgName.forEach((item) => {
-  //   console.log(item);
-  // });
-
   let formData = new FormData();
   if (props.cardItem.name !== productName.value) {
     formData.append("name", productName.value.value);
@@ -276,7 +269,6 @@ const modifyForm = async () => {
     }
   }
   if (props.cardItem.descImgName !== describeImgName.value) {
-    // console.log("descBlob", describeBlobList.value);
     describeBlobList.value.forEach((item) => {
       formData.append("desc_picture", item);
     });
@@ -293,6 +285,15 @@ const modifyForm = async () => {
   }
 
   await updateProduct(formData, props.cardItem.productId);
+  const data = await getProductList();
+  if (Array.isArray(data.value)) {
+    data.value.forEach((item) => {
+      if (item.productId === props.cardItem.productId) {
+        productName.value.value = item.name;
+        productType.value.value = item.type;
+      }
+    });
+  }
 };
 
 const productBtn = () => {
