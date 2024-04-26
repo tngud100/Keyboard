@@ -37,33 +37,38 @@
         </dd>
       </dl>
     </div>
-
-    <div :class="$style.characterInfo" v-for="item in category" :key="item.id">
-      <h4 :class="$style.characterTitle">
-        {{ item }}
-      </h4>
-      <ul :class="$style.characterList">
-        <li v-for="detailItem in categoryItem" :key="detailItem.id">
-          <span
-            v-if="detailItem.category === item"
-            :data-detail="detailItem.detailName"
-            :data-category="item"
-            @click="updateSelectedItem"
-            :class="[
-              $style.characterItem,
-              selectedDetail.some(
-                (item) =>
-                  item.categoryName === detailItem.category &&
-                  item.detailName === detailItem.detailName
-              )
-                ? $style.active
-                : '',
-            ]"
-          >
-            {{ detailItem.detailName }}
-          </span>
-        </li>
-      </ul>
+    <div :class="$style.characterInfoWrapper">
+      <div
+        :class="$style.characterInfo"
+        v-for="item in category"
+        :key="item.id"
+      >
+        <h4 :class="$style.characterTitle">
+          {{ item }}
+        </h4>
+        <ul :class="$style.characterList">
+          <li v-for="detailItem in categoryItem" :key="detailItem.id">
+            <span
+              v-if="detailItem.category === item"
+              :data-detail="detailItem.detailName"
+              :data-category="item"
+              @click="updateSelectedItem"
+              :class="[
+                $style.characterItem,
+                selectedDetail.some(
+                  (item) =>
+                    item.categoryName === detailItem.category &&
+                    item.detailName === detailItem.detailName
+                )
+                  ? $style.active
+                  : '',
+              ]"
+            >
+              {{ detailItem.detailName }}
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <ul :class="$style.selectedProductList">
@@ -110,9 +115,12 @@
           <div :class="$style.totalPrice">
             <span :class="$style.totalPriceStrong">
               {{
-                selectedProduct.item.reduce(
-                  (total, item) => total + item.detailPrice,
-                  0
+                calcTotalPrice(
+                  selectedProduct.item.reduce(
+                    (total, item) => total + item.detailPrice,
+                    0
+                  ),
+                  selectedProduct.count
                 )
               }} </span
             >원
@@ -201,11 +209,9 @@ onMounted(() => {
 // (isShowingType.value = !isShowingType.value);
 
 // const toggleProductColorSelectBox = () =>
-
 watch(
   () => selectedDetail.value,
   (newValue) => {
-    console.log(newValue);
     if (newValue.length < category.value.length || newValue.length === 0) {
       return;
     }
@@ -246,7 +252,9 @@ const updateSelectedItem = (event) => {
   selectedDetail.value.push(key);
 };
 
-const updateAddedCount = (id) => emit("addCount", { id });
+const updateAddedCount = (id) => {
+  emit("addCount", { id });
+};
 
 const updateSubtractedCount = (id) => emit("subtractCount", { id });
 

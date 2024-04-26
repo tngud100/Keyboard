@@ -67,21 +67,30 @@ const productList = ref({
 // });
 
 const addProduct = (product) => {
-  // const isDuplicatedProduct = selectedProducts.value.some(
-  //   (productItem) =>
-  //     product.item.category === productItem.item.category &&
-  //     product.item.detailName === productItem.item.detailName
-  // );
-
-  // if (isDuplicatedProduct) return;
-
-  selectedProducts.value.push({ ...product, count: 1 });
-
-  console.log(
-    "content seletedProducts",
-    JSON.stringify(selectedProducts.value, null, 2)
+  const isDuplicate = selectedProducts.value.some((productItem) =>
+    isEqual(productItem.item, product.item)
   );
+
+  if (isDuplicate) return;
+  selectedProducts.value.push({ ...product, count: 1 });
 };
+
+function isEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  const sortedArr1 = arr1.map((obj) => JSON.stringify(obj)).sort();
+  const sortedArr2 = arr2.map((obj) => JSON.stringify(obj)).sort();
+
+  for (let i = 0; i < sortedArr1.length; i++) {
+    if (sortedArr1[i] !== sortedArr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 const addCount = ({ id }) => {
   selectedProducts.value = calcCount(id, 1);
