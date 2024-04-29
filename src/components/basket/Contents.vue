@@ -59,17 +59,57 @@ import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
+console.log(shoppingBaskets);
 
 if (!shoppingBaskets.length) {
   localStorage.setItem("shopping", JSON.stringify([]));
 }
 
 const formmatedShoppingBaskets = ref(
-  shoppingBaskets.map((shoppingBasket) => ({
-    ...shoppingBasket,
-    isPicked: false,
-  }))
+  shoppingBaskets.flatMap((shoppingBasket) => {
+    if (Array.isArray(shoppingBasket.item)) {
+      return shoppingBasket.item.map((item) => ({
+        id: shoppingBasket.id,
+        count: shoppingBasket.count,
+        item,
+        isPicked: false,
+      }));
+    } else {
+      return {
+        id: shoppingBasket.id,
+        count: shoppingBasket.count,
+        item: shoppingBasket.item,
+        isPicked: false,
+      };
+    }
+  })
 );
+// const formmatedShoppingBaskets = ref(
+//   shoppingBaskets.map((shoppingBasket) => {
+//     if (Array.isArray(shoppingBasket.item) && shoppingBasket.item.length > 1) {
+//       return {
+//         ...shoppingBasket,
+//         isPicked: false,
+//       };
+//     } else {
+//       return {
+//         id: shoppingBasket.id,
+//         count: shoppingBasket.count,
+//         item: shoppingBasket.item,
+//         isPicked: false,
+//       };
+//     }
+//   })
+// );
+
+// const formmatedShoppingBaskets = ref(
+//   shoppingBaskets.map((shoppingBasket) => ({
+//     id: shoppingBasket.id,
+//     count: shoppingBasket.count,
+//     item: shoppingBasket.item,
+//     isPicked: false,
+//   }))
+// );
 
 const isAllCheck = computed(() =>
   formmatedShoppingBaskets.value.every(

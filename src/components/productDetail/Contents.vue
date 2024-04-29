@@ -119,20 +119,35 @@ const addShoppingBasket = () => {
 
   const newBaskets = [];
 
-  mergedBaskets.forEach((item) => {
-    const existingItem = newBaskets.find(
-      (mergedItem) =>
-        mergedItem.color === item.color && mergedItem.type === item.type
+  mergedBaskets.forEach((selectedProduct) => {
+    // 중복된 제품이 있는지 확인하는 조건을 설정합니다.
+    const isDuplicate = newBaskets.some((item) =>
+      item.item.every(
+        (subItem, index) =>
+          subItem &&
+          subItem.categoryName === selectedProduct.item[index]?.categoryName &&
+          subItem.detailName === selectedProduct.item[index]?.detailName
+      )
     );
 
-    if (!existingItem) {
-      newBaskets.push({ ...item });
+    if (!isDuplicate) {
+      newBaskets.push({ ...selectedProduct });
     } else {
-      existingItem.count += item.count;
+      // 중복된 제품이 있으면 해당 제품의 수량을 증가시킵니다.
+      const existingItemIndex = newBaskets.findIndex((item) =>
+        item.item.every(
+          (subItem, index) =>
+            subItem.categoryName === selectedProduct.item[index].categoryName &&
+            subItem.detailName === selectedProduct.item[index].detailName
+        )
+      );
+      newBaskets[existingItemIndex].count += selectedProduct.count;
     }
   });
+  console.log("newBaskets:", newBaskets);
 
   localStorage.setItem("shopping", JSON.stringify(newBaskets));
+  // 바구니 페이지로 이동
   router.push("/basket");
 };
 
