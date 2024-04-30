@@ -10,7 +10,7 @@
           :id="shoppingBasket.id"
         />
         <label :for="shoppingBasket.id" :class="$style.name">{{
-          shoppingBasket.item.detailName
+          shoppingBasket.productName
         }}</label>
       </div>
       <button
@@ -23,17 +23,17 @@
     </header>
     <div :class="$style.content">
       <div :class="$style.contentSide">
-        <h4 :class="$style.subName">{{ shoppingBasket.item.detailName }}</h4>
+        <h4 :class="$style.subName">{{ itemData.detailName }}</h4>
         <ul :class="$style.tagList">
           <li :class="$style.tagItem">
-            {{ shoppingBasket.item.categoryName }}
+            {{ itemData.categoryName }}
           </li>
           <li :class="$style.tagItem">제품</li>
           <li :class="$style.tagItem">옵션</li>
         </ul>
         <div :class="$style.price">
           <IconCurrency :style="{ width: '16.452px', height: '12.339px' }" />
-          {{ shoppingBasket.price }}
+          {{ itemData.detailPrice }}
           <!-- {{ shoppingBasket.price.toLocaleString() }} -->
         </div>
         <div :class="$style.dilvery">배송비 3,000원</div>
@@ -69,17 +69,22 @@ import IconCurrency from "#/icons/IconCurrency.vue";
 import IconMinusDisabled from "#/icons/IconMinusDisabled.vue";
 import IconMinus from "#/icons/IconMinus.vue";
 import IconPlus from "#/icons/IconPlus.vue";
+import { computed, ref } from "vue";
 
 const { shoppingBasket } = defineProps({
-  type: {
-    type: String,
-    default: "normal",
-  },
+  // type: {
+  //   type: String,
+  //   default: "normal",
+  // },
   shoppingBasket: {
     type: Object,
     required: true,
   },
 });
+// console.log(shoppingBasket);
+const type = computed(() => (shoppingBasket.isPart ? "part" : "normal"));
+
+const itemData = computed(() => shoppingBasket.item);
 </script>
 
 <style src="@/assets/css/common/ProductPicked.css" module></style>

@@ -40,8 +40,8 @@
 .pickedWrapper {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   flex-grow: 1;
+  gap: 12px;
 }
 
 .header {
@@ -68,6 +68,18 @@
   padding: 9px 13px;
   border-radius: 5px;
   border: 1px solid #cbcbcb;
+}
+
+.pickedContentWrapper{
+}
+.partPick{
+  margin: 6px 0px;
+}
+.hidden{
+  display: none;
+}
+
+.normalPick{
 }
 
 .paymentInfoWrapper {

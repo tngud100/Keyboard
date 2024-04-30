@@ -76,6 +76,10 @@ const addProduct = (product) => {
 };
 
 function isEqual(arr1, arr2) {
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+    return false;
+  }
+
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -119,15 +123,22 @@ const addShoppingBasket = () => {
 
   const newBaskets = [];
 
+  console.log("mergedProducts:", mergedBaskets);
+
   mergedBaskets.forEach((selectedProduct) => {
+    console.log("newBaskets:", newBaskets);
     // 중복된 제품이 있는지 확인하는 조건을 설정합니다.
-    const isDuplicate = newBaskets.some((item) =>
-      item.item.every(
-        (subItem, index) =>
-          subItem &&
-          subItem.categoryName === selectedProduct.item[index]?.categoryName &&
-          subItem.detailName === selectedProduct.item[index]?.detailName
-      )
+    const isDuplicate = newBaskets.some(
+      (item) =>
+        Array.isArray(item.item) &&
+        Array.isArray(selectedProduct.item) &&
+        selectedProduct.item.every(
+          (subItem, index) =>
+            subItem &&
+            selectedProduct.productName === item.productName &&
+            subItem.categoryName === item.item[index]?.categoryName &&
+            subItem.detailName === item.item[index]?.detailName
+        )
     );
 
     if (!isDuplicate) {
@@ -137,14 +148,17 @@ const addShoppingBasket = () => {
       const existingItemIndex = newBaskets.findIndex((item) =>
         item.item.every(
           (subItem, index) =>
-            subItem.categoryName === selectedProduct.item[index].categoryName &&
-            subItem.detailName === selectedProduct.item[index].detailName
+            subItem &&
+            item.productName === selectedProduct.productName &&
+            subItem.categoryName ===
+              selectedProduct.item[index]?.categoryName &&
+            subItem.detailName === selectedProduct.item[index]?.detailName
         )
       );
+      console.log(newBaskets[existingItemIndex].count, selectedProduct.count);
       newBaskets[existingItemIndex].count += selectedProduct.count;
     }
   });
-  console.log("newBaskets:", newBaskets);
 
   localStorage.setItem("shopping", JSON.stringify(newBaskets));
   // 바구니 페이지로 이동

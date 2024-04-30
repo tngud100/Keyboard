@@ -218,6 +218,7 @@ watch(
 
     emit("selectedDetail", {
       id: uuidv4(),
+      productName: productList.name,
       item: newValue,
     });
     resetSelectedItem();

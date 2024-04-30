@@ -32,15 +32,72 @@
             </button>
           </div>
         </header>
-        <ProductPicked
-          v-for="shoppingBasket in formmatedShoppingBaskets"
-          :key="shoppingBasket.id"
-          :shoppingBasket="shoppingBasket"
-          @checkedProduct="checkProduct"
-          @deletedProduct="deletProduct"
-          @addedProduct="addProduct"
-          @subtractedProduct="subtractProduct"
-        />
+        <div
+          v-for="shoppingBasketId in formmatedShoppingBasketIds"
+          :key="shoppingBasketId"
+          :class="$style.pickedContentWrapper"
+        >
+          <ProductPicked
+            v-if="
+              formmatedShoppingBaskets.some(
+                (shoppingBasket) =>
+                  shoppingBasket.id === shoppingBasketId &&
+                  shoppingBasket.isPart
+              )
+            "
+            :class="$style.partPick"
+            :shoppingBasket="
+              formmatedShoppingBaskets.find(
+                (shoppingBasket) =>
+                  shoppingBasket.id === shoppingBasketId &&
+                  shoppingBasket.isPart
+              )
+            "
+            @checkedProduct="checkProduct"
+            @deletedProduct="deletProduct"
+            @addedProduct="addProduct"
+            @subtractedProduct="subtractProduct"
+          />
+          <!-- shoppingBasket="
+              count: 1,
+              isPart: true,
+              isPicked: false,
+              item: {
+                categoryName: '카테고리',
+                detailName: '상품명',
+                detailPrice: 10000,
+              },
+              productName: '대표상품명',
+            " -->
+          <div
+            v-for="shoppingBasket in formmatedShoppingBaskets"
+            :key="shoppingBasket.id"
+            :class="$style.pickedContent"
+          >
+            <ProductPicked
+              v-if="
+                shoppingBasket.id === shoppingBasketId && shoppingBasket.isPart
+              "
+              :class="$style.partPick"
+              :shoppingBasket="shoppingBasket"
+              @checkedProduct="checkProduct"
+              @deletedProduct="deletProduct"
+              @addedProduct="addProduct"
+              @subtractedProduct="subtractProduct"
+            />
+            <ProductPicked
+              v-if="
+                shoppingBasket.id === shoppingBasketId && !shoppingBasket.isPart
+              "
+              :class="$style.partPick"
+              :shoppingBasket="shoppingBasket"
+              @checkedProduct="checkProduct"
+              @deletedProduct="deletProduct"
+              @addedProduct="addProduct"
+              @subtractedProduct="subtractProduct"
+            />
+          </div>
+        </div>
       </div>
       <div :class="$style.paymentInfoWrapper">
         <PaymentInfo
@@ -59,57 +116,42 @@ import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
-console.log(shoppingBaskets);
 
 if (!shoppingBaskets.length) {
   localStorage.setItem("shopping", JSON.stringify([]));
 }
 
+const formmatedShoppingBasketIds = ref(
+  Array.from(
+    new Set(shoppingBaskets.map((shoppingBasket) => shoppingBasket.id))
+  )
+);
+console.log("shoppingBaskets:", shoppingBaskets);
+
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.flatMap((shoppingBasket) => {
-    if (Array.isArray(shoppingBasket.item)) {
+    if (Array.isArray(shoppingBasket.item) && shoppingBasket.item.length > 1) {
       return shoppingBasket.item.map((item) => ({
         id: shoppingBasket.id,
+        productName: shoppingBasket.productName,
         count: shoppingBasket.count,
         item,
+        isPart: true,
         isPicked: false,
       }));
     } else {
       return {
         id: shoppingBasket.id,
+        productName: shoppingBasket.productName,
         count: shoppingBasket.count,
-        item: shoppingBasket.item,
+        item: shoppingBasket.item[0],
+        isPart: false,
         isPicked: false,
       };
     }
   })
 );
-// const formmatedShoppingBaskets = ref(
-//   shoppingBaskets.map((shoppingBasket) => {
-//     if (Array.isArray(shoppingBasket.item) && shoppingBasket.item.length > 1) {
-//       return {
-//         ...shoppingBasket,
-//         isPicked: false,
-//       };
-//     } else {
-//       return {
-//         id: shoppingBasket.id,
-//         count: shoppingBasket.count,
-//         item: shoppingBasket.item,
-//         isPicked: false,
-//       };
-//     }
-//   })
-// );
-
-// const formmatedShoppingBaskets = ref(
-//   shoppingBaskets.map((shoppingBasket) => ({
-//     id: shoppingBasket.id,
-//     count: shoppingBasket.count,
-//     item: shoppingBasket.item,
-//     isPicked: false,
-//   }))
-// );
+console.log("origin:", formmatedShoppingBaskets.value);
 
 const isAllCheck = computed(() =>
   formmatedShoppingBaskets.value.every(
@@ -119,7 +161,7 @@ const isAllCheck = computed(() =>
 
 const totalProductsPrice = computed(() =>
   formmatedShoppingBaskets.value.reduce(
-    (acc, curr) => acc + curr.price * curr.count,
+    (acc, curr) => acc + curr.item.detailPrice * curr.count,
     0
   )
 );
@@ -209,4 +251,4 @@ const storeShoppingBaksets = (recentBaskets) => {
 };
 </script>
 
-<style src="./Contents.css" module></style>
+<style src="@/assets/css/basket/Contents.css" module></style>
