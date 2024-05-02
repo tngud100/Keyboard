@@ -1,7 +1,6 @@
 <template>
   <li :class="$style.productItem" @click="clickProduct">
     <div v-if="isNormalType" :class="$style.imgWrapper">
-      {{ props.backgroundImg }}
       <img
         :src="props.backgroundImg"
         alt="배경 이미지"

@@ -57,7 +57,7 @@
                 $style.characterItem,
                 selectedDetail.some(
                   (item) =>
-                    item.categoryName === detailItem.category &&
+                    item.categoryName[0] === detailItem.category &&
                     item.detailName === detailItem.detailName
                 )
                   ? $style.active
@@ -189,12 +189,8 @@ const categoryItem = ref([]);
 
 const selectedDetail = ref([]);
 
-const currentSelect = ref({
-  category: "",
-  detailName: "",
-});
-
 onMounted(() => {
+  console.log(productList.detailProduct);
   productList.detailProduct.forEach((item) => {
     category.value.push(item.category);
     categoryItem.value.push({
@@ -240,7 +236,7 @@ const updateSelectedItem = (event) => {
   const detailPrice = detailItem.detailPrice;
 
   const key = {
-    categoryName: categoryName,
+    categoryName: [categoryName],
     detailName: detailName,
     detailPrice: detailPrice,
   };

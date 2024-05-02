@@ -31,8 +31,6 @@
 
 <script setup>
 import ProductInfo from "#/common/ProductInfo.vue";
-// import product from "@/assets/images/product.png";
-// import productDetailImg from "@/assets/images/productDetailImg.png";
 import { useRouter } from "vue-router";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 import { onMounted, ref } from "vue";
@@ -42,29 +40,11 @@ const router = useRouter();
 
 const productId = router.currentRoute.value.query.productId;
 
-// const importedProduct = ref(product);
-// const importedProductDetailImg = ref(productDetailImg);
 const selectedProducts = ref([]);
 
 const productList = ref({
   deliveryPrice: 3000,
 });
-
-// const productInfo = ref({
-//   colors: [
-//     { id: 1, name: "블랙" },
-//     { id: 2, name: "화이트" },
-//     { id: 3, name: "그린" },
-//   ],
-//   types: [
-//     { id: 1, name: "SG87W" },
-//     { id: 2, name: "SG88W" },
-//     { id: 3, name: "SG89W" },
-//   ],
-//   name: "SG87W",
-//   price: 189000,
-//   deliveryPrice: 3000,
-// });
 
 const addProduct = (product) => {
   const isDuplicate = selectedProducts.value.some((productItem) =>
@@ -119,46 +99,49 @@ const calcCount = (id, calcUnit) => {
 
 const addShoppingBasket = () => {
   const parsedBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
-  const mergedBaskets = [...selectedProducts.value, ...parsedBaskets];
+  const imgSrc = productList.value.importedProduct;
 
+  const mergedBaskets = [...selectedProducts.value, ...parsedBaskets];
+  console.log("mergedBaskets", mergedBaskets);
   const newBaskets = [];
 
-  console.log("mergedProducts:", mergedBaskets);
-
-  mergedBaskets.forEach((selectedProduct) => {
-    console.log("newBaskets:", newBaskets);
+  mergedBaskets.forEach((beforeBasket) => {
     // 중복된 제품이 있는지 확인하는 조건을 설정합니다.
     const isDuplicate = newBaskets.some(
       (item) =>
         Array.isArray(item.item) &&
-        Array.isArray(selectedProduct.item) &&
-        selectedProduct.item.every(
+        Array.isArray(beforeBasket.item) &&
+        beforeBasket.item.every(
           (subItem, index) =>
             subItem &&
-            selectedProduct.productName === item.productName &&
-            subItem.categoryName === item.item[index]?.categoryName &&
+            beforeBasket.productName === item.productName &&
+            subItem.categoryName[0] === item.item[index]?.categoryName[0] &&
             subItem.detailName === item.item[index]?.detailName
         )
     );
 
     if (!isDuplicate) {
-      newBaskets.push({ ...selectedProduct });
+      beforeBasket.imgSrc
+        ? newBaskets.push({ ...beforeBasket })
+        : newBaskets.push({ ...beforeBasket, imgSrc: imgSrc });
     } else {
       // 중복된 제품이 있으면 해당 제품의 수량을 증가시킵니다.
       const existingItemIndex = newBaskets.findIndex((item) =>
         item.item.every(
           (subItem, index) =>
             subItem &&
-            item.productName === selectedProduct.productName &&
-            subItem.categoryName ===
-              selectedProduct.item[index]?.categoryName &&
-            subItem.detailName === selectedProduct.item[index]?.detailName
+            item.productName === beforeBasket.productName &&
+            subItem.categoryName[0] ===
+              beforeBasket.item[index]?.categoryName[0] &&
+            subItem.detailName === beforeBasket.item[index]?.detailName
         )
       );
-      console.log(newBaskets[existingItemIndex].count, selectedProduct.count);
-      newBaskets[existingItemIndex].count += selectedProduct.count;
+      // console.log(newBaskets[existingItemIndex].count, beforeBasket.count);
+      newBaskets[existingItemIndex].count += beforeBasket.count;
     }
   });
+
+  console.log("newBaskets:", newBaskets);
 
   localStorage.setItem("shopping", JSON.stringify(newBaskets));
   // 바구니 페이지로 이동
@@ -201,7 +184,7 @@ const getProductData = async () => {
 
   await Promise.all(detailProductPromises);
 
-  console.log(productList.value);
+  // console.log(productList.value);
 };
 
 onMounted(async () => {

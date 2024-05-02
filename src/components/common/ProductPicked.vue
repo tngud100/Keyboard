@@ -21,22 +21,34 @@
         <IconGrayClose />
       </button>
     </header>
-    <div :class="$style.content">
-      <div :class="$style.contentSide">
-        <h4 :class="$style.subName">{{ itemData.detailName }}</h4>
-        <ul :class="$style.tagList">
-          <li :class="$style.tagItem">
-            {{ itemData.categoryName }}
-          </li>
-          <li :class="$style.tagItem">제품</li>
-          <li :class="$style.tagItem">옵션</li>
-        </ul>
-        <div :class="$style.price">
-          <IconCurrency :style="{ width: '16.452px', height: '12.339px' }" />
-          {{ itemData.detailPrice }}
-          <!-- {{ shoppingBasket.price.toLocaleString() }} -->
+    <div
+      :class="[type == 'normal' ? $style.nomalContent : $style.multiContent]"
+    >
+      <div :class="$style.container">
+        <div :class="$style.imgWrapper">
+          <img
+            :src="shoppingBasket.imgSrc"
+            alt="상품 이미지"
+            :class="$style.productImg"
+          />
         </div>
-        <div :class="$style.dilvery">배송비 3,000원</div>
+        <div :class="$style.contentSide">
+          <h4 :class="$style.subName">{{ itemData.detailName }}</h4>
+          <ul :class="$style.tagList">
+            <li
+              v-for="(categoryName, index) in itemData.categoryName"
+              :key="index"
+              :class="$style.tagItem"
+            >
+              {{ categoryName }}
+            </li>
+          </ul>
+          <div :class="$style.price">
+            <IconCurrency :style="{ width: '16.452px', height: '12.339px' }" />
+            {{ itemData.detailPrice.toLocaleString() }}
+          </div>
+          <div :class="$style.dilvery">배송비 3,000원</div>
+        </div>
       </div>
       <div :class="$style.countWrapper">
         <button
@@ -72,17 +84,15 @@ import IconPlus from "#/icons/IconPlus.vue";
 import { computed, ref } from "vue";
 
 const { shoppingBasket } = defineProps({
-  // type: {
-  //   type: String,
-  //   default: "normal",
-  // },
   shoppingBasket: {
     type: Object,
     required: true,
   },
 });
-// console.log(shoppingBasket);
-const type = computed(() => (shoppingBasket.isPart ? "part" : "normal"));
+
+const type = computed(() =>
+  shoppingBasket.isMultiIOption ? "represent" : "normal"
+);
 
 const itemData = computed(() => shoppingBasket.item);
 </script>

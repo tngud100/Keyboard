@@ -42,33 +42,16 @@
               formmatedShoppingBaskets.some(
                 (shoppingBasket) =>
                   shoppingBasket.id === shoppingBasketId &&
-                  shoppingBasket.isPart
+                  shoppingBasket.isMultiIOption
               )
             "
-            :class="$style.partPick"
-            :shoppingBasket="
-              formmatedShoppingBaskets.find(
-                (shoppingBasket) =>
-                  shoppingBasket.id === shoppingBasketId &&
-                  shoppingBasket.isPart
-              )
-            "
+            :class="$style.picked"
+            :shoppingBasket="multiOptionBasketData(shoppingBasketId)"
             @checkedProduct="checkProduct"
             @deletedProduct="deletProduct"
             @addedProduct="addProduct"
             @subtractedProduct="subtractProduct"
           />
-          <!-- shoppingBasket="
-              count: 1,
-              isPart: true,
-              isPicked: false,
-              item: {
-                categoryName: '카테고리',
-                detailName: '상품명',
-                detailPrice: 10000,
-              },
-              productName: '대표상품명',
-            " -->
           <div
             v-for="shoppingBasket in formmatedShoppingBaskets"
             :key="shoppingBasket.id"
@@ -76,9 +59,10 @@
           >
             <ProductPicked
               v-if="
-                shoppingBasket.id === shoppingBasketId && shoppingBasket.isPart
+                shoppingBasket.id === shoppingBasketId &&
+                shoppingBasket.isMultiIOption
               "
-              :class="$style.partPick"
+              :class="$style.picked"
               :shoppingBasket="shoppingBasket"
               @checkedProduct="checkProduct"
               @deletedProduct="deletProduct"
@@ -87,9 +71,10 @@
             />
             <ProductPicked
               v-if="
-                shoppingBasket.id === shoppingBasketId && !shoppingBasket.isPart
+                shoppingBasket.id === shoppingBasketId &&
+                !shoppingBasket.isMultiIOption
               "
-              :class="$style.partPick"
+              :class="$style.picked"
               :shoppingBasket="shoppingBasket"
               @checkedProduct="checkProduct"
               @deletedProduct="deletProduct"
@@ -126,7 +111,6 @@ const formmatedShoppingBasketIds = ref(
     new Set(shoppingBaskets.map((shoppingBasket) => shoppingBasket.id))
   )
 );
-console.log("shoppingBaskets:", shoppingBaskets);
 
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.flatMap((shoppingBasket) => {
@@ -136,7 +120,8 @@ const formmatedShoppingBaskets = ref(
         productName: shoppingBasket.productName,
         count: shoppingBasket.count,
         item,
-        isPart: true,
+        imgSrc: shoppingBasket.imgSrc,
+        isMultiIOption: true,
         isPicked: false,
       }));
     } else {
@@ -145,13 +130,13 @@ const formmatedShoppingBaskets = ref(
         productName: shoppingBasket.productName,
         count: shoppingBasket.count,
         item: shoppingBasket.item[0],
-        isPart: false,
+        imgSrc: shoppingBasket.imgSrc,
+        isMultiIOption: false,
         isPicked: false,
       };
     }
   })
 );
-console.log("origin:", formmatedShoppingBaskets.value);
 
 const isAllCheck = computed(() =>
   formmatedShoppingBaskets.value.every(
@@ -246,7 +231,64 @@ const subtractProduct = (id) => {
   storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
-const storeShoppingBaksets = (recentBaskets) => {
+const multiOptionBasketData = (shoppingBasketId) => {
+  const recentBaskets = formmatshoppingBaskets(formmatedShoppingBaskets.value);
+  const multiOptionProduct = recentBaskets.filter(
+    (shoppingBasket) =>
+      shoppingBasket.id === shoppingBasketId && shoppingBasket.isMultiIOption
+  );
+
+  console.log("multiOptionProduct", multiOptionProduct);
+
+  const basketData = {
+    id: shoppingBasketId,
+    productName: multiOptionProduct[0].productName,
+    count: multiOptionProduct[0].count,
+    item: {
+      categoryName: multiOptionProduct[0].item.reduce((acc, item) => {
+        return acc.concat(item.categoryName);
+      }, []),
+      detailName: multiOptionProduct[0].productName,
+      detailPrice: 30000,
+    },
+    imgSrc: multiOptionProduct[0].imgSrc,
+    isMultiIOption: false,
+    isPicked: false,
+  };
+  return basketData;
+};
+
+const formmatshoppingBaskets = (shoppingBaskets) => {
+  const formattedBaskets = shoppingBaskets.reduce((acc, shoppingBasket) => {
+    const existingBasket = acc.find(
+      (basket) => basket.id === shoppingBasket.id && basket.isMultiIOption
+    );
+    if (existingBasket) {
+      const newItem = Array.isArray(shoppingBasket.item)
+        ? shoppingBasket.item
+        : [shoppingBasket.item];
+      existingBasket.item = existingBasket.item.concat(newItem); // 여기서 concat()을 사용하여 리스트로 추가합니다.
+    } else {
+      acc.push({
+        id: shoppingBasket.id,
+        productName: shoppingBasket.productName,
+        count: shoppingBasket.count,
+        item: Array.isArray(shoppingBasket.item)
+          ? shoppingBasket.item
+          : [shoppingBasket.item], // item을 배열에 담아줍니다.
+        imgSrc: shoppingBasket.imgSrc,
+        isMultiIOption: true,
+        isPicked: false,
+      });
+    }
+    return acc;
+  }, []);
+
+  return formattedBaskets;
+};
+
+const storeShoppingBaksets = (formmatBaskets) => {
+  const recentBaskets = formmatshoppingBaskets(formmatBaskets);
   localStorage.setItem("shopping", JSON.stringify(recentBaskets));
 };
 </script>

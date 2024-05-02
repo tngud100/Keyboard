@@ -72,15 +72,14 @@
 
 .pickedContentWrapper{
 }
-.partPick{
+.picked{
   margin: 6px 0px;
 }
+
 .hidden{
   display: none;
 }
 
-.normalPick{
-}
 
 .paymentInfoWrapper {
   margin-top: 83px;

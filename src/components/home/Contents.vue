@@ -34,7 +34,15 @@
             {{ item.name }}
           </div>
           <div :class="$style.arrowWrapper">
-            <component :is="item.Icon" />
+            <component
+              :is="
+                index === 0
+                  ? IconHomeBlackArrow
+                  : index === 1
+                  ? IconHomePurpleArrow
+                  : IconHomeGreenArrow
+              "
+            />
           </div>
         </div>
       </div>
@@ -59,12 +67,12 @@ const getHomeData = async () => {
       name: itemData.title,
       mainImg: itemData.mainImg,
       mainImgName: itemData.mainImgName,
-      Icon:
-        itemData.index === 0
-          ? IconHomeBlackArrow
-          : itemData.index === 1
-          ? IconHomePurpleArrow
-          : IconHomeGreenArrow,
+      // Icon:
+      //   itemData.index === 0
+      //     ? IconHomeBlackArrow
+      //     : itemData.index === 1
+      //     ? IconHomePurpleArrow
+      //     : IconHomeGreenArrow,
     });
   }
 };

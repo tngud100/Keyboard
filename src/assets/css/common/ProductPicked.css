@@ -22,13 +22,36 @@
   font-weight: 600;
 }
 
-.content {
+.nomalContent {
+  padding: 30px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.multiContent{
   padding: 30px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.container{
+  display: flex;
+}
+
+.imgWrapper {
+  width: 165px;
+  height: 100px;
+  overflow: hidden;
+  margin-right:20px;
+}
+.productImg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contentSide{
+}
 .subName {
   font-size: 18px;
   font-weight: 600;
