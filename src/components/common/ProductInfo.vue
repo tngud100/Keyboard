@@ -177,11 +177,6 @@ const emit = defineEmits([
   "addShoppingBasket",
 ]);
 
-// const isShowingType = ref(false);
-// const isShowingColor = ref(false);
-// const currentColor = ref("");
-// const currentType = ref("");
-
 const router = useRouter();
 
 const category = ref([]);
@@ -201,10 +196,6 @@ onMounted(() => {
   category.value = [...new Set(category.value)];
 });
 
-// const toggleProductTypeSelectBox = () =>
-// (isShowingType.value = !isShowingType.value);
-
-// const toggleProductColorSelectBox = () =>
 watch(
   () => selectedDetail.value,
   (newValue) => {

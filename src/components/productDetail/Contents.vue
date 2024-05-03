@@ -52,7 +52,14 @@ const addProduct = (product) => {
   );
 
   if (isDuplicate) return;
-  selectedProducts.value.push({ ...product, count: 1 });
+
+  console.log("product", product.item);
+  const totalPrice = product.item.reduce((total, item) => {
+    total += item.detailPrice;
+  }, 0);
+  console.log(totalPrice);
+
+  selectedProducts.value.push({ ...product, count: 1, totalPrice: totalPrice });
 };
 
 function isEqual(arr1, arr2) {

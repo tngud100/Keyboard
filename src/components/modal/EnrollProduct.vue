@@ -338,12 +338,15 @@ const uploadForm = async () => {
   productData.value = await getProductList();
 
   productItem.value.productName = productName.value.value;
-  productItem.value.isFilled = true;
+  productItem.value.isfilled = true;
 
   productItem.value.productId =
     productData.value.value[productData.value.value.length - 1].productId;
 
-  console.log(productItem.value);
+  console.log(productData.value.value);
+  console.log(productData.value.value.length);
+
+  console.log("productItem", productItem.value);
   emit("productItem", productItem.value);
   emit("nextModal");
 };
