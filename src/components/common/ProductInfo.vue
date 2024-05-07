@@ -227,9 +227,11 @@ const updateSelectedItem = (event) => {
   const detailPrice = detailItem.detailPrice;
 
   const key = {
+    detailId: uuidv4(),
     categoryName: [categoryName],
     detailName: detailName,
     detailPrice: detailPrice,
+    count: 1,
   };
 
   for (let i = 0; i < selectedDetail.value.length; i++) {

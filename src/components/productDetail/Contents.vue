@@ -53,9 +53,11 @@ const addProduct = (product) => {
 
   if (isDuplicate) return;
 
-  console.log("product", product.item);
+  console.log("product", product);
+
   const totalPrice = product.item.reduce((total, item) => {
     total += item.detailPrice;
+    return total;
   }, 0);
   console.log(totalPrice);
 
@@ -85,32 +87,45 @@ function isEqual(arr1, arr2) {
 
 const addCount = ({ id }) => {
   selectedProducts.value = calcCount(id, 1);
+  console.log(selectedProducts.value);
 };
 
 const subtractCount = ({ id }) => {
   selectedProducts.value = calcCount(id, -1);
+  console.log(selectedProducts.value);
 };
 
 const calcCount = (id, calcUnit) => {
   return selectedProducts.value.map((selectProduct) => {
     if (selectProduct.id === id) {
+      const count = selectProduct.count + calcUnit;
+      const totalPrice =
+        (selectProduct.totalPrice / selectProduct.count) * count;
       return {
         ...selectProduct,
-        count: selectProduct.count + calcUnit,
+        count,
+        totalPrice,
+        item: selectProduct.item.map((item) => {
+          return {
+            ...item,
+            count: count,
+          };
+        }),
       };
     }
-
     return selectProduct;
   });
 };
 
+/// 현재 같은 아이템을 순서를 바꿔서 장바구니에 넣으면 중복으로 인식하지 않음 ///
 const addShoppingBasket = () => {
   const parsedBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
   const imgSrc = productList.value.importedProduct;
 
   const mergedBaskets = [...selectedProducts.value, ...parsedBaskets];
-  console.log("mergedBaskets", mergedBaskets);
   const newBaskets = [];
+
+  console.log(parsedBaskets, selectedProducts.value);
 
   mergedBaskets.forEach((beforeBasket) => {
     // 중복된 제품이 있는지 확인하는 조건을 설정합니다.
@@ -119,13 +134,14 @@ const addShoppingBasket = () => {
         Array.isArray(item.item) &&
         Array.isArray(beforeBasket.item) &&
         beforeBasket.item.every(
-          (subItem, index) =>
+          (subItem, idx) =>
             subItem &&
             beforeBasket.productName === item.productName &&
-            subItem.categoryName[0] === item.item[index]?.categoryName[0] &&
-            subItem.detailName === item.item[index]?.detailName
+            subItem.categoryName[0] === item.item[idx]?.categoryName[0] &&
+            subItem.detailName === item.item[idx]?.detailName
         )
     );
+    console.log(isDuplicate);
 
     if (!isDuplicate) {
       beforeBasket.imgSrc

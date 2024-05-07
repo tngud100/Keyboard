@@ -119,6 +119,7 @@ const formmatedShoppingBaskets = ref(
         id: shoppingBasket.id,
         productName: shoppingBasket.productName,
         count: shoppingBasket.count,
+        totalPrice: shoppingBasket.totalPrice,
         item,
         imgSrc: shoppingBasket.imgSrc,
         isMultiIOption: true,
@@ -202,10 +203,13 @@ const deletProduct = (id) => {
 const addProduct = (id) => {
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.map(
     (formmatedShoppingBasket) => {
-      if (formmatedShoppingBasket.id === id) {
+      if (formmatedShoppingBasket.item.detailId === id) {
         return {
           ...formmatedShoppingBasket,
-          count: formmatedShoppingBasket.count + 1,
+          item: {
+            ...formmatedShoppingBasket.item,
+            count: formmatedShoppingBasket.item.count + 1,
+          },
         };
       }
 
@@ -218,10 +222,13 @@ const addProduct = (id) => {
 const subtractProduct = (id) => {
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.map(
     (formmatedShoppingBasket) => {
-      if (formmatedShoppingBasket.id === id) {
+      if (formmatedShoppingBasket.item.detailId === id) {
         return {
           ...formmatedShoppingBasket,
-          count: formmatedShoppingBasket.count - 1,
+          item: {
+            ...formmatedShoppingBasket.item,
+            count: formmatedShoppingBasket.item.count - 1,
+          },
         };
       }
 
@@ -231,7 +238,9 @@ const subtractProduct = (id) => {
   storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
+///////// 개수 별 대표 사진의 가격 단가 측정 ////////
 const multiOptionBasketData = (shoppingBasketId) => {
+  console.log("formmated", formmatedShoppingBaskets.value);
   const recentBaskets = formmatshoppingBaskets(formmatedShoppingBaskets.value);
   const multiOptionProduct = recentBaskets.filter(
     (shoppingBasket) =>
@@ -239,22 +248,26 @@ const multiOptionBasketData = (shoppingBasketId) => {
   );
 
   console.log("multiOptionProduct", multiOptionProduct);
-
   const basketData = {
     id: shoppingBasketId,
     productName: multiOptionProduct[0].productName,
     count: multiOptionProduct[0].count,
     item: {
+      detailId: multiOptionProduct[0].detailId,
       categoryName: multiOptionProduct[0].item.reduce((acc, item) => {
         return acc.concat(item.categoryName);
       }, []),
       detailName: multiOptionProduct[0].productName,
-      detailPrice: 30000,
+      detailPrice: multiOptionProduct[0].item.reduce(
+        (acc, item) => acc + item.detailPrice,
+        0
+      ),
     },
     imgSrc: multiOptionProduct[0].imgSrc,
-    isMultiIOption: false,
+    isMultiIOption: true,
     isPicked: false,
   };
+  // console.log("basket", basketData);
   return basketData;
 };
 
@@ -273,9 +286,10 @@ const formmatshoppingBaskets = (shoppingBaskets) => {
         id: shoppingBasket.id,
         productName: shoppingBasket.productName,
         count: shoppingBasket.count,
+        totalPrice: shoppingBasket.totalPrice,
         item: Array.isArray(shoppingBasket.item)
           ? shoppingBasket.item
-          : [shoppingBasket.item], // item을 배열에 담아줍니다.
+          : [shoppingBasket.item],
         imgSrc: shoppingBasket.imgSrc,
         isMultiIOption: true,
         isPicked: false,

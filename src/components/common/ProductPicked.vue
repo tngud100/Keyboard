@@ -3,7 +3,7 @@
     <header :class="$style.header">
       <div :class="$style.headerSide">
         <input
-          v-if="type === 'normal'"
+          v-if="type === 'represent'"
           type="checkbox"
           :checked="shoppingBasket.isPicked"
           @change="$emit('checkedProduct', shoppingBasket.id)"
@@ -14,7 +14,7 @@
         }}</label>
       </div>
       <button
-        v-if="type === 'normal'"
+        v-if="type === 'represent'"
         type="button"
         @click="$emit('deletedProduct', shoppingBasket.id)"
       >
@@ -22,7 +22,11 @@
       </button>
     </header>
     <div
-      :class="[type == 'normal' ? $style.nomalContent : $style.multiContent]"
+      :class="[
+        type == 'normal' || type === 'option'
+          ? $style.nomalContent
+          : $style.multiContent,
+      ]"
     >
       <div :class="$style.container">
         <div :class="$style.imgWrapper">
@@ -50,23 +54,26 @@
           <div :class="$style.dilvery">배송비 3,000원</div>
         </div>
       </div>
-      <div :class="$style.countWrapper">
+      <div
+        :class="$style.countWrapper"
+        v-if="type === 'normal' || type === 'option'"
+      >
         <button
           type="button"
-          v-if="type === 'normal'"
+          v-if="type === 'normal' || type === 'option'"
           :class="$style.countBtn"
-          :disabled="shoppingBasket.count === 1"
-          @click="$emit('subtractedProduct', shoppingBasket.id)"
+          :disabled="shoppingBasket.item.count === 1"
+          @click="$emit('subtractedProduct', shoppingBasket.item.detailId)"
         >
-          <IconMinusDisabled v-show="shoppingBasket.count === 1" />
-          <IconMinus v-show="shoppingBasket.count !== 1" />
+          <IconMinusDisabled v-show="shoppingBasket.item.count === 1" />
+          <IconMinus v-show="shoppingBasket.item.count !== 1" />
         </button>
-        <div :class="$style.count">{{ shoppingBasket.count }}</div>
+        <div :class="$style.count">{{ shoppingBasket.item.count }}</div>
         <button
-          v-if="type === 'normal'"
+          v-if="type === 'normal' || type === 'option'"
           type="button"
           :class="$style.countBtn"
-          @click="$emit('addedProduct', shoppingBasket.id)"
+          @click="$emit('addedProduct', shoppingBasket.item.detailId)"
         >
           <IconPlus />
         </button>
@@ -91,10 +98,16 @@ const { shoppingBasket } = defineProps({
 });
 
 const type = computed(() =>
-  shoppingBasket.isMultiIOption ? "represent" : "normal"
+  shoppingBasket.isMultiIOption
+    ? itemData.value.categoryName.length > 1
+      ? "represent"
+      : "option"
+    : "normal"
 );
 
 const itemData = computed(() => shoppingBasket.item);
+
+console.log("props", shoppingBasket);
 </script>
 
 <style src="@/assets/css/common/ProductPicked.css" module></style>
