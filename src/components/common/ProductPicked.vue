@@ -3,7 +3,7 @@
     <header :class="$style.header">
       <div :class="$style.headerSide">
         <input
-          v-if="type === 'represent'"
+          v-if="type === 'represent' || type === 'normal'"
           type="checkbox"
           :checked="shoppingBasket.isPicked"
           @change="$emit('checkedProduct', shoppingBasket.id)"
@@ -14,7 +14,7 @@
         }}</label>
       </div>
       <button
-        v-if="type === 'represent'"
+        v-if="type === 'represent' || type === 'normal'"
         type="button"
         @click="$emit('deletedProduct', shoppingBasket.id)"
       >
@@ -73,7 +73,7 @@
           v-if="type === 'normal' || type === 'option'"
           type="button"
           :class="$style.countBtn"
-          @click="$emit('addedProduct', shoppingBasket.item.detailId)"
+          @click="addProduct"
         >
           <IconPlus />
         </button>
@@ -88,7 +88,9 @@ import IconCurrency from "#/icons/IconCurrency.vue";
 import IconMinusDisabled from "#/icons/IconMinusDisabled.vue";
 import IconMinus from "#/icons/IconMinus.vue";
 import IconPlus from "#/icons/IconPlus.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+
+const emit = defineEmits(["checkedProduct", "deletedProduct", "addedProduct"]);
 
 const { shoppingBasket } = defineProps({
   shoppingBasket: {
@@ -105,9 +107,16 @@ const type = computed(() =>
     : "normal"
 );
 
-const itemData = computed(() => shoppingBasket.item);
+const addProduct = () => {
+  emit("addedProduct", shoppingBasket.item.detailId);
+  console.log("shoppingBasket", shoppingBasket);
+};
 
-console.log("props", shoppingBasket);
+// watch(shoppingBasket.item.detailPrice, (newShoppingBasket) => {
+//   console.log("shopping", newShoppingBasket);
+// });
+
+const itemData = computed(() => shoppingBasket.item);
 </script>
 
 <style src="@/assets/css/common/ProductPicked.css" module></style>

@@ -55,13 +55,13 @@ const addProduct = (product) => {
 
   console.log("product", product);
 
-  const totalPrice = product.item.reduce((total, item) => {
-    total += item.detailPrice;
-    return total;
-  }, 0);
-  console.log(totalPrice);
+  // const totalPrice = product.item.reduce((total, item) => {
+  //   total += item.detailPrice;
+  //   return total;
+  // }, 0);
+  // console.log(totalPrice);
 
-  selectedProducts.value.push({ ...product, count: 1, totalPrice: totalPrice });
+  selectedProducts.value.push({ ...product, count: 1 });
 };
 
 function isEqual(arr1, arr2) {

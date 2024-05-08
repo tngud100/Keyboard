@@ -46,7 +46,7 @@
               )
             "
             :class="$style.picked"
-            :shoppingBasket="multiOptionBasketData(shoppingBasketId)"
+            :shoppingBasket="multiOptionBasketData"
             @checkedProduct="checkProduct"
             @deletedProduct="deletProduct"
             @addedProduct="addProduct"
@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 
@@ -139,6 +139,54 @@ const formmatedShoppingBaskets = ref(
   })
 );
 
+/////// 대표 상품의 가격을 상품 추가 버는 클릭시 자동으로 반영되게 하는 코드 작성 /////
+// const shoppingBasketId = ref(null);
+
+const multiOptionBasketData = ref(null);
+
+const setMultiOptionBasketData = (shoppingBasketId) => {
+  const recentBaskets = formmatshoppingBaskets(formmatedShoppingBaskets.value);
+  const multiOptionProduct = recentBaskets.filter(
+    (shoppingBasket) =>
+      shoppingBasket.id === shoppingBasketId && shoppingBasket.isMultiIOption
+  );
+
+  console.log("multiOptionProduct", multiOptionProduct[0]);
+  const basketData = {
+    id: shoppingBasketId,
+    productName: multiOptionProduct[0].productName,
+    count: multiOptionProduct[0].count,
+    item: {
+      detailId: multiOptionProduct[0].detailId,
+      categoryName: multiOptionProduct[0].item.reduce((acc, item) => {
+        return acc.concat(item.categoryName);
+      }, []),
+      detailName: multiOptionProduct[0].productName,
+      detailPrice: multiOptionProduct[0].item.reduce((acc, item) => {
+        return acc + item.detailPrice * item.count;
+      }, 0),
+    },
+    imgSrc: multiOptionProduct[0].imgSrc,
+    isMultiIOption: true,
+    isPicked: false,
+  };
+  console.log("basket", basketData);
+  return basketData;
+};
+
+watch(formmatedShoppingBaskets, () => {
+  multiOptionBasketData.value = setMultiOptionBasketData(
+    formmatedShoppingBaskets.value.id
+  );
+  console.log("multiOptionBasketData", formmatedShoppingBaskets.value);
+});
+
+// if (multiOptionBasketData.value) {
+//   watch(multiOptionBasketData.value.item, (newShoppingBasket) => {
+//     console.log("shopping", newShoppingBasket);
+//   });
+// }
+
 const isAllCheck = computed(() =>
   formmatedShoppingBaskets.value.every(
     (shoppingBasket) => shoppingBasket.isPicked
@@ -147,7 +195,7 @@ const isAllCheck = computed(() =>
 
 const totalProductsPrice = computed(() =>
   formmatedShoppingBaskets.value.reduce(
-    (acc, curr) => acc + curr.item.detailPrice * curr.count,
+    (acc, curr) => acc + curr.item.detailPrice * curr.item.count,
     0
   )
 );
@@ -216,6 +264,8 @@ const addProduct = (id) => {
       return formmatedShoppingBasket;
     }
   );
+  console.log("represent", multiOptionBasketData.value);
+
   storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
@@ -236,39 +286,6 @@ const subtractProduct = (id) => {
     }
   );
   storeShoppingBaksets(formmatedShoppingBaskets.value);
-};
-
-///////// 개수 별 대표 사진의 가격 단가 측정 ////////
-const multiOptionBasketData = (shoppingBasketId) => {
-  console.log("formmated", formmatedShoppingBaskets.value);
-  const recentBaskets = formmatshoppingBaskets(formmatedShoppingBaskets.value);
-  const multiOptionProduct = recentBaskets.filter(
-    (shoppingBasket) =>
-      shoppingBasket.id === shoppingBasketId && shoppingBasket.isMultiIOption
-  );
-
-  console.log("multiOptionProduct", multiOptionProduct);
-  const basketData = {
-    id: shoppingBasketId,
-    productName: multiOptionProduct[0].productName,
-    count: multiOptionProduct[0].count,
-    item: {
-      detailId: multiOptionProduct[0].detailId,
-      categoryName: multiOptionProduct[0].item.reduce((acc, item) => {
-        return acc.concat(item.categoryName);
-      }, []),
-      detailName: multiOptionProduct[0].productName,
-      detailPrice: multiOptionProduct[0].item.reduce(
-        (acc, item) => acc + item.detailPrice,
-        0
-      ),
-    },
-    imgSrc: multiOptionProduct[0].imgSrc,
-    isMultiIOption: true,
-    isPicked: false,
-  };
-  // console.log("basket", basketData);
-  return basketData;
 };
 
 const formmatshoppingBaskets = (shoppingBaskets) => {

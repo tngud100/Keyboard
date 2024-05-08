@@ -185,7 +185,8 @@ const categoryItem = ref([]);
 const selectedDetail = ref([]);
 
 onMounted(() => {
-  console.log(productList.detailProduct);
+  console.log("selectedProducts", selectedProducts);
+  console.log("productList", productList);
   productList.detailProduct.forEach((item) => {
     category.value.push(item.category);
     categoryItem.value.push({
