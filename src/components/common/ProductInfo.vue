@@ -234,7 +234,6 @@ const updateSelectedItem = (event) => {
     detailPrice: detailPrice,
     count: 1,
   };
-
   for (let i = 0; i < selectedDetail.value.length; i++) {
     if (selectedDetail.value[i].categoryName.includes(categoryName)) {
       selectedDetail.value.splice(i, 1);

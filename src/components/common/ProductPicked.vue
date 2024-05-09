@@ -88,7 +88,7 @@ import IconCurrency from "#/icons/IconCurrency.vue";
 import IconMinusDisabled from "#/icons/IconMinusDisabled.vue";
 import IconMinus from "#/icons/IconMinus.vue";
 import IconPlus from "#/icons/IconPlus.vue";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 const emit = defineEmits(["checkedProduct", "deletedProduct", "addedProduct"]);
 
@@ -109,9 +109,9 @@ const type = computed(() =>
 
 const addProduct = () => {
   emit("addedProduct", shoppingBasket.item.detailId);
-  console.log("shoppingBasket", shoppingBasket);
 };
 
+// console.log("shoppingBasket", shoppingBasket);
 // watch(shoppingBasket.item.detailPrice, (newShoppingBasket) => {
 //   console.log("shopping", newShoppingBasket);
 // });

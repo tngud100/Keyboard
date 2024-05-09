@@ -53,6 +53,7 @@ const addProduct = (product) => {
 
   if (isDuplicate) return;
 
+  console.log("seleted", selectedProducts.value);
   console.log("product", product);
 
   // const totalPrice = product.item.reduce((total, item) => {
@@ -73,10 +74,22 @@ function isEqual(arr1, arr2) {
     return false;
   }
 
-  const sortedArr1 = arr1.map((obj) => JSON.stringify(obj)).sort();
-  const sortedArr2 = arr2.map((obj) => JSON.stringify(obj)).sort();
+  const sortedArr1 = arr1
+    .map((obj) => {
+      const { detailId, ...rest } = obj; // id를 제외한 나머지 속성 추출
+      return JSON.stringify(rest);
+    })
+    .sort();
+
+  const sortedArr2 = arr2
+    .map((obj) => {
+      const { detailId, ...rest } = obj;
+      return JSON.stringify(rest);
+    })
+    .sort();
 
   for (let i = 0; i < sortedArr1.length; i++) {
+    console.log(sortedArr1[i], sortedArr2[i]);
     if (sortedArr1[i] !== sortedArr2[i]) {
       return false;
     }
@@ -159,8 +172,13 @@ const addShoppingBasket = () => {
             subItem.detailName === beforeBasket.item[index]?.detailName
         )
       );
-      // console.log(newBaskets[existingItemIndex].count, beforeBasket.count);
+      // newBaskets[existingItemIndex].count = 0;
+      console.log(newBaskets[existingItemIndex].item.map((item) => item.count));
+      console.log(beforeBasket);
       newBaskets[existingItemIndex].count += beforeBasket.count;
+      newBaskets[existingItemIndex].item.forEach((item, index) => {
+        item.count += beforeBasket.item[index].count;
+      });
     }
   });
 
