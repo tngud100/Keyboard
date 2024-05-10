@@ -73,7 +73,7 @@
           v-if="type === 'normal' || type === 'option'"
           type="button"
           :class="$style.countBtn"
-          @click="addProduct"
+          @click="$emit('addedProduct', shoppingBasket.item.detailId)"
         >
           <IconPlus />
         </button>
@@ -90,13 +90,22 @@ import IconMinus from "#/icons/IconMinus.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import { computed, onMounted, ref, watch } from "vue";
 
-const emit = defineEmits(["checkedProduct", "deletedProduct", "addedProduct"]);
+const emit = defineEmits([
+  "checkedProduct",
+  "deletedProduct",
+  "addedProduct",
+  "subtractedProduct",
+]);
 
 const { shoppingBasket } = defineProps({
   shoppingBasket: {
     type: Object,
     required: true,
   },
+  // shoppingBasketId: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 const type = computed(() =>
@@ -107,9 +116,9 @@ const type = computed(() =>
     : "normal"
 );
 
-const addProduct = () => {
-  emit("addedProduct", shoppingBasket.item.detailId);
-};
+// const addProduct = () => {
+//   emit("addedProduct", shoppingBasket.item.detailId);
+// };
 
 // console.log("shoppingBasket", shoppingBasket);
 // watch(shoppingBasket.item.detailPrice, (newShoppingBasket) => {
