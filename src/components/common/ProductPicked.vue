@@ -97,10 +97,13 @@ const emit = defineEmits([
   "subtractedProduct",
 ]);
 
-const { shoppingBasket } = defineProps({
+const { shoppingBasket, itemDetailPrice } = defineProps({
   shoppingBasket: {
     type: Object,
     required: true,
+  },
+  itemDetailPrice: {
+    type: Number,
   },
   // shoppingBasketId: {
   //   type: String,

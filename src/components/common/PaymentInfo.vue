@@ -4,8 +4,8 @@
     <div :class="$style.table">
       <div :class="$style.head">상품금액</div>
       <div :class="$style.data">
-        {{ totalProductsPrice.toLocaleString()
-        }}<span :class="$style.commonCurrency">원</span>
+        {{ totalProductsPrice.toLocaleString() }}
+        <span :class="$style.commonCurrency">원</span>
       </div>
       <div :class="$style.head">상품할인금액</div>
       <div :class="$style.data">
@@ -48,6 +48,9 @@ const { totalProductsPrice, totalDelivery, totalPrice } = defineProps({
 const router = useRouter();
 
 const moveOrderPage = () => {
+  if (totalProductsPrice === 0) {
+    return alert("구매하실 상품의 체크박스를 체크해주세요.");
+  }
   router.push("/order");
 };
 </script>

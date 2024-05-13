@@ -45,15 +45,14 @@
                   shoppingBasket.isMultiIOption
               )
             "
+            :key="shoppingBasketId"
             :class="$style.picked"
-            :shoppingBasket="multiOptionBasketData(shoppingBasketId)"
+            :shoppingBasket="multiComputedBasket(shoppingBasketId)"
             @checkedProduct="checkProduct"
             @deletedProduct="deletProduct"
             @addedProduct="addProduct"
             @subtractedProduct="subtractProduct"
           />
-          <!-- :data-shopping-basket-id="shoppingBasketId" -->
-          <!-- @update-shopping-basket-id="updateShoppingBasketId" -->
           <div
             v-for="shoppingBasket in formmatedShoppingBaskets"
             :key="shoppingBasket.id"
@@ -65,6 +64,7 @@
                 shoppingBasket.isMultiIOption
               "
               :class="$style.picked"
+              :key="shoppingBasket.id"
               :shoppingBasket="shoppingBasket"
               @checkedProduct="checkProduct"
               @deletedProduct="deletProduct"
@@ -77,6 +77,7 @@
                 !shoppingBasket.isMultiIOption
               "
               :class="$style.picked"
+              :key="shoppingBasket.id"
               :shoppingBasket="shoppingBasket"
               @checkedProduct="checkProduct"
               @deletedProduct="deletProduct"
@@ -98,12 +99,11 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
-// const emit = defineEmits(["update-shopping-basket-id"]);
 
 if (!shoppingBaskets.length) {
   localStorage.setItem("shopping", JSON.stringify([]));
@@ -114,6 +114,7 @@ const formmatedShoppingBasketIds = ref(
     new Set(shoppingBaskets.map((shoppingBasket) => shoppingBasket.id))
   )
 );
+
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.flatMap((shoppingBasket) => {
     if (Array.isArray(shoppingBasket.item) && shoppingBasket.item.length > 1) {
@@ -125,7 +126,7 @@ const formmatedShoppingBaskets = ref(
         item,
         imgSrc: shoppingBasket.imgSrc,
         isMultiIOption: true,
-        isPicked: false,
+        isPicked: shoppingBasket.isPicked,
       }));
     } else {
       return {
@@ -135,121 +136,46 @@ const formmatedShoppingBaskets = ref(
         item: shoppingBasket.item[0],
         imgSrc: shoppingBasket.imgSrc,
         isMultiIOption: false,
-        isPicked: false,
+        isPicked: shoppingBasket.isPicked,
       };
     }
   })
 );
-
-// const multiOptionValue = ref(null);
-
-const multiOptionBasketData = (shoppingBasketId) => {
-  console.log("1", formmatedShoppingBaskets.value);
-  const optionShoppingBasket = formmatedShoppingBaskets.value.filter(
-    (shoppingBasket) => shoppingBasket.isMultiIOption
-  );
-
-  console.log("2", optionShoppingBasket);
-  if (optionShoppingBasket.length > 0) {
-    // 데이터가 있는 경우에만 처리
-    // const shoppingBasketId = optionShoppingBasket[3].id;
-    const recentBaskets = formmatshoppingBaskets(
-      formmatedShoppingBaskets.value
-    );
-    const multiOptionProduct = recentBaskets.find(
-      (shoppingBasket) => shoppingBasket.id === shoppingBasketId
-    );
-    console.log("3", multiOptionProduct);
-
-    if (multiOptionProduct) {
-      return {
-        id: shoppingBasketId,
-        productName: multiOptionProduct.productName,
-        count: multiOptionProduct.count,
+////// 만약 옵션이 여러개인 상품이 있을시에 대표상품의 데이터를 만들어서 배열로 저장 //////
+const multiRepresentBasket = ref([]);
+const findMultiRepresent = () => {
+  shoppingBaskets.map((basketlist) => {
+    // console.log("basketlist", basketlist);
+    if (Array.isArray(basketlist.item) && basketlist.item.length > 1) {
+      multiRepresentBasket.value.push({
+        id: basketlist.id,
+        productName: basketlist.productName,
         item: {
-          detailId: multiOptionProduct.detailId,
-          categoryName: multiOptionProduct.item.reduce((acc, item) => {
+          detailId: basketlist.item.reduce((acc, item) => {
+            return acc.concat(item.detailId);
+          }, []),
+          categoryName: basketlist.item.reduce((acc, item) => {
             return acc.concat(item.categoryName);
           }, []),
-          detailName: multiOptionProduct.productName,
-          detailPrice: multiOptionProduct.item.reduce((acc, item) => {
+          detailName: basketlist.productName,
+          detailPrice: basketlist.item.reduce((acc, item) => {
             return acc + item.detailPrice * item.count;
           }, 0),
         },
-        imgSrc: multiOptionProduct.imgSrc,
+        imgSrc: basketlist.imgSrc,
         isMultiIOption: true,
-        isPicked: false,
-      };
+        isPicked: basketlist.isPicked,
+      });
     }
-  } else {
-    // 데이터가 없는 경우 null로 설정
-    return null;
-  }
+  });
 };
+findMultiRepresent();
 
-const multiRepresentBasket = ref([
-  shoppingBaskets.map((basketlist) => {
-    if (Array.isArray(basketlist.item) && basketlist.item.length > 1) {
-      console.log();
-    }
-  }),
-]);
-
-// console.log("datachange", multiOptionBasketData.value);
-
-////////// 대표 상품의 데이터 변경시 가격이 자동으로 반영되게 하는 코드 작성 //////////
-
-// const multiOptionBasketData = ref(null); // 초기 값은 null로 설정
-// const shoppingBasketId = ref(null);
-
-// const updateShoppingBasketId = (event) => {
-//   console.log("id", event);
-//   shoppingBasketId.value = event.target.dataset.shoppingBasketId;
-// };
-
-// watch(
-//   formmatedShoppingBaskets,
-//   (newVal, oldVal) => {
-//     updateShoppingBasketId();
-//     const optionShoppingBasket = newVal.filter(
-//       (shoppingBasket) => shoppingBasket.isMultiIOption
-//     );
-//     console.log(optionShoppingBasket);
-//     if (optionShoppingBasket.length > 0) {
-//       // 데이터가 있는 경우에만 처리
-//       const shoppingBasketId = optionShoppingBasket[3].id;
-//       const recentBaskets = formmatshoppingBaskets(newVal);
-//       const multiOptionProduct = recentBaskets.find(
-//         (shoppingBasket) => shoppingBasket.id === shoppingBasketId
-//       );
-//       if (multiOptionProduct) {
-//         multiOptionBasketData.value = {
-//           id: shoppingBasketId,
-//           productName: multiOptionProduct.productName,
-//           count: multiOptionProduct.count,
-//           item: {
-//             detailId: multiOptionProduct.detailId,
-//             categoryName: multiOptionProduct.item.reduce((acc, item) => {
-//               return acc.concat(item.categoryName);
-//             }, []),
-//             detailName: multiOptionProduct.productName,
-//             detailPrice: multiOptionProduct.item.reduce((acc, item) => {
-//               return acc + item.detailPrice * item.count;
-//             }, 0),
-//           },
-//           imgSrc: multiOptionProduct.imgSrc,
-//           isMultiIOption: true,
-//           isPicked: false,
-//         };
-//       }
-//       console.log("datachange", multiOptionBasketData.value);
-//     } else {
-//       // 데이터가 없는 경우 null로 설정
-//       multiOptionBasketData.value = null;
-//     }
-//   },
-//   { immediate: true }
-// ); // immediate 옵션을 사용하여 초기 값에서도 실행되도록 설정
+const multiComputedBasket = (shoppingBasketId) => {
+  return multiRepresentBasket.value.find(
+    (shoppingBasket) => shoppingBasket.id === shoppingBasketId
+  );
+};
 
 const isAllCheck = computed(() =>
   formmatedShoppingBaskets.value.every(
@@ -259,14 +185,23 @@ const isAllCheck = computed(() =>
 
 const totalProductsPrice = computed(() =>
   formmatedShoppingBaskets.value.reduce(
-    (acc, curr) => acc + curr.item.detailPrice * curr.item.count,
+    (acc, curr) =>
+      curr.isPicked ? acc + curr.item.detailPrice * curr.item.count : acc,
     0
   )
 );
-
-const totalDelivery = computed(
-  () => formmatedShoppingBaskets.value.length * 3000
-);
+const totalDelivery = computed(() => {
+  const uniqueIds = new Set(
+    // isPicked가 true인 상품의 id만 추출하여 중복을 제거한 후 Set으로 만듭니다.
+    formmatedShoppingBaskets.value.map((basket) => {
+      if (basket.isPicked) {
+        return basket.id;
+      }
+    })
+  );
+  // return uniqueIds.size * 3000;
+  return 3000;
+});
 
 const totalPrice = computed(
   () => totalProductsPrice.value + totalDelivery.value
@@ -281,6 +216,16 @@ const checkAllProduct = () => {
       };
     }
   );
+  multiRepresentBasket.value = multiRepresentBasket.value.map(
+    (multiRepresent) => {
+      return {
+        ...multiRepresent,
+        isPicked: isAllCheck.value,
+      };
+    }
+  );
+  console.log(formmatedShoppingBaskets.value);
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
 const checkProduct = (id) => {
@@ -296,6 +241,7 @@ const checkProduct = (id) => {
       return formmatedShoppingBasket;
     }
   );
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
 const deleteCheckedProduct = () => {
@@ -325,12 +271,33 @@ const addProduct = (id) => {
           },
         };
       }
-      // console.log("represent", multiOptionBasketData(multiOptionbasketId));
       return formmatedShoppingBasket;
     }
   );
-
+  calcResentBasketPrice(id);
   storeShoppingBaksets(formmatedShoppingBaskets.value);
+};
+
+const calcResentBasketPrice = (id) => {
+  const recentBasketPrice = formmatedShoppingBaskets.value.find(
+    (basket) => basket.item.detailId === id
+  ).item.detailPrice;
+  multiRepresentBasket.value = multiRepresentBasket.value.map(
+    (multiRepresent) => {
+      if (multiRepresent.item.detailId.includes(id)) {
+        return {
+          ...multiRepresent,
+          item: {
+            ...multiRepresent.item,
+            detailPrice: multiRepresent.item.detailPrice + recentBasketPrice,
+          },
+        };
+      } else {
+        return multiRepresent;
+      }
+    }
+  );
+  multiComputedBasket(id);
 };
 
 const subtractProduct = (id) => {
@@ -357,7 +324,7 @@ const formmatshoppingBaskets = (shoppingBaskets) => {
     const existingBasket = acc.find(
       (basket) => basket.id === shoppingBasket.id && basket.isMultiIOption
     );
-    console.log("formmat", shoppingBasket);
+    // console.log("formmat", shoppingBasket);
     if (existingBasket) {
       const newItem = Array.isArray(shoppingBasket.item)
         ? shoppingBasket.item
@@ -374,7 +341,7 @@ const formmatshoppingBaskets = (shoppingBaskets) => {
           : [shoppingBasket.item],
         imgSrc: shoppingBasket.imgSrc,
         isMultiIOption: shoppingBasket.isMultiIOption,
-        isPicked: false,
+        isPicked: shoppingBasket.isPicked,
       });
     }
     return acc;

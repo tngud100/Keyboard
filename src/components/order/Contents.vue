@@ -13,7 +13,7 @@
             :key="shoppingBasket.id"
             :shoppingBasket="shoppingBasket"
             @checkedProduct="checkProduct"
-            @deletedProduct="deletProduct"
+            @deletedProduct="deleteProduct"
             @addedProduct="addProduct"
             @subtractedProduct="subtractProduct"
           />
@@ -124,12 +124,83 @@ import PaymentInfo from "#/common/PaymentInfo.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
+// const formmatedShoppingBaskets = ref(
+//   shoppingBaskets.reduce((acc, shoppingBasket) => {
+//     if (shoppingBasket.isPicked) {
+//       acc.push({
+//         ...shoppingBasket,
+//         isPicked: false,
+//       });
+//     }
+//     return acc;
+//   }, [])
+// );
+
 const formmatedShoppingBaskets = ref(
-  shoppingBaskets.map((shoppingBasket) => ({
-    ...shoppingBasket,
-    isPicked: false,
-  }))
+  shoppingBaskets.reduce((acc, shoppingBasket) => {
+    if (shoppingBasket.isPicked) {
+      if (
+        Array.isArray(shoppingBasket.item) &&
+        shoppingBasket.item.length > 1
+      ) {
+        return acc.concat(
+          shoppingBasket.item.map((item) => ({
+            id: shoppingBasket.id,
+            productName: shoppingBasket.productName,
+            count: shoppingBasket.count,
+            item,
+            imgSrc: shoppingBasket.imgSrc,
+            isMultiIOption: true,
+            isPicked: shoppingBasket.isPicked,
+          }))
+        );
+      } else {
+        acc.push({
+          id: shoppingBasket.id,
+          productName: shoppingBasket.productName,
+          count: shoppingBasket.count,
+          item: shoppingBasket.item[0],
+          imgSrc: shoppingBasket.imgSrc,
+          isMultiIOption: false,
+          isPicked: shoppingBasket.isPicked,
+        });
+      }
+    }
+    return acc;
+  }, [])
 );
+// const formmatedShoppingBaskets = ref(
+//   shoppingBaskets.reduce((acc, shoppingBasket) => {
+//     if (shoppingBasket.isPicked) {
+//       if (
+//         Array.isArray(shoppingBasket.item) &&
+//         shoppingBasket.item.length > 1
+//       ) {
+//         return shoppingBasket.item.map((item) => ({
+//           id: shoppingBasket.id,
+//           productName: shoppingBasket.productName,
+//           count: shoppingBasket.count,
+//           // totalPrice: shoppingBasket.totalPrice,
+//           item,
+//           imgSrc: shoppingBasket.imgSrc,
+//           isMultiIOption: true,
+//           isPicked: shoppingBasket.isPicked,
+//         }));
+//       } else {
+//         return {
+//           id: shoppingBasket.id,
+//           productName: shoppingBasket.productName,
+//           count: shoppingBasket.count,
+//           item: shoppingBasket.item[0],
+//           imgSrc: shoppingBasket.imgSrc,
+//           isMultiIOption: false,
+//           isPicked: shoppingBasket.isPicked,
+//         };
+//       }
+//     }
+//   })
+// );
+console.log(formmatedShoppingBaskets.value);
 
 const totalProductsPrice = computed(() =>
   formmatedShoppingBaskets.value.reduce(
@@ -161,7 +232,7 @@ const checkProduct = (id) => {
   );
 };
 
-const deletProduct = (id) => {
+const deleteProduct = (id) => {
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.filter(
     (formmatedShoppingBasket) => formmatedShoppingBasket.id !== id
   );
