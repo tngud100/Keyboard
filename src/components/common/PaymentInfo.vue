@@ -4,7 +4,7 @@
     <div :class="$style.table">
       <div :class="$style.head">상품금액</div>
       <div :class="$style.data">
-        {{ totalProductsPrice.toLocaleString() }}
+        {{ props.totalProductsPrice.toLocaleString() }}
         <span :class="$style.commonCurrency">원</span>
       </div>
       <div :class="$style.head">상품할인금액</div>
@@ -13,15 +13,16 @@
       </div>
       <div :class="$style.head">배송비</div>
       <div :class="$style.data">
-        {{ totalDelivery.toLocaleString()
+        {{ props.totalDelivery.toLocaleString()
         }}<span :class="$style.commonCurrency">원</span>
       </div>
     </div>
     <div :class="$style.totalPrice">
-      {{ totalPrice.toLocaleString()
+      {{ props.totalPrice.toLocaleString()
       }}<span :class="$style.commonCurrency">원</span>
     </div>
-    <button type="button" :class="$style.btn" @click="moveOrderPage">
+    <button type="button" :class="$style.btn" @click="moveOrderPage()">
+      <!-- @click="recipientForm ? payment() : moveOrderPage()" -->
       구매하기
     </button>
   </div>
@@ -29,8 +30,8 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-
-const { totalProductsPrice, totalDelivery, totalPrice } = defineProps({
+// { totalProductsPrice, totalDelivery, totalPrice }
+const props = defineProps({
   totalProductsPrice: {
     type: Number,
     required: true,
@@ -43,12 +44,18 @@ const { totalProductsPrice, totalDelivery, totalPrice } = defineProps({
     type: Number,
     required: true,
   },
+  // recipientForm: {
+  //   type: Object,
+  //   required: true,
+  // },
 });
-
+// console.log(recipientForm);
 const router = useRouter();
+// const payment = () => {};
 
 const moveOrderPage = () => {
-  if (totalProductsPrice === 0) {
+  console.log(props.totalProductsPrice);
+  if (props.totalProductsPrice === 0) {
     return alert("구매하실 상품의 체크박스를 체크해주세요.");
   }
   router.push("/order");

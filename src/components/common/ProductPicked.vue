@@ -5,18 +5,18 @@
         <input
           v-if="type === 'represent' || type === 'normal'"
           type="checkbox"
-          :checked="shoppingBasket.isPicked"
-          @change="$emit('checkedProduct', shoppingBasket.id)"
-          :id="shoppingBasket.id"
+          :checked="props.shoppingBasket.isPicked"
+          @change="$emit('checkedProduct', props.shoppingBasket.id)"
+          :id="props.shoppingBasket.id"
         />
-        <label :for="shoppingBasket.id" :class="$style.name">{{
-          shoppingBasket.productName
+        <label :for="props.shoppingBasket.id" :class="$style.name">{{
+          props.shoppingBasket.productName
         }}</label>
       </div>
       <button
         v-if="type === 'represent' || type === 'normal'"
         type="button"
-        @click="$emit('deletedProduct', shoppingBasket.id)"
+        @click="$emit('deletedProduct', props.shoppingBasket.id)"
       >
         <IconGrayClose />
       </button>
@@ -31,7 +31,7 @@
       <div :class="$style.container">
         <div :class="$style.imgWrapper">
           <img
-            :src="shoppingBasket.imgSrc"
+            :src="props.shoppingBasket.imgSrc"
             alt="상품 이미지"
             :class="$style.productImg"
           />
@@ -62,18 +62,20 @@
           type="button"
           v-if="type === 'normal' || type === 'option'"
           :class="$style.countBtn"
-          :disabled="shoppingBasket.item.count === 1"
-          @click="$emit('subtractedProduct', shoppingBasket.item.detailId)"
+          :disabled="props.shoppingBasket.item.count === 1"
+          @click="
+            $emit('subtractedProduct', props.shoppingBasket.item.detailId)
+          "
         >
-          <IconMinusDisabled v-show="shoppingBasket.item.count === 1" />
-          <IconMinus v-show="shoppingBasket.item.count !== 1" />
+          <IconMinusDisabled v-show="props.shoppingBasket.item.count === 1" />
+          <IconMinus v-show="props.shoppingBasket.item.count !== 1" />
         </button>
-        <div :class="$style.count">{{ shoppingBasket.item.count }}</div>
+        <div :class="$style.count">{{ props.shoppingBasket.item.count }}</div>
         <button
           v-if="type === 'normal' || type === 'option'"
           type="button"
           :class="$style.countBtn"
-          @click="$emit('addedProduct', shoppingBasket.item.detailId)"
+          @click="$emit('addedProduct', props.shoppingBasket.item.detailId)"
         >
           <IconPlus />
         </button>
@@ -97,7 +99,7 @@ const emit = defineEmits([
   "subtractedProduct",
 ]);
 
-const { shoppingBasket, itemDetailPrice } = defineProps({
+const props = defineProps({
   shoppingBasket: {
     type: Object,
     required: true,
@@ -112,7 +114,7 @@ const { shoppingBasket, itemDetailPrice } = defineProps({
 });
 
 const type = computed(() =>
-  shoppingBasket.isMultiIOption
+  props.shoppingBasket.isMultiIOption
     ? itemData.value.categoryName.length > 1
       ? "represent"
       : "option"
@@ -128,7 +130,7 @@ const type = computed(() =>
 //   console.log("shopping", newShoppingBasket);
 // });
 
-const itemData = computed(() => shoppingBasket.item);
+const itemData = computed(() => props.shoppingBasket.item);
 </script>
 
 <style src="@/assets/css/common/ProductPicked.css" module></style>

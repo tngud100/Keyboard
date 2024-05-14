@@ -258,30 +258,31 @@ const deletProduct = (id) => {
   storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
-const addProduct = (id) => {
+// 장바구니 항목의 최근 가격을 계산하고 업데이트하는 함수
+const calcRecentBasketPrice = (id, isAdding) => {
+  const recentBasketPrice = formmatedShoppingBaskets.value.find(
+    (basket) => basket.item.detailId === id
+  ).item.detailPrice;
+
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.map(
     (formmatedShoppingBasket) => {
-      // var multiOptionbasketId = formmatedShoppingBasket.id;
       if (formmatedShoppingBasket.item.detailId === id) {
+        const count = isAdding
+          ? formmatedShoppingBasket.item.count + 1
+          : formmatedShoppingBasket.item.count - 1;
         return {
           ...formmatedShoppingBasket,
           item: {
             ...formmatedShoppingBasket.item,
-            count: formmatedShoppingBasket.item.count + 1,
+            count: count < 0 ? 0 : count,
           },
         };
       }
       return formmatedShoppingBasket;
     }
   );
-  calcResentBasketPrice(id);
-  storeShoppingBaksets(formmatedShoppingBaskets.value);
-};
 
-const calcResentBasketPrice = (id) => {
-  const recentBasketPrice = formmatedShoppingBaskets.value.find(
-    (basket) => basket.item.detailId === id
-  ).item.detailPrice;
+  // multiRepresentBasket 업데이트
   multiRepresentBasket.value = multiRepresentBasket.value.map(
     (multiRepresent) => {
       if (multiRepresent.item.detailId.includes(id)) {
@@ -289,7 +290,9 @@ const calcResentBasketPrice = (id) => {
           ...multiRepresent,
           item: {
             ...multiRepresent.item,
-            detailPrice: multiRepresent.item.detailPrice + recentBasketPrice,
+            detailPrice: isAdding
+              ? multiRepresent.item.detailPrice + recentBasketPrice
+              : multiRepresent.item.detailPrice - recentBasketPrice,
           },
         };
       } else {
@@ -297,26 +300,15 @@ const calcResentBasketPrice = (id) => {
       }
     }
   );
-  multiComputedBasket(id);
+  storeShoppingBaksets(formmatedShoppingBaskets.value);
+};
+
+const addProduct = (id) => {
+  calcRecentBasketPrice(id, true);
 };
 
 const subtractProduct = (id) => {
-  formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.map(
-    (formmatedShoppingBasket) => {
-      if (formmatedShoppingBasket.item.detailId === id) {
-        return {
-          ...formmatedShoppingBasket,
-          item: {
-            ...formmatedShoppingBasket.item,
-            count: formmatedShoppingBasket.item.count - 1,
-          },
-        };
-      }
-
-      return formmatedShoppingBasket;
-    }
-  );
-  storeShoppingBaksets(formmatedShoppingBaskets.value);
+  calcRecentBasketPrice(id, false);
 };
 
 const formmatshoppingBaskets = (shoppingBaskets) => {

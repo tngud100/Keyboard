@@ -56,9 +56,10 @@
                   <input
                     :class="$style.phoneNumber"
                     placeholder="휴대폰번호 (필수)"
-                    :value="phoneNumber"
-                    @input="handlePhoneNumberChange"
+                    type="text"
+                    :value="recipientForm.phone.number"
                   />
+                  <!-- @input="handlePhoneNumberChange" -->
                   <button type="button" :class="$style.phoneNumberBtn">
                     인증번호 발송
                   </button>
@@ -67,7 +68,13 @@
               <div :class="$style.tableLeftCell">주소</div>
               <div :class="`${$style.tableRightCell} ${$style.addressWrapper}`">
                 <div>
-                  <Input size="187px" placeholder="주소" :isReadOnly="true" />
+                  <Input
+                    size="187px"
+                    :value="recipientForm.address.zipCode"
+                    type="text"
+                    placeholder="주소"
+                    :isReadOnly="true"
+                  />
                   <button
                     type="button"
                     :class="`${$style.signupBtn} ${$style.duplicatedBtn}`"
@@ -76,8 +83,19 @@
                   </button>
                 </div>
                 <div :class="$style.inputWrapper">
-                  <Input size="400px" :isReadOnly="true" />
-                  <Input size="400px" />
+                  <Input
+                    size="400px"
+                    type="text"
+                    :value="recipientForm.address.nomal"
+                    placeholder="주소1"
+                    :isReadOnly="true"
+                  />
+                  <Input
+                    size="400px"
+                    :value="recipientForm.address.detail"
+                    type="text"
+                    placeholder="주소2"
+                  />
                 </div>
               </div>
               <div :class="$style.tableLeftCell">연락처</div>
@@ -88,8 +106,18 @@
                       <IconMediumDownArrow />
                     </div>
                   </div>
-                  <Input type="text" size="143px" />
-                  <Input type="text" size="143px" />
+                  <Input
+                    type="text"
+                    :value="recipientForm.telNum1"
+                    placeholder="TelNumber"
+                    size="143px"
+                  />
+                  <Input
+                    type="text"
+                    :value="recipientForm.telNum2"
+                    placeholder="TelNumber"
+                    size="143px"
+                  />
                 </div>
               </div>
             </div>
@@ -111,6 +139,7 @@
         :totalProductsPrice="totalProductsPrice"
         :totalDelivery="totalDelivery"
         :totalPrice="totalPrice"
+        :recipientForm="recipientForm"
       />
     </section>
   </section>
@@ -124,17 +153,30 @@ import PaymentInfo from "#/common/PaymentInfo.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
-// const formmatedShoppingBaskets = ref(
-//   shoppingBaskets.reduce((acc, shoppingBasket) => {
-//     if (shoppingBasket.isPicked) {
-//       acc.push({
-//         ...shoppingBasket,
-//         isPicked: false,
-//       });
-//     }
-//     return acc;
-//   }, [])
-// );
+
+// const phoneNumber = ref("");
+// const address = ref({
+//   zipCode: "",
+//   nomal: "",
+//   detail: "",
+// });
+// const telNum1 = ref("");
+// const telNum2 = ref("");
+
+const recipientForm = ref({
+  phone: {
+    verify: false,
+    number: "",
+  },
+  address: {
+    zipCode: "",
+    nomal: "",
+    detail: "",
+  },
+  telNum1: "",
+  telNum2: "",
+});
+console.log(recipientForm.value);
 
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.reduce((acc, shoppingBasket) => {
@@ -169,48 +211,23 @@ const formmatedShoppingBaskets = ref(
     return acc;
   }, [])
 );
-// const formmatedShoppingBaskets = ref(
-//   shoppingBaskets.reduce((acc, shoppingBasket) => {
-//     if (shoppingBasket.isPicked) {
-//       if (
-//         Array.isArray(shoppingBasket.item) &&
-//         shoppingBasket.item.length > 1
-//       ) {
-//         return shoppingBasket.item.map((item) => ({
-//           id: shoppingBasket.id,
-//           productName: shoppingBasket.productName,
-//           count: shoppingBasket.count,
-//           // totalPrice: shoppingBasket.totalPrice,
-//           item,
-//           imgSrc: shoppingBasket.imgSrc,
-//           isMultiIOption: true,
-//           isPicked: shoppingBasket.isPicked,
-//         }));
-//       } else {
-//         return {
-//           id: shoppingBasket.id,
-//           productName: shoppingBasket.productName,
-//           count: shoppingBasket.count,
-//           item: shoppingBasket.item[0],
-//           imgSrc: shoppingBasket.imgSrc,
-//           isMultiIOption: false,
-//           isPicked: shoppingBasket.isPicked,
-//         };
-//       }
-//     }
-//   })
-// );
+
 console.log(formmatedShoppingBaskets.value);
+
+// const handlePhoneNumberChange = (event) => {
+//   phoneNumber.value = event.target.value;
+// };
 
 const totalProductsPrice = computed(() =>
   formmatedShoppingBaskets.value.reduce(
-    (acc, curr) => acc + curr.price * curr.count,
+    (acc, curr) => acc + curr.item.detailPrice * curr.item.count,
     0
   )
 );
 
 const totalDelivery = computed(
-  () => formmatedShoppingBaskets.value.length * 3000
+  // () => formmatedShoppingBaskets.value.length * 3000
+  () => 3000
 );
 
 const totalPrice = computed(
@@ -226,7 +243,6 @@ const checkProduct = (id) => {
           isPicked: !formmatedShoppingBasket.isPicked,
         };
       }
-
       return formmatedShoppingBasket;
     }
   );
@@ -239,39 +255,72 @@ const deleteProduct = (id) => {
   storeShoppingBaksets(formmatedShoppingBaskets.value);
 };
 
-const addProduct = (id) => {
+const calcRecentBasketPrice = (id, isAdding) => {
+  const recentBasketPrice = formmatedShoppingBaskets.value.find(
+    (basket) => basket.item.detailId === id
+  ).item.detailPrice;
+
   formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.map(
     (formmatedShoppingBasket) => {
-      if (formmatedShoppingBasket.id === id) {
+      if (formmatedShoppingBasket.item.detailId === id) {
+        const count = isAdding
+          ? formmatedShoppingBasket.item.count + 1
+          : formmatedShoppingBasket.item.count - 1;
         return {
           ...formmatedShoppingBasket,
-          count: formmatedShoppingBasket.count + 1,
+          item: {
+            ...formmatedShoppingBasket.item,
+            count: count < 0 ? 0 : count,
+          },
         };
       }
-
       return formmatedShoppingBasket;
     }
   );
   storeShoppingBaksets(formmatedShoppingBaskets.value);
+};
+
+const addProduct = (id) => {
+  calcRecentBasketPrice(id, true);
 };
 
 const subtractProduct = (id) => {
-  formmatedShoppingBaskets.value = formmatedShoppingBaskets.value.map(
-    (formmatedShoppingBasket) => {
-      if (formmatedShoppingBasket.id === id) {
-        return {
-          ...formmatedShoppingBasket,
-          count: formmatedShoppingBasket.count - 1,
-        };
-      }
-
-      return formmatedShoppingBasket;
-    }
-  );
-  storeShoppingBaksets(formmatedShoppingBaskets.value);
+  calcRecentBasketPrice(id, false);
 };
 
-const storeShoppingBaksets = (recentBaskets) => {
+const formmatshoppingBaskets = (shoppingBaskets) => {
+  const formattedBaskets = shoppingBaskets.reduce((acc, shoppingBasket) => {
+    const existingBasket = acc.find(
+      (basket) => basket.id === shoppingBasket.id && basket.isMultiIOption
+    );
+    // console.log("formmat", shoppingBasket);
+    if (existingBasket) {
+      const newItem = Array.isArray(shoppingBasket.item)
+        ? shoppingBasket.item
+        : [shoppingBasket.item];
+      existingBasket.item = existingBasket.item.concat(newItem); // 여기서 concat()을 사용하여 리스트로 추가합니다.
+    } else {
+      acc.push({
+        id: shoppingBasket.id,
+        productName: shoppingBasket.productName,
+        count: shoppingBasket.count,
+        // totalPrice: shoppingBasket.totalPrice,
+        item: Array.isArray(shoppingBasket.item)
+          ? shoppingBasket.item
+          : [shoppingBasket.item],
+        imgSrc: shoppingBasket.imgSrc,
+        isMultiIOption: shoppingBasket.isMultiIOption,
+        isPicked: shoppingBasket.isPicked,
+      });
+    }
+    return acc;
+  }, []);
+  // console.log("formmated", formattedBaskets);
+  return formattedBaskets;
+};
+
+const storeShoppingBaksets = (formmatBaskets) => {
+  const recentBaskets = formmatshoppingBaskets(formmatBaskets);
   localStorage.setItem("shopping", JSON.stringify(recentBaskets));
 };
 </script>
