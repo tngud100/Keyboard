@@ -131,6 +131,7 @@ const type = computed(() =>
 // });
 
 const itemData = computed(() => props.shoppingBasket.item);
+// console.log(itemData.value);
 </script>
 
 <style src="@/assets/css/common/ProductPicked.css" module></style>

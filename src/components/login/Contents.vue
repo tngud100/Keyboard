@@ -6,12 +6,16 @@
       <input
         type="text"
         placeholder="아이디를 입력해주세요"
+        :value="loginId"
         :class="$style.input"
+        @change="loginId = $event.target.value"
       />
       <input
         type="password"
         placeholder="비밀번호를 입력해주세요"
+        :value="password"
         :class="$style.input"
+        @change="password = $event.target.value"
         autocomplete="off"
       />
       <div :class="$style.infoWrapper">
@@ -43,13 +47,33 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { loginAPI } from "@/api/LoginAPI.js";
 
 const router = useRouter();
+
+const { loginCheck } = loginAPI();
+
+const loginId = ref("");
+const password = ref("");
 
 const moveToAgreementPage = () => {
   router.push("/agreement");
 };
-const moveToMypage = () => {};
+const moveToMypage = async () => {
+  const loginForm = new FormData();
+  loginForm.append("login_id", loginId.value);
+  loginForm.append("password", password.value);
+
+  try {
+    const token = await loginCheck(loginForm);
+    localStorage.setItem("token", JSON.stringify(token));
+    router.push("/mypage");
+  } catch (e) {
+    alert("로그인에 실패하였습니다.");
+    console.log(e);
+  }
+};
 </script>
 
 <style src="@/assets/css/login/Contents.css" module></style>

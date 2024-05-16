@@ -66,7 +66,12 @@ const mainProduct = ref([
 
 const selectedProductIdx = ref(null);
 
-const emit = defineEmits(["openModal", "uploadMainPic"]);
+const emit = defineEmits([
+  "openModal",
+  "uploadMainPic",
+  "openCheckCommentNum",
+  "setOpenCheckState",
+]);
 
 const iconHover = ref(false);
 
@@ -75,6 +80,7 @@ const props = defineProps({
   modalState: Boolean,
   defaultState: Boolean,
   commentCode: Number,
+  openCheckStateByMainCheck: Boolean,
 });
 
 const handleHover = (value) => {
@@ -85,12 +91,12 @@ const uploadProductMainPicBtn = (event, index) => {
   mainProduct.value[index].mainImgName = event.target.files[0].name;
   mainProduct.value[index].imgFile = event.target.files[0];
   selectedProductIdx.value = index;
-  emit("openCheckModal", 4);
+  emit("openCheckCommentNum", 4);
 };
 
 const deleteMainProductBtn = (index) => {
   selectedProductIdx.value = index;
-  emit("openCheckModal", 13);
+  emit("openCheckCommentNum", 13);
 };
 
 const deleteMainProduct = async (index) => {
@@ -129,15 +135,26 @@ watch(isOpenVerifyModal, async (newValue) => {
     return;
   }
 
-  if (props.defaultState && props.commentCode === 13) {
+  if (
+    props.openCheckStateByMainCheck &&
+    props.defaultState &&
+    props.commentCode === 13
+  ) {
+    console.log(props.commentCode, props.openCheckStateByMainCheck);
     await deleteMainProduct(selectedProductIdx.value);
     mainProduct.value = [];
     getProductMain();
+    emit("setOpenCheckState", false);
   }
-  if (props.defaultState && props.commentCode === 4) {
+  if (
+    props.openCheckStateByMainCheck &&
+    props.defaultState &&
+    props.commentCode === 4
+  ) {
     await uploadProductMainPic(selectedProductIdx.value);
     mainProduct.value = [];
     getProductMain();
+    emit("setOpenCheckState", false);
   }
   if (!props.defaultState && props.commentCode === 4) {
     mainProduct.value[selectedProductIdx.value].mainImgName = "";

@@ -33,7 +33,6 @@ const verify = () => {
 let props = defineProps({
   commentCode: Number,
 });
-
 const comment = computed(() => modalStore.getCommentByCode(props.commentCode));
 </script>
 

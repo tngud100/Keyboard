@@ -2,10 +2,10 @@
   <section :class="$style.wrapper">
     <header :class="$style.header">
       <div :class="$style.info">
-        <h2 :class="$style.name">{{ productList.name }}</h2>
+        <h2 :class="$style.name">{{ props.productList.name }}</h2>
         <p :class="$style.price">
           <IconCurrency />
-          {{ formattedPrice(productList.price) }}
+          {{ formattedPrice(props.productList.price) }}
         </p>
       </div>
       <div :class="$style.shareBtnWrapper">
@@ -33,7 +33,7 @@
           배송비
         </dt>
         <dd :class="$style.deliveryInfoItem">
-          {{ formattedPrice(productList.deliveryPrice) }}원
+          {{ formattedPrice(props.productList.deliveryPrice) }}원
         </dd>
       </dl>
     </div>
@@ -73,7 +73,7 @@
 
     <ul :class="$style.selectedProductList">
       <li
-        v-for="selectedProduct in selectedProducts"
+        v-for="selectedProduct in props.selectedProducts"
         :class="$style.selectedProductItem"
         :key="selectedProduct.id"
       >
@@ -158,7 +158,7 @@ import IconClose from "#/icons/IconClose.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import { useRouter } from "vue-router";
 
-const { selectedProducts, productList } = defineProps({
+const props = defineProps({
   selectedProducts: {
     type: Array,
     required: true,
@@ -168,6 +168,7 @@ const { selectedProducts, productList } = defineProps({
     required: true,
   },
 });
+console.log("updateSelectedProducts", props.selectedProducts);
 
 const emit = defineEmits([
   "selectedDetail",
@@ -185,9 +186,9 @@ const categoryItem = ref([]);
 const selectedDetail = ref([]);
 
 onMounted(() => {
-  console.log("selectedProducts", selectedProducts);
-  console.log("productList", productList);
-  productList.detailProduct.forEach((item) => {
+  // console.log("selectedProducts", selectedProducts);
+  // console.log("productList", productList);
+  props.productList.detailProduct.forEach((item) => {
     category.value.push(item.category);
     categoryItem.value.push({
       category: item.category,
@@ -206,7 +207,7 @@ watch(
 
     emit("selectedDetail", {
       id: uuidv4(),
-      productName: productList.name,
+      productName: props.productList.name,
       item: newValue,
     });
     resetSelectedItem();
@@ -222,7 +223,7 @@ const updateSelectedItem = (event) => {
   const detailName = event.target.dataset.detail;
   const categoryName = event.target.dataset.category;
 
-  const detailItem = productList.detailProduct.find(
+  const detailItem = props.productList.detailProduct.find(
     (item) => item.category === categoryName && item.detailName === detailName
   );
   const detailPrice = detailItem.detailPrice;
@@ -249,7 +250,37 @@ const updateAddedCount = (id) => {
 const updateSubtractedCount = (id) => emit("subtractCount", { id });
 
 const purchaseProduct = ({ event }) => {
-  router.push("/order");
+  if (props.selectedProducts.length === 0) {
+    return alert("구매하실 상품의 옵션을 선택해주세요.");
+  }
+  const buyList = [];
+  props.selectedProducts.forEach((product) => {
+    if (product.item.length > 1) {
+      product.item.forEach((productItem) => {
+        buyList.push({
+          productName: product.productName,
+          id: product.id,
+          item: productItem,
+          isPicked: true,
+          count: product.count,
+          imgSrc: props.productList.importedProduct,
+        });
+      });
+    } else {
+      buyList.push({
+        productName: product.productName,
+        id: product.id,
+        item: product.item[0],
+        count: product.count,
+        isPicked: true,
+        imgSrc: props.productList.importedProduct,
+      });
+    }
+  });
+  router.push({
+    path: "/order",
+    query: { from: "productDetail", params: JSON.stringify(buyList) },
+  });
 };
 
 const storeProduct = () => {

@@ -147,44 +147,20 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import Input from "#/common/Input.vue";
 import ProductPicked from "#/common/ProductPicked.vue";
 import PaymentInfo from "#/common/PaymentInfo.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
+const Router = useRouter();
+
 const shoppingBaskets = JSON.parse(localStorage.getItem("shopping")) || [];
-
-// const phoneNumber = ref("");
-// const address = ref({
-//   zipCode: "",
-//   nomal: "",
-//   detail: "",
-// });
-// const telNum1 = ref("");
-// const telNum2 = ref("");
-
-const recipientForm = ref({
-  phone: {
-    verify: false,
-    number: "",
-  },
-  address: {
-    zipCode: "",
-    nomal: "",
-    detail: "",
-  },
-  telNum1: "",
-  telNum2: "",
-});
-console.log(recipientForm.value);
 
 const formmatedShoppingBaskets = ref(
   shoppingBaskets.reduce((acc, shoppingBasket) => {
     if (shoppingBasket.isPicked) {
-      if (
-        Array.isArray(shoppingBasket.item) &&
-        shoppingBasket.item.length > 1
-      ) {
+      if (shoppingBasket.item.length > 1) {
         return acc.concat(
           shoppingBasket.item.map((item) => ({
             id: shoppingBasket.id,
@@ -212,7 +188,27 @@ const formmatedShoppingBaskets = ref(
   }, [])
 );
 
-console.log(formmatedShoppingBaskets.value);
+// console.log(formmatedShoppingBaskets.value);
+if (Router.currentRoute.value.query.from === "productDetail") {
+  formmatedShoppingBaskets.value = JSON.parse(
+    Router.currentRoute.value.query.params
+  );
+}
+// console.log(formmatedShoppingBaskets.value);
+
+const recipientForm = ref({
+  phone: {
+    verify: false,
+    number: "",
+  },
+  address: {
+    zipCode: "",
+    nomal: "",
+    detail: "",
+  },
+  telNum1: "",
+  telNum2: "",
+});
 
 // const handlePhoneNumberChange = (event) => {
 //   phoneNumber.value = event.target.value;

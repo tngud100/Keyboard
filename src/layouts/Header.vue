@@ -31,10 +31,8 @@
           <IconSearch />
         </button>
       </div>
-      <button type="button">
-        <router-link to="/login">
-          <IconMyPage />
-        </router-link>
+      <button type="button" @click="gotoMypage">
+        <IconMyPage />
       </button>
       <button type="button">
         <router-link to="/basket">
@@ -57,10 +55,12 @@ import IconNewLogo from "#/icons/IconNewLogo.vue";
 import IconSearch from "#/icons/IconSearch.vue";
 import IconMyPage from "#/icons/IconMyPage.vue";
 import IconBasket from "#/icons/IconBasket.vue";
+import { useRouter } from "vue-router";
 
 const isSearch = ref(false);
 const searchRef = ref(null);
 const style = useCssModule();
+const router = useRouter();
 
 const isShowingSearchBoard = computed(
   () => isSearch.value && style.searchWrapperBorder
@@ -77,6 +77,11 @@ const toggleIsSearch = () => {
       clearTimeout(timer);
     }, 0);
   }
+};
+
+const gotoMypage = () => {
+  const isLogin = localStorage.getItem("token") ? true : false;
+  router.push(isLogin ? "/mypage" : "/login");
 };
 </script>
 

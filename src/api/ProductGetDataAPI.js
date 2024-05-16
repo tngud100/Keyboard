@@ -108,6 +108,7 @@ export const getProductAPI = () => {
                     representImgName: item.represent_picture_name,
                     descImg: backendCall(item.desc_picture),
                     descImgName: item.desc_picture_name,
+
                     name: item.name,
                     type: item.type,
                     amount: item.amount,

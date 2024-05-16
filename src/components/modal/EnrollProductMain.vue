@@ -52,7 +52,7 @@ const emit = defineEmits(["commentCode"]);
 
 const productList = ref([]);
 const isOpenVerifyModal = computed(() => modalstore.isOpenVerifyModal);
-const commentCode = ref(null);
+const verifyModalCode = ref(null);
 
 const selectedProductId = ref(null);
 
@@ -62,13 +62,13 @@ const props = defineProps({
 
 const enrollProductMainPic = (product_id) => {
   selectedProductId.value = product_id;
-  commentCode.value = 3;
-  openVerifyModal(commentCode.value);
+  verifyModalCode.value = 3;
+  openVerifyModal(verifyModalCode.value);
 };
 
-const openVerifyModal = (commentCode) => {
+const openVerifyModal = (verifyModalCode) => {
   modalstore.setOpenVerifyModal(true);
-  emit("commentCode", commentCode);
+  emit("commentCode", verifyModalCode);
 };
 
 const fetchProductList = async () => {
@@ -93,7 +93,8 @@ watch(isOpenVerifyModal, (newValue) => {
   if (newValue) {
     return;
   }
-  if (commentCode.value === 3 && props.defaultState) {
+  if (verifyModalCode.value === 3 && props.defaultState) {
+    console.log(verifyModalCode.value);
     setProductMainState(selectedProductId.value);
   }
 });

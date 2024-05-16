@@ -47,8 +47,10 @@
         :modalState="modalState"
         :defaultState="defaultState"
         :commentCode="commentCode"
+        :openCheckStateByMainCheck="openCheckStateByMainCheck"
         @openModal="addMainPic"
-        @openCheckModal="openChekcModalByMainPic"
+        @openCheckCommentNum="openChekcModalByMainPic"
+        @setOpenCheckState="setOpenCheckState"
       />
     </div>
 
@@ -115,6 +117,8 @@ const cardItem = ref();
 
 const productList = ref([]);
 
+const openCheckStateByMainCheck = ref(false);
+
 const handleHover = (value) => {
   iconHover.value = value;
 };
@@ -161,9 +165,13 @@ const cardModifyBtn = (value) => {
 };
 
 const openChekcModalByMainPic = (Code) => {
-  console.log(Code);
   commentCode.value = Code;
+  openCheckStateByMainCheck.value = true;
   openVerifyModal(commentCode.value);
+};
+
+const setOpenCheckState = (boolean) => {
+  openCheckStateByMainCheck.value = boolean;
 };
 
 const cardDeleteBtn = (cardId) => {
@@ -189,7 +197,6 @@ const setDefaultState = (boolean) => {
 const fetchProductList = async () => {
   const data = await getProductList(); // api.js의 getProductList 함수 호출
   productList.value = data;
-  console.log(productList.value);
 };
 
 watch(isOpenVerifyModal, (newValue) => {

@@ -58,7 +58,7 @@ const moveOrderPage = () => {
   if (props.totalProductsPrice === 0) {
     return alert("구매하실 상품의 체크박스를 체크해주세요.");
   }
-  router.push("/order");
+  router.push({ path: "/order", query: { from: "basket" } });
 };
 </script>
 

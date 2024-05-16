@@ -100,12 +100,12 @@ function isEqual(arr1, arr2) {
 
 const addCount = ({ id }) => {
   selectedProducts.value = calcCount(id, 1);
-  console.log(selectedProducts.value);
+  // console.log(selectedProducts.value);
 };
 
 const subtractCount = ({ id }) => {
   selectedProducts.value = calcCount(id, -1);
-  console.log(selectedProducts.value);
+  // console.log(selectedProducts.value);
 };
 
 const calcCount = (id, calcUnit) => {
