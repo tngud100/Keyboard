@@ -65,13 +65,14 @@ const moveToMypage = async () => {
   loginForm.append("login_id", loginId.value);
   loginForm.append("password", password.value);
 
-  try {
-    const token = await loginCheck(loginForm);
+  const data = await loginCheck(loginForm);
+  if (data.authorization && data.refreshToken) {
+    const token = {
+      authorization: data.authorization,
+      refreshToken: data.refreshToken,
+    };
     localStorage.setItem("token", JSON.stringify(token));
     router.push("/mypage");
-  } catch (e) {
-    alert("로그인에 실패하였습니다.");
-    console.log(e);
   }
 };
 </script>
