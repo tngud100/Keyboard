@@ -65,12 +65,19 @@
             :value="birthday.year"
             @input="handleBirthDayYearChange"
           />
-          <div :class="$style.dropDownWrapper">
+          <Input
+            type="text"
+            size="143px"
+            placeholder="월"
+            :value="birthday.month"
+            @input="handleBirthDayMonthChange"
+          />
+          <!-- <div :class="$style.dropDownWrapper">
             월
             <div>
               <IconMediumDownArrow />
             </div>
-          </div>
+          </div> -->
           <Input
             type="text"
             size="143px"
@@ -96,12 +103,21 @@
               @input="handleEmailBackChange"
             />
           </div>
-          <div :class="$style.dropDownWrapper">
-            직접입력
+          <div :class="$style.dropDownWrapper"  @click="showOption = !showOption">
+            {{email.back}}
             <div>
-              <IconMediumDownArrow />
+              <IconMediumDownArrow/>
+            </div>
+            <div v-if="showOption === true" :class="$style.dropDownOptionBox">
+              <span :class="$style.optionStyle" v-for="option in emailOptionList"
+                :key="option.index"
+                @click="clickOptionEmailBack(option)"
+              >
+                {{ option.domain }}
+              </span>
             </div>
           </div>
+          
         </div>
         <div :class="[$style.line, $style.head]">휴대전화</div>
         <div :class="[$style.line, $style.data]">
@@ -149,7 +165,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Input from "#/common/Input.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 
@@ -164,6 +180,83 @@ const birthday = ref({
 });
 const email = ref({ front: "", back: "" });
 const phoneNumber = ref("");
+const emailOptionList = [
+  {
+    domain: "직접입력",
+    index:0,
+  },
+  {
+    domain: "gmail.com",
+    index:1,
+  },
+  {
+    domain: "yahoo.com",
+    index:2,
+  },
+  {
+    domain: "outlook.com",
+    index:3,
+  },
+  {
+    domain: "hotmail.com",
+    index:4,
+  },
+  {
+    domain: "icloud.com",
+    index:5,
+  },
+  {
+    domain: "naver.com",
+    index:6,
+  },
+  {
+    domain: "daum.net",
+    index:7,
+  },
+  {
+    domain: "kakao.com",
+    index:8,
+  },
+  {
+    domain: "hanmail.net",
+    index:9,
+  },
+]
+const showOption = ref(false);
+
+const moveToSignupPage = () => {
+  const birthday = birthday.value.year + "-" + birthday.value.month + "-" + birthday.value.date;
+  const eamil = eamil.value.front + "@" + email.value.back;
+
+  const signupForm = {
+    LOGIN_ID: id.value,
+    PASSWORD: password.value,
+    USER_NAME: name.value,
+    PHONE_NUM: phoneNumber.value,
+    // ADDRESS:,
+    // ZIPCODE: ,
+    // ADDRESS_DETAIL: ,
+    EMAIL: email.value,
+    BIRTHDAY: birthday
+  }
+}
+
+
+// const clickOutsideHandler = (event) => {
+//   const dropdownWrapper = document.querySelector(`.${$style.dropDownWrapper}`);
+//   if (!dropdownWrapper.contains(event.target)) {
+//     showOption.value = false;
+//   }
+// };
+
+// watch(() => showOption, (value) => {
+//   console.log(value)
+//   if (value) {
+//     document.addEventListener("click", clickOutsideHandler);
+//   } else {
+//     document.removeEventListener("click", clickOutsideHandler);
+//   }
+// });
 
 const handleIdChange = ({ target }) => {
   id.value = target.value;
@@ -185,6 +278,10 @@ const handleBirthDayYearChange = ({ target }) => {
   birthday.value.year = target.value;
 };
 
+const handleBirthDayMonthChange = ({ target }) => {
+  birthday.value.month = target.value;
+};
+
 const handleBirthDayDateChange = ({ target }) => {
   birthday.value.date = target.value;
 };
@@ -195,6 +292,13 @@ const handleEmailFrontChange = ({ target }) => {
 
 const handleEmailBackChange = ({ target }) => {
   email.value.back = target.value;
+};
+
+const clickOptionEmailBack = (option) => {
+  emailOptionList.forEach((item)=>{
+    email.value.back = item.index = option.index? option.domain : '';
+  })
+  showOption = false;
 };
 
 const handlePhoneNumberChange = ({ target }) => {

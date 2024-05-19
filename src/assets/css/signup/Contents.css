@@ -69,6 +69,7 @@
 }
 
 .dropDownWrapper {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,6 +78,27 @@
   padding: 16px 10px;
   border-radius: 5px;
   border: 1px solid #8c8c8c;
+}
+.dropDownOptionBox{
+  position: absolute;
+  display: grid;
+  justify-content: left;
+  align-items: center;
+  height: 150px;
+  background: white;
+  overflow: hidden;
+  top: 47px;
+  left: 0;
+  overflow-y: scroll;
+  border-radius: 5px;
+  border: 1px solid #8c8c8c;
+}
+.optionStyle{
+  width: 131px;
+  padding: 8px;
+}
+.optionStyle:hover{
+  background-color:#d7d7d7;
 }
 
 .email {
