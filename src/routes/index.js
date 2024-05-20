@@ -41,6 +41,7 @@ const routes = [
   {
     path: "/mypage",
     component: MypageView,
+    meta: { requiresAuth: true }
   },
   {
     path: "/signup",
@@ -119,7 +120,19 @@ const routes = [
   },
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem('token');
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    return next('/login');
+  }
+  next();
+});
+
+export default router;

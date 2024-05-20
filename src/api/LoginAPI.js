@@ -15,7 +15,7 @@ export const loginAPI = () => {
             return tokens;
         })
             .catch((err) => {
-            // console.error(err);
+            alert("로그인에 실패하였습니다.");
             return err;
         });
     };

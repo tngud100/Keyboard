@@ -81,6 +81,7 @@ const toggleIsSearch = () => {
 
 const gotoMypage = () => {
   const isLogin = localStorage.getItem("token") ? true : false;
+
   router.push(isLogin ? "/mypage" : "/login");
 };
 </script>
