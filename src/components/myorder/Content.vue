@@ -1,19 +1,24 @@
 <template>
   <!-- 날짜가 같은 주문들을 박스에 묶어서 나타내기 -->
-  <div
+  <!-- <div
     :class="$style.container"
     v-for="orderedProduct in orderData"
     :key="orderedProduct"
   >
-    <!-- <div :class="$style.box" v-for="item in order" :key="item">
+    <div
+      :class="$style.box"
+      v-for="item in orderedProduct.productDetail"
+      :key="item"
+    >
       <orderCheck />
-    </div> -->
-  </div>
+    </div>
+  </div> -->
+  {{ menuNum }}
 </template>
 
 <script setup>
 import { ref } from "vue";
-import orderCheck from "#/myorder/orderCheck.vue";
+// import orderCheck from "#/myorder/orderCheck.vue";
 
 const props = defineProps({
   menuNum: Number,

@@ -103,13 +103,18 @@
               @input="handleEmailBackChange"
             />
           </div>
-          <div :class="$style.dropDownWrapper"  @click="showOption = !showOption">
-            {{email.back}}
+          <div
+            :class="$style.dropDownWrapper"
+            @click="showOption = !showOption"
+          >
+            {{ email.back }}
             <div>
-              <IconMediumDownArrow/>
+              <IconMediumDownArrow />
             </div>
             <div v-if="showOption === true" :class="$style.dropDownOptionBox">
-              <span :class="$style.optionStyle" v-for="option in emailOptionList"
+              <span
+                :class="$style.optionStyle"
+                v-for="option in emailOptionList"
                 :key="option.index"
                 @click="clickOptionEmailBack(option)"
               >
@@ -117,7 +122,6 @@
               </span>
             </div>
           </div>
-          
         </div>
         <div :class="[$style.line, $style.head]">휴대전화</div>
         <div :class="[$style.line, $style.data]">
@@ -183,49 +187,54 @@ const phoneNumber = ref("");
 const emailOptionList = [
   {
     domain: "직접입력",
-    index:0,
+    index: 0,
   },
   {
     domain: "gmail.com",
-    index:1,
+    index: 1,
   },
   {
     domain: "yahoo.com",
-    index:2,
+    index: 2,
   },
   {
     domain: "outlook.com",
-    index:3,
+    index: 3,
   },
   {
     domain: "hotmail.com",
-    index:4,
+    index: 4,
   },
   {
     domain: "icloud.com",
-    index:5,
+    index: 5,
   },
   {
     domain: "naver.com",
-    index:6,
+    index: 6,
   },
   {
     domain: "daum.net",
-    index:7,
+    index: 7,
   },
   {
     domain: "kakao.com",
-    index:8,
+    index: 8,
   },
   {
     domain: "hanmail.net",
-    index:9,
+    index: 9,
   },
-]
+];
 const showOption = ref(false);
 
 const moveToSignupPage = () => {
-  const birthday = birthday.value.year + "-" + birthday.value.month + "-" + birthday.value.date;
+  const birthday =
+    birthday.value.year +
+    "-" +
+    birthday.value.month +
+    "-" +
+    birthday.value.date;
   const eamil = eamil.value.front + "@" + email.value.back;
 
   const signupForm = {
@@ -237,10 +246,9 @@ const moveToSignupPage = () => {
     // ZIPCODE: ,
     // ADDRESS_DETAIL: ,
     EMAIL: email.value,
-    BIRTHDAY: birthday
-  }
-}
-
+    BIRTHDAY: birthday,
+  };
+};
 
 // const clickOutsideHandler = (event) => {
 //   const dropdownWrapper = document.querySelector(`.${$style.dropDownWrapper}`);
@@ -295,9 +303,9 @@ const handleEmailBackChange = ({ target }) => {
 };
 
 const clickOptionEmailBack = (option) => {
-  emailOptionList.forEach((item)=>{
-    email.value.back = item.index = option.index? option.domain : '';
-  })
+  emailOptionList.forEach((item) => {
+    email.value.back = item.index == option.index ? option.domain : "";
+  });
   showOption = false;
 };
 

@@ -1,10 +1,17 @@
 <template>
-  <div>리뷰 및 문의 내역</div>
+  <section>
+    <AskMain v-if="!writeReview" />
+    <WriteAsk v-if="writeReview" />
+  </section>
 </template>
 
 <script setup>
+import AskMain from "#/myaskReview/AskMain.vue";
+import WriteAsk from "#/myaskReview/WriteAsk.vue";
+
 const props = defineProps({
   menuNum: Number,
+  writeReview: Boolean,
 });
 </script>
 

@@ -23,8 +23,15 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+import getTokenData from "@/utils/getTokenData.js";
+
+const getUserId = getTokenData();
+
+const userId = getUserId();
+
 const data = {
-  userName: "홍길동",
+  userName: userId,
   orderCount: 3,
   reviewCount: 5,
   askCount: 2,

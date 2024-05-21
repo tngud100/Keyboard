@@ -44,14 +44,14 @@ const menuList = {
   ask: {
     title: "문의내역",
     list: [
-      { name: "1:1 문의내역", listNum: 2 },
+      { name: "1:1문의", listNum: 2 },
       { name: "리뷰", listNum: 3 },
     ],
   },
   userInfo: {
     title: "회원 정보",
     list: [
-      { name: "회원 정보 수정", listNum: 4 },
+      { name: "회원정보 수정", listNum: 4 },
       // { name: '배송지 관리', listNum: 5 },
       { name: "회원탈퇴", listNum: 6 },
     ],
