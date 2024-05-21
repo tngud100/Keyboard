@@ -2,11 +2,13 @@
   <section :class="$style.wrapper">
     <form :class="$style.form">
       <div :class="$style.askTypeBox">
-        <div :class="$style.typeLabel">문의 유형*</div>
+        <div :class="$style.askLabel">문의 유형*</div>
         <div :class="$style.typeOption" @click="showType != showType">
-          {{ form.typeName ? form.typeName : "문의 유형 선택" }}
-          <div>
-            <IconMediumDownArrow />
+          <div :class="$style.typeWrapper">
+            {{ form.typeName ? form.typeName : "문의 유형 선택" }}
+            <div>
+              <IconMediumDownArrow />
+            </div>
           </div>
           <div v-if="showType == true" :class="$style.dropDownTypeBox">
             <span
@@ -18,21 +20,24 @@
           </div>
         </div>
         <div :class="$style.askInput">
-          <input type="text" v-model="form.title" />
+          <input type="text" placeholder="제목을 입력해주세요." :value="form.title" :class="$style.askTitle" />
         </div>
       </div>
 
-      <div>
-        <div>문의 내용*</div>
+      <div :class="$style.askContentBox">
+        <div :class="$style.askLabel">문의 내용*</div>
         <div>
-          <div>
-            <input type="text" v-model="form.content" />
+          <div :class="$style.askContent">
+            <input type="text" :value="form.content" :class="$style.askContentInput"/>
           </div>
-          <div>첨부파일</div>
           <input type="file" />
+          <div></div>
         </div>
       </div>
-      <button type="submit">문의하기</button>
+      <div :class="$style.btnBox">
+        <button :class="$style.btn" type="submit">취소하기</button>
+        <button :class="$style.btn" type="submit">문의하기</button>
+      </div>
     </form>
   </section>
 </template>
