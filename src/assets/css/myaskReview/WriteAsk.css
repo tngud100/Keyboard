@@ -15,7 +15,8 @@
     font-size: 14px;
 }
 
-.typeOption{
+.typeWrapper{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,47 +25,59 @@
     border: 1px solid #C2C2C2;
     margin-right: 5px;
 }
-.typeWrapper{
+.typeOption{
     font-size: 14px;
     display:flex;
     justify-content: space-between;
     width: 110px;
 }
+.dropDownTypeBox{
+    position: absolute;
+    display: grid;
+    width: 138px;
+    justify-content: center;
+    top: 40px;
+    font-size: 14px;
+    border: 1px solid #C2C2C2;
+    background-color: white;
+}
+.optionStyle{
+    width: 138px;
+    padding: 6px;;
+    box-sizing: border-box; 
+    text-align: center;
+    cursor: pointer;
+}
+.optionStyle:hover{
+    background-color: #F6F6F6;
+}
 
-.askInput{
+
+.askTitle{
     display: flex;
     align-items: center;
     height:40px;
     width: 778px;
     border: 1px solid #C2C2C2;
+    box-sizing: border-box; 
 }
-.askTitle{
+.askInput{
     padding-left: 12px;
+    width: 100%; 
+    height: 100%; 
+    box-sizing: border-box; 
     border: none;
 }
-.askContentBox{
-    display: flex;
-    margin-top: 10px;
-    border-bottom: 1px solid #525252;
-}
-.askContent{
-    width: 920px;
-    height: 270px;
-    border: 1px solid #C2C2C2;
-}
-.askContentInput{
-    border-radius: 0px;
-    padding-left:20px;
-    border:none;
-}
+
+
 .btnBox{
     margin-top: 20px;
     width: 100%;
+    margin-bottom: 85px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .btn{
     width: 150px;
     height: 50px;

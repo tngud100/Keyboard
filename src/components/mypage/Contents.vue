@@ -9,6 +9,8 @@
           :is="currentView"
           :menuNum="menuNum"
           :writeReview="isAskWriteBtn"
+          :class="$style.content"
+          @isCancelWrite="isAskWriteBtn = false"
         />
       </div>
     </div>

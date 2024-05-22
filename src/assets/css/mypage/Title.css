@@ -3,9 +3,10 @@
     font-weight: bold;
     border-bottom: 1px solid black;
     width: 1080px;
+    height: 30px;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 7px;
+    padding-bottom: 5px;
     align-items: center;
 }
 .reviewBtn{

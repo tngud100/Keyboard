@@ -22,6 +22,7 @@
     padding-left: 20px;
     text-align: left;
     align-content: center;
+    margin-right: 5px;
 }
 .dataBox{
     width: calc(40% / 3 - 4px);
@@ -29,6 +30,7 @@
     background-color: white;
     align-content: center;
     text-align: center;
+    margin-right: 5px;
 }
 .nameBox > .name{
     font-size: 22px;
