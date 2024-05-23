@@ -41,7 +41,9 @@
         <button :class="$style.btn" type="button" @click="cancel">
           취소하기
         </button>
-        <button :class="$style.btn" @click="submit">문의하기</button>
+        <button :class="$style.btn" type="button" @click="submit">
+          문의하기
+        </button>
       </div>
     </form>
   </section>

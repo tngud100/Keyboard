@@ -49,8 +49,11 @@
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { loginAPI } from "@/api/LoginAPI.js";
+import { useAuthStore } from "@/store/useAuthStore.js";
 
 const router = useRouter();
+
+const authStore = useAuthStore();
 
 const { loginCheck } = loginAPI();
 
@@ -66,12 +69,13 @@ const moveToMypage = async () => {
   loginForm.append("password", password.value);
 
   const data = await loginCheck(loginForm);
+  console.log(data.authorization, data.refreshToken);
   if (data.authorization && data.refreshToken) {
     const token = {
-      authorization: data.authorization,
-      refreshToken: data.refreshToken,
+      authorization: JSON.stringify(data.authorization),
+      refreshToken: JSON.stringify(data.refreshToken),
     };
-    localStorage.setItem("token", JSON.stringify(token));
+    authStore.setToken(token);
     router.push("/mypage");
   }
 };

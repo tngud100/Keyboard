@@ -1,7 +1,7 @@
 <template>
   <section>
     <AskMain v-if="!showWriteForm" />
-    <WriteAsk v-if="showWriteForm" @isCancelWrite="isCancelWrite" />
+    <WriteAsk v-if="showWriteForm" @isCancelWrite="canceledWrite" />
   </section>
 </template>
 
@@ -28,7 +28,7 @@ watchEffect(
   { immediate: true }
 );
 
-const isCancelWrite = () => {
+const canceledWrite = () => {
   showWriteForm.value = false;
   emit("isCancelWrite");
 };

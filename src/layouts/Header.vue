@@ -31,13 +31,16 @@
           <IconSearch />
         </button>
       </div>
-      <button type="button" @click="gotoMypage">
-        <IconMyPage />
-      </button>
       <button type="button">
         <router-link to="/basket">
           <IconBasket />
         </router-link>
+      </button>
+      <button type="button" @click="gotoMypage">
+        <IconMyPage />
+      </button>
+      <button v-if="isLogin" type="button" @click="logoutTokenClear">
+        <IconLogout />
       </button>
       <Language />
     </div>
@@ -54,13 +57,20 @@ import IconYoutube from "#/icons/IconYoutube.vue";
 import IconNewLogo from "#/icons/IconNewLogo.vue";
 import IconSearch from "#/icons/IconSearch.vue";
 import IconMyPage from "#/icons/IconMyPage.vue";
+import IconLogout from "#/icons/IconLogout.vue";
 import IconBasket from "#/icons/IconBasket.vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/store/useAuthStore.js";
+import { loginAPI } from "@/api/LoginAPI.js";
 
 const isSearch = ref(false);
 const searchRef = ref(null);
 const style = useCssModule();
 const router = useRouter();
+const authStore = useAuthStore();
+const { logout } = loginAPI();
+
+const isLogin = computed(() => !!authStore.token);
 
 const isShowingSearchBoard = computed(
   () => isSearch.value && style.searchWrapperBorder
@@ -80,9 +90,22 @@ const toggleIsSearch = () => {
 };
 
 const gotoMypage = () => {
-  const isLogin = localStorage.getItem("token") ? true : false;
+  router.push(isLogin.value ? "/mypage" : "/login");
+};
 
-  router.push(isLogin ? "/mypage" : "/login");
+const logoutTokenClear = async () => {
+  console.log(authStore.token);
+  console.log(authStore.token.authorization, authStore.token.refreshToken);
+  const data = await logout(
+    authStore.token.authorization,
+    authStore.token.refreshToken
+  );
+  console.log(data);
+  if (data === true) {
+    authStore.clearToken();
+    isLogin.value = null;
+    router.push("/login");
+  }
 };
 </script>
 

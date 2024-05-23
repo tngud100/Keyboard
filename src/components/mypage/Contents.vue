@@ -10,7 +10,7 @@
           :menuNum="menuNum"
           :writeReview="isAskWriteBtn"
           :class="$style.content"
-          @isCancelWrite="isAskWriteBtn = false"
+          @isCancelWrite="cancelWrite"
         />
       </div>
     </div>
@@ -47,6 +47,10 @@ const currentView = computed(() => {
     return myorder; // 기본값 설정
   }
 });
+
+const cancelWrite = () => {
+  isAskWriteBtn.value = false;
+};
 
 const handleWriteReview = () => {
   isAskWriteBtn.value = true;

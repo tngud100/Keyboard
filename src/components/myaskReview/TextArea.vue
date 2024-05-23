@@ -76,7 +76,10 @@ const handleFileChange = (event, index) => {
   const file = event.target.files[0];
   if (file) {
     const preview = URL.createObjectURL(file);
-    form.value.files[index] = { file, preview };
+    // 이미지를 배열의 첫 번째 요소로 이동합니다.
+    form.value.files.unshift({ file, preview });
+    // 최대 3장까지만 유지합니다.
+    form.value.files = form.value.files.slice(0, 3);
     emit("fileChange", form.value.files);
   }
 };
