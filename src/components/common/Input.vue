@@ -8,6 +8,7 @@
     @input="handleInput"
     :readonly="props.isReadOnly"
     :autocomplete="props.autocomplete"
+    :maxlength="props.maxLength"
   />
   <div v-if="isValidate">유효성검증 실패</div>
 </template>
@@ -18,15 +19,15 @@ import { ref } from "vue";
 const props = defineProps({
   placeholder: {
     type: String,
-    required: true,
+    // required: true,
   },
   type: {
     type: String,
-    required: true,
+    // required: true,
   },
   isReadOnly: {
     type: Boolean,
-    default: false,
+    // default: false,
   },
   autocomplete: {
     type: String,
@@ -34,11 +35,14 @@ const props = defineProps({
   },
   size: {
     type: String,
-    required: true,
+    // required: true,
   },
   value: {
     type: String,
-    required: true,
+    // required: true,
+  },
+  maxLength: {
+    type: Number,
   },
 });
 

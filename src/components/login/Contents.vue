@@ -48,14 +48,14 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import { loginAPI } from "@/api/LoginAPI.js";
+import { AuthAPI } from "@/api/AuthAPI.js";
 import { useAuthStore } from "@/store/useAuthStore.js";
 
 const router = useRouter();
 
 const authStore = useAuthStore();
 
-const { loginCheck } = loginAPI();
+const { loginCheck } = AuthAPI();
 
 const loginId = ref("");
 const password = ref("");
@@ -69,13 +69,12 @@ const moveToMypage = async () => {
   loginForm.append("password", password.value);
 
   const data = await loginCheck(loginForm);
-  console.log(data.authorization, data.refreshToken);
   if (data.authorization && data.refreshToken) {
     const token = {
-      authorization: JSON.stringify(data.authorization),
-      refreshToken: JSON.stringify(data.refreshToken),
+      authorization: data.authorization,
+      refreshToken: data.refreshToken,
     };
-    authStore.setToken(token);
+    authStore.setToken(JSON.stringify(token));
     router.push("/mypage");
   }
 };

@@ -1,8 +1,7 @@
 import instance from '@/utils/axiosInstance.js';
 import axios from 'axios';
 
-export const loginAPI = () => {
-
+export const AuthAPI = () => {
     const loginCheck = async (loginForm) => {
         return await axios.post('http://localhost:8080/login', loginForm
         )
@@ -38,5 +37,31 @@ export const loginAPI = () => {
             });
     };
 
-    return { loginCheck, logout };
+    const isDuplicateId = async (Id) => {
+        return await instance.get('/isIdDuplicateId', {
+            params: { Id }
+        })
+        .then((res) => {
+            return res.data;
+        })
+            .catch((err) => {
+            alert
+            return err;
+        });
+    }
+
+    const phoneNumCheck = async (phoneNum) => {
+        return await instance.get('/sentPhoneVerify', {
+            params: { phoneNum }
+        })
+        .then((res) => {
+            return res.data;
+        })
+            .catch((err) => {
+            alert("전화번호 인증에 실패하였습니다.")
+            return err;
+        });
+    }
+
+    return { loginCheck, logout, isDuplicateId };
 }

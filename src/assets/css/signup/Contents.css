@@ -170,3 +170,9 @@
   background-color: #111;
   color: #fff;
 }
+
+.error{
+  font-size: 12px;
+    padding: 12px;
+    color: red;
+}

@@ -129,6 +129,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('token');
 
+  // 로그인이 필요한 페이지에 접근하려고 할 때
+  // 로그인이 되어있지 않다면 로그인 페이지로 이동
+
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     return next('/login');
   }

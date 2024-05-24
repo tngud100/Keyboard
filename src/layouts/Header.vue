@@ -61,16 +61,16 @@ import IconLogout from "#/icons/IconLogout.vue";
 import IconBasket from "#/icons/IconBasket.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/useAuthStore.js";
-import { loginAPI } from "@/api/LoginAPI.js";
+import { AuthAPI } from "@/api/AuthAPI.js";
 
 const isSearch = ref(false);
 const searchRef = ref(null);
 const style = useCssModule();
 const router = useRouter();
 const authStore = useAuthStore();
-const { logout } = loginAPI();
+const { logout } = AuthAPI();
 
-const isLogin = computed(() => !!authStore.token);
+const isLogin = computed(() => !!JSON.parse(authStore.token));
 
 const isShowingSearchBoard = computed(
   () => isSearch.value && style.searchWrapperBorder
@@ -94,13 +94,9 @@ const gotoMypage = () => {
 };
 
 const logoutTokenClear = async () => {
-  console.log(authStore.token);
-  console.log(authStore.token.authorization, authStore.token.refreshToken);
-  const data = await logout(
-    authStore.token.authorization,
-    authStore.token.refreshToken
-  );
-  console.log(data);
+  const token = JSON.parse(authStore.token);
+
+  const data = await logout(token.authorization, token.refreshToken);
   if (data === true) {
     authStore.clearToken();
     isLogin.value = null;
