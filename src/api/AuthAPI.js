@@ -51,17 +51,41 @@ export const AuthAPI = () => {
     }
 
     const phoneNumCheck = async (phoneNum) => {
-        return await instance.get('/sentPhoneVerify', {
-            params: { phoneNum }
+        return await instance.post('/send', null,{
+            params: {
+                phoneNum: phoneNum
+            }
         })
         .then((res) => {
             return res.data;
         })
             .catch((err) => {
-            alert("전화번호 인증에 실패하였습니다.")
+            alert("인증번호 발송에 실패하였습니다.")
             return err;
         });
     }
 
-    return { loginCheck, logout, isDuplicateId };
+    const verifyNumberCheck = async (phoneNum, verifyNum) => {
+        return await instance.get('/verify', {
+            params: {
+                phoneNum: phoneNum,
+                verifyNum: verifyNum
+            }
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+            return "인증번호 확인에 실패하였습니다.";
+        });
+    }
+
+    return {
+        loginCheck,
+        logout,
+        isDuplicateId,
+        phoneNumCheck,
+        verifyNumberCheck
+    };
 }

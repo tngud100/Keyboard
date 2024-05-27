@@ -145,7 +145,7 @@
           <div :class="$style.phoneNumberWrapper">
             <input
               :class="$style.phoneNumber"
-              placeholder="휴대폰번호 (필수)"
+              placeholder="휴대폰번호 ex)01012345678"
               :value="phoneNumber"
               @input="handlePhoneNumberChange"
               :maxLength="11"
@@ -154,10 +154,35 @@
               인증번호 발송
             </button>
           </div>
+
+          <div v-if="isSendAuthCode" :class="$style.verifyNumberWrapper">
+            <input
+              :class="$style.phoneNumber"
+              placeholder="인증번호"
+              :value="verifyNumber"
+              @input="handleVerifyNumberChange"
+              :maxLength="6"
+            />
+            <button
+              type="button"
+              :class="$style.verifyBtn"
+              @click="verifyAuthCode"
+            >
+              확인
+            </button>
+          </div>
+          <CountDown
+            v-if="isSendAuthCode"
+            :time="180"
+            :isSendCode="isSendAuthCode"
+            :verifyComment="verifyComment"
+            @timeOut="isSendAuthCode = false"
+          />
           <span v-if="phoneNumberError" :class="$style.error">{{
             phoneNumberError
           }}</span>
         </div>
+
         <!-- 주소 필드 -->
         <div :class="[$style.line, $style.head]">주소</div>
         <div :class="[$style.line, $style.data, $style.addressWrapper]">
@@ -219,8 +244,9 @@ import { computed, ref } from "vue";
 import Input from "#/common/Input.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 import { AuthAPI } from "@/api/AuthAPI.js";
+import CountDown from "@/components/common/CountDown.vue";
 
-const { isDuplicateId } = AuthAPI();
+const { isDuplicateId, phoneNumCheck, verifyNumberCheck } = AuthAPI();
 
 const id = ref("");
 const password = ref("");
@@ -233,6 +259,9 @@ const birthday = ref({
 });
 const email = ref({ front: "", back: "" });
 const phoneNumber = ref("");
+const isSendAuthCode = ref(false);
+const verifyNumber = ref("");
+const verifyComment = ref("");
 const address = ref({
   zipcode: "",
   address: "",
@@ -470,6 +499,22 @@ const handleEmailBackChange = ({ target }) => {
   emailError.value = null;
 };
 
+const handlePhoneNumberChange = ({ target }) => {
+  let phone = target.value.replace(/[^\d]/g, "");
+  phoneNumber.value = phone;
+
+  // 유효성 검사
+  if (!/^01[0-9]{8,9}$/.test(phone)) {
+    phoneNumberError.value = "유효한 휴대폰 번호를 입력하세요.";
+  } else {
+    phoneNumberError.value = null;
+  }
+};
+const handleVerifyNumberChange = ({ target }) => {
+  let verifyNum = target.value.replace(/[^\d]/g, "");
+  verifyNumber.value = verifyNum;
+};
+
 const handleZipcodeChange = ({ target }) => {
   address.value.zipcode = target.value;
   addressError.value = null;
@@ -506,27 +551,42 @@ const clickOptionEmailBack = (option) => {
   }
 };
 
-const sendAuthCode = () => {
+const sendAuthCode = async () => {
   if (phoneNumberError.value) {
     alert("유효한 휴대폰 번호를 입력하세요.");
+    phoneNumberError.value = "유효한 휴대폰 번호를 입력하세요.";
+    return;
+  }
+  if (!phoneNumber.value) {
+    alert("휴대폰 번호를 입력하세요.");
+    phoneNumberError.value = "휴대폰 번호를 입력하세요.";
     return;
   }
   // 인증번호 발송 로직
-  console.log("인증번호 발송:", phoneNumber.value);
+  const data = await phoneNumCheck(phoneNumber.value);
+  console.log("인증번호 발송:", data);
+  if (data) {
+    isSendAuthCode.value = true;
+  }
 };
-const handlePhoneNumberChange = ({ target }) => {
-  let phone = target.value.replace(/[^\d]/g, "");
-  phoneNumber.value = phone;
 
-  // 유효성 검사
-  if (!/^01[0-9]{8,9}$/.test(phone)) {
-    phoneNumberError.value = "유효한 휴대폰 번호를 입력하세요.";
-  } else {
-    phoneNumberError.value = null;
+const verifyAuthCode = async () => {
+  if (!verifyNumber.value) {
+    alert("인증번호를 입력하세요.");
+    return;
   }
 
-  // phoneNumber.value = target.value;
-  // phoneNumberError.value = null;
+  const verifyState = await verifyNumberCheck(
+    phoneNumber.value,
+    verifyNumber.value
+  );
+
+  console.log(verifyState);
+  if (verifyState === true) {
+    verifyComment.value = "인증완료";
+  } else {
+    alert("인증번호가 일치하지 않습니다.");
+  }
 };
 </script>
 
