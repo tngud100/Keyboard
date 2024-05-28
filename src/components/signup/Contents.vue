@@ -149,6 +149,7 @@
               :value="phoneNumber"
               @input="handlePhoneNumberChange"
               :maxLength="11"
+              :isReadOnly="verifyComment ? true : false"
             />
             <button type="button" :class="$style.authBtn" @click="sendAuthCode">
               인증번호 발송
@@ -162,6 +163,7 @@
               :value="verifyNumber"
               @input="handleVerifyNumberChange"
               :maxLength="6"
+              :isReadOnly="verifyComment ? true : false"
             />
             <button
               type="button"
@@ -189,34 +191,40 @@
           <div>
             <Input
               size="187px"
-              placeholder="주소"
+              placeholder="우편번호"
               :value="address.zipcode"
               @input="handleZipcodeChange"
+              maxLength="5"
             />
             <button
               type="button"
               :class="[$style.signupBtn, $style.duplicatedBtn]"
               @click="searchAddress"
             >
-              우편번호
+              주소검색
             </button>
           </div>
           <div :class="$style.address">
             <Input
               size="400px"
-              :value="address.address"
+              placeholder="도로명 주소"
+              :value="address.roadAddress"
               @input="handleAddressChange"
+              :isReadOnly="true"
             />
             <Input
               size="400px"
-              :value="address.detail"
+              placeholder="지번 주소"
+              :value="address.jibunAddress"
               @input="handleDetailChange"
+              :isReadOnly="true"
             />
           </div>
           <div>
             <Input
               size="400px"
-              :value="address.extra"
+              placeholder="상세주소"
+              :value="address.detailAddress"
               @input="handleExtraChange"
             />
           </div>
@@ -245,10 +253,13 @@ import Input from "#/common/Input.vue";
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 import { AuthAPI } from "@/api/AuthAPI.js";
 import CountDown from "@/components/common/CountDown.vue";
+import { useRouter } from "vue-router";
 
-const { isDuplicateId, phoneNumCheck, verifyNumberCheck } = AuthAPI();
+const router = useRouter();
+const { isDuplicateId, phoneNumCheck, verifyNumberCheck, signUp } = AuthAPI();
 
 const id = ref("");
+const isCheckDuplicate = ref(false);
 const password = ref("");
 const passwordConfirm = ref("");
 const name = ref("");
@@ -264,9 +275,9 @@ const verifyNumber = ref("");
 const verifyComment = ref("");
 const address = ref({
   zipcode: "",
-  address: "",
-  detail: "",
-  extra: "",
+  roadAddress: "",
+  jibunAddress: "",
+  detailAddress: "",
 });
 
 const idError = ref(null);
@@ -294,53 +305,44 @@ const emailOptionList = [
 const selectedOption = ref("직접입력");
 const showOption = ref(false);
 
-const isFormValid = computed(() => {
-  return (
-    !idError.value &&
-    !passwordError.value &&
-    !passwordConfirmError.value &&
-    !nameError.value &&
-    !birthdayError.value &&
-    !emailError.value &&
-    !phoneNumberError.value &&
-    !addressError.value &&
-    id.value &&
-    password.value &&
-    passwordConfirm.value &&
-    name.value &&
-    birthday.value.year &&
-    birthday.value.month &&
-    birthday.value.date &&
-    email.value.front &&
-    email.value.back &&
-    phoneNumber.value &&
-    address.value.zipcode &&
-    address.value.address &&
-    address.value.detail &&
-    address.value.extra
-  );
-});
 const checkDuplicateId = async (id) => {
+  if (id === "") {
+    alert("아이디를 입력하세요.");
+    return;
+  }
   // 유효성 검사 먼저 수행
   if (idError.value) {
     return alert(idError.value);
   }
-  console.log("id : ", id);
   const data = await isDuplicateId(id);
   if (data) {
     alert("이미 사용 중인 아이디입니다.");
     idError.value = "이미 사용 중인 아이디입니다.";
   } else {
     idError.value = null;
+    isCheckDuplicate.value = true;
     alert("사용 가능한 아이디입니다.");
   }
 };
 
 const searchAddress = () => {
-  // Add logic to search for addresses using postal code
+  new daum.Postcode({
+    oncomplete: (data) => {
+      console.log(data);
+      // 검색된 주소를 가져옵니다.
+      address.value.zipcode = data.zonecode;
+      address.value.roadAddress = data.roadAddress
+        ? data.roadAddress
+        : data.autoRoadAddress;
+      address.value.jibunAddress = data.jibunAddress
+        ? data.jibunAddress
+        : data.autoJibunAddress;
+    },
+  }).open();
+  console.log(address.value);
 };
 
-const moveToSignupPage = () => {
+const moveToSignupPage = async () => {
   // Validation checks
   idError.value = !id.value ? "아이디를 입력하세요." : null;
   passwordError.value = !password.value ? "비밀번호를 입력하세요." : null;
@@ -361,13 +363,21 @@ const moveToSignupPage = () => {
     : null;
   addressError.value =
     !address.value.zipcode ||
-    !address.value.address ||
-    !address.value.detail ||
-    !address.value.extra
+    !address.value.roadAddress ||
+    !address.value.jibunAddress ||
+    !address.value.detailAddress
       ? "주소를 입력하세요."
       : null;
 
-  // If all fields are valid, proceed with signup
+  if (isCheckDuplicate.value === false) {
+    alert("아이디 중복확인을 해주세요.");
+    return;
+  }
+  // if (verifyComment.value !== "인증완료") {
+  //   alert("휴대폰 인증을 해주세요.");
+  //   return;
+  // }
+
   if (
     !idError.value &&
     !passwordError.value &&
@@ -375,7 +385,7 @@ const moveToSignupPage = () => {
     !nameError.value &&
     !birthdayError.value &&
     !emailError.value &&
-    !phoneNumberError.value &&
+    // !phoneNumberError.value &&
     !addressError.value
   ) {
     const birthdayValue = `${birthday.value.year}-${birthday.value.month}-${birthday.value.date}`;
@@ -388,15 +398,25 @@ const moveToSignupPage = () => {
       BIRTHDAY: birthdayValue,
       EMAIL: emailValue,
       PHONE_NUM: phoneNumber.value,
-      ADDRESS: {
-        NOMAL: address.value.address,
-        ZIPCODE: address.value.zipcode,
-        ADDRESS_DETAIL: address.value.detail,
-        ADDRESS_EXTRA: address.value.extra,
-      },
+      ZIPCODE: address.value.zipcode,
+      ROAD_ADDRESS: address.value.roadAddress,
+      JIBUN_ADDRESS: address.value.jibunAddress,
+      DETAIL_ADDRESS: address.value.detailAddress,
     };
 
-    console.log(signupForm);
+    const formData = new FormData();
+    for (const key in signupForm) {
+      formData.append(key, signupForm[key]);
+    }
+
+    const data = await signUp(formData);
+    if (data === "회원가입 성공!") {
+      console.log(data);
+      router.push("/signUpComplete");
+    } else {
+      console.log(data);
+      alert(data);
+    }
   }
 };
 
@@ -405,6 +425,7 @@ const handleIdChange = ({ target }) => {
   let userId = target.value.replace(/[^a-z0-9가-힣]/gi, "").slice(0, 16);
   id.value = userId;
 
+  isCheckDuplicate.value = false;
   // 유효성 검사
   if (userId.length < 4 || userId.length > 16) {
     idError.value = "아이디는 4자 이상 16자 이하로 입력하세요.";
@@ -520,15 +541,15 @@ const handleZipcodeChange = ({ target }) => {
   addressError.value = null;
 };
 const handleAddressChange = ({ target }) => {
-  address.value.address = target.value;
+  address.value.roadAddress = target.value;
   addressError.value = null;
 };
 const handleDetailChange = ({ target }) => {
-  address.value.detail = target.value;
+  address.value.jibunAddress = target.value;
   addressError.value = null;
 };
 const handleExtraChange = ({ target }) => {
-  address.value.extra = target.value;
+  address.value.detailAddress = target.value;
   addressError.value = null;
 };
 
@@ -564,9 +585,9 @@ const sendAuthCode = async () => {
   }
   // 인증번호 발송 로직
   const data = await phoneNumCheck(phoneNumber.value);
-  console.log("인증번호 발송:", data);
   if (data) {
     isSendAuthCode.value = true;
+    alert("인증번호가 발송되었습니다.");
   }
 };
 
@@ -581,7 +602,6 @@ const verifyAuthCode = async () => {
     verifyNumber.value
   );
 
-  console.log(verifyState);
   if (verifyState === true) {
     verifyComment.value = "인증완료";
   } else {
@@ -589,5 +609,4 @@ const verifyAuthCode = async () => {
   }
 };
 </script>
-
 <style src="@/assets/css/signup/Contents.css" module></style>

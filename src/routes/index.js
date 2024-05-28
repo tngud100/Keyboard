@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SignupView from "@/views/SignupView.vue";
+import SignupCompleteView from "@/views/SignupCompleteView.vue";
 import MypageView from "@/views/MypageView.vue";
 import AgreementView from "@/views/AgreementView.vue";
 import KeyboardView from "@/views/KeyboardView.vue";
@@ -46,6 +47,10 @@ const routes = [
   {
     path: "/signup",
     component: SignupView,
+  },
+  {
+    path: "/signupComplete",
+    component: SignupCompleteView,
   },
   {
     path: "/agreement",

@@ -1,4 +1,6 @@
-<template><Contents /></template>
+<template>
+  <Contents />
+</template>
 
 <script setup>
 import Contents from "#/order/Contents.vue";

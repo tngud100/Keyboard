@@ -44,8 +44,7 @@ export const AuthAPI = () => {
         .then((res) => {
             return res.data;
         })
-            .catch((err) => {
-            alert
+        .catch((err) => {
             return err;
         });
     }
@@ -81,11 +80,27 @@ export const AuthAPI = () => {
         });
     }
 
+    const signUp = async (signUpForm) => {
+        return await instance.post('/signup', signUpForm, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                alert("회원가입에 실패하였습니다.");
+                return err;
+            });
+    }
+
     return {
         loginCheck,
         logout,
         isDuplicateId,
         phoneNumCheck,
-        verifyNumberCheck
+        verifyNumberCheck,
+        signUp,
     };
 }

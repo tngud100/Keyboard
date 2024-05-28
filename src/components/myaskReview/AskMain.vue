@@ -42,6 +42,9 @@
 
 <script setup>
 import { ref } from "vue";
+import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
+
+const { getAskListByMemberId } = AskAPI();
 
 const proccessState = ["답변대기", "답변완료"];
 const asklist = ref([
@@ -73,11 +76,16 @@ const asklist = ref([
     content: "상품이 이상해요.",
     isAns: false,
     isclicked: false,
-    answer: {},
+    response: {},
     date: "2021.09.01",
     idx: 2,
   },
 ]);
+
+// onMounted(() => {
+//   const data = getAskListByMemberId()
+
+// }),
 
 const clickList = (idx) => {
   asklist.value.forEach((item, index) => {
