@@ -1,9 +1,8 @@
 import instance from '@/utils/axiosInstance.js';
-import axios from 'axios';
 
 export const AskAPI = () => { 
     const getAskListByMemberId = async (memberId) => {
-        return await instance.get(`/inquire/get/${memberId}`)
+        return await instance.get(`/inquire/get/memberNum/${memberId}`)
         .then((res) => {
             return res.data;
         })
@@ -11,6 +10,17 @@ export const AskAPI = () => {
             return err;
         });
     }
+    const getAskByInquireId = async (inquiresId) => {
+        return await instance.get(`/inquire/get/inquireNum/${inquiresId}`)
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            return err;
+        });
+    }
+
+    ///// 등록
     const enrollAsk = async (formData) => {
         return await instance.post('/inquire/enroll', formData, {
             headers: {
@@ -18,7 +28,21 @@ export const AskAPI = () => {
             }
         })
         .then((res) => {
-            return res;
+            return res.data;
+        })
+        .catch((err) => {
+            return err;
+        });
+    }
+
+    const enrollAskPictures = async (imgFiles) => {
+        return await instance.post('/inquire/pictures/enroll', imgFiles, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            return res.data;
         })
         .catch((err) => {
             return err;
@@ -32,7 +56,7 @@ export const AskAPI = () => {
             }
         })
         .then((res) => {
-            return res;
+            return res.data;
         })
         .catch((err) => {
             return err;
@@ -42,7 +66,7 @@ export const AskAPI = () => {
     const deleteAsk = async (inquires_id) => {
         return await instance.delete(`/inquire/${inquires_id}`)
         .then((res) => {
-            return res;
+            return res.data;
         })
         .catch((err) => {
             return err;
@@ -50,8 +74,10 @@ export const AskAPI = () => {
     }
 
     return {
+        getAskByInquireId,
         getAskListByMemberId,
         enrollAsk,
+        enrollAskPictures,
         updateAsk,
         deleteAsk
     };

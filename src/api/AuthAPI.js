@@ -18,6 +18,17 @@ export const AuthAPI = () => {
             return err;
         });
     };
+    
+    const getUserDataByLoginId = async (LoginId) => {
+        return await instance.get(`/getUser/${LoginId}`)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                alert("유저 정보를 불러오는데 실패하였습니다.");
+                return err;
+            });
+    }
 
     const logout = async (accessToken, refreshToken) => {
         return await instance.post('/logout', null, {
@@ -97,6 +108,7 @@ export const AuthAPI = () => {
 
     return {
         loginCheck,
+        getUserDataByLoginId,
         logout,
         isDuplicateId,
         phoneNumCheck,

@@ -7,7 +7,7 @@ import AdminHeader from "@/layouts/AdminHeader.vue";
 import AdminSideBar from "@/layouts/AdminSideBar.vue";
 
 import { useMenuStore } from "@/store/useMenuStore";
-import { useAdminStore } from "@/store/useAdminStore";
+import { useAdminStore } from "@/store/useAdminPageStore";
 import { storeToRefs } from "pinia";
 
 const { isShowingMenuByRoute } = storeToRefs(useMenuStore());

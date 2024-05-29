@@ -1,7 +1,11 @@
 <template>
   <section>
-    <AskMain v-if="!showWriteForm" />
-    <WriteAsk v-if="showWriteForm" @isCancelWrite="canceledWrite" />
+    <AskMain v-if="!showWriteAskForm" @showWriteForm="showWriteForm" />
+    <WriteAsk
+      v-if="showWriteAskForm"
+      @goBackAskList="goBackAskList"
+      :inquireNum="inquireNum"
+    />
   </section>
 </template>
 
@@ -10,27 +14,33 @@ import AskMain from "#/myaskReview/AskMain.vue";
 import WriteAsk from "#/myaskReview/WriteAsk.vue";
 import { ref, watchEffect } from "vue";
 
-const showWriteForm = ref(false);
+const showWriteAskForm = ref(false);
 
-const emit = defineEmits(["isCancelWrite"]);
+const inquireNum = ref(null);
+
+const emit = defineEmits(["goBackAskList"]);
 
 const props = defineProps({
   menuNum: Number,
-  writeReview: Boolean,
+  writeAsk: Boolean,
 });
 
 watchEffect(
   () => {
-    if (props.writeReview) {
-      showWriteForm.value = true;
+    if (props.writeAsk) {
+      showWriteAskForm.value = true;
     }
   },
   { immediate: true }
 );
-
-const canceledWrite = () => {
-  showWriteForm.value = false;
-  emit("isCancelWrite");
+const showWriteForm = (inquire_id) => {
+  showWriteAskForm.value = true;
+  inquireNum.value = inquire_id;
+};
+const goBackAskList = () => {
+  showWriteAskForm.value = false;
+  inquireNum.value = null;
+  emit("goBackAskList");
 };
 </script>
 

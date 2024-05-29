@@ -33,6 +33,8 @@
       </div>
       <TextArea
         :label="'문의 내용*'"
+        :content="form.content"
+        :imgFiles="imgFiles"
         @contentChange="updateContent"
         @fileChange="updateFiles"
       ></TextArea>
@@ -52,7 +54,17 @@
 <script setup>
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
 import TextArea from "@/components/myaskReview/TextArea.vue";
-import { ref } from "vue";
+import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
+import { useAuthStore } from "@/store/useAuthStore.js";
+import { onMounted, ref } from "vue";
+
+const { enrollAsk, getAskByInquireId, enrollAskPictures } = AskAPI();
+const authStore = useAuthStore();
+const emit = defineEmits(["goBackAskList"]);
+
+const props = defineProps({
+  inquireNum: Number,
+});
 
 const form = ref({
   typeName: "",
@@ -64,6 +76,7 @@ const form = ref({
     { file: null, preview: "" },
   ],
 });
+const imgFiles = ref([]);
 
 const typeList = ref([
   { type: "구매문의", index: 0 },
@@ -74,7 +87,22 @@ const typeList = ref([
   { type: "기타문의", index: 5 },
 ]);
 const showType = ref(false);
-const emit = defineEmits(["isCancelWrite"]);
+
+onMounted(async () => {
+  if (props.inquireNum) {
+    const data = await getAskByInquireId(props.inquireNum);
+    form.value.typeName = data.inquire.inquire_type;
+    form.value.title = data.inquire.title;
+    form.value.content = data.inquire.content;
+    console.log(data);
+    data.images.forEach((item) => {
+      imgFiles.value.push({
+        fileName: item.picture_name,
+        path: item.picture_path,
+      });
+    });
+  }
+});
 
 const clickType = () => {
   showType.value = !showType.value;
@@ -97,13 +125,37 @@ const updateFiles = (files) => {
 };
 
 const cancel = () => {
-  emit("isCancelWrite");
-  console.log("Form cancelled");
+  emit("goBackAskList");
 };
 
-const submit = () => {
-  console.log(form.value);
-  // 폼 제출 로직을 여기에 추가합니다.
+const submit = async () => {
+  // 필수 필드가 비어 있는지 확인
+  if (!form.value.typeName || !form.value.title || !form.value.content) {
+    alert("모든 항목을 입력하세요.");
+    return;
+  }
+
+  const memberId = authStore.userData.memberId;
+  const formData = new FormData();
+  formData.append("member_id", memberId);
+  formData.append("inquire_type", form.value.typeName);
+  formData.append("title", form.value.title);
+  formData.append("content", form.value.content);
+
+  const inquireId = await enrollAsk(formData);
+
+  const imgFiles = new FormData();
+  form.value.files.forEach((file) => {
+    imgFiles.append("pictures", file.file);
+  });
+  imgFiles.append("inquires_id", inquireId);
+
+  const isImgEnroll = await enrollAskPictures(imgFiles);
+
+  if (inquireId && isImgEnroll === true) {
+    alert("문의가 등록되었습니다.");
+    emit("goBackAskList");
+  }
 };
 </script>
 

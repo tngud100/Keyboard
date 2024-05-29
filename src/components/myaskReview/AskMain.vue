@@ -21,7 +21,7 @@
           <li
             :class="[
               $style.proccess,
-              list.isAns ? $style.redColor : $style.blackColor,
+              list.comment_state ? $style.redColor : $style.blackColor,
             ]"
           >
             {{ list.proccessState }}
@@ -29,11 +29,26 @@
           <li :class="$style.titleText">{{ list.title }}</li>
           <li :class="$style.date">{{ list.date }}</li>
         </ul>
-        <div :class="$style.askContent" v-if="list.isclicked">
-          Q. {{ list.content }}
+        <div :class="$style.askContainer" v-if="list.isclicked">
+          <div :class="$style.content">
+            Q. <span v-html="replaceNewline(list.content)"></span>
+          </div>
+          <div :class="$style.btnBox">
+            <button
+              :class="$style.contentBtn"
+              v-if="!list.response"
+              @click="modifyBtn(list.inquire_id)"
+            >
+              수정
+            </button>
+            <button :class="$style.contentBtn" @click="deleteBtn">삭제</button>
+          </div>
         </div>
-        <div :class="$style.ansContent" v-if="list.isclicked && list.response">
-          A. {{ list.response.content }}
+        <div
+          :class="$style.ansContainer"
+          v-if="list.isclicked && list.response"
+        >
+          A. <span v-html="replaceNewline(list.response.content)"></span>
         </div>
       </div>
     </div>
@@ -41,56 +56,73 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useAuthStore } from "@/store/useAuthStore.js";
 import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
 
+const authStore = useAuthStore();
 const { getAskListByMemberId } = AskAPI();
 
-const proccessState = ["답변대기", "답변완료"];
+const emit = defineEmits(["showWriteForm"]);
+
+const proccessState = ["접수", "답변완료"];
 const asklist = ref([
-  {
-    proccessState: proccessState[0],
-    title: "상품 문의합니다.",
-    content: "상품이 이상해요.",
-    isAns: false,
-    isclicked: false,
-    answer: {},
-    date: "2021.09.01",
-    idx: 0,
-  },
-  {
-    proccessState: proccessState[1],
-    title: "상품 문의합니다.",
-    content: "상품이 이상해요.",
-    isAns: true,
-    isclicked: false,
-    response: {
-      content: "이상한건 당신입니다.",
-    },
-    date: "2021.09.01",
-    idx: 1,
-  },
-  {
-    proccessState: proccessState[0],
-    title: "상품 문의합니다.",
-    content: "상품이 이상해요.",
-    isAns: false,
-    isclicked: false,
-    response: {},
-    date: "2021.09.01",
-    idx: 2,
-  },
+  // {
+  //   proccessState: proccessState[0],
+  //   title: "상품 문의합니다.",
+  //   content: "상품이 이상해요.",
+  //   comment_state: false,
+  //   isclicked: false,
+  //   answer: {},
+  //   date: "2021.09.01",
+  //   idx: 0,
+  // },
+  // {
+  //   proccessState: proccessState[1],
+  //   title: "상품 문의합니다.",
+  //   content: "상품이 이상해요.",
+  //   comment_state: true,
+  //   isclicked: false,
+  //   response: {
+  //     content: "이상한건 당신입니다.",
+  //   },
+  //   date: "2021.09.01",
+  //   idx: 4,
+  // },
 ]);
 
-// onMounted(() => {
-//   const data = getAskListByMemberId()
+onMounted(async () => {
+  await authStore.fetchUserData();
+  const memberId = authStore.userData.memberId;
+  const data = await getAskListByMemberId(memberId);
 
-// }),
+  data.forEach((item, index) => {
+    asklist.value.push({
+      proccessState:
+        item.inquire.comment_state === 0 ? proccessState[0] : proccessState[1],
+      comment_state: item.inquire.comment_state === 0 ? false : true,
+      title: item.inquire.title,
+      content: item.inquire.content,
+      isclicked: false,
+      response: null,
+      date: item.inquire.regdate.slice(0, 10),
+      inquire_id: item.inquire.inquires_id,
+      idx: index,
+    });
+  });
+});
 
 const clickList = (idx) => {
   asklist.value.forEach((item, index) => {
     item.isclicked = index === idx ? !item.isclicked : false;
   });
+};
+const replaceNewline = (text) => {
+  return text.replace(/\r?\n/g, "<br>");
+};
+
+const modifyBtn = (inquire_id) => {
+  emit("showWriteForm", inquire_id);
 };
 </script>
 

@@ -4,13 +4,13 @@
     <div :class="$style.container">
       <MyPageMenu :class="$style.sideBar" @menuItem="updateMenuListNum" />
       <div>
-        <Title :title="menuName" @writeReview="handleWriteReview" />
+        <Title :title="menuName" @writeAskForm="handleWriteAsk" />
         <component
           :is="currentView"
           :menuNum="menuNum"
-          :writeReview="isAskWriteBtn"
+          :writeAsk="isAskWriteBtn"
           :class="$style.content"
-          @isCancelWrite="cancelWrite"
+          @goBackAskList="goBackAskList"
         />
       </div>
     </div>
@@ -48,11 +48,11 @@ const currentView = computed(() => {
   }
 });
 
-const cancelWrite = () => {
+const goBackAskList = () => {
   isAskWriteBtn.value = false;
 };
 
-const handleWriteReview = () => {
+const handleWriteAsk = () => {
   isAskWriteBtn.value = true;
 };
 </script>

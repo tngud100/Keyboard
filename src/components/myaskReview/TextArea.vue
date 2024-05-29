@@ -42,11 +42,30 @@
 
 <script setup>
 import IconPlus from "#/icons/IconPlus.vue";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 const props = defineProps({
   label: String,
+  content: String,
+  imgFiles: Array,
 });
+
+watch(
+  () => props.content,
+  () => {
+    if (props.content) {
+      form.value.content = props.content;
+      emitContentChange();
+    }
+    if (props.imgFiles) {
+      props.imgFiles.forEach((img, index) => {
+        form.value.files[index] = {
+          preview: img.picture_path,
+        };
+      });
+    }
+  }
+);
 
 const emit = defineEmits(["contentChange", "fileChange"]);
 
@@ -81,6 +100,7 @@ const handleFileChange = (event, index) => {
     // 최대 3장까지만 유지합니다.
     form.value.files = form.value.files.slice(0, 3);
     emit("fileChange", form.value.files);
+    console.log(form.value.files);
   }
 };
 </script>

@@ -55,7 +55,7 @@ const router = useRouter();
 
 const authStore = useAuthStore();
 
-const { loginCheck } = AuthAPI();
+const { loginCheck, getUserDataByLoginId } = AuthAPI();
 
 const loginId = ref("");
 const password = ref("");
@@ -63,6 +63,7 @@ const password = ref("");
 const moveToAgreementPage = () => {
   router.push("/agreement");
 };
+
 const moveToMypage = async () => {
   const loginForm = new FormData();
   loginForm.append("login_id", loginId.value);
@@ -75,6 +76,8 @@ const moveToMypage = async () => {
       refreshToken: data.refreshToken,
     };
     authStore.setToken(JSON.stringify(token));
+    await authStore.fetchUserData();
+    // console.log("auth", authStore.userData);
     router.push("/mypage");
   }
 };

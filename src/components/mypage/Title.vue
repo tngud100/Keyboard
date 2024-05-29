@@ -4,7 +4,7 @@
     <button
       v-if="props.title == '1:1문의'"
       :class="$style.reviewBtn"
-      @click="$emit('writeReview')"
+      @click="$emit('writeAskForm')"
     >
       문의하기
     </button>
