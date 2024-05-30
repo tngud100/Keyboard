@@ -1,6 +1,6 @@
 <template>
   <section :class="$style.wrapper">
-    <form :class="$style.form" @submit.prevent="submit">
+    <div :class="$style.form" @submit.prevent="submit">
       <div :class="$style.askTypeBox">
         <div :class="$style.askLabel">문의 유형*</div>
         <div :class="$style.typeWrapper" @click="clickType">
@@ -36,18 +36,31 @@
         :content="form.content"
         :imgFiles="imgFiles"
         @contentChange="updateContent"
-        @fileChange="updateFiles"
+        @fileChange="handleFileChange"
       ></TextArea>
 
       <div :class="$style.btnBox">
         <button :class="$style.btn" type="button" @click="cancel">
           취소하기
         </button>
-        <button :class="$style.btn" type="button" @click="submit">
+        <button
+          v-if="!props.inquireNum"
+          :class="$style.btn"
+          type="button"
+          @click="submit"
+        >
           문의하기
         </button>
+        <button
+          v-if="props.inquireNum"
+          :class="$style.btn"
+          type="button"
+          @click="modify"
+        >
+          수정하기
+        </button>
       </div>
-    </form>
+    </div>
   </section>
 </template>
 
@@ -58,7 +71,13 @@ import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
 import { useAuthStore } from "@/store/useAuthStore.js";
 import { onMounted, ref } from "vue";
 
-const { enrollAsk, getAskByInquireId, enrollAskPictures } = AskAPI();
+const {
+  enrollAsk,
+  getAskByInquireId,
+  enrollAskPictures,
+  updateAsk,
+  updateAskPictures,
+} = AskAPI();
 const authStore = useAuthStore();
 const emit = defineEmits(["goBackAskList"]);
 
@@ -91,14 +110,14 @@ const showType = ref(false);
 onMounted(async () => {
   if (props.inquireNum) {
     const data = await getAskByInquireId(props.inquireNum);
-    form.value.typeName = data.inquire.inquire_type;
-    form.value.title = data.inquire.title;
-    form.value.content = data.inquire.content;
+    form.value.typeName = data.inquireType;
+    form.value.title = data.title;
+    form.value.content = data.content;
     console.log(data);
     data.images.forEach((item) => {
       imgFiles.value.push({
-        fileName: item.picture_name,
-        path: item.picture_path,
+        fileName: item.fileName,
+        path: item.imgPath,
       });
     });
   }
@@ -120,8 +139,9 @@ const updateContent = (content) => {
   form.value.content = content;
 };
 
-const updateFiles = (files) => {
+const handleFileChange = (files) => {
   form.value.files = files;
+  // console.log("file", form.value.files);
 };
 
 const cancel = () => {
@@ -129,7 +149,6 @@ const cancel = () => {
 };
 
 const submit = async () => {
-  // 필수 필드가 비어 있는지 확인
   if (!form.value.typeName || !form.value.title || !form.value.content) {
     alert("모든 항목을 입력하세요.");
     return;
@@ -156,6 +175,46 @@ const submit = async () => {
     alert("문의가 등록되었습니다.");
     emit("goBackAskList");
   }
+};
+
+const modify = async () => {
+  // 필수 필드가 비어 있는지 확인
+  if (!form.value.typeName || !form.value.title || !form.value.content) {
+    alert("수정하실 모든 항목을 입력하세요.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("inquires_id", props.inquireNum);
+  formData.append("inquire_type", form.value.typeName);
+  formData.append("title", form.value.title);
+  formData.append("content", form.value.content);
+
+  // const isModify = await updateAsk(formData, props.inquireNum);
+
+  console.log(form.value.files, imgFiles.value, props.inquireNum);
+  const imgFileForm = new FormData();
+  form.value.files.forEach((file) => {
+    imgFileForm.append("existedFileName", file.fileName);
+    imgFileForm.append("pictures", file.file);
+  });
+  imgFileForm.append("inquires_id", props.inquireNum);
+
+  const isUpdatePicture = await updateAskPictures(
+    imgFileForm,
+    props.inquireNum
+  );
+
+  console.log(
+    form.value.files.fileName,
+    form.value.files.file,
+    props.inquireNum
+  );
+
+  // if (isModify === true) {
+  //   alert("문의가 수정되었습니다.");
+  //   emit("goBackAskList");
+  // }
 };
 </script>
 

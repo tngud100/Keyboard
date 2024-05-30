@@ -60,12 +60,15 @@
     padding: 16px;
     min-height: 50px;
 }
-
+.ImgAndBtnBox{
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
 .btnBox{
     display: flex;
-    padding: 16px;
     justify-content: right;
-    align-items: center;
+    align-items: flex-end;
     gap: 5px;
 }
 .contentBtn{

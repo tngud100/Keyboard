@@ -18,7 +18,7 @@ export const AuthAPI = () => {
             return err;
         });
     };
-    
+
     const getUserDataByLoginId = async (LoginId) => {
         return await instance.get(`/getUser/${LoginId}`)
             .then((res) => {

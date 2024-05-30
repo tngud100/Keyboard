@@ -33,15 +33,24 @@
           <div :class="$style.content">
             Q. <span v-html="replaceNewline(list.content)"></span>
           </div>
-          <div :class="$style.btnBox">
-            <button
-              :class="$style.contentBtn"
-              v-if="!list.response"
-              @click="modifyBtn(list.inquire_id)"
-            >
-              수정
-            </button>
-            <button :class="$style.contentBtn" @click="deleteBtn">삭제</button>
+          <div :class="$style.ImgAndBtnBox">
+            <ImgContainer
+              :imgFiles="
+                imgFiles.filter((item) => item.inquireId === list.inquire_id)
+              "
+            />
+            <div :class="$style.btnBox">
+              <button
+                :class="$style.contentBtn"
+                v-if="!list.response"
+                @click="modifyBtn(list.inquire_id)"
+              >
+                수정
+              </button>
+              <button :class="$style.contentBtn" @click="deleteBtn">
+                삭제
+              </button>
+            </div>
           </div>
         </div>
         <div
@@ -59,24 +68,15 @@
 import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/store/useAuthStore.js";
 import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
+import ImgContainer from "#/myaskReview/ImgContainer.vue";
 
 const authStore = useAuthStore();
-const { getAskListByMemberId } = AskAPI();
+const { getAskListByMemberId, getAskByInquireId } = AskAPI();
 
 const emit = defineEmits(["showWriteForm"]);
 
 const proccessState = ["접수", "답변완료"];
 const asklist = ref([
-  // {
-  //   proccessState: proccessState[0],
-  //   title: "상품 문의합니다.",
-  //   content: "상품이 이상해요.",
-  //   comment_state: false,
-  //   isclicked: false,
-  //   answer: {},
-  //   date: "2021.09.01",
-  //   idx: 0,
-  // },
   // {
   //   proccessState: proccessState[1],
   //   title: "상품 문의합니다.",
@@ -91,23 +91,35 @@ const asklist = ref([
   // },
 ]);
 
+const imgFiles = ref([]);
+
 onMounted(async () => {
   await authStore.fetchUserData();
   const memberId = authStore.userData.memberId;
   const data = await getAskListByMemberId(memberId);
 
-  data.forEach((item, index) => {
+  data.forEach(async (item, index) => {
     asklist.value.push({
       proccessState:
         item.inquire.comment_state === 0 ? proccessState[0] : proccessState[1],
       comment_state: item.inquire.comment_state === 0 ? false : true,
       title: item.inquire.title,
       content: item.inquire.content,
+      inquire_type: item.inquire.inquire_type,
       isclicked: false,
       response: null,
       date: item.inquire.regdate.slice(0, 10),
       inquire_id: item.inquire.inquires_id,
       idx: index,
+    });
+
+    const imgData = await getAskByInquireId(item.inquire.inquires_id);
+    imgData.images.forEach((img) => {
+      imgFiles.value.push({
+        inquireId: item.inquire.inquires_id,
+        fileName: img.fileName,
+        path: img.imgPath,
+      });
     });
   });
 });

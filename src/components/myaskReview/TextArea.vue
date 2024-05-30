@@ -14,16 +14,24 @@
         <div
           v-for="(file, index) in form.files"
           :key="index"
-          :class="$style.addFileBtn"
-          @click="triggerFileInput(index)"
+          :class="$style.imageWrapper"
         >
-          <IconPlus v-if="!file.preview" />
-          <img
-            v-else
-            :src="file.preview"
-            :alt="'Preview ' + index"
-            :class="$style.previewImage"
-          />
+          <div :class="$style.addFileBtn" @click="triggerFileInput(index)">
+            <IconPlus v-if="!file.preview" />
+            <img
+              v-else
+              :src="file.preview"
+              :alt="'Preview ' + index"
+              :class="$style.previewImage"
+            />
+          </div>
+          <button
+            v-if="file.preview"
+            @click="removeFile(index)"
+            :class="$style.removeFileBtn"
+          >
+            <IconCloseBackground />
+          </button>
           <input
             type="file"
             :ref="'fileInput' + index"
@@ -42,30 +50,14 @@
 
 <script setup>
 import IconPlus from "#/icons/IconPlus.vue";
-import { computed, onMounted, ref, watch } from "vue";
+import IconCloseBackground from "#/icons/IconCloseBackground.vue";
+import { computed, ref, watch } from "vue";
 
 const props = defineProps({
   label: String,
   content: String,
   imgFiles: Array,
 });
-
-watch(
-  () => props.content,
-  () => {
-    if (props.content) {
-      form.value.content = props.content;
-      emitContentChange();
-    }
-    if (props.imgFiles) {
-      props.imgFiles.forEach((img, index) => {
-        form.value.files[index] = {
-          preview: img.picture_path,
-        };
-      });
-    }
-  }
-);
 
 const emit = defineEmits(["contentChange", "fileChange"]);
 
@@ -74,9 +66,9 @@ const label = computed(() => props.label);
 const form = ref({
   content: "",
   files: [
-    { file: null, preview: "" },
-    { file: null, preview: "" },
-    { file: null, preview: "" },
+    { preview: "", fileName: null, file: null },
+    { preview: "", fileName: null, file: null },
+    { preview: "", fileName: null, file: null },
   ],
 });
 
@@ -95,14 +87,62 @@ const handleFileChange = (event, index) => {
   const file = event.target.files[0];
   if (file) {
     const preview = URL.createObjectURL(file);
-    // 이미지를 배열의 첫 번째 요소로 이동합니다.
-    form.value.files.unshift({ file, preview });
-    // 최대 3장까지만 유지합니다.
-    form.value.files = form.value.files.slice(0, 3);
-    emit("fileChange", form.value.files);
-    console.log(form.value.files);
+    // 파일이 다 차있지 않은 경우
+    if (form.value.files.some((f) => f.preview === "")) {
+      console.log("true");
+      form.value.files = form.value.files.filter((f) => f.preview !== "");
+      form.value.files.unshift({
+        file: file,
+        preview: preview,
+        fileName: null,
+      });
+      // 최대 3장까지만 유지
+      form.value.files = form.value.files.concat(
+        new Array(3 - form.value.files.length).fill({
+          file: null,
+          preview: "",
+          fileName: null,
+        })
+      );
+    } else {
+      console.log("false");
+      // 지정된 인덱스의 파일을 교체
+      form.value.files[index] = {
+        ...form.value.files[index],
+        file: file,
+        preview: preview,
+      };
+    }
   }
+  emit("fileChange", form.value.files);
 };
+
+const removeFile = (index) => {
+  form.value.files.splice(index, 1);
+  form.value.files.push({ file: null, preview: "", fileName: null });
+  // emit("fileChange", form.value.files);
+};
+
+watch(
+  () => props.content,
+  () => {
+    if (props.content) {
+      form.value.content = props.content;
+      emitContentChange();
+    }
+    // 이미지 나타내기 로직 구현
+    if (props.imgFiles) {
+      props.imgFiles.forEach((img, index) => {
+        form.value.files[index] = {
+          preview: img.path,
+          fileName: img.fileName,
+          file: null,
+        };
+      });
+      console.log(form.value.files);
+    }
+  }
+);
 </script>
 
 <style src="@/assets/css/myaskReview/TextArea.css" module></style>
