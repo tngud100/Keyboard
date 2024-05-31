@@ -192,11 +192,13 @@ const modify = async () => {
 
   // const isModify = await updateAsk(formData, props.inquireNum);
 
-  console.log(form.value.files, imgFiles.value, props.inquireNum);
+  console.log("form", form.value);
   const imgFileForm = new FormData();
-  form.value.files.forEach((file) => {
+  form.value.files.forEach((file, index) => {
     imgFileForm.append("existedFileName", file.fileName);
-    imgFileForm.append("pictures", file.file);
+    if (file.file !== null) {
+      imgFileForm.append("pictures", file.file);
+    }
   });
   imgFileForm.append("inquires_id", props.inquireNum);
 
@@ -204,12 +206,7 @@ const modify = async () => {
     imgFileForm,
     props.inquireNum
   );
-
-  console.log(
-    form.value.files.fileName,
-    form.value.files.file,
-    props.inquireNum
-  );
+  console.log(isUpdatePicture);
 
   // if (isModify === true) {
   //   alert("문의가 수정되었습니다.");

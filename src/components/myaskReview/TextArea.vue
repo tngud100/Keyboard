@@ -139,7 +139,7 @@ watch(
           file: null,
         };
       });
-      console.log(form.value.files);
+      emit("fileChange", form.value.files);
     }
   }
 );
