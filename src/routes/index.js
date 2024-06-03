@@ -20,7 +20,8 @@ import PcbView from "@/views/PcbView.vue";
 import KeycapView from "@/views/KeycapView.vue";
 import ToolView from "@/views/ToolView.vue";
 import AdminLoginView from "@/views/AdminLoginView.vue";
-import AdminHomeView from "@/views/AdminHomeView.vue";
+import AdminProductView from "@/views/AdminProductView.vue";
+import AdminInquireView from "@/views/AdminInquireView.vue";
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -120,9 +121,17 @@ const routes = [
     component: AdminLoginView,
   },
   {
-    path: "/adminHome",
-    component: AdminHomeView,
+    path: "/adminProducts",
+    component: AdminProductView,
   },
+  {
+    path: "/adminInquire",
+    component: AdminInquireView,
+  },
+  // {
+  //   path: "/adminOrder",
+  //   component: AdminHomeView,
+  // },
 ];
 
 const router = createRouter({

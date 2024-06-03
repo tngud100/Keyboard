@@ -52,7 +52,7 @@ const findElAndSetWrapperHeight = () => {
 };
 
 const moveToAdminPage = () => {
-  router.push("/adminHome");
+  router.push("/adminProducts");
 };
 </script>
 

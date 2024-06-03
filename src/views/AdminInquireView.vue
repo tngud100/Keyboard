@@ -3,6 +3,6 @@
 </template>
 
 <script setup>
-import Contents from "#/adminHome/Contents.vue";
+import Contents from "#/adminInquire/Contents.vue";
 </script>
 

@@ -97,7 +97,7 @@ export const AskAPI = () => {
     }
 
     const deleteAsk = async (inquires_id) => {
-        return await instance.delete(`/inquire/${inquires_id}`)
+        return await instance.delete(`/inquire/delete/${inquires_id}`)
         .then((res) => {
             return res.data;
         })

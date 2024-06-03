@@ -6,19 +6,13 @@
         :class="[navState === 0 ? $style.selected : '']"
         @click="selectIndex(0)"
       >
-        화보상품 설정
+        상품 등록 및 수정
       </li>
       <li
         :class="[navState === 1 ? $style.selected : '']"
         @click="selectIndex(1)"
       >
-        상품 등록
-      </li>
-      <li
-        :class="[navState === 2 ? $style.selected : '']"
-        @click="selectIndex(2)"
-      >
-        상품 내역
+        상품 화보 등록
       </li>
     </ul>
     <div :class="$style.wrapper" v-if="navState === 1">
@@ -71,16 +65,16 @@
 </template>
 
 <script setup>
-import Card from "@/components/adminProduct/Cards.vue";
-import MainPicCard from "@/components/adminProduct/MainPicCards.vue";
+import Card from "@/components/adminProducts/Cards.vue";
+import MainPicCard from "@/components/adminProducts/MainPicCards.vue";
 import IconPlus from "#/icons/IconPlus.vue";
 import IconPlusDisabled from "#/icons/IconPlusDisabled.vue";
 import modal from "#/modal/Contents.vue";
+import CheckModal from "#/modal/CheckModal.vue";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 import { deleteProductAPI } from "@/api/ProductDeleteDataAPI.js";
 import { computed, ref, watch } from "vue";
 import { useModalStore } from "@/store/useModalStore";
-import CheckModal from "#/modal/CheckModal.vue";
 
 const navState = ref(0);
 const iconHover = ref(false);
@@ -214,4 +208,4 @@ watch(isOpenVerifyModal, (newValue) => {
 fetchProductList();
 </script>
 
-<style src="@/assets/css/adminHome/Contents.css" module></style>
+<style src="@/assets/css/adminProducts/Contents.css" module></style>

@@ -55,4 +55,4 @@ const deleteBtn = () => {
 };
 </script>
 
-<style src="@/assets/css/adminProduct/Cards.css" module></style>
+<style src="@/assets/css/adminProducts/Cards.css" module></style>

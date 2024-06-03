@@ -4,7 +4,7 @@
       <IconNewLogo />
     </div>
     <ul :class="$style.listBox">
-      <router-link to=""
+      <router-link to="/adminProducts"
         ><li
           :class="[$style.list, selectedIndex === 0 ? $style.selected : '']"
           @click="selectIndex(0)"
@@ -20,12 +20,12 @@
           회원
         </li></router-link
       >
-      <router-link to=""
+      <router-link to="/adminInquire"
         ><li
           :class="[$style.list, selectedIndex === 2 ? $style.selected : '']"
           @click="selectIndex(2)"
         >
-          주문
+          1:1문의
         </li></router-link
       >
       <router-link to=""
@@ -43,6 +43,8 @@
 <script setup>
 import IconNewLogo from "#/icons/IconNewLogo.vue";
 import { ref } from "vue";
+
+const emit = defineEmits(["sideBarIndex"]);
 
 const selectedIndex = ref(0);
 

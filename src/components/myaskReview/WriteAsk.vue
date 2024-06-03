@@ -163,15 +163,19 @@ const submit = async () => {
 
   const inquireId = await enrollAsk(formData);
 
-  const imgFiles = new FormData();
-  form.value.files.forEach((file) => {
-    imgFiles.append("pictures", file.file);
-  });
-  imgFiles.append("inquires_id", inquireId);
+  const hasFiles = form.value.files.some((file) => file.file !== null);
 
-  const isImgEnroll = await enrollAskPictures(imgFiles);
+  if (hasFiles) {
+    const imgFiles = new FormData();
+    form.value.files.forEach((file) => {
+      imgFiles.append("pictures", file.file);
+    });
+    imgFiles.append("inquires_id", inquireId);
 
-  if (inquireId && isImgEnroll === true) {
+    await enrollAskPictures(imgFiles);
+  }
+
+  if (inquireId) {
     alert("문의가 등록되었습니다.");
     emit("goBackAskList");
   }
@@ -190,7 +194,7 @@ const modify = async () => {
   formData.append("title", form.value.title);
   formData.append("content", form.value.content);
 
-  // const isModify = await updateAsk(formData, props.inquireNum);
+  const isModify = await updateAsk(formData, props.inquireNum);
 
   console.log("form", form.value);
   const imgFileForm = new FormData();
@@ -208,10 +212,10 @@ const modify = async () => {
   );
   console.log(isUpdatePicture);
 
-  // if (isModify === true) {
-  //   alert("문의가 수정되었습니다.");
-  //   emit("goBackAskList");
-  // }
+  if (isModify === true) {
+    alert("문의가 수정되었습니다.");
+    emit("goBackAskList");
+  }
 };
 </script>
 

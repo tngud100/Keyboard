@@ -165,5 +165,5 @@ watch(isOpenVerifyModal, async (newValue) => {
 });
 </script>
 
-<style src="@/assets/css/adminProduct/MainPicCards.css" module>
+<style src="@/assets/css/adminProducts/MainPicCards.css" module>
 </style>

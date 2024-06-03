@@ -59,7 +59,11 @@ export const useModalStore = defineStore({
             },
             {
                 code: 13,
-                comments:"해당 상품의 이미지를 삭제 하시겠습니까??"
+                comments:"해당 상품의 이미지를 삭제 하시겠습니까?"
+            },
+            {
+                code: 14,
+                comments:"해당 문의를 정말로 삭제하시겠습니까?"
             }
         ]
     }),

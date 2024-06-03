@@ -1,0 +1,103 @@
+.adminContainer {
+    min-height: 100vh;
+    background-color: #F1F1F1;
+    padding: 32px;
+}
+.pageLabel{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.askListContainer {
+  margin-top: 30px;
+  font-size: 14px;
+}
+.listTitle{
+    font-size: 14px;
+    font-weight: bold;
+}
+.listTitle, .list {
+    background-color: #EDF4FF;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.listTitle li, .list li {
+  flex: 1;
+  text-align: center;
+}
+
+.proccess, .title, .date, .actions {
+  flex: 1;
+}
+
+.listAsk {
+  background: white;
+  cursor: pointer;
+  align-items: center;
+}
+.listAsk:hover {
+  background: #F9FAFC;
+}
+
+.listAskActive {
+  background: #F9FAFC;
+    align-items: center;
+}
+
+.askContainer {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+}
+
+.content {
+  margin-bottom: 10px;
+}
+
+.ImgAndBtnBox {
+  display: flex;
+  justify-content: space-between;
+}
+.submitReplyBox{
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+
+.btnBox {
+  display: flex;
+  gap: 10px;
+}
+
+.actionBtn, .submitReplyBtn {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #B8B8B8;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.replyTextarea {
+    width: calc(100% - 12px);
+    height: 100px;
+    margin: 10px 0px;width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    resize: none;
+}
+
+.modalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+}
