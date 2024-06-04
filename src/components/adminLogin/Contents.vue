@@ -7,12 +7,14 @@
         type="text"
         placeholder="아이디를 입력해주세요"
         :class="$style.input"
+        @change="loginId = $event.target.value"
       />
       <input
         type="password"
         placeholder="비밀번호를 입력해주세요"
         :class="$style.input"
         autocomplete="off"
+        @change="password = $event.target.value"
       />
       <button
         :class="[$style.commonBtn, $style.loginBtn]"
@@ -30,10 +32,18 @@
 import IconNewLogo from "#/icons/IconNewLogo.vue";
 import { nextTick, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { AuthAPI } from "@/api/AuthAPI.js";
+import { useAuthStore } from "@/store/useAuthStore.js";
 
+const { loginCheck } = AuthAPI();
 const router = useRouter();
+const authStore = useAuthStore();
+
 const wrapperRef = ref();
 const formRef = ref();
+
+const loginId = ref("");
+const password = ref("");
 
 onMounted(() => {
   nextTick(() => {
@@ -51,8 +61,22 @@ const findElAndSetWrapperHeight = () => {
   }
 };
 
-const moveToAdminPage = () => {
-  router.push("/adminProducts");
+const moveToAdminPage = async () => {
+  const loginForm = new FormData();
+  loginForm.append("login_id", loginId.value);
+  loginForm.append("password", password.value);
+
+  const data = await loginCheck(loginForm);
+  if (data.authorization && data.refreshToken) {
+    const token = {
+      authorization: data.authorization,
+      refreshToken: data.refreshToken,
+    };
+    authStore.setToken(JSON.stringify(token));
+    await authStore.fetchUserData();
+    console.log("auth", authStore.userData);
+    router.push("/admin/products");
+  }
 };
 </script>
 

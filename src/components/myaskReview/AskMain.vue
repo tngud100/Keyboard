@@ -123,7 +123,7 @@ const setAskListData = async (item, index) => {
     content: item.inquire.content,
     inquire_type: item.inquire.inquire_type,
     isclicked: false,
-    response: null,
+    response: item.comment ? { content: item.comment?.comment } : null,
     date: item.inquire.regdate.slice(0, 10),
     inquire_id: item.inquire.inquires_id,
     idx: index,

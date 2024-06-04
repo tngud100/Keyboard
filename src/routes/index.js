@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import getTokenData from "@/utils/getTokenData";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import SignupView from "@/views/SignupView.vue";
@@ -117,15 +118,15 @@ const routes = [
 
 
   {
-    path: "/adminLogin",
+    path: "/admin/login",
     component: AdminLoginView,
   },
   {
-    path: "/adminProducts",
+    path: "/admin/products",
     component: AdminProductView,
   },
   {
-    path: "/adminInquire",
+    path: "/admin/inquire",
     component: AdminInquireView,
   },
   // {
@@ -139,16 +140,31 @@ const router = createRouter({
   routes,
 });
 
+const { getRoleFromToken } = getTokenData();
 
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('token');
+  const role = getRoleFromToken();
+
+  if (to.path === '/admin/login') {
+    return next();
+  }
+  // admin 페이지에 접근하려고 할 때
+  // 로그인이 되어있지 않다면 admin 로그인 페이지로 이동
+  if (to.matched.some(record => record.path.startsWith('/admin')) && !loggedIn ) {
+    return next('/admin/login');
+  }
+  if (to.matched.some(record => record.path.startsWith('/admin')) && role !== 'ROLE_ADMIN' ) {
+    next('/admin/login');
+    alert('관리자만 접근 가능합니다.');
+  }
 
   // 로그인이 필요한 페이지에 접근하려고 할 때
   // 로그인이 되어있지 않다면 로그인 페이지로 이동
-
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     return next('/login');
   }
+
   next();
 });
 

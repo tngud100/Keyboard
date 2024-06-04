@@ -4,7 +4,7 @@
       <IconNewLogo />
     </div>
     <ul :class="$style.listBox">
-      <router-link to="/adminProducts"
+      <router-link to="/admin/products"
         ><li
           :class="[$style.list, selectedIndex === 0 ? $style.selected : '']"
           @click="selectIndex(0)"
@@ -20,7 +20,7 @@
           회원
         </li></router-link
       >
-      <router-link to="/adminInquire"
+      <router-link to="/admin/inquire"
         ><li
           :class="[$style.list, selectedIndex === 2 ? $style.selected : '']"
           @click="selectIndex(2)"

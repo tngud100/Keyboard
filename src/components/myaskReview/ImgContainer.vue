@@ -32,7 +32,7 @@ const files = ref([]);
 const selectedImg = ref(null);
 const openModal = (imgFile) => {
   selectedImg.value = imgFile;
-  console.log(selectedImg.value);
+  // console.log(selectedImg.value);
 };
 
 const closeModal = () => {
@@ -42,7 +42,7 @@ const closeModal = () => {
 watch(
   () => props.imgFiles,
   (imgFiles) => {
-    console.log("img", imgFiles);
+    // console.log("img", imgFiles);
     if (imgFiles && files.value.length !== imgFiles.length) {
       imgFiles.forEach((imgFile) => {
         files.value.push({

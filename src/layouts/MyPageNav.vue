@@ -26,9 +26,9 @@
 import { computed } from "vue";
 import getTokenData from "@/utils/getTokenData.js";
 
-const getUserId = getTokenData();
+const { getUserIdFromToken } = getTokenData();
 
-const userId = getUserId();
+const userId = getUserIdFromToken();
 
 const data = {
   userName: userId,

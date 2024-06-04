@@ -9,6 +9,15 @@ const backendCall = (url) => {
 
 export const AskAPI = () => { 
 
+    const getAskListAll = async () => {
+        return await instance.get('/inquire/get/all')
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                return err;
+            });
+    }
 
     const getAskListByMemberId = async (memberId) => {
         return await instance.get(`/inquire/get/memberNum/${memberId}`)
@@ -67,6 +76,21 @@ export const AskAPI = () => {
             return err;
         });
     }
+    const enrollAskComment = async (admin_id, inquire_id, comments) => {
+        return await instance.post(`/inquire/comments/enroll/${inquire_id}`, null, {
+            params:{
+                member_id : admin_id,
+                inquire_id : inquire_id,
+                comments : comments
+            }}
+        )
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            return err;
+        });
+    }
 
     const updateAsk = async (formData, inquires_id) => {
         return await instance.put(`/inquire/update/${inquires_id}`, formData, {
@@ -95,6 +119,20 @@ export const AskAPI = () => {
             return err;
         });
     }
+    const updateAskComment = async (inquire_id, comments) => {
+        return await instance.put(`/inquire/comments/update/${inquire_id}`, null, {
+            params:{
+                inquire_id : inquire_id,
+                comments : comments
+            }}
+        )
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            return err;
+        });
+    }
 
     const deleteAsk = async (inquires_id) => {
         return await instance.delete(`/inquire/delete/${inquires_id}`)
@@ -107,12 +145,15 @@ export const AskAPI = () => {
     }
 
     return {
+        getAskListAll,
         getAskByInquireId,
         getAskListByMemberId,
         enrollAsk,
         enrollAskPictures,
+        enrollAskComment,
         updateAsk,
         updateAskPictures,
+        updateAskComment,
         deleteAsk
     };
 }

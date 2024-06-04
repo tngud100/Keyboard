@@ -14,10 +14,22 @@ export const AuthAPI = () => {
             return tokens;
         })
             .catch((err) => {
-            alert("로그인에 실패하였습니다.");
+                alert("로그인에 실패하였습니다.");
+                alert("아이디 및 비밀번호를 확인해주세요.");
             return err;
         });
     };
+
+    const getUserDataByMemberId = async (memberId) => {
+        return await instance.get(`/user/memberId/${memberId}`)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                alert("유저 정보를 불러오는데 실패하였습니다.");
+                return err;
+            });
+    }
 
     const getUserDataByLoginId = async (LoginId) => {
         return await instance.get(`/getUser/${LoginId}`)
@@ -108,6 +120,7 @@ export const AuthAPI = () => {
 
     return {
         loginCheck,
+        getUserDataByMemberId,
         getUserDataByLoginId,
         logout,
         isDuplicateId,

@@ -10,7 +10,7 @@ export const useAdminStore = defineStore("Admin", () => {
     });
 
     const isAdminLoginPage = computed(() => {
-        if (route.path === "/adminLogin") {
+        if (route.path.toLowerCase() === "/admin/login") {
             return false;
         } else {
             return true;

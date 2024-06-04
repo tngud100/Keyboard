@@ -47,8 +47,8 @@ export const useAuthStore = defineStore('auth', {
       const { getUserDataByLoginId } = AuthAPI();
       
       if (this.token) {
-        const getUserId = getTokenData();
-        const userId = getUserId();
+        const { getUserIdFromToken } = getTokenData();
+        const userId = getUserIdFromToken();
         const data = await getUserDataByLoginId(userId);
         this.setUserData({
             memberId: data.member_ID,

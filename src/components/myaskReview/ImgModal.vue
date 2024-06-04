@@ -6,13 +6,24 @@
         :alt="imgFile.fileName"
         :class="$style.modalImage"
       />
-      <a :href="downloadUrl" download :class="$style.downloadBtn">다운로드</a>
+      <a
+        v-if="role === 'ROLE_ADMIN'"
+        :href="downloadUrl"
+        download
+        :class="$style.downloadBtn"
+        >다운로드</a
+      >
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
+import getTokenData from "@/utils/getTokenData.js";
+
+const { getRoleFromToken } = getTokenData();
+
+const role = getRoleFromToken();
 
 const props = defineProps({
   imgFile: Object,
@@ -26,8 +37,8 @@ const downloadUrl = computed(() => {
   return `${baseUrl}/${imgName}`;
 });
 
-console.log(props.imgFile.preview);
-console.log(downloadUrl.value);
+// console.log(props.imgFile.preview);
+// console.log(downloadUrl.value);
 
 const emit = defineEmits(["close"]);
 
