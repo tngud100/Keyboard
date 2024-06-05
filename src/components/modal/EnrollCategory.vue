@@ -280,8 +280,10 @@ watch(
     if (newValue !== 2) {
       return;
     }
+    console.log(props.cardProductId);
     getCategoryList(props.cardProductId);
-  }
+  },
+  { immediate: true }
 );
 </script>
 

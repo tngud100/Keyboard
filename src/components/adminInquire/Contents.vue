@@ -5,94 +5,95 @@
       <div :class="$style.askListContainer">
         <ul :class="$style.listTitle">
           <li :class="$style.proccess">처리 상태</li>
+          <li :class="$style.type">처리 상태</li>
           <li :class="$style.title">제목</li>
           <li :class="$style.loginId">아이디</li>
           <li :class="$style.date">문의일</li>
           <li :class="$style.actions">작업</li>
         </ul>
-        <div v-for="list in asklist" :key="list.idx">
-          <ul
-            :class="[
-              $style.list,
-              list.isclicked ? $style.listAskActive : $style.listAsk,
-            ]"
-            @click="clickList(list.idx)"
-          >
-            <li
+        <div v-if="asklist.length === 0" :class="$style.emptyInquire">
+          문의내역이 존재 하지 않습니다.
+        </div>
+        <div :class="$style.ListBox">
+          <div v-for="list in asklist" :key="list.idx">
+            <ul
               :class="[
-                $style.proccess,
-                list.comment_state ? $style.blackColor : $style.redColor,
+                $style.list,
+                list.isclicked ? $style.listAskActive : $style.listAsk,
               ]"
+              @click="clickList(list.idx)"
             >
-              {{ list.proccessState }}
-            </li>
-            <li :class="$style.titleText">{{ list.title }}</li>
-            <li :class="$style.titleText">{{ list.login_id }}</li>
-            <li :class="$style.date">{{ list.date }}</li>
-            <li :class="$style.actions">
-              <button
-                v-if="!list.comment_state"
-                :class="$style.actionBtn"
-                @click.stop="replyBtn(list.inquire_id, list.idx)"
+              <li
+                :class="[
+                  $style.proccess,
+                  list.comment_state ? $style.blackColor : $style.redColor,
+                ]"
               >
-                답변
-              </button>
-              <button
-                v-if="list.comment_state"
-                :class="$style.actionBtn"
-                @click.stop="modifyBtn(list.inquire_id, list.idx)"
+                {{ list.proccessState }}
+              </li>
+              <li :class="$style.type">{{ list.inquire_type }}</li>
+              <li :class="$style.titleText">{{ list.title }}</li>
+              <li :class="$style.loginId">{{ list.login_id }}</li>
+              <li :class="$style.date">{{ list.date }}</li>
+              <li :class="$style.actions">
+                <button
+                  v-if="!list.comment_state"
+                  :class="$style.actionBtn"
+                  @click.stop="replyBtn(list.inquire_id, list.idx)"
+                >
+                  답변
+                </button>
+                <button
+                  v-if="list.comment_state"
+                  :class="$style.actionBtn"
+                  @click.stop="modifyBtn(list.inquire_id, list.idx)"
+                >
+                  수정
+                </button>
+                <button
+                  :class="$style.actionBtn"
+                  @click.stop="deleteBtn(list.inquire_id)"
+                >
+                  삭제
+                </button>
+              </li>
+            </ul>
+            <div :class="$style.askContainer" v-if="list.isclicked">
+              <div :class="$style.content">
+                <span v-html="replaceNewline(list.content)"></span>
+              </div>
+              <div :class="$style.ImgAndBtnBox">
+                <ImgContainer :imgFiles="filteredImgFiles(list.inquire_id)" />
+              </div>
+              <div v-if="list.response" :class="$style.response">
+                <span v-html="replaceNewline(list.response.content)"></span>
+              </div>
+              <div
+                :class="$style.replyBox"
+                v-if="list.isReplying && selectedInquiryId === list.inquire_id"
               >
-                수정
-              </button>
-              <button
-                :class="$style.actionBtn"
-                @click.stop="deleteBtn(list.inquire_id)"
-              >
-                삭제
-              </button>
-            </li>
-          </ul>
-          <div :class="$style.askContainer" v-if="list.isclicked">
-            <div :class="$style.content">
-              <strong>Q:</strong>
-              <span v-html="replaceNewline(list.content)"></span>
-            </div>
-            <div :class="$style.ImgAndBtnBox">
-              <ImgContainer :imgFiles="filteredImgFiles(list.inquire_id)" />
-            </div>
-            <div v-if="list.response" :class="$style.response">
-              <strong>A:</strong>
-              <span v-html="replaceNewline(list.response.content)"></span>
-            </div>
-            <textarea
-              v-if="list.isReplying && selectedInquiryId === list.inquire_id"
-              v-model="replyContent"
-              :class="$style.replyTextarea"
-              placeholder="답변을 입력하세요..."
-            ></textarea>
-            <div :class="$style.submitReplyBox">
-              <button
-                v-if="
-                  list.isReplying &&
-                  selectedInquiryId === list.inquire_id &&
-                  !list.comment_state
-                "
-                @click="submitReply(list.inquire_id)"
-                :class="$style.submitReplyBtn"
-              >
-                답변 제출
-              </button>
-              <button
-                v-if="
-                  list.isReplying &&
-                  selectedInquiryId === list.inquire_id &&
-                  list.comment_state
-                "
-                @click="submitModify(list.inquire_id)"
-                :class="$style.submitReplyBtn"
-              >
-                답변 수정
-              </button>
+                <textarea
+                  v-model="replyContent"
+                  :class="$style.replyTextarea"
+                  placeholder="답변을 입력하세요..."
+                ></textarea>
+                <div :class="$style.submitReplyBox">
+                  <button
+                    v-if="!list.comment_state"
+                    @click="submitReply(list.inquire_id)"
+                    :class="$style.submitReplyBtn"
+                  >
+                    답변 제출
+                  </button>
+                  <button
+                    v-if="list.comment_state"
+                    @click="submitModify(list.inquire_id)"
+                    :class="$style.submitReplyBtn"
+                  >
+                    답변 수정
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

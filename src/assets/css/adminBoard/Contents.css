@@ -1,0 +1,10 @@
+.adminContainer {
+    min-height: 100vh;
+    background-color: #F1F1F1;
+    padding: 32px;
+}
+.pageLabel{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}

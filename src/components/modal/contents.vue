@@ -15,7 +15,7 @@
             @nextModal="nextModal"
             :defaultState="modalItem.defaultState"
             :page="page"
-            :cardItem="props.cardItem ? props.cardItem : null"
+            :cardItem="item.modalNum == 1 ? props.cardItem : null"
           />
         </div>
         <div :class="$style.categoryEl" ref="categoryEl">
@@ -26,7 +26,9 @@
             @categoryItem="setCategoryItem"
             @commentCode="setCommentCode"
             :cardProductId="
-              props.cardItem ? props.cardItem.productId : productItem.productId
+              item.modalNum == 1
+                ? props.cardItem.productId
+                : productItem.productId
             "
           />
         </div>
@@ -36,7 +38,9 @@
             :page="page"
             :defaultState="modalItem.defaultState"
             @commentCode="setCommentCode"
-            :cardProductId="props.cardItem ? props.cardItem.productId : null"
+            :cardProductId="
+              item.modalNum == 1 ? props.cardItem.productId : null
+            "
           />
         </div>
       </div>

@@ -8,6 +8,15 @@
     font-weight: bold;
 }
 
+.emptyInquire{
+  font-size: 18px;
+  color: #737373;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+
 .askListContainer {
   margin-top: 30px;
   font-size: 14px;
@@ -25,12 +34,26 @@
 }
 
 .listTitle li, .list li {
-  flex: 1;
+  /* flex: 1; */
   text-align: center;
 }
 
-.proccess, .title, .date, .actions {
+/* .proccess, .title, .date, .actions {
   flex: 1;
+} */
+.title{
+  width: 740px;
+}
+.proccess, .type{
+  width: 140px;
+}
+.titleText{
+  width:740px;
+  padding-left: 12px;
+  text-align: left !important;
+}
+.date, .loginId, .actions{
+  width:180px;
 }
 
 .listAsk {
@@ -48,24 +71,31 @@
 }
 
 .askContainer {
-  padding: 10px;
   border-bottom: 1px solid #ddd;
   background-color: white;
 }
 
 .content {
+  padding: 12px;
   margin-bottom: 10px;
   min-height: 50px;
+}
+.response{
+  padding: 12px;
+  min-height: 100px;
+  background-color: #FAFAFA;  
+  border-top: 1px solid #ddd;
 }
 
 .ImgAndBtnBox {
   display: flex;
   justify-content: space-between;
+  padding: 12px;
 }
 .submitReplyBox{
-    display: flex;
-    width: 100%;
-    justify-content: right;
+  display: flex;
+  width: 100px;
+  justify-content: center;
 }
 
 .btnBox {
@@ -73,22 +103,39 @@
   gap: 10px;
 }
 
-.actionBtn, .submitReplyBtn {
-    padding: 5px 10px;
-    cursor: pointer;
-    border: 1px solid #B8B8B8;
-    border-radius: 5px;
-    margin-right: 5px;
+.replyBox{
+  display: flex;
+  margin: 12px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  justify-content: space-between;
+}
+
+.actionBtn {
+  padding: 5px 10px;
+  cursor: pointer;
+  border: 1px solid #B8B8B8;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.submitReplyBtn{
+  padding: 5px 10px;
+  cursor: pointer;
+  border: 1px solid #B8B8B8;
+  border-radius: 5px;
+  width: 100px;
 }
 
 .replyTextarea {
-    width: calc(100% - 12px);
+    width: 89%;
     height: 100px;
-    margin: 10px 0px;
     height: 100px;
-    margin-top: 10px;
-    border: 1px solid #ddd;
     resize: none;
+    border: none;
+}
+.replyTextarea:focus {
+    outline: none;
 }
 
 .modalContainer {
