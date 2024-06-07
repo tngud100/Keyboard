@@ -1,36 +1,26 @@
 <template>
-  <!-- 날짜가 같은 주문들을 박스에 묶어서 나타내기 -->
-  <!-- <div
-    :class="$style.container"
-    v-for="orderedProduct in orderData"
-    :key="orderedProduct"
-  >
-    <div
-      :class="$style.box"
-      v-for="item in orderedProduct.productDetail"
-      :key="item"
-    >
-      <orderCheck />
+  <section>
+    <div v-for="orderCard in orderData" :key="orderCard" :class="$style.orderList">
+      <OrderProductCard :data="orderCard" />
     </div>
-  </div> -->
-  {{ menuNum }}
+  </section>
 </template>
 
 <script setup>
 import { ref } from "vue";
-// import orderCheck from "#/myorder/orderCheck.vue";
+import OrderProductCard from "#/myorder/OrderProductCard.vue";
 
 const props = defineProps({
   menuNum: Number,
 });
 
-// const order
-
 const orderData = ref([
   {
-    date: "2021-10-10",
+    date: "2021.10.10",
     orderState: "배송 준비",
-    ImgSrc: "background.png",
+    imgSrc: "background.png",
+    deliveryPrice: 3000,
+    expectDeliveryDate:"2021.10.16",
     productName: "SG87W",
     productPrice: 8000,
     productDetail: [
@@ -41,18 +31,19 @@ const orderData = ref([
         detailCount: 1,
       },
       {
-        detailOption: "옵션2",
+        detailOption: "상태",
         detailName: "아이스",
         detailPrice: 4000,
         detailCount: 1,
       },
     ],
-    deliveryPrice: 3000,
   },
   {
-    date: "2021-10-10",
+    date: "2021.10.10",
     orderState: "배송 준비",
-    ImgSrc: "background.png",
+    imgSrc: "background.png",
+    deliveryPrice: 3000,
+    expectDeliveryDate:"2021-10-16",
     productName: "SG87W",
     productPrice: 8000,
     productDetail: [
@@ -63,16 +54,14 @@ const orderData = ref([
         detailCount: 1,
       },
       {
-        detailOption: "옵션2",
+        detailOption: "상태",
         detailName: "아이스",
         detailPrice: 4000,
         detailCount: 1,
       },
     ],
-    deliveryPrice: 3000,
   },
 ]);
 </script>
 
-<style>
-</style>
+<style src="@/assets/css/myorder/Contents.css" module></style>

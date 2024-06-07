@@ -21,5 +21,4 @@
 
 <script>
 </script>
-
 <style src="@/assets/css/myinfo/CheckPassword.css" module></style>
