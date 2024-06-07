@@ -1,11 +1,5 @@
 <template>
   <div :class="$style.headerBox">
-    <div :class="$style.wrapper">
-      <input type="text" :class="$style.search" ref="searchRef" />
-      <button type="button" :class="$style.searchBtn" @click="toggleIsSearch">
-        <IconSearch />
-      </button>
-    </div>
     <div>
       <span :class="$style.headerSpan">관리자 계정</span>
       <span :class="$style.headerSpan">|</span>
@@ -22,7 +16,6 @@
 </template>
 
 <script setup>
-import IconSearch from "#/icons/IconSearch.vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/useAuthStore.js";
 import { AuthAPI } from "@/api/AuthAPI.js";

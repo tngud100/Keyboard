@@ -21,11 +21,15 @@ export const useAdminStore = defineStore("Admin", () => {
     const adminSideBarIndex = computed(() => {
         if (route.path.toLowerCase() === "/admin/products") {
             return 0;
-        }else if (route.path.toLowerCase() === "/admin/board") {
+        }else if (route.path.toLowerCase() === "/admin/member") {
+            return 1;
+        }else if (route.path.toLowerCase() === "/admin/order") {
             return 2;
-        }else if (route.path.toLowerCase() === "/admin/inquire") {
+        }else if (route.path.toLowerCase() === "/admin/board") {
             return 3;
-        } else {
+        }else if (route.path.toLowerCase() === "/admin/inquire") {
+            return 4;
+        }else {
             return 0;
         }
     })

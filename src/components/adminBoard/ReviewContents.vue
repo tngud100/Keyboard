@@ -10,6 +10,7 @@
 
 <script setup>
 import BoardList from "#/adminBoard/boardList.vue";
+import keyboardImg from "@/assets/images/keyboardImg.jpg";
 
 const props = defineProps({
   boardIdx: Number,
@@ -22,6 +23,7 @@ const reviewList = [
     third: "제목입니다.",
     fourth: "2024-03-15",
     fifth: "수정 / 삭제",
+    img: keyboardImg,
   },
   {
     first: "처리대기",
@@ -29,6 +31,7 @@ const reviewList = [
     third: "제목입니다.",
     fourth: "2024-03-15",
     fifth: "수정 / 삭제",
+    img: keyboardImg,
   },
   {
     first: "처리대기",
@@ -36,6 +39,7 @@ const reviewList = [
     third: "제목입니다.",
     fourth: "2024-03-15",
     fifth: "수정 / 삭제",
+    img: keyboardImg,
   },
 ];
 </script>

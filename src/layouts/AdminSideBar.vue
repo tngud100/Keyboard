@@ -12,7 +12,7 @@
           상품
         </li></router-link
       >
-      <router-link to=""
+      <router-link to="/admin/member"
         ><li
           :class="[$style.list, selectedIndex === 1 ? $style.selected : '']"
           @click="selectIndex(1)"
@@ -20,14 +20,22 @@
           회원
         </li></router-link
       >
-      <router-link to="/admin/board"
+      <router-link to="/admin/order"
         ><li
           :class="[$style.list, selectedIndex === 2 ? $style.selected : '']"
           @click="selectIndex(2)"
         >
+          주문
+        </li></router-link
+      >
+      <router-link to="/admin/board"
+        ><li
+          :class="[$style.list, selectedIndex === 3 ? $style.selected : '']"
+          @click="selectIndex(3)"
+        >
           게시판
         </li>
-        <ul :class="$style.listdownBox" v-if="selectedIndex === 2">
+        <ul :class="$style.listdownBox" v-if="selectedIndex === 3">
           <li
             :class="[
               $style.listdown,
@@ -68,8 +76,8 @@
       </router-link>
       <router-link to="/admin/inquire"
         ><li
-          :class="[$style.list, selectedIndex === 3 ? $style.selected : '']"
-          @click="selectIndex(3)"
+          :class="[$style.list, selectedIndex === 4 ? $style.selected : '']"
+          @click="selectIndex(4)"
         >
           1:1문의
         </li></router-link

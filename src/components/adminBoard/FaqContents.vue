@@ -17,9 +17,16 @@ const props = defineProps({
 const faqTitle = ["번호", "제목", "작성일", "수정일", "비고"];
 const faqList = [
   {
-    first: "처리대기",
-    second: "SG-871233",
-    third: "제목입니다.",
+    first: 1,
+    second: "첫번째 FAQ",
+    third: "2024-03-15",
+    fourth: "2024-03-15",
+    fifth: "수정 / 삭제",
+  },
+  {
+    first: 1,
+    second: "첫번째 FAQ",
+    third: "2024-03-15",
     fourth: "2024-03-15",
     fifth: "수정 / 삭제",
   },

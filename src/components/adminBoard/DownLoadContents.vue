@@ -18,9 +18,9 @@ const props = defineProps({
 const downloadTitle = ["번호", "제목", "작성일", "수정일", "비고"];
 const downloadList = [
   {
-    first: "처리대기",
-    second: "SG-871233",
-    third: "제목입니다.",
+    first: 1,
+    second: "첫번째 자료",
+    third: "2024-03-15",
     fourth: "2024-03-15",
     fifth: "수정 / 삭제",
   },

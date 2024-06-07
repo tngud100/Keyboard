@@ -11,7 +11,6 @@ import ProductDetailView from '@/views/ProductDetailView.vue';
 import BasketView from '@/views/BasketView.vue';
 import ReviewView from '@/views/ReviewView.vue';
 import NoticeView from '@/views/NoticeView.vue';
-import NoticeEditView from '@/views/NoticeEditView.vue';
 import NoticeDetailView from '@/views/NoticeDetailView.vue';
 import FaqView from '@/views/FaqView.vue';
 import DownloadView from '@/views/DownloadView.vue';
@@ -24,6 +23,8 @@ import AdminLoginView from '@/views/AdminLoginView.vue';
 import AdminProductView from '@/views/AdminProductView.vue';
 import AdminBoardView from '@/views/AdminBoardView.vue';
 import AdminInquireView from '@/views/AdminInquireView.vue';
+import AdminMemberView from '@/views/AdminMemberView.vue';
+import AdminOrderView from '@/views/AdminOrderView.vue';
 
 export const ROUTE_PATH = {
   REVIEW: "/review",
@@ -49,7 +50,6 @@ const routes = [
   { path: '/basket', component: BasketView },
   { path: '/review', component: ReviewView },
   { path: '/notice', component: NoticeView },
-  { path: '/notice/edit', component: NoticeEditView },
   { path: '/faq', component: FaqView },
   { path: '/download', component: DownloadView },
   { path: '/notice/:id', component: NoticeDetailView },
@@ -57,6 +57,8 @@ const routes = [
 
   { path: '/admin/login', component: AdminLoginView },
   { path: '/admin/products', component: AdminProductView },
+  { path: '/admin/member', component: AdminMemberView },
+  { path: '/admin/order', component: AdminOrderView },
   { path: '/admin/board', component: AdminBoardView },
   { path: '/admin/inquire', component: AdminInquireView },
 ];
