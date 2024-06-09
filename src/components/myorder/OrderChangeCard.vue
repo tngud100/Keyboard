@@ -1,5 +1,5 @@
 <template>
-    <span :class="$style.date">● {{ props.data.date }}</span>
+    <span :class="$style.date">반품 접수일:{{ props.data.date }} | 주문일:{{ props.data.date }} | 주문번호:000021</span>
     <div :class="$style.cardWrapper">
       <div :class="$style.header">
         <div>
@@ -19,23 +19,22 @@
           </div>
           <div :class="$style.infoBox">
             <span :class="$style.productName">{{ props.data.productName }}</span>
-            <span :class="$style.productPrice">{{ props.data.productPrice.toLocaleString() }}원</span>
-            <span :class="$style.deliverPrice">배송비 {{ props.data.deliveryPrice.toLocaleString() }}원</span>
+            <div :class="$style.detailOption">
+                <div v-for="(detail, index) in props.data.productDetail" :key="index" :class="$style.OptionBox" >
+                    <span :class="$style.option">{{ detail.detailOption }} / {{ detail.detailName }}</span>
+                </div>
+            </div>
+            <span :class="$style.productPrice">$ {{ props.data.productPrice.toLocaleString() }}원 | 1개</span>
           </div>
         </div>
         <div :class="$style.btnBox">
           <button :class="$style.btn">배송 조회</button>
-          <button v-if="props.data.orderState === 0" :class="$style.btn">주문 취소</button>
+          <!-- <button v-if="props.data.orderState === 0" :class="$style.btn">주문 취소</button>
           <button v-if="props.data.orderState === 1 || props.data.orderState === 2" :class="$style.btn">교환/반품</button>
-          <button v-if="props.data.orderState === 1 || props.data.orderState === 2" :class="$style.btn">리뷰 작성</button>
+          <button v-if="props.data.orderState === 1 || props.data.orderState === 2" :class="$style.btn">리뷰 작성</button> -->
         </div>
       </div>
-      <div :class="$style.detailOption">
-        <div v-for="(detail, index) in props.data.productDetail" :key="index" :class="$style.OptionBox" >
-            <span :class="$style.option">{{ detail.detailOption }} : {{ detail.detailName }}</span>
-            <span>{{ detail.detailPrice }} / {{ detail.detailCount }}개</span>
-        </div>
-      </div>
+      
     </div>
 </template>
 

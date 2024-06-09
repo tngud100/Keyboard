@@ -1,24 +1,44 @@
 .date{
     font-size: 18px;
     font-weight: bold;
-    display: list-item;
 }
 .cardWrapper{
     border: 1px solid #CFCFCF;
     border-radius: 5px;
     margin-top: 10px;
 }
-.cardBox{
+.header{
+    display: flex;
+    justify-content: space-between;
     padding: 16px;
     font-size: 16px;
     border-bottom: 1px solid #CFCFCF;
 }
+.upperCard{
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #CFCFCF;
+}
 .productBox{
     display: flex;
-    padding: 16px;
     font-size: 18px;
     gap: 10px;
-    border-bottom: 1px solid #CFCFCF;
+}
+.btnBox{
+    display: grid;
+    gap: 5px;
+    align-items: center;
+}
+.btn{
+    width: 100px;
+    height: 32px;
+    font-size: 14px;
+    border: 1px solid #CFCFCF;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .infoBox{
     display: grid;
@@ -48,4 +68,8 @@
     display: grid;
 }
 .OptionBox{
+    display: grid;
+    gap: 4px;
+}
+.option{
 }

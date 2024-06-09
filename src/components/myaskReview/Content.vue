@@ -1,6 +1,7 @@
 <template>
   <section>
-    <AskMain v-if="!showWriteAskForm" @showWriteForm="showWriteForm" />
+    <AskMain v-if="menuNum == 2 && !showWriteAskForm" @showWriteForm="showWriteForm" />
+    <ReviewMain v-if="menuNum == 3 && !showWriteAskForm"/>
     <WriteAsk
       v-if="showWriteAskForm"
       @goBackAskList="goBackAskList"
@@ -11,6 +12,7 @@
 
 <script setup>
 import AskMain from "#/myaskReview/AskMain.vue";
+import ReviewMain from "#/myaskReview/ReviewMain.vue";
 import WriteAsk from "#/myaskReview/WriteAsk.vue";
 import { ref, watchEffect } from "vue";
 
