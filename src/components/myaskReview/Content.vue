@@ -1,7 +1,10 @@
 <template>
   <section>
-    <AskMain v-if="menuNum == 2 && !showWriteAskForm" @showWriteForm="showWriteForm" />
-    <ReviewMain v-if="menuNum == 3 && !showWriteAskForm"/>
+    <AskMain
+      v-if="menuNum == 2 && !showWriteAskForm"
+      @showWriteForm="showWriteForm"
+    />
+    <ReviewMain v-if="menuNum == 3 && !showWriteAskForm" />
     <WriteAsk
       v-if="showWriteAskForm"
       @goBackAskList="goBackAskList"

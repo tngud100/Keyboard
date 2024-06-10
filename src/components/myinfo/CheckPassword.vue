@@ -14,11 +14,16 @@
         placeholder="비밀번호를 입력해주세요."
       />
 
-      <button :class="$style.verifyBtn">확인</button>
+      <button :class="$style.verifyBtn" @click="checkAccount">확인</button>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+const emit = defineEmits(["checkAccount"]);
+
+const checkAccount = () => {
+  emit("checkAccount", true);
+};
 </script>
 <style src="@/assets/css/myinfo/CheckPassword.css" module></style>

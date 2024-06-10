@@ -1,6 +1,24 @@
 .date{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 18px;
     font-weight: bold;
+}
+.orderInfo{
+    display: flex;
+}
+.applyDate{
+    font-size: 18px;
+    font-weight: bold;
+}
+.changeInfo{
+    font-size: 16px;
+    font-weight: 600;
+}
+.detailOrder{
+    font-size: 18px;
+    font-weight: 600;
 }
 .cardWrapper{
     border: 1px solid #CFCFCF;
@@ -12,7 +30,13 @@
     justify-content: space-between;
     padding: 16px;
     font-size: 16px;
+    font-weight: 600;
     border-bottom: 1px solid #CFCFCF;
+}
+.processBox{
+    display: flex;
+    align-items: center;
+
 }
 .upperCard{
     display: flex;
@@ -57,13 +81,18 @@
 .productName{
     font-weight: bold;
 }
+.productPrice{
+    font-weight: 600;
+}
 .deliverPrice{
     font-size: 14px;
+    font-weight: 600;
     color: red;
 }
 .detailOption{
     padding: 16px;
     font-size: 16px;
+    font-weight: 600;
     gap: 15px;
     display: grid;
 }

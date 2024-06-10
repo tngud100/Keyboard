@@ -66,7 +66,7 @@
 
 <script setup>
 import IconMediumDownArrow from "#/icons/IconMediumDownArrow.vue";
-import TextArea from "@/components/myaskReview/TextArea.vue";
+import TextArea from "#/common/TextArea.vue";
 import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
 import { useAuthStore } from "@/store/useAuthStore.js";
 import { onMounted, ref } from "vue";
