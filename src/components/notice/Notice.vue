@@ -1,7 +1,6 @@
 <template>
   <tr @click="moveToDetailPage(id)">
     <td :class="$style.data">{{ id }}</td>
-    <td :class="$style.data">{{ views }}</td>
     <td :class="$style.data">{{ title }}</td>
     <td :class="$style.data">{{ author }}</td>
     <td :class="$style.data">{{ createdDate }}</td>
@@ -28,10 +27,6 @@ defineProps({
   },
   createdDate: {
     type: String,
-    required: true,
-  },
-  views: {
-    type: Number,
     required: true,
   },
 });

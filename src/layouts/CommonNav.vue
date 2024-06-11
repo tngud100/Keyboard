@@ -1,8 +1,8 @@
 <template>
-  <header>
+  <!-- <header>
     <h3 :class="$style.title">{{ title }}</h3>
     <p :class="$style.desc">(유저들의 문구)</p>
-  </header>
+  </header> -->
   <nav :class="$style.nav">
     <ul :class="$style.navList">
       <li
@@ -12,7 +12,11 @@
         리뷰
       </li>
       <li
-        :class="[$style.navItem, activeTab(ROUTE_PATH.NOTICE)]"
+        :class="[
+          $style.navItem,
+          activeTab(ROUTE_PATH.NOTICE),
+          noticeDetailActive(ROUTE_PATH.NOTICE),
+        ]"
         @click="onTabClick(ROUTE_PATH.NOTICE)"
       >
         공지사항
@@ -43,24 +47,33 @@ const route = useRoute();
 const router = useRouter();
 const style = useCssModule();
 
-const title = computed(() => {
-  switch (route.path) {
-    case "/review":
-      return "리뷰";
-    case "/notice":
-      return "공지사항";
-    case "/faq":
-      return "FAQ";
-    case "/download":
-      return "자료실";
-    default:
-      return "";
-  }
-});
+// const title = computed(() => {
+//   switch (route.path) {
+//     case "/review":
+//       return "리뷰";
+//     case "/notice":
+//       return "공지사항";
+//     case "/faq":
+//       return "FAQ";
+//     case "/download":
+//       return "자료실";
+//     default:
+//       return "";
+//   }
+// });
 
 const onTabClick = (path) => router.push(path);
 
-const activeTab = (path) => path === route.path && style.active;
+const activeTab = (path) => {
+  if (path === route.path) {
+    return style.active;
+  }
+};
+const noticeDetailActive = (path) => {
+  if (route.path === `/notice/${route.params.id}`) {
+    return style.active;
+  }
+};
 </script>
 
 <style src="@/assets/css/layouts/CommonNav.css" module></style>

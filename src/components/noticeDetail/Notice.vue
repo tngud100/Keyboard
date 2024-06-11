@@ -3,7 +3,6 @@
     <h3 :class="$style.title">{{ title }}</h3>
     <div :class="$style.author">{{ author }}</div>
     <div :class="$style.createdDate">{{ createdDate }}</div>
-    <div :class="$style.views">{{ views }}</div>
   </header>
   <div v-html="content" :class="$style.content" />
   <footer :class="$style.footer">
@@ -29,10 +28,6 @@ defineProps({
   },
   createdDate: {
     type: String,
-    required: true,
-  },
-  views: {
-    type: Number,
     required: true,
   },
   content: {

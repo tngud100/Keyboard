@@ -1,7 +1,7 @@
 .footer {
-  margin-top: 100px;
+  margin-top: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .pagination {
@@ -22,13 +22,10 @@
 
 .paginationItem {
   cursor: pointer;
+  color: #9F9F9F;
   padding: 16px;
 }
 
-.writeBtn {
-  padding: 16px 32px;
-  border-radius: 5px;
-  background-color: #111;
-  color: #fff;
-  font-size: 14px;
+.active {
+  color: black;
 }

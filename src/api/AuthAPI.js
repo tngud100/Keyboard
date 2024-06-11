@@ -118,6 +118,22 @@ export const AuthAPI = () => {
             });
     }
 
+    const isPasswordCorrect = async (loginId, password) => {
+        return await instance.post('/checkPassword', null, {
+            params: {
+                loginId: loginId,
+                password: password
+            }
+        })
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                alert("비밀번호 확인에 실패하였습니다.");
+                return err;
+            });
+    }
+
     return {
         loginCheck,
         getUserDataByMemberId,
@@ -127,5 +143,6 @@ export const AuthAPI = () => {
         phoneNumCheck,
         verifyNumberCheck,
         signUp,
+        isPasswordCorrect
     };
 }

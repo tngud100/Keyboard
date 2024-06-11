@@ -1,34 +1,24 @@
 <template>
   <ul>
     <Faq
-      v-for="info in data"
+      v-for="info in dataList"
       :key="info.id"
       :tag="info.tag"
       :question="info.question"
       :answer="info.answer"
     />
   </ul>
-  <footer :class="$style.footer">
-    <div></div>
-    <div :class="$style.pagination">
-      <IconPaginationLeftArrow :class="$style.arrow" />
-      <ul :class="$style.paginationList">
-        <li :class="$style.paginationItem">1</li>
-        <li :class="$style.paginationItem">2</li>
-        <li :class="$style.paginationItem">3</li>
-        <li :class="$style.paginationItem">4</li>
-        <li :class="$style.paginationItem">5</li>
-      </ul>
-      <IconPaginationRightArrow :class="$style.arrow" />
-    </div>
-    <button type="button" :class="$style.writeBtn">글쓰기</button>
-  </footer>
+  <Pagination
+    :totalItems="data.length"
+    :elementsPerPage="5"
+    @page-changed="handlePageChange"
+  />
 </template>
 
 <script setup>
 import Faq from "#/faq/Faq.vue";
-import IconPaginationLeftArrow from "#/icons/IconPaginationLeftArrow.vue";
-import IconPaginationRightArrow from "#/icons/IconPaginationRightArrow.vue";
+import Pagination from "#/common/Pagination.vue";
+import { computed, ref } from "vue";
 
 const data = [
   {
@@ -61,7 +51,24 @@ const data = [
     question: "이 집 키보드 맛집이네!",
     answer: "가나다라 ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ~~~ㅇㅇㅇㅇㅇㅇ~~~~ㅇㅇㅇㅇㅇ",
   },
+  {
+    id: 5,
+    tag: "keycap",
+    question: "이 집 키보드 맛집이네!",
+    answer: "가나다라 ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ~~~ㅇㅇㅇㅇㅇㅇ~~~~ㅇㅇㅇㅇㅇ",
+  },
 ];
+const currentPage = ref(1);
+
+const handlePageChange = (page) => {
+  currentPage.value = page;
+};
+
+const dataList = computed(() => {
+  const start = (currentPage.value - 1) * 5;
+  const end = start + 5;
+  return data.slice(start, end);
+});
 </script>
 
 <style src="@/assets/css/faq/Faqs.css" module></style>

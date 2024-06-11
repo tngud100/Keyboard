@@ -52,8 +52,8 @@ const menuList = {
     title: "회원 정보",
     list: [
       { name: "회원정보 수정", listNum: 4 },
+      { name: "회원탈퇴", listNum: 5 },
       // { name: '배송지 관리', listNum: 5 },
-      { name: "회원탈퇴", listNum: 6 },
     ],
   },
 };

@@ -12,7 +12,7 @@
 .nav {
   margin-top: 24px;
   height: 50px;
-  border-bottom: 5px solid #0d0d0d;
+  border-bottom: 1px solid #0d0d0d;
   position: relative;
 }
 
@@ -25,13 +25,13 @@
 
 .navItem {
   padding: 15px 24px;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
 }
 
 .active {
   cursor: default;
-  font-size: 20px;
-  font-weight: 600;
-  border-bottom: 5px solid #dd2626;
+  font-size: 18px;
+  font-weight: bold;
+  /* border-bottom: 5px solid #dd2626; */
 }

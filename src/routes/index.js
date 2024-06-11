@@ -29,6 +29,7 @@ import AdminOrderView from '@/views/AdminOrderView.vue';
 export const ROUTE_PATH = {
   REVIEW: "/review",
   NOTICE: "/notice",
+  NOTICEDETAIL: "/notice/:id",
   FAQ: "/faq",
   DOWNLOAD: "/download",
 };

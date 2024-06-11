@@ -21,9 +21,9 @@
 import MyPageNav from "@/layouts/MyPageNav.vue";
 import MyPageMenu from "@/layouts/MyPageMenu.vue";
 import Title from "#/mypage/Title.vue";
-import myorder from "#/myorder/Content.vue";
-import myaskReview from "#/myaskReview/Content.vue";
-import myinfo from "#/myinfo/Content.vue";
+import myorder from "#/myorder/Contents.vue";
+import myaskReview from "#/myaskReview/Contents.vue";
+import myinfo from "#/myinfo/Contents.vue";
 import { ref, computed } from "vue";
 
 const menuNum = ref(0);

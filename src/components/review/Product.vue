@@ -1,26 +1,22 @@
 <template>
   <section>
-    <img :src="importedReviewImg" alt="리뷰 이미지" />
-    <h3 :class="$style.title">{{ title }}</h3>
-    <p :class="$style.views">조회수 {{ views }}회</p>
+    <div :class="$style.imgBox">
+      <img :src="props.img[0]" :class="$style.img" alt="리뷰 이미지" />
+    </div>
+    <h3 :class="$style.title">[{{ props.type }}] {{ props.title }}</h3>
+    <p :class="$style.loginId">{{ props.loginId }}</p>
   </section>
 </template>
 
 <script setup>
-import reviewImg from "@/assets/images/reviewImg.png";
 import { ref } from "vue";
 
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  views: {
-    type: Number,
-    required: true,
-  },
+const props = defineProps({
+  img: Array,
+  type: String,
+  title: String,
+  loginId: String,
 });
-const importedReviewImg = ref(reviewImg);
 </script>
 
 <style src="@/assets/css/review/Product.css" module></style>
