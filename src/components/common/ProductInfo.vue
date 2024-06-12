@@ -88,7 +88,11 @@
           </div>
 
           <!-- {{ selectedProduct.type }}&nbsp;/&nbsp;{{ selectedProduct.color }} -->
-          <button type="button" :class="$style.removeBtn">
+          <button
+            type="button"
+            :class="$style.removeBtn"
+            @click="deleteProduct(selectedProduct.id)"
+          >
             <IconClose />
           </button>
         </h5>
@@ -176,6 +180,7 @@ const emit = defineEmits([
   "subtractCount",
   "onStore",
   "addShoppingBasket",
+  "deleteProduct",
 ]);
 
 const router = useRouter();
@@ -243,11 +248,11 @@ const updateSelectedItem = (event) => {
   selectedDetail.value.push(key);
 };
 
-const updateAddedCount = (id) => {
-  emit("addCount", { id });
-};
+const updateAddedCount = (id) => emit("addCount", { id });
 
 const updateSubtractedCount = (id) => emit("subtractCount", { id });
+
+const deleteProduct = (id) => emit("deleteProduct", { id });
 
 const purchaseProduct = ({ event }) => {
   if (props.selectedProducts.length === 0) {

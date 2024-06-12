@@ -2,9 +2,9 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  padding: 24px 60px;
+  padding: 0px 60px;
   border-bottom: 1px solid #b3b3b3;
-  height: 53.8px;
+  height: 100px;
 }
 
 .sites {

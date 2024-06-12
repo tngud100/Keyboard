@@ -4,7 +4,7 @@
       <div
         v-for="(column, index) in columns"
         :key="index"
-        :style="{ width: column.width }"
+        :style="{ width: column.width, textAlign: column.align }"
       >
         {{ column.label }}
       </div>

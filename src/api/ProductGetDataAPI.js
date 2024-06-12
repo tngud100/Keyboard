@@ -100,7 +100,6 @@ export const getProductAPI = () => {
                 if (res.data === null) {
                     return 'No data';
                 }
-                // console.log(res.data.productVO)
                 const item = res.data.productVO
                 productVO.push({
                     productId: item.product_id,
@@ -108,7 +107,6 @@ export const getProductAPI = () => {
                     representImgName: item.represent_picture_name,
                     descImg: backendCall(item.desc_picture),
                     descImgName: item.desc_picture_name,
-
                     name: item.name,
                     type: item.type,
                     amount: item.amount,
@@ -190,13 +188,13 @@ export const getProductAPI = () => {
             if (data === null) {
                 return 'No data';
             }
-
             data.forEach((item) => {
                 productMainList.push({
                     productId: item.product_id,
                     mainImgName: item.main_picture_name,
                     mainImg: backendCall(item.main_picture),
                     mainPicState: item.main_pic_state,
+                    type: item.type,
                     title: item.name,
                 });
             });

@@ -29,6 +29,13 @@
         :price="149000"
         :backgroundImg="fourthSwitch"
       />
+      <Product
+        type="normal"
+        :id="1"
+        name="Geon DailyLube Plate"
+        :price="149000"
+        :backgroundImg="fourthSwitch"
+      />
     </ul>
   </div>
 </template>

@@ -29,6 +29,13 @@
         :price="149000"
         :backgroundImg="firstPcb"
       />
+      <Product
+        type="normal"
+        :id="1"
+        name="Geon DailyLube Plate"
+        :price="149000"
+        :backgroundImg="firstPcb"
+      />
     </ul>
   </div>
 </template>

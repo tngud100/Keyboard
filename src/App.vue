@@ -25,8 +25,8 @@ const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
   </div>
   <div v-else>
     <Header />
+    <Nav />
     <section class="contents">
-      <Nav />
       <router-view />
       <Menu v-if="isShowingMenuByRoute" />
     </section>
@@ -37,7 +37,7 @@ const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
 
 <style scoped>
 .contents {
-  padding: 0 20px;
+  padding: 0 60px;
 }
 .adminLayout {
   display: flex;

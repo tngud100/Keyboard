@@ -31,7 +31,7 @@
         </ul>
         <div :class="$style.askContainer" v-if="list.isclicked">
           <div :class="$style.content">
-            Q. <span v-html="replaceNewline(list.content)"></span>
+            <span v-html="replaceNewline(list.content)"></span>
           </div>
           <div :class="$style.ImgAndBtnBox">
             <ImgContainer :imgFiles="filteredImgFiles(list.inquire_id)" />
@@ -56,7 +56,7 @@
           :class="$style.ansContainer"
           v-if="list.isclicked && list.response"
         >
-          A. <span v-html="replaceNewline(list.response.content)"></span>
+          <span v-html="replaceNewline(list.response.content)"></span>
         </div>
       </div>
     </div>

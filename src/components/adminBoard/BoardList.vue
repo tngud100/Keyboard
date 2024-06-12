@@ -29,7 +29,7 @@
           <li :class="$style.first">{{ list.first }}</li>
           <li
             :class="[
-              boardIdx == 0 ? $style.second : [$style.third, $style.textCenter],
+              boardIdx == 0 ? $style.second : [$style.third, $style.textLeft],
             ]"
           >
             <img
@@ -42,7 +42,7 @@
           </li>
           <li
             :class="
-              boardIdx === 0 ? [$style.third, $style.textCenter] : $style.second
+              boardIdx === 0 ? [$style.third, $style.textLeft] : $style.second
             "
           >
             {{ list.third }}

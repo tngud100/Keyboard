@@ -5,9 +5,9 @@
 
 .title {
   padding-bottom: 10px;
-  font-size: 32px;
-  font-weight: 700;
-  border-bottom: 5px solid #555;
+  font-size: 24px;
+  font-weight: bold;
+  border-bottom: 1px solid #454545;
 }
 
 .notContentWrapper {
@@ -18,17 +18,18 @@
 }
 
 .notContentDesc {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
 }
 
 .continueBtn {
   margin-top: 20px;
-  padding: 18px 32px;
+  width: 160px;
+  height: 48px;
   border-radius: 5px;
   border: 1px solid #9c9c9c;
   background-color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
 }
 

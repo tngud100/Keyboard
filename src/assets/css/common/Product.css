@@ -1,11 +1,10 @@
 .productItem {
-  width: 24%;
-  height: 513px;
+  width: 19%;
 }
 
 .imgWrapper {
   width: 100%;
-  height: 455px;
+  height: 344px;
   cursor: pointer;
   transition: all 1s;
   overflow: hidden;
@@ -41,7 +40,7 @@
 }
 
 .infoWrapper {
-  margin-top: 16px;
+  margin-top: 15px;
 }
 
 .name {

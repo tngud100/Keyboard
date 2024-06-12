@@ -58,6 +58,39 @@ const reviewList = ref([
     commentDate: "2021.09.02",
     comment: "감사합니다. 고객님 앞으로 더 발전하는 조선타자기 되겠습니다.",
   },
+  {
+    imgList: [reviewImg, reviewImg, reviewImg],
+    type: "keyboard",
+    title: "GMK NTD.",
+    loginId: "tngud100",
+    date: "2021.09.01",
+    content:
+      "간만에 찾은 좋은 키보드입니다. 키캡도 깔끔하고, 이런 저런 좋네요.",
+    commentDate: "2021.09.02",
+    comment: "감사합니다. 고객님 앞으로 더 발전하는 조선타자기 되겠습니다.",
+  },
+  {
+    imgList: [reviewImg, reviewImg, reviewImg],
+    type: "keyboard",
+    title: "GMK NTD.",
+    loginId: "tngud100",
+    date: "2021.09.01",
+    content:
+      "간만에 찾은 좋은 키보드입니다. 키캡도 깔끔하고, 이런 저런 좋네요.",
+    commentDate: "2021.09.02",
+    comment: "감사합니다. 고객님 앞으로 더 발전하는 조선타자기 되겠습니다.",
+  },
+  {
+    imgList: [reviewImg, reviewImg, reviewImg],
+    type: "keyboard",
+    title: "GMK NTD.",
+    loginId: "tngud100",
+    date: "2021.09.01",
+    content:
+      "간만에 찾은 좋은 키보드입니다. 키캡도 깔끔하고, 이런 저런 좋네요.",
+    commentDate: "2021.09.02",
+    comment: "감사합니다. 고객님 앞으로 더 발전하는 조선타자기 되겠습니다.",
+  },
 ]);
 const openModal = (index) => {
   selectedReview.value = true;

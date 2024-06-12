@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import Contents from "#/noticeDetail/Contents.vue";
+import Contents from "#/downloadDetail/Contents.vue";
 </script>
 
 <style></style>

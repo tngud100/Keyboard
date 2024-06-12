@@ -12,11 +12,7 @@
         리뷰
       </li>
       <li
-        :class="[
-          $style.navItem,
-          activeTab(ROUTE_PATH.NOTICE),
-          noticeDetailActive(ROUTE_PATH.NOTICE),
-        ]"
+        :class="[$style.navItem, activeTab(ROUTE_PATH.NOTICE)]"
         @click="onTabClick(ROUTE_PATH.NOTICE)"
       >
         공지사항
@@ -28,7 +24,11 @@
         FAQ
       </li>
       <li
-        :class="[$style.navItem, activeTab(ROUTE_PATH.DOWNLOAD)]"
+        :class="[
+          $style.navItem,
+          activeTab(ROUTE_PATH.DOWNLOAD),
+          downloadDetailActive(ROUTE_PATH.DOWNLOAD),
+        ]"
         @click="onTabClick(ROUTE_PATH.DOWNLOAD)"
       >
         자료실
@@ -69,8 +69,8 @@ const activeTab = (path) => {
     return style.active;
   }
 };
-const noticeDetailActive = (path) => {
-  if (route.path === `/notice/${route.params.id}`) {
+const downloadDetailActive = (path) => {
+  if (route.path === `/download/${route.params.id}`) {
     return style.active;
   }
 };

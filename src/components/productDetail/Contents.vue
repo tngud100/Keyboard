@@ -24,6 +24,7 @@
       @addCount="addCount"
       @subtractCount="subtractCount"
       @addShoppingBasket="addShoppingBasket"
+      @deleteProduct="deleteProduct"
       v-if="productList.name"
     />
   </section>
@@ -33,12 +34,12 @@
 import ProductInfo from "#/common/ProductInfo.vue";
 import { useRouter } from "vue-router";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 const { getProductDetailList, getProductVO } = getProductAPI();
 const router = useRouter();
 
-const productId = router.currentRoute.value.query.productId;
+const productId = computed(() => router.currentRoute.value.query.productId);
 
 const selectedProducts = ref([]);
 
@@ -106,6 +107,13 @@ const addCount = ({ id }) => {
 const subtractCount = ({ id }) => {
   selectedProducts.value = calcCount(id, -1);
   // console.log(selectedProducts.value);
+};
+
+const deleteProduct = ({ id }) => {
+  console.log(selectedProducts.value);
+  selectedProducts.value = selectedProducts.value.filter(
+    (product) => product.id !== id
+  );
 };
 
 const calcCount = (id, calcUnit) => {
@@ -190,16 +198,15 @@ const addShoppingBasket = () => {
 };
 
 const getProductData = async () => {
-  const [dataList, productVO] = await Promise.all([
-    getProductDetailList(productId),
-    getProductVO(productId),
+  const [productVO, dataList] = await Promise.all([
+    getProductVO(productId.value),
+    getProductDetailList(productId.value),
   ]);
 
   if (!productList && !Array.isArray(productList.value)) {
     console.error("productList is not defined or not reactive");
     return;
   }
-
   productList.value = {
     ...productList.value,
     name: productVO[0].name,
@@ -225,7 +232,7 @@ const getProductData = async () => {
 
   await Promise.all(detailProductPromises);
 
-  // console.log(productList.value);
+  console.log(productList.value);
 };
 
 onMounted(async () => {

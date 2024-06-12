@@ -1,7 +1,6 @@
 <template>
   <header :class="$style.header">
     <h3 :class="$style.title">{{ title }}</h3>
-    <div :class="$style.author">{{ author }}</div>
     <div :class="$style.createdDate">{{ createdDate }}</div>
   </header>
   <div v-html="content" :class="$style.content" />
@@ -9,7 +8,7 @@
     <button
       type="button"
       :class="$style.listBtn"
-      @click="$router.push('/notice')"
+      @click="$router.push('/download')"
     >
       목록
     </button>
@@ -19,10 +18,6 @@
 <script setup>
 defineProps({
   title: {
-    type: String,
-    required: true,
-  },
-  author: {
     type: String,
     required: true,
   },
@@ -37,4 +32,4 @@ defineProps({
 });
 </script>
 
-<style src="@/assets/css/noticeDetail/Notice.css" module></style>
+<style src="@/assets/css/downloadDetail/download.css" module></style>

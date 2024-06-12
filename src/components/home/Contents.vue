@@ -4,6 +4,7 @@
       v-for="(item, index) in homeItem"
       :key="index"
       :class="$style.backgroundWrapper"
+      @click="moveDetailPage(item.type, item.productId)"
     >
       <img
         :src="item.mainImg"
@@ -13,6 +14,7 @@
       <div :class="$style.descWrapper">
         <span
           :class="[
+            $style.nameLabel,
             index === 0
               ? $style.productBlackName
               : index === 1
@@ -24,6 +26,7 @@
         <div :class="$style.nameWrapper">
           <div
             :class="[
+              $style.productName,
               index === 0
                 ? $style.firstName
                 : index === 1
@@ -56,7 +59,9 @@ import IconHomePurpleArrow from "#/icons/IconHomePurpleArrow.vue";
 import IconHomeGreenArrow from "#/icons/IconHomeGreenArrow.vue";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const { getProductMainList } = getProductAPI();
 const homeItem = ref([]);
 
@@ -67,6 +72,8 @@ const getHomeData = async () => {
       name: itemData.title,
       mainImg: itemData.mainImg,
       mainImgName: itemData.mainImgName,
+      type: itemData.type,
+      productId: itemData.productId,
       // Icon:
       //   itemData.index === 0
       //     ? IconHomeBlackArrow
@@ -75,6 +82,13 @@ const getHomeData = async () => {
       //     : IconHomeGreenArrow,
     });
   }
+};
+
+const moveDetailPage = (type, id) => {
+  router.push({
+    path: `/${type}/${id}`,
+    query: { productId: id },
+  });
 };
 
 onMounted(() => {

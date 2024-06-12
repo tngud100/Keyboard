@@ -1,8 +1,9 @@
 .wrapper {
-  width: 50%;
+  width: 651px;
   position: sticky;
   top: 64px;
   height: 100%;
+      margin-left: 113px;
 }
 
 .header {
