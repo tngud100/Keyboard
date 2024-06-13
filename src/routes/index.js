@@ -27,11 +27,11 @@ import AdminMemberView from '@/views/AdminMemberView.vue';
 import AdminOrderView from '@/views/AdminOrderView.vue';
 
 export const ROUTE_PATH = {
+  ORDER: "/mypage",
   REVIEW: "/review",
   NOTICE: "/notice",
   FAQ: "/faq",
   DOWNLOAD: "/download",
-  DOWNLOADDETAIL: "/download/:id",
 };
 
 

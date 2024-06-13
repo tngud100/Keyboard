@@ -1,15 +1,14 @@
 <template>
   <section>
-    <div v-if="!asklist.length" :class="$style.noExistBoard">
-      문의 내용이 존재하지 않습니다.
-    </div>
-
-    <div v-else :class="$style.askBoard">
+    <div :class="$style.askBoard">
       <ul :class="$style.listTitle">
         <li :class="$style.proccess">처리 상태</li>
         <li :class="$style.title">제목</li>
         <li :class="$style.date">문의일</li>
       </ul>
+      <div v-if="!asklist.length" :class="$style.noExistBoard">
+        <NoContent />
+      </div>
       <div v-for="list in asklist" :key="list.idx">
         <ul
           :class="[
@@ -72,6 +71,7 @@ import { useAuthStore } from "@/store/useAuthStore.js";
 import { AskAPI } from "@/api/AskReviewGetDataAPI.js";
 import { useModalStore } from "@/store/useModalStore.js";
 import ImgContainer from "#/myaskReview/ImgContainer.vue";
+import NoContent from "#/myaskReview/NoContent.vue";
 import CheckModal from "#/modal/CheckModal.vue";
 
 const authStore = useAuthStore();

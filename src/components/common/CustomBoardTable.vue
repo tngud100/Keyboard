@@ -32,6 +32,9 @@
             ]"
           >
             {{ row[column.field] }}
+            <Icondownload
+              v-if="column.label === '제목' && type == 'download'"
+            />
             <IconUpArrow
               v-if="
                 row.content?.comment &&
@@ -69,6 +72,7 @@
 import { defineProps, defineEmits } from "vue";
 import IconUpArrow from "#/icons/IconUpArrow.vue";
 import IconDownArrow from "#/icons/IconDownArrow.vue";
+import Icondownload from "#/icons/IconFileDownload.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -76,6 +80,7 @@ const router = useRouter();
 const props = defineProps({
   columns: Array,
   rows: Array,
+  type: String,
 });
 
 const emits = defineEmits(["row-click"]);

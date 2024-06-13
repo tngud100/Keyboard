@@ -10,9 +10,7 @@
   flex-grow: 1;
 }
 
-.author,
-.createdDate,
-.views {
+.createdDate {
   padding: 22px 30px;
   color: #4e4e4e;
   font-size: 16px;
@@ -22,7 +20,22 @@
   padding: 30px;
   font-size: 16px;
   min-height: 450px;
+}
+.fileDownloadContainer{
   border-bottom: 1px solid #707070;
+}
+.fileDownloadBox{
+  margin: 16px;
+  padding: 23px 9px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border: 1px solid #C8C8C8;
+  border-radius: 5px;
+}
+.fileDownload{
+  text-decoration: underline;
+  font-size: 16px;
 }
 
 .footer {

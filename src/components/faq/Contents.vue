@@ -3,8 +3,13 @@
     <CommonNav />
     <CustomBoardTable
       :columns="tableColumns"
-      :rows="tableRows"
+      :rows="paginatedData"
       @row-click="toggleRow"
+    />
+    <Pagination
+      :totalItems="tableRows.length"
+      :elementsPerPage="8"
+      @page-changed="handlePageChange"
     />
     <!-- <Faqs /> -->
   </section>
@@ -15,7 +20,9 @@ import { computed, ref } from "vue";
 import CommonNav from "@/layouts/CommonNav.vue";
 import CustomBoardTable from "#/common/CustomBoardTable.vue";
 // import Faqs from "#/faq/Faqs.vue";
+import Pagination from "#/common/Pagination.vue";
 
+const currentPage = ref(1);
 const tableColumns = [
   { label: "번호", field: "num", width: "9%" },
   { label: "카테고리", field: "category", width: "11%" },
@@ -44,6 +51,28 @@ const tableRows = ref([
   },
   {
     num: 2,
+    category: "keycap",
+    title: "이거슨 또 다른 제목입니다.",
+    date: "2024.05.04",
+    content: {
+      text: "이거슨 또 다른 내용입니다.",
+      comment: "이거슨 또 다른 댓글입니다.",
+    },
+    isClicked: false,
+  },
+  {
+    num: 3,
+    category: "keycap",
+    title: "이거슨 제목입니다.",
+    date: "2024.05.03",
+    content: {
+      text: "이거슨 내용입니다.",
+      comment: "이거슨 댓글입니다.",
+    },
+    isClicked: false,
+  },
+  {
+    num: 4,
     category: "keycap",
     title: "이거슨 또 다른 제목입니다.",
     date: "2024.05.04",

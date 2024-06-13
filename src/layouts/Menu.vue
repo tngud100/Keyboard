@@ -1,6 +1,10 @@
 <template>
   <ul :class="$style.menuList">
-    <li :class="$style.menuItem"><IconOrder />주문조회</li>
+    <li :class="$style.menuItem">
+      <RouterLink :to="ROUTE_PATH.ORDER" :class="$style.link">
+        <IconOrder />주문조회
+      </RouterLink>
+    </li>
     <li :class="$style.menuItem">
       <RouterLink :to="ROUTE_PATH.REVIEW" :class="$style.link">
         <IconReview />리뷰

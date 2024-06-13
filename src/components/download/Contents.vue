@@ -4,6 +4,7 @@
     <CustomBoardTable
       :columns="tableColumns"
       :rows="paginatedData"
+      :type="'download'"
       @row-click="toggleRow"
     />
     <Pagination
@@ -37,7 +38,7 @@ const tableRows = ref([
   {
     num: 1,
     category: "메뉴얼",
-    title: "이거슨 제목입니다.",
+    title: "이거슨 제목입니다",
     content: {
       text: "이거슨 또 다른 내용입니다.",
     },
@@ -48,7 +49,7 @@ const tableRows = ref([
   {
     num: 1,
     category: "소프트웨어",
-    title: "이거슨 제목입니다.",
+    title: "이거슨 제목입니다",
     content: {
       text: "이거슨 또 다른 내용입니다.",
     },
@@ -59,7 +60,7 @@ const tableRows = ref([
   {
     num: 1,
     category: "문제해결",
-    title: "이거슨 제목입니다.",
+    title: "이거슨 제목입니다",
     content: {
       text: "이거슨 또 다른 내용입니다.",
     },
