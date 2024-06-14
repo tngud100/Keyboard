@@ -10,9 +10,11 @@ export const getProductAPI = () => {
 
     const backendCall = (url) => {
         if (Array.isArray(url)) {
-            return url.map(url => `http://localhost:8080${url.trim()}`);
+            // return url.map(url => `http://localhost:8080${url.trim()}`);
+            return url.map(url => `https://joseonbackapp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com${url.trim()}`);
         }
-        return `http://localhost:8080${url}`
+        // return `http://localhost:8080${url}`
+        return `https://joseonbackapp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com${url}`
     };
 
     const logicCheck = (state) => {

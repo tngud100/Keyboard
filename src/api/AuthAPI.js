@@ -3,7 +3,8 @@ import axios from 'axios';
 
 export const AuthAPI = () => {
     const loginCheck = async (loginForm) => {
-        return await axios.post('http://localhost:8080/login', loginForm
+        // return await axios.post('http://localhost:8080/login', loginForm
+        return await axios.post('https://joseonbackapp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com/login', loginForm
         )
         .then((res) => {
             const tokens = {
