@@ -316,8 +316,13 @@ const checkDuplicateId = async (id) => {
   }
   const data = await isDuplicateId(id);
   if (data) {
-    alert("이미 사용 중인 아이디입니다.");
-    idError.value = "이미 사용 중인 아이디입니다.";
+    if (data === "이미 사용 중인 아이디입니다.") {
+      alert("이미 사용 중인 아이디입니다.");
+      idError.value = "이미 사용 중인 아이디입니다.";
+    } else {
+      alert("인증에 실패하였습니다. 관리자에게 문의해주세요.");
+      idError.value = "인증에 실패하였습니다. 관리자에게 문의해주세요.";
+    }
   } else {
     idError.value = null;
     isCheckDuplicate.value = true;

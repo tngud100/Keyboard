@@ -3,8 +3,8 @@ import axios from 'axios';
 
 export const AuthAPI = () => {
     const loginCheck = async (loginForm) => {
-        // return await axios.post('http://localhost:8080/login', loginForm
-        return await axios.post('https://joseonbackapp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com/login', loginForm
+        // return await axios.post('http://localhost:8080/api/login', loginForm
+        return await axios.post('http://JoseonbackApp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com/api/login', loginForm
         )
         .then((res) => {
             const tokens = {
@@ -16,7 +16,7 @@ export const AuthAPI = () => {
         })
             .catch((err) => {
                 alert("로그인에 실패하였습니다.");
-                alert("아이디 및 비밀번호를 확인해주세요.");
+                // alert("아이디 및 비밀번호를 확인해주세요.");
             return err;
         });
     };
