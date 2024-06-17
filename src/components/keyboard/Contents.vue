@@ -33,6 +33,7 @@ const moveKeyboardDetailPage = (id) => {
     query: { productId: id },
   });
 };
+
 const getProductData = async () => {
   const dataList = await getProductList();
   for (let i = 0; i < dataList.value.length; i++) {

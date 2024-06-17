@@ -7,6 +7,7 @@
         name="Gateron Keycap Opener"
         :price="189000"
         :backgroundImg="firstKeycap"
+        @click="moveKeyboardDetailPage(2)"
       />
       <Product
         type="normal"
@@ -14,6 +15,7 @@
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="secondKeycap"
+        @click="moveKeyboardDetailPage(2)"
       />
       <Product
         type="normal"
@@ -21,6 +23,7 @@
         name="Geon Keycap Opener"
         :price="189000"
         :backgroundImg="thirdKeycap"
+        @click="moveKeyboardDetailPage(2)"
       />
       <Product
         type="normal"
@@ -28,6 +31,7 @@
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthKeycap"
+        @click="moveKeyboardDetailPage(2)"
       />
       <Product
         type="normal"
@@ -35,6 +39,7 @@
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthKeycap"
+        @click="moveKeyboardDetailPage(2)"
       />
     </ul>
   </div>
@@ -46,6 +51,16 @@ import secondKeycap from "@/assets/images/keycap_2.jpg";
 import thirdKeycap from "@/assets/images/keycap_3.jpg";
 import fourthKeycap from "@/assets/images/keycap_4.jpg";
 import Product from "#/common/Product.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const moveKeyboardDetailPage = (id) => {
+  router.push({
+    path: `/keyboard/${id}`,
+    query: { productId: id },
+  });
+};
 </script>
 
 <style src="@/assets/css/keycap/Contents.css" module></style>
