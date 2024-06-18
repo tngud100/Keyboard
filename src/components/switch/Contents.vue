@@ -7,40 +7,40 @@
         name="Gateron Switch Opener"
         :price="189000"
         :backgroundImg="firstSwitch"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="secondSwitch"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon Switch Opener"
         :price="189000"
         :backgroundImg="thirdSwitch"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthSwitch"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthSwitch"
-        @click="moveKeyboardDetailPage(2)"
-        />
+        @click="moveKeyboardDetailPage(6)"
+      />
     </ul>
   </div>
 </template>

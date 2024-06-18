@@ -1,6 +1,7 @@
 .wrapper {
   display: flex;
   height: auto;
+  justify-content: center;
 }
 .container{
   width: 960px;

@@ -7,7 +7,7 @@
         name="Gateron Keycap Opener"
         :price="189000"
         :backgroundImg="firstKeycap"
-        @click="moveKeyboardDetailPage(2)"
+        @click="moveKeyboardDetailPage(6)"
       />
       <Product
         type="normal"
@@ -15,7 +15,7 @@
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="secondKeycap"
-        @click="moveKeyboardDetailPage(2)"
+        @click="moveKeyboardDetailPage(6)"
       />
       <Product
         type="normal"
@@ -23,7 +23,7 @@
         name="Geon Keycap Opener"
         :price="189000"
         :backgroundImg="thirdKeycap"
-        @click="moveKeyboardDetailPage(2)"
+        @click="moveKeyboardDetailPage(6)"
       />
       <Product
         type="normal"
@@ -31,7 +31,7 @@
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthKeycap"
-        @click="moveKeyboardDetailPage(2)"
+        @click="moveKeyboardDetailPage(6)"
       />
       <Product
         type="normal"
@@ -39,7 +39,7 @@
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthKeycap"
-        @click="moveKeyboardDetailPage(2)"
+        @click="moveKeyboardDetailPage(6)"
       />
     </ul>
   </div>

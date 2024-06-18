@@ -7,40 +7,40 @@
         name="Gateron Tool Opener"
         :price="189000"
         :backgroundImg="firstTool"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="secondTool"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon Tool Opener"
         :price="189000"
         :backgroundImg="thirdTool"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthTool"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
       <Product
         type="normal"
         :id="1"
         name="Geon DailyLube Plate"
         :price="149000"
         :backgroundImg="fourthTool"
-@click="moveKeyboardDetailPage(2)"
-/>
+        @click="moveKeyboardDetailPage(6)"
+      />
     </ul>
   </div>
 </template>
