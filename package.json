@@ -9,16 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
     "@vueup/vue-quill": "^1.2.0",
     "animejs": "^3.2.2",
     "axios": "^1.6.8",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",
+    "quill": "^2.0.2",
     "uuid": "^9.0.1",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/uuid": "^9.0.7",
     "@vitejs/plugin-vue": "^4.5.2",
     "vite": "^5.0.8"
