@@ -6,7 +6,7 @@ import "@/assets/css/font.css";
 import router from "@/routes";
 import axios from 'axios';
 import "@/utils/axiosInstance.js";
-import CKEditor  from '@ckeditor/ckeditor5-vue'
+import CKEditor from '@ckeditor/ckeditor5-vue'
 
 // import "@vueup/vue-quill/dist/vue-quill.snow.css";
 // import { Quill } from '@vueup/vue-quill';

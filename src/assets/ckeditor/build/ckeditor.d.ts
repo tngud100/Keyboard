@@ -2,7 +2,8 @@
  * @license Copyright (c) 2014-2024, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
-import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { Autosave } from '@ckeditor/ckeditor5-autosave';
 import { Bold, Italic, Strikethrough, Underline } from '@ckeditor/ckeditor5-basic-styles';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
@@ -20,8 +21,7 @@ import { StandardEditingMode } from '@ckeditor/ckeditor5-restricted-editing';
 import { Style } from '@ckeditor/ckeditor5-style';
 import { Table, TableColumnResize } from '@ckeditor/ckeditor5-table';
 import { Undo } from '@ckeditor/ckeditor5-undo';
-declare class Editor extends ClassicEditor {
+export default class Editor extends ClassicEditor {
     static builtinPlugins: (typeof AutoImage | typeof Autosave | typeof BlockQuote | typeof Bold | typeof Essentials | typeof FontBackgroundColor | typeof FontColor | typeof FontFamily | typeof FontSize | typeof GeneralHtmlSupport | typeof Heading | typeof HorizontalLine | typeof Image | typeof ImageCaption | typeof ImageInsert | typeof ImageResize | typeof ImageUpload | typeof Italic | typeof Link | typeof Markdown | typeof Paragraph | typeof StandardEditingMode | typeof Strikethrough | typeof Style | typeof Table | typeof TableColumnResize | typeof Title | typeof Underline | typeof Undo)[];
     static defaultConfig: EditorConfig;
 }
-export default Editor;
