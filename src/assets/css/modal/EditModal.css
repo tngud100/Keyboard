@@ -33,21 +33,6 @@
     align-items: center;
     font-weight: 600;
 }
-.titleText{
-    padding: 6px;
-    border:1px solid #DCDCDC;
-    padding: 12px;
-    margin: 12px;
-    border-radius: 5px;
-}
-.titleInput{
-    width: 100%;
-    border: none;
-    font-size: 14px;
-}
-.titleInput:focus{
-    outline: none;
-}
 .btnContainer{
     display: flex;
     justify-content: right;

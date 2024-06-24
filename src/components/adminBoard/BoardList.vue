@@ -5,14 +5,18 @@
         <li :class="$style.first">{{ props.listTitle[0] }}</li>
         <li
           :class="[
-            boardIdx == 0 ? $style.second : [$style.third, $style.textCenter],
+            props.boardIdx == 0
+              ? $style.second
+              : [$style.third, $style.textCenter],
           ]"
         >
           {{ props.listTitle[1] }}
         </li>
         <li
           :class="
-            boardIdx === 0 ? [$style.third, $style.textCenter] : $style.second
+            props.boardIdx === 0
+              ? [$style.third, $style.textCenter]
+              : $style.second
           "
         >
           {{ props.listTitle[2] }}
@@ -24,12 +28,19 @@
       </ul>
     </div>
     <div :class="$style.listBox">
-      <div v-for="list in props.listItem" :key="list" :class="$style.content">
+      <div
+        v-for="list in props.listItem"
+        :key="list.first"
+        :class="$style.content"
+        @click="handleClick(list)"
+      >
         <ul :class="$style.list">
           <li :class="$style.first">{{ list.first }}</li>
           <li
             :class="[
-              boardIdx == 0 ? $style.second : [$style.third, $style.textLeft],
+              props.boardIdx == 0
+                ? $style.second
+                : [$style.third, $style.textLeft],
             ]"
           >
             <img
@@ -42,7 +53,9 @@
           </li>
           <li
             :class="
-              boardIdx === 0 ? [$style.third, $style.textLeft] : $style.second
+              props.boardIdx === 0
+                ? [$style.third, $style.textLeft]
+                : $style.second
             "
           >
             {{ list.third }}
@@ -61,5 +74,12 @@ const props = defineProps({
   listItem: Array,
   boardIdx: Number,
 });
+
+const emit = defineEmits(["itemSelected"]);
+
+const handleClick = (item) => {
+  emit("itemSelected", item);
+};
 </script>
+
 <style src="@/assets/css/adminBoard/BoardList.css" module></style>

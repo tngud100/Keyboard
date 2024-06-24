@@ -7,11 +7,12 @@ import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
 import { Essentials } from "@ckeditor/ckeditor5-essentials";
 import { Bold, Italic } from "@ckeditor/ckeditor5-basic-styles";
 import { BlockQuote } from "@ckeditor/ckeditor5-block-quote";
+import { Font } from "@ckeditor/ckeditor5-font";
 import { Link } from "@ckeditor/ckeditor5-link";
 import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
 import { Indent } from "@ckeditor/ckeditor5-indent";
 import { List } from "@ckeditor/ckeditor5-list";
-import { MediaEmbed } from "@ckeditor/ckeditor5-media-embed";
+import { Heading } from "@ckeditor/ckeditor5-heading";
 import {
   Table,
   TableColumnResize,
@@ -33,13 +34,21 @@ import UploadAdapter from "#/Editor/UploadAdapter";
 
 let text = ref();
 
-const emits = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
 
-/**
- * v-model 값 연결
- */
+const props = defineProps({
+  selectedContent: String,
+});
+
+watch(
+  () => props.selectedContent,
+  () => {
+    text.value = props.selectedContent;
+  }
+);
+
 watch(text, (newValue, oldValue) => {
-  emits("update:modelValue", newValue);
+  emit("update:modelValue", newValue);
 });
 
 // Custom Upload Adapter Plugin function
@@ -54,8 +63,10 @@ const editorConfig = {
   extraPlugins: [CustomUploadAdapterPlugin],
   plugins: [
     Essentials,
+    Heading,
     Bold,
     Italic,
+    Font,
     Link,
     Paragraph,
     BlockQuote,
@@ -72,21 +83,21 @@ const editorConfig = {
     ImageToolbar,
     ImageUpload,
     ImageResize,
-    MediaEmbed,
   ],
   toolbar: {
     items: [
+      "heading",
       "bold",
       "italic",
+      "fontColor",
+      "fontBackgroundColor",
       "link",
       "imageUpload",
       "indent",
       "outdent",
       "numberedList",
-      "bulletedList",
       "alignment",
       "blockQuote",
-      "mediaEmbed",
       "undo",
       "redo",
       "insertTable",
@@ -109,6 +120,7 @@ const editorConfig = {
       "tableCellProperties",
     ],
   },
+  language: "ko",
 };
 </script>
 
@@ -121,5 +133,26 @@ const editorConfig = {
 
 .ck-editor__editable {
   min-height: 300px;
+}
+.ck-content {
+  /* padding-left: 24px !important; */
+}
+ol {
+  padding-left: 15px !important;
+}
+strong {
+  font-weight: bold !important;
+}
+i {
+  font-style: italic !important;
+}
+h2 {
+  font-size: 2em !important;
+}
+h3 {
+  font-size: 1.5em !important;
+}
+h4 {
+  font-size: 1.17em !important;
 }
 </style>

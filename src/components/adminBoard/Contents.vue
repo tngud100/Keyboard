@@ -24,9 +24,18 @@
         </div>
       </div>
 
-      <EditModal v-if="isEditModal" @closeModal="closeEditModal" />
+      <EditModal
+        v-if="isEditModal"
+        :boardIdx="boardIdx"
+        :selectedId="selectedId"
+        @closeModal="closeEditModal"
+      />
       <ReviewContents :boardIdx="boardIdx" v-if="boardIdx == 0" />
-      <NoticeContents :boardIdx="boardIdx" v-if="boardIdx == 1" />
+      <NoticeContents
+        :boardIdx="boardIdx"
+        v-if="boardIdx == 1"
+        @itemSelected="itemSelected"
+      />
       <FaqContents :boardIdx="boardIdx" v-if="boardIdx == 2" />
       <DownloadContents :boardIdx="boardIdx" v-if="boardIdx == 3" />
     </div>
@@ -49,12 +58,19 @@ const boardIdx = computed(() => adminStore.adminBoardIndex);
 
 const isEditModal = ref(false);
 const searchRef = ref(null);
+const selectedId = ref(null);
 
 const showEditModal = () => {
   isEditModal.value = true;
 };
 const closeEditModal = () => {
   isEditModal.value = false;
+  selectedId.value = null;
+};
+
+const itemSelected = (value) => {
+  isEditModal.value = true;
+  selectedId.value = value;
 };
 </script>
 

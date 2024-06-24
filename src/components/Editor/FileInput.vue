@@ -38,12 +38,15 @@ const fileNames = ref([]);
 const selectedFiles = ref([]);
 const fileInput = ref(null);
 
+const emit = defineEmits(["fileChange"]);
+
 const handleFileUpload = (event) => {
   const files = event.target.files;
   for (let i = 0; i < files.length; i++) {
     fileNames.value.push(files[i].name);
     selectedFiles.value.push(files[i]);
   }
+  emit("fileChange", { files: selectedFiles.value, names: fileNames.value });
 };
 
 const triggerFileInput = () => {

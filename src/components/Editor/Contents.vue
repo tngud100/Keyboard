@@ -1,23 +1,36 @@
 <template>
   <div class="ck-content">
-    <Editor @update="modelValue" />
+    <Editor
+      @update:modelValue="modelValue"
+      :selectedContent="selectedContent"
+    />
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
 import Editor from "#/Editor/Editor.vue";
+import { ref, watch } from "vue";
 
-const content = ref("");
+const emit = defineEmits(["update:eidtorContent"]);
 
+let selectedContent = ref("");
+
+const props = defineProps({
+  selectedContent: String,
+});
 const modelValue = (value) => {
-  content.value = value;
-  console.log(content.value);
+  emit("update:eidtorContent", value);
 };
+
+watch(
+  () => props.selectedContent,
+  (newContent) => {
+    selectedContent.value = newContent;
+  }
+);
 </script>
 
 
 <style scoped>
-@import "@/assets/css/editor/content-style.css";
 .ck-content {
   min-height: 300px;
   border-radius: 5px;

@@ -4,13 +4,16 @@
       <div :class="$style.pageLabel">
         <span>주문 내역</span>
         <div :class="$style.header">
-          <button
-            :class="$style.writeBtn"
-            v-if="boardIdx != 0"
-            @click="showEditModal"
-          >
-            등록
-          </button>
+          <div :class="$style.searchBox">
+            <input type="text" :class="$style.search" ref="searchRef" />
+            <button
+              type="button"
+              :class="$style.searchBtn"
+              @click="toggleIsSearch"
+            >
+              <IconSearch />
+            </button>
+          </div>
         </div>
       </div>
       <CustomTable :columns="tableColumns" :rows="tableRows" />
@@ -20,6 +23,10 @@
 
 <script setup>
 import CustomTable from "#/common/CustomTable.vue";
+import IconSearch from "#/icons/IconSearch.vue";
+import { ref } from "vue";
+
+const searchRef = ref(null);
 
 const tableColumns = [
   { label: "번호", field: "num", width: "5%" },
