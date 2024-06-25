@@ -35,6 +35,7 @@
         :boardIdx="boardIdx"
         v-if="boardIdx == 1"
         @itemSelected="itemSelected"
+        ref="noticeContentsRef"
       />
       <FaqContents :boardIdx="boardIdx" v-if="boardIdx == 2" />
       <DownloadContents :boardIdx="boardIdx" v-if="boardIdx == 3" />
@@ -57,8 +58,10 @@ const label = ["리뷰", "공지사항", "자주묻는 질문", "자료실"];
 const boardIdx = computed(() => adminStore.adminBoardIndex);
 
 const isEditModal = ref(false);
-const searchRef = ref(null);
 const selectedId = ref(null);
+
+const searchRef = ref(null);
+const noticeContentsRef = ref(null); // NoticeContents 컴포넌트의 ref
 
 const showEditModal = () => {
   isEditModal.value = true;
@@ -66,6 +69,7 @@ const showEditModal = () => {
 const closeEditModal = () => {
   isEditModal.value = false;
   selectedId.value = null;
+  noticeContentsRef.value.fetchData();
 };
 
 const itemSelected = (value) => {

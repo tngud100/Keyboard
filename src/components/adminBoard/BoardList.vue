@@ -2,66 +2,51 @@
   <div :class="$style.listContainer">
     <div :class="$style.titleBox">
       <ul :class="[$style.list, $style.title]">
-        <li :class="$style.first">{{ props.listTitle[0] }}</li>
         <li
-          :class="[
-            props.boardIdx == 0
-              ? $style.second
-              : [$style.third, $style.textCenter],
-          ]"
+          v-for="(column, index) in listTitle"
+          :key="index"
+          :style="{ width: column.width, textAlign: column.align }"
         >
-          {{ props.listTitle[1] }}
+          {{ column.title }}
         </li>
-        <li
-          :class="
-            props.boardIdx === 0
-              ? [$style.third, $style.textCenter]
-              : $style.second
-          "
-        >
-          {{ props.listTitle[2] }}
-        </li>
-        <li :class="$style.fourth">
-          {{ props.listTitle[3] }}
-        </li>
-        <li :class="$style.fifth">{{ props.listTitle[4] }}</li>
       </ul>
     </div>
     <div :class="$style.listBox">
       <div
-        v-for="list in props.listItem"
-        :key="list.first"
+        v-for="(list, index) in listItem"
+        :key="index"
         :class="$style.content"
         @click="handleClick(list)"
       >
         <ul :class="$style.list">
-          <li :class="$style.first">{{ list.first }}</li>
           <li
-            :class="[
-              props.boardIdx == 0
-                ? $style.second
-                : [$style.third, $style.textLeft],
-            ]"
+            v-for="(column, colIndex) in listTitle"
+            :key="colIndex"
+            :style="{ width: column.width, textAlign: column.align }"
           >
-            <img
-              v-if="list.img"
-              :src="list.img"
-              alt="productImg"
-              :class="$style.img"
-            />
-            {{ list.second }}
+            <template v-if="column.field === 'id'">
+              {{ index + 1 }}
+            </template>
+            <template v-else-if="column.field === 'img'">
+              <img
+                v-if="list.img"
+                :src="list.img"
+                alt="productImg"
+                :class="$style.img"
+              />
+            </template>
+            <template v-else-if="column.field === 'active'">
+              <button
+                @click.stop="activeBtn(list.active, list.id)"
+                :class="$style.activeBtn"
+              >
+                {{ list.active }}
+              </button>
+            </template>
+            <template v-else>
+              {{ list[column.field] }}
+            </template>
           </li>
-          <li
-            :class="
-              props.boardIdx === 0
-                ? [$style.third, $style.textLeft]
-                : $style.second
-            "
-          >
-            {{ list.third }}
-          </li>
-          <li :class="$style.fourth">{{ list.fourth }}</li>
-          <li :class="$style.fifth">{{ list.fifth }}</li>
         </ul>
       </div>
     </div>
@@ -75,10 +60,16 @@ const props = defineProps({
   boardIdx: Number,
 });
 
-const emit = defineEmits(["itemSelected"]);
+const emit = defineEmits(["itemSelected", "deleteItem"]);
 
 const handleClick = (item) => {
   emit("itemSelected", item);
+};
+
+const activeBtn = (active, item) => {
+  if (active === "삭제") {
+    emit("deleteItem", item);
+  }
 };
 </script>
 

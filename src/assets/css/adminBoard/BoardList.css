@@ -15,6 +15,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 16px;
+    border-bottom: 1px solid #E8E8E8;
 }
 .img{
     width:70px;
@@ -22,11 +24,11 @@
     object-fit: cover;
 }
 .first, .second, .third, .fourth, .fifth{
-    border-bottom: 1px solid #E8E8E8;
     text-align: center;
     font-size: 16px;
     height: 100%;
     align-content: center;
+
 }
 .first{
     width: 11%;
@@ -51,6 +53,7 @@
 .content{
     height: 100%;
     height: 90px;
+    cursor: pointer;
 }
 .textCenter{
     text-align: center;
@@ -58,6 +61,17 @@
 .textLeft{
     text-align: left;
     padding-left: 50px;
+}
+.activeBtn{
+    width: 60px;
+    height: 30px;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.activeBtn:hover{
+    background-color: #4E4E4E;
+    color: white;
 }
 
 /* .firstContent, .secondContent, .thirdContent, .fourthContent, .fifthContent{

@@ -15,12 +15,20 @@
         @update:category="updateCategory"
       />
       <File v-if="props.boardIdx === 3" @fileChange="fileChange" />
+      <AskEditor
+        v-if="props.boardIdx === 2"
+        @update:category="updateAsk"
+        :spanText="'Q. '"
+        :placeholder="'질문을 입력해주세요'"
+      />
       <Editor
         @update:eidtorContent="updateContent"
         :selectedContent="editContent.content"
       />
       <div :class="$style.btnContainer">
-        <button :class="$style.submitBtn" @click="submitBtn">등록</button>
+        <button :class="$style.submitBtn" @click="handleSubmit">
+          {{ selectedId ? "수정" : "등록" }}
+        </button>
       </div>
     </div>
   </section>
@@ -29,17 +37,21 @@
 <script setup>
 import Title from "#/Editor/Title.vue";
 import Editor from "#/Editor/Contents.vue";
+import AskEditor from "#/Editor/AskContent.vue";
 import File from "#/Editor/FileInput.vue";
 import Close from "#/icons/IconClose.vue";
 import { boardPostAPI } from "@/api/boardPostDataAPI.js";
 import { boardGetDataAPI } from "@/api/boardGetDataAPI.js";
+import { boardPutDataAPI } from "@/api/boardPutDataAPI.js";
 import { computed, onMounted, ref } from "vue";
 
-const emit = defineEmits(["closeModal", "update:category"]);
+const emit = defineEmits(["closeModal", "enrollBoard"]);
 
 const { enrollNotice, enrollFQA, enrollDownload } = boardPostAPI();
 const { getNoticeByNoticeId, getFAQByFAQId, getDownloadByDownloadId } =
   boardGetDataAPI();
+const { updateNoticeBoard, updateFAQBoard, updateDownloadBoard } =
+  boardPutDataAPI();
 
 const props = defineProps({
   boardIdx: Number,
@@ -61,6 +73,7 @@ const editContent = ref({
   title: "",
   category: "",
   content: "",
+  askContent: "",
   files: [],
 });
 
@@ -73,26 +86,24 @@ const updateCategory = (value) => {
 const updateContent = (value) => {
   editContent.value.content = value;
 };
+const updateAsk = (value) => {
+  editContent.value.askContent = value;
+};
 const fileChange = (value) => {
   editContent.value.files = value.files;
 };
 
-const submitBtn = async () => {
+const handleSubmit = async () => {
   let data = {};
-  console.log(editContent.value);
-  if (props.boardIdx === 1) {
+  if (props.boardIdx === 1 || props.boardIdx === 2) {
     data = {
       title: editContent.value.title,
       content: editContent.value.content,
+      ...(props.boardIdx === 2 && {
+        category: editContent.value.category,
+        askContent: editContent.value.askContent,
+      }),
     };
-    await enrollNotice(data);
-  } else if (props.boardIdx === 2) {
-    data = {
-      title: editContent.value.title,
-      content: editContent.value.content,
-      category: editContent.value.category,
-    };
-    await enrollFQA(data);
   } else if (props.boardIdx === 3) {
     const formData = new FormData();
     formData.append("title", editContent.value.title);
@@ -101,18 +112,57 @@ const submitBtn = async () => {
     editContent.value.files.forEach((file, index) => {
       formData.append(`file${index}`, file);
     });
-    await enrollDownload(formData);
+    data = formData;
   }
 
+  if (props.selectedId) {
+    await modifyContent(data);
+  } else {
+    await enrollContent(data);
+  }
+
+  resetEditContent();
+  closeModal();
+};
+
+const enrollContent = async (data) => {
+  switch (props.boardIdx) {
+    case 1:
+      await enrollNotice(data);
+      break;
+    case 2:
+      await enrollFQA(data);
+      break;
+    case 3:
+      await enrollDownload(data);
+      break;
+  }
+};
+
+const modifyContent = async (data) => {
+  switch (props.boardIdx) {
+    case 1:
+      data.notices_id = props.selectedId;
+      await updateNoticeBoard(props.selectedId, data);
+      break;
+    case 2:
+      data.faqs_id = props.selectedId;
+      await updateFAQBoard(props.selectedId, data);
+      break;
+    case 3:
+      data.downloads_id = props.selectedId;
+      await updateDownloadBoard(props.selectedId, data);
+      break;
+  }
+};
+
+const resetEditContent = () => {
   editContent.value = {
     title: "",
     category: "",
     content: "",
     files: [],
   };
-
-  closeModal();
-  fetchData();
 };
 
 const closeModal = () => {
@@ -132,8 +182,6 @@ const fetchData = async () => {
       case 3:
         data = await getDownloadByDownloadId(props.selectedId);
         break;
-      default:
-        return;
     }
     editContent.value.title = data.title;
     editContent.value.content = data.content;

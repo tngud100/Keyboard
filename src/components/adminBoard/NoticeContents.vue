@@ -1,10 +1,12 @@
 <template>
   <div>
+    <!-- :listTitle="noticeTitle" -->
     <BoardList
-      :listTitle="noticeTitle"
-      :listItem="noticeList"
       :boardIdx="props.boardIdx"
+      :listItem="noticeList"
+      :listTitle="noticeTitle"
       @itemSelected="itemSelected"
+      @deleteItem="deleteItem"
     />
   </div>
 </template>
@@ -12,36 +14,60 @@
 <script setup>
 import BoardList from "#/adminBoard/boardList.vue";
 import { boardGetDataAPI } from "@/api/BoardGetDataAPI.js";
+import { boardDeleteDataAPI } from "@/api/BoardDeleteDataAPI.js";
 import { onMounted, ref } from "vue";
 
 const { getNoticeList } = boardGetDataAPI();
+const { deleteNoticeBoard } = boardDeleteDataAPI();
 
-const emit = defineEmits(["itemSelected"]);
+const emit = defineEmits(["itemSelected", "deleteItem"]);
 
 const props = defineProps({
   boardIdx: Number,
 });
 
-const noticeTitle = ["번호", "제목", "작성일", "수정일", "비고"];
+const noticeTitle = [
+  { title: "번호", field: "id", width: "11%", align: "center" },
+  { title: "제목", field: "title", width: "62%", align: "center" },
+  { title: "작성일", field: "regdate", width: "15%", align: "center" },
+  { title: "수정일", field: "modifired_date", width: "11%", align: "center" },
+  { title: "비고", field: "active", width: "11%", align: "center" },
+];
+
+// const noticeTitle = ["번호", "제목", "작성일", "수정일", "비고"];
 const noticeList = ref([]);
 
 const itemSelected = (value) => {
-  console.log(value);
   emit("itemSelected", value.first);
 };
 
-onMounted(async () => {
+const deleteItem = async (value) => {
+  if (confirm("정말 삭제하시겠습니까?")) {
+    await deleteNoticeBoard(value);
+    await fetchData();
+  }
+};
+
+const fetchData = async () => {
+  noticeList.value = [];
   const data = await getNoticeList();
+  console.log(data);
   data.forEach((item) => {
     noticeList.value.push({
-      first: item.notices_id,
-      second: item.title,
-      third: item.modified_date.slice(0, 10),
-      fourth: item.regdate.slice(0, 10),
-      fifth: "수정 / 삭제",
+      id: item.notices_id,
+      title: item.title,
+      modified_date: item.modified_date.slice(0, 10),
+      regdate: item.regdate.slice(0, 10),
+      active: "삭제",
     });
   });
+};
+
+onMounted(() => {
+  fetchData();
 });
+
+defineExpose({ fetchData });
 </script>
 
 <style>

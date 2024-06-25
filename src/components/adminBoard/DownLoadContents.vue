@@ -4,6 +4,8 @@
       :listTitle="downloadTitle"
       :listItem="downloadList"
       :boardIdx="props.boardIdx"
+      @itemSelected="itemSelected"
+      @deleteItem="deleteItem"
     />
   </div>
 </template>
@@ -15,14 +17,21 @@ const props = defineProps({
   boardIdx: Number,
 });
 
-const downloadTitle = ["번호", "제목", "작성일", "수정일", "비고"];
+const downloadTitle = [
+  { title: "번호", field: "id", width: "11%", align: "center" },
+  { title: "제목", field: "title", width: "62%", align: "center" },
+  { title: "작성일", field: "regdate", width: "15%", align: "center" },
+  { title: "수정일", field: "modified_date", width: "11%", align: "center" },
+  { title: "비고", field: "active", width: "11%", align: "center" },
+];
+
 const downloadList = [
   {
-    first: 1,
-    second: "첫번째 자료",
-    third: "2024-03-15",
-    fourth: "2024-03-15",
-    fifth: "수정 / 삭제",
+    id: 1,
+    title: "첫번째 자료",
+    regdate: "2024-03-15",
+    modified_date: "2024-03-15",
+    active: "삭제",
   },
 ];
 </script>
