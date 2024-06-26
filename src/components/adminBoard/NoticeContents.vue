@@ -28,9 +28,15 @@ const props = defineProps({
 
 const noticeTitle = [
   { title: "번호", field: "id", width: "11%", align: "center" },
-  { title: "제목", field: "title", width: "62%", align: "center" },
+  {
+    title: "제목",
+    field: "title",
+    width: "62%",
+    align: "center",
+    childAlign: "left",
+  },
   { title: "작성일", field: "regdate", width: "15%", align: "center" },
-  { title: "수정일", field: "modifired_date", width: "11%", align: "center" },
+  { title: "수정일", field: "modified_date", width: "11%", align: "center" },
   { title: "비고", field: "active", width: "11%", align: "center" },
 ];
 
@@ -38,7 +44,7 @@ const noticeTitle = [
 const noticeList = ref([]);
 
 const itemSelected = (value) => {
-  emit("itemSelected", value.first);
+  emit("itemSelected", value.id);
 };
 
 const deleteItem = async (value) => {
@@ -51,13 +57,12 @@ const deleteItem = async (value) => {
 const fetchData = async () => {
   noticeList.value = [];
   const data = await getNoticeList();
-  console.log(data);
   data.forEach((item) => {
     noticeList.value.push({
       id: item.notices_id,
       title: item.title,
-      modified_date: item.modified_date.slice(0, 10),
       regdate: item.regdate.slice(0, 10),
+      modified_date: item.modified_date.slice(0, 10),
       active: "삭제",
     });
   });

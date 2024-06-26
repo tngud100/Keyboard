@@ -133,7 +133,7 @@ const editorConfig = {
 
 .ck-editor__editable {
   min-height: 300px;
-  height: 350px;
+  max-height: 350px;
 }
 .ck-content {
   /* padding-left: 24px !important; */

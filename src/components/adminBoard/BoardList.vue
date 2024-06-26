@@ -43,6 +43,11 @@
                 {{ list.active }}
               </button>
             </template>
+            <template v-else-if="column.field === 'title'">
+              <div :style="{ textAlign: column.childAlign }">
+                {{ list[column.field] }}
+              </div>
+            </template>
             <template v-else>
               {{ list[column.field] }}
             </template>

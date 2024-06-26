@@ -11,15 +11,21 @@
       <Title
         :boardIdx="boardIdx"
         :selectedTitle="editContent.title"
+        :selectedCategory="editContent.category"
         @update:title="updateTitle"
         @update:category="updateCategory"
       />
-      <File v-if="props.boardIdx === 3" @fileChange="fileChange" />
+      <File
+        v-if="props.boardIdx === 3"
+        @fileChange="fileChange"
+        :selectedFiles="editContent.files"
+      />
       <AskEditor
         v-if="props.boardIdx === 2"
         @update:category="updateAsk"
         :spanText="'Q. '"
         :placeholder="'질문을 입력해주세요'"
+        :selectedAsk="editContent.ask"
       />
       <Editor
         @update:eidtorContent="updateContent"
@@ -47,7 +53,7 @@ import { computed, onMounted, ref } from "vue";
 
 const emit = defineEmits(["closeModal", "enrollBoard"]);
 
-const { enrollNotice, enrollFQA, enrollDownload } = boardPostAPI();
+const { enrollNotice, enrollFAQ, enrollDownload } = boardPostAPI();
 const { getNoticeByNoticeId, getFAQByFAQId, getDownloadByDownloadId } =
   boardGetDataAPI();
 const { updateNoticeBoard, updateFAQBoard, updateDownloadBoard } =
@@ -73,7 +79,7 @@ const editContent = ref({
   title: "",
   category: "",
   content: "",
-  askContent: "",
+  ask: "",
   files: [],
 });
 
@@ -87,22 +93,28 @@ const updateContent = (value) => {
   editContent.value.content = value;
 };
 const updateAsk = (value) => {
-  editContent.value.askContent = value;
+  editContent.value.ask = value;
 };
 const fileChange = (value) => {
-  editContent.value.files = value.files;
+  if (!props.selectedId) {
+    editContent.value.files = value.files;
+  }
+  console.log(editContent.value.files);
 };
 
 const handleSubmit = async () => {
   let data = {};
-  if (props.boardIdx === 1 || props.boardIdx === 2) {
+  if (props.boardIdx === 1) {
     data = {
       title: editContent.value.title,
       content: editContent.value.content,
-      ...(props.boardIdx === 2 && {
-        category: editContent.value.category,
-        askContent: editContent.value.askContent,
-      }),
+    };
+  } else if (props.boardIdx === 2) {
+    data = {
+      title: editContent.value.title,
+      category: editContent.value.category,
+      ask: editContent.value.ask,
+      comment: editContent.value.content,
     };
   } else if (props.boardIdx === 3) {
     const formData = new FormData();
@@ -110,7 +122,7 @@ const handleSubmit = async () => {
     formData.append("content", editContent.value.content);
     formData.append("category", editContent.value.category);
     editContent.value.files.forEach((file, index) => {
-      formData.append(`file${index}`, file);
+      formData.append("files", file);
     });
     data = formData;
   }
@@ -131,7 +143,7 @@ const enrollContent = async (data) => {
       await enrollNotice(data);
       break;
     case 2:
-      await enrollFQA(data);
+      await enrollFAQ(data);
       break;
     case 3:
       await enrollDownload(data);
@@ -150,7 +162,7 @@ const modifyContent = async (data) => {
       await updateFAQBoard(props.selectedId, data);
       break;
     case 3:
-      data.downloads_id = props.selectedId;
+      data.append("downloads_id", props.selectedId);
       await updateDownloadBoard(props.selectedId, data);
       break;
   }
@@ -161,6 +173,7 @@ const resetEditContent = () => {
     title: "",
     category: "",
     content: "",
+    ask: "",
     files: [],
   };
 };
@@ -183,13 +196,21 @@ const fetchData = async () => {
         data = await getDownloadByDownloadId(props.selectedId);
         break;
     }
-    editContent.value.title = data.title;
-    editContent.value.content = data.content;
-    if (props.boardIdx !== 1) {
-      editContent.value.category = data.category || "";
+    if (props.boardIdx === 1) {
+      editContent.value.title = data.title;
+      editContent.value.content = data.content;
+    }
+    if (props.boardIdx === 2) {
+      editContent.value.category = data.category;
+      editContent.value.title = data.title;
+      editContent.value.ask = data.ask;
+      editContent.value.content = data.comment;
     }
     if (props.boardIdx === 3) {
-      editContent.value.files = data.files || [];
+      editContent.value.title = data.boardList.title;
+      editContent.value.content = data.boardList.content;
+      editContent.value.category = data.boardList.category;
+      editContent.value.files = data.fileNames || [];
     }
   }
 };

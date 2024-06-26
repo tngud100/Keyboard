@@ -38,7 +38,7 @@ export const boardGetDataAPI = () => {
                 return err;
             });
     }
-    const getFAQByFAQId = async (faqId) => {
+    const getFAQByFAQId = async (faqsId) => {
         return await instance.get(`/board/faq/get/${faqsId}`)
             .then((res) => {
                 return res.data;
@@ -47,7 +47,7 @@ export const boardGetDataAPI = () => {
                 return err;
             });
     }
-    const getDownloadByDownloadId = async (downloadId) => {
+    const getDownloadByDownloadId = async (downloadsId) => {
         return await instance.get(`/board/download/get/${downloadsId}`)
             .then((res) => {
                 return res.data;

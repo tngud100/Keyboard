@@ -38,7 +38,7 @@ export const boardPostAPI = () => {
             const response = await instance.post('/board/download/enroll', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                }
+                }   
             });
             console.log(response);
             alert("다운로드 게시글 등록 성공");

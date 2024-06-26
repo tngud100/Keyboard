@@ -30,23 +30,28 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import IconDownloadImg from "#/icons/IconDownloadImg.vue";
 import IconClose from "#/icons/IconClose.vue";
 
 const fileNames = ref([]);
-const selectedFiles = ref([]);
+const selectFiles = ref([]);
 const fileInput = ref(null);
 
 const emit = defineEmits(["fileChange"]);
 
+const props = defineProps({
+  selectedFiles: Array,
+});
+
 const handleFileUpload = (event) => {
   const files = event.target.files;
+  console.log(files);
   for (let i = 0; i < files.length; i++) {
     fileNames.value.push(files[i].name);
-    selectedFiles.value.push(files[i]);
+    selectFiles.value.push(files[i]);
   }
-  emit("fileChange", { files: selectedFiles.value, names: fileNames.value });
+  emit("fileChange", { files: selectFiles.value, names: fileNames.value });
 };
 
 const triggerFileInput = () => {
@@ -55,8 +60,16 @@ const triggerFileInput = () => {
 
 const removeFile = (index) => {
   fileNames.value.splice(index, 1);
-  selectedFiles.value.splice(index, 1);
+  selectFiles.value.splice(index, 1);
+  emit("fileChange", { files: selectFiles.value, names: fileNames.value });
 };
+
+watch(
+  () => props.selectedFiles,
+  (newFile) => {
+    fileNames.value = newFile;
+  }
+);
 </script>
 
 <style src="@/assets/css/Editor/FileInput.css" module></style>

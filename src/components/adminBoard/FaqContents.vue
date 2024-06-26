@@ -26,27 +26,24 @@ const props = defineProps({
 });
 
 const faqTitle = [
-  { title: "번호", field: "id", width: "5%", align: "center" },
-  { title: "카테고리", field: "category", width: "10%", align: "center" },
-  { title: "제목", field: "title", width: "60%", align: "center" },
-  { title: "작성일", field: "modified_date", width: "10%", align: "center" },
-  { title: "수정일", field: "regdate", width: "10%", align: "center" },
-  { title: "비고", field: "active", width: "5%", align: "center" },
+  { title: "번호", field: "id", width: "8%", align: "center" },
+  { title: "카테고리", field: "category", width: "9%", align: "center" },
+  {
+    title: "제목",
+    field: "title",
+    width: "47%",
+    align: "center",
+    childAlign: "left",
+  },
+  { title: "작성일", field: "modified_date", width: "12%", align: "center" },
+  { title: "수정일", field: "regdate", width: "12%", align: "center" },
+  { title: "비고", field: "active", width: "12%", align: "center" },
 ];
 
-const faqList = [
-  {
-    id: 1,
-    category: "카테고리",
-    title: "첫번째 FAQ",
-    modified_date: "2024-03-15",
-    regdate: "2024-03-15",
-    active: "삭제",
-  },
-];
+const faqList = ref([]);
 
 const itemSelected = (value) => {
-  emit("itemSelected", value.first);
+  emit("itemSelected", value.id);
 };
 
 const deleteItem = async (value) => {
@@ -57,18 +54,25 @@ const deleteItem = async (value) => {
 };
 
 const fetchData = async () => {
-  noticeList.value = [];
+  faqList.value = [];
   const data = await getFAQList();
   data.forEach((item) => {
-    noticeList.value.push({
-      first: item.faqs_id,
-      second: item.title,
-      third: item.modified_date.slice(0, 10),
-      fourth: item.regdate.slice(0, 10),
-      fifth: "삭제",
+    faqList.value.push({
+      id: item.faqs_id,
+      category: item.category,
+      title: item.title,
+      regdate: item.regdate.slice(0, 10),
+      modified_date: item.modified_date.slice(0, 10),
+      active: "삭제",
     });
   });
 };
+
+onMounted(() => {
+  fetchData();
+});
+
+defineExpose({ fetchData });
 </script>
 
 <style>

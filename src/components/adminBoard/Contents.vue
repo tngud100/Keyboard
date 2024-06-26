@@ -37,8 +37,18 @@
         @itemSelected="itemSelected"
         ref="noticeContentsRef"
       />
-      <FaqContents :boardIdx="boardIdx" v-if="boardIdx == 2" />
-      <DownloadContents :boardIdx="boardIdx" v-if="boardIdx == 3" />
+      <FaqContents
+        :boardIdx="boardIdx"
+        v-if="boardIdx == 2"
+        @itemSelected="itemSelected"
+        ref="faqContentsRef"
+      />
+      <DownloadContents
+        :boardIdx="boardIdx"
+        v-if="boardIdx == 3"
+        @itemSelected="itemSelected"
+        ref="downloadContentsRef"
+      />
     </div>
   </section>
 </template>
@@ -62,6 +72,8 @@ const selectedId = ref(null);
 
 const searchRef = ref(null);
 const noticeContentsRef = ref(null); // NoticeContents 컴포넌트의 ref
+const faqContentsRef = ref(null); // NoticeContents 컴포넌트의 ref
+const downloadContentsRef = ref(null); // NoticeContents 컴포넌트의 ref
 
 const showEditModal = () => {
   isEditModal.value = true;
@@ -69,7 +81,9 @@ const showEditModal = () => {
 const closeEditModal = () => {
   isEditModal.value = false;
   selectedId.value = null;
-  noticeContentsRef.value.fetchData();
+  if (boardIdx.value == 1) noticeContentsRef.value.fetchData();
+  if (boardIdx.value == 2) faqContentsRef.value.fetchData();
+  if (boardIdx.value == 3) downloadContentsRef.value.fetchData();
 };
 
 const itemSelected = (value) => {

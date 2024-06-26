@@ -24,6 +24,7 @@ import { computed, onMounted, ref, watch } from "vue";
 const props = defineProps({
   boardIdx: Number,
   selectedTitle: String,
+  selectedCategory: String,
 });
 const emit = defineEmits(["update:title"]);
 
@@ -47,9 +48,10 @@ watch(selectCategory, (newVal) => {
 });
 
 watch(
-  () => props.selectedTitle,
-  (newTitle) => {
+  () => [props.selectedTitle, props.selectedCategory],
+  ([newTitle, newCategory]) => {
     title.value = newTitle;
+    selectCategory.value = newCategory;
   }
 );
 </script>
