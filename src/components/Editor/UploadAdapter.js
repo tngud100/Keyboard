@@ -1,9 +1,10 @@
 import axios from '@/utils/axiosInstance.js';
 
 export default class UploadAdapter {
-    constructor(loader, url) {
+    constructor(loader, url, imageUrls) {
         this.url = url;
         this.loader = loader;
+        this.imageUrls = imageUrls;
         this.loader.file.then((pic) => (this.file = pic));
 
         this.upload();
@@ -23,6 +24,7 @@ export default class UploadAdapter {
                 })
                 .then((res) => {
                     const returnUrl = res.data.url;
+                    this.imageUrls.push(returnUrl); 
                     resolve({
                          default: returnUrl,
                     });

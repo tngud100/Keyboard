@@ -187,6 +187,21 @@ const resetEditContent = () => {
 
 const closeModal = () => {
   emit("closeModal");
+  // cancelPost();
+};
+
+
+const cancelPost = () => {
+  imageUrls.value.forEach((url) => {
+    axios.delete(url) // 이미지 삭제 요청
+      .then(() => {
+        console.log(`Deleted: ${url}`);
+      })
+      .catch((error) => {
+        console.error(`Failed to delete ${url}:`, error);
+      });
+  });
+  imageUrls.value = []; // 이미지 URL 배열 초기화
 };
 
 const fetchData = async () => {

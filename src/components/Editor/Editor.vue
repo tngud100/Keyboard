@@ -51,12 +51,14 @@ watch(text, (newValue, oldValue) => {
   emit("update:modelValue", newValue);
 });
 
+let imageUrls = ref([]); // 이미지 URL들을 저장할 배열
 // Custom Upload Adapter Plugin function
 function CustomUploadAdapterPlugin(editor) {
   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-    return new UploadAdapter(loader, "");
+    return new UploadAdapter(loader, "",imageUrls.value);
   };
 }
+
 
 const editor = ClassicEditor;
 const editorConfig = {
