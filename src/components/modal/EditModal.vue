@@ -19,6 +19,7 @@
         v-if="props.boardIdx === 3"
         @fileChange="fileChange"
         :selectedFiles="editContent.files"
+        :selectedFileNames="editContent.fileNames"
       />
       <AskEditor
         v-if="props.boardIdx === 2"
@@ -81,6 +82,7 @@ const editContent = ref({
   content: "",
   ask: "",
   files: [],
+  fileNames: [],
 });
 
 const updateTitle = (value) => {
@@ -96,10 +98,8 @@ const updateAsk = (value) => {
   editContent.value.ask = value;
 };
 const fileChange = (value) => {
-  if (!props.selectedId) {
-    editContent.value.files = value.files;
-  }
-  console.log(editContent.value.files);
+  editContent.value.files = value.files;
+  editContent.value.fileNames = value.names;
 };
 
 const handleSubmit = async () => {
@@ -121,9 +121,7 @@ const handleSubmit = async () => {
     formData.append("title", editContent.value.title);
     formData.append("content", editContent.value.content);
     formData.append("category", editContent.value.category);
-    editContent.value.files.forEach((file, index) => {
-      formData.append("files", file);
-    });
+
     data = formData;
   }
 
@@ -146,6 +144,9 @@ const enrollContent = async (data) => {
       await enrollFAQ(data);
       break;
     case 3:
+      editContent.value.files.forEach((file, index) => {
+        data.append("files", file);
+      });
       await enrollDownload(data);
       break;
   }
@@ -162,6 +163,12 @@ const modifyContent = async (data) => {
       await updateFAQBoard(props.selectedId, data);
       break;
     case 3:
+      editContent.value.files.forEach((file, index) => {
+        data.append("files", file);
+      });
+      editContent.value.fileNames.forEach((file, index) => {
+        data.append("existedFileNames", file);
+      });
       data.append("downloads_id", props.selectedId);
       await updateDownloadBoard(props.selectedId, data);
       break;
@@ -210,7 +217,7 @@ const fetchData = async () => {
       editContent.value.title = data.boardList.title;
       editContent.value.content = data.boardList.content;
       editContent.value.category = data.boardList.category;
-      editContent.value.files = data.fileNames || [];
+      editContent.value.fileNames = data.fileNames || [];
     }
   }
 };

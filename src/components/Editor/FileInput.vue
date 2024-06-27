@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import IconDownloadImg from "#/icons/IconDownloadImg.vue";
 import IconClose from "#/icons/IconClose.vue";
 
@@ -42,15 +42,16 @@ const emit = defineEmits(["fileChange"]);
 
 const props = defineProps({
   selectedFiles: Array,
+  selectedFileNames: Array,
 });
 
-const handleFileUpload = (event) => {
+const handleFileUpload = async (event) => {
   const files = event.target.files;
-  console.log(files);
   for (let i = 0; i < files.length; i++) {
     fileNames.value.push(files[i].name);
     selectFiles.value.push(files[i]);
   }
+
   emit("fileChange", { files: selectFiles.value, names: fileNames.value });
 };
 
@@ -65,9 +66,9 @@ const removeFile = (index) => {
 };
 
 watch(
-  () => props.selectedFiles,
+  () => props.selectedFileNames,
   (newFile) => {
-    fileNames.value = newFile;
+    fileNames.value = [...newFile];
   }
 );
 </script>
