@@ -1,13 +1,10 @@
 import axios from '@/utils/axiosInstance.js';
 
 export default class UploadAdapter {
-    constructor(loader, url, imageUrls) {
-        this.url = url;
+    constructor(loader, imageUrls) {
         this.loader = loader;
         this.imageUrls = imageUrls;
         this.loader.file.then((pic) => (this.file = pic));
-
-        this.upload();
     }
 
     // Starts the upload process.
@@ -17,7 +14,7 @@ export default class UploadAdapter {
                 const formData = new FormData();
                 formData.append('upload', uploadedFile);
 
-                axios.post('/upload', formData, {
+                axios.post('/editor/imgUpload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

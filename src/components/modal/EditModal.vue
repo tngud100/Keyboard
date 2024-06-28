@@ -30,7 +30,9 @@
       />
       <Editor
         @update:eidtorContent="updateContent"
+        @update:images="updateImagesUrls"
         :selectedContent="editContent.content"
+        :boardIdx="boardIdx"
       />
       <div :class="$style.btnContainer">
         <button :class="$style.submitBtn" @click="handleSubmit">
@@ -83,6 +85,7 @@ const editContent = ref({
   ask: "",
   files: [],
   fileNames: [],
+  editorImgUrls: [],
 });
 
 const updateTitle = (value) => {
@@ -101,6 +104,10 @@ const fileChange = (value) => {
   editContent.value.files = value.files;
   editContent.value.fileNames = value.names;
 };
+const updateImagesUrls = (value) => {
+  editContent.value.editorImgUrls = value;
+  console.log(editContent.value.editorImgUrls);
+};
 
 const handleSubmit = async () => {
   let data = {};
@@ -108,6 +115,7 @@ const handleSubmit = async () => {
     data = {
       title: editContent.value.title,
       content: editContent.value.content,
+      imageUrls: editContent.value.editorImgUrls,
     };
   } else if (props.boardIdx === 2) {
     data = {
@@ -115,12 +123,16 @@ const handleSubmit = async () => {
       category: editContent.value.category,
       ask: editContent.value.ask,
       comment: editContent.value.content,
+      imageUrls: editContent.value.editorImgUrls,
     };
   } else if (props.boardIdx === 3) {
     const formData = new FormData();
     formData.append("title", editContent.value.title);
     formData.append("content", editContent.value.content);
     formData.append("category", editContent.value.category);
+    for (var i = 0; i < editContent.value.editorImgUrls.length; i++) {
+      formData.append("imageUrls", editContent.value.editorImgUrls[i]);
+    }
 
     data = formData;
   }
@@ -190,10 +202,10 @@ const closeModal = () => {
   // cancelPost();
 };
 
-
 const cancelPost = () => {
   imageUrls.value.forEach((url) => {
-    axios.delete(url) // 이미지 삭제 요청
+    axios
+      .delete(url) // 이미지 삭제 요청
       .then(() => {
         console.log(`Deleted: ${url}`);
       })

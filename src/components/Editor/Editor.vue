@@ -1,5 +1,10 @@
 <template>
-  <Ckeditor :editor="editor" v-model="text" :config="editorConfig"></Ckeditor>
+  <Ckeditor
+    :editor="editor"
+    v-model="text"
+    :config="editorConfig"
+    @ready="onEditorReady"
+  ></Ckeditor>
 </template>
 
 <script setup>
@@ -31,34 +36,16 @@ import {
 
 import { ref, watch } from "vue";
 import UploadAdapter from "#/Editor/UploadAdapter";
+import axios from "@/utils/axiosInstance.js";
 
 let text = ref();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "update:images"]);
 
 const props = defineProps({
   selectedContent: String,
+  boardIdx: Number,
 });
-
-watch(
-  () => props.selectedContent,
-  () => {
-    text.value = props.selectedContent;
-  }
-);
-
-watch(text, (newValue, oldValue) => {
-  emit("update:modelValue", newValue);
-});
-
-let imageUrls = ref([]); // 이미지 URL들을 저장할 배열
-// Custom Upload Adapter Plugin function
-function CustomUploadAdapterPlugin(editor) {
-  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-    return new UploadAdapter(loader, "",imageUrls.value);
-  };
-}
-
 
 const editor = ClassicEditor;
 const editorConfig = {
@@ -124,6 +111,53 @@ const editorConfig = {
   },
   language: "ko",
 };
+
+let imageUrls = ref([]); // 이미지 URL들을 저장할 배열
+// Custom Upload Adapter Plugin function
+function CustomUploadAdapterPlugin(editor) {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+    return new UploadAdapter(loader, imageUrls.value);
+  };
+}
+
+const deleteImageFromServer = async (imageURL) => {
+  const imageName = imageURL.split("/").pop();
+  return await axios
+    .delete(`/editor/imgDelete/${imageName}`)
+    .then((response) => {
+      console.log("Image deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting image:", error);
+    });
+};
+
+const onEditorReady = (editorInstance) => {
+  editorInstance.model.document.on("change:data", () => {
+    const editorContent = editorInstance.getData();
+    imageUrls.value.forEach((image, index) => {
+      if (!editorContent.includes(image)) {
+        deleteImageFromServer(image);
+        imageUrls.value.splice(index, 1);
+      }
+    });
+  });
+};
+
+watch(
+  () => props.selectedContent,
+  () => {
+    text.value = props.selectedContent;
+  }
+);
+
+watch(text, (newValue, oldValue) => {
+  emit("update:modelValue", newValue);
+});
+
+watch(imageUrls.value, (newValue, oldValue) => {
+  emit("update:images", newValue);
+});
 </script>
 
 <style>
