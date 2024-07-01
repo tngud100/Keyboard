@@ -3,6 +3,7 @@
     <Editor
       @update:modelValue="modelValue"
       @update:images="imageUrls"
+      @update:deletedImages="deletedImageUrls"
       :selectedContent="selectedContent"
       :boardIdx="boardIdx"
     />
@@ -12,7 +13,11 @@
 import Editor from "#/Editor/Editor.vue";
 import { ref, watch } from "vue";
 
-const emit = defineEmits(["update:eidtorContent", "update:images"]);
+const emit = defineEmits([
+  "update:eidtorContent",
+  "update:images",
+  "update:deletedImages",
+]);
 
 let selectedContent = ref("");
 
@@ -24,7 +29,10 @@ const modelValue = (value) => {
   emit("update:eidtorContent", value);
 };
 const imageUrls = (value) => {
-  emit("update:images", value);
+  console.log("image", value);
+};
+const deletedImageUrls = (value) => {
+  console.log("deletedimage", value);
 };
 
 watch(

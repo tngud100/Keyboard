@@ -31,6 +31,7 @@
       <Editor
         @update:eidtorContent="updateContent"
         @update:images="updateImagesUrls"
+        @update:deletedImages="updateDeletedImagesUrls"
         :selectedContent="editContent.content"
         :boardIdx="boardIdx"
       />
@@ -86,6 +87,7 @@ const editContent = ref({
   files: [],
   fileNames: [],
   editorImgUrls: [],
+  deletedEditorImgUrls: [],
 });
 
 const updateTitle = (value) => {
@@ -106,16 +108,27 @@ const fileChange = (value) => {
 };
 const updateImagesUrls = (value) => {
   editContent.value.editorImgUrls = value;
-  console.log(editContent.value.editorImgUrls);
+};
+const updateDeletedImagesUrls = (value) => {
+  editContent.value.deletedEditorImgUrls = value;
 };
 
 const handleSubmit = async () => {
   let data = {};
+
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  editContent.value.content = editContent.value.content.replace(
+    /(<img[^>]*src=")([^"]*editor\/[^"]*)("[^>]*>)/g,
+    (match, p1, p2, p3) => p1 + p2.replace("editor/", "") + p3
+  );
+
   if (props.boardIdx === 1) {
     data = {
       title: editContent.value.title,
       content: editContent.value.content,
       imageUrls: editContent.value.editorImgUrls,
+      deletedImageUrls: editContent.value.editorDeletedImgUrls,
     };
   } else if (props.boardIdx === 2) {
     data = {
@@ -124,6 +137,7 @@ const handleSubmit = async () => {
       ask: editContent.value.ask,
       comment: editContent.value.content,
       imageUrls: editContent.value.editorImgUrls,
+      deletedImageUrls: editContent.value.editorDeletedImgUrls,
     };
   } else if (props.boardIdx === 3) {
     const formData = new FormData();
@@ -132,6 +146,12 @@ const handleSubmit = async () => {
     formData.append("category", editContent.value.category);
     for (var i = 0; i < editContent.value.editorImgUrls.length; i++) {
       formData.append("imageUrls", editContent.value.editorImgUrls[i]);
+    }
+    for (var i = 0; i < editContent.value.editorDeletedImgUrls.length; i++) {
+      formData.append(
+        "deletedImageUrls",
+        editContent.value.editorDeletedImgUrls[i]
+      );
     }
 
     data = formData;
@@ -199,21 +219,6 @@ const resetEditContent = () => {
 
 const closeModal = () => {
   emit("closeModal");
-  // cancelPost();
-};
-
-const cancelPost = () => {
-  imageUrls.value.forEach((url) => {
-    axios
-      .delete(url) // 이미지 삭제 요청
-      .then(() => {
-        console.log(`Deleted: ${url}`);
-      })
-      .catch((error) => {
-        console.error(`Failed to delete ${url}:`, error);
-      });
-  });
-  imageUrls.value = []; // 이미지 URL 배열 초기화
 };
 
 const fetchData = async () => {

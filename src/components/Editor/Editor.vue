@@ -40,7 +40,11 @@ import axios from "@/utils/axiosInstance.js";
 
 let text = ref();
 
-const emit = defineEmits(["update:modelValue", "update:images"]);
+const emit = defineEmits([
+  "update:modelValue",
+  "update:images",
+  "update:deletedImages",
+]);
 
 const props = defineProps({
   selectedContent: String,
@@ -113,6 +117,7 @@ const editorConfig = {
 };
 
 let imageUrls = ref([]); // 이미지 URL들을 저장할 배열
+let deletedImageUrls = ref([]); // 이미지 URL들을 저장할 배열
 // Custom Upload Adapter Plugin function
 function CustomUploadAdapterPlugin(editor) {
   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
@@ -138,6 +143,7 @@ const onEditorReady = (editorInstance) => {
     imageUrls.value.forEach((image, index) => {
       if (!editorContent.includes(image)) {
         deleteImageFromServer(image);
+        deletedImageUrls.value.push(image); // 삭제된 이미지를 추가
         imageUrls.value.splice(index, 1);
       }
     });
@@ -148,15 +154,28 @@ watch(
   () => props.selectedContent,
   () => {
     text.value = props.selectedContent;
+    extractInitialImageUrls(props.selectedContent);
   }
 );
 
+const extractInitialImageUrls = (content) => {
+  const imgTagRegex = /<img[^>]+src="([^">]+)"/g;
+  let match;
+  imageUrls.value = []; // 기존 이미지 URL 초기화
+  while ((match = imgTagRegex.exec(content)) !== null) {
+    imageUrls.value.push(match[1]);
+  }
+};
 watch(text, (newValue, oldValue) => {
   emit("update:modelValue", newValue);
 });
 
 watch(imageUrls.value, (newValue, oldValue) => {
   emit("update:images", newValue);
+});
+
+watch(deletedImageUrls.value, (newValue, oldValue) => {
+  emit("update:deletedImages", newValue);
 });
 </script>
 
