@@ -54,6 +54,7 @@ import { boardPostAPI } from "@/api/boardPostDataAPI.js";
 import { boardGetDataAPI } from "@/api/boardGetDataAPI.js";
 import { boardPutDataAPI } from "@/api/boardPutDataAPI.js";
 import { computed, onMounted, ref } from "vue";
+import axios from "@/utils/axiosInstance.js";
 
 const emit = defineEmits(["closeModal", "enrollBoard"]);
 
@@ -111,6 +112,7 @@ const updateImagesUrls = (value) => {
 };
 const updateDeletedImagesUrls = (value) => {
   editContent.value.deletedEditorImgUrls = value;
+  console.log("modal", value);
 };
 
 const handleSubmit = async () => {
@@ -128,7 +130,7 @@ const handleSubmit = async () => {
       title: editContent.value.title,
       content: editContent.value.content,
       imageUrls: editContent.value.editorImgUrls,
-      deletedImageUrls: editContent.value.editorDeletedImgUrls,
+      deleteImageUrls: editContent.value.deletedEditorImgUrls,
     };
   } else if (props.boardIdx === 2) {
     data = {
@@ -137,7 +139,7 @@ const handleSubmit = async () => {
       ask: editContent.value.ask,
       comment: editContent.value.content,
       imageUrls: editContent.value.editorImgUrls,
-      deletedImageUrls: editContent.value.editorDeletedImgUrls,
+      deleteImageUrls: editContent.value.deletedEditorImgUrls,
     };
   } else if (props.boardIdx === 3) {
     const formData = new FormData();
@@ -147,16 +149,16 @@ const handleSubmit = async () => {
     for (var i = 0; i < editContent.value.editorImgUrls.length; i++) {
       formData.append("imageUrls", editContent.value.editorImgUrls[i]);
     }
-    for (var i = 0; i < editContent.value.editorDeletedImgUrls.length; i++) {
+    for (var i = 0; i < editContent.value.deletedEditorImgUrls.length; i++) {
       formData.append(
-        "deletedImageUrls",
-        editContent.value.editorDeletedImgUrls[i]
+        "deleteImageUrls",
+        editContent.value.deletedEditorImgUrls[i]
       );
     }
 
     data = formData;
   }
-
+  console.log(data);
   if (props.selectedId) {
     await modifyContent(data);
   } else {
@@ -218,6 +220,22 @@ const resetEditContent = () => {
 };
 
 const closeModal = () => {
+  if (editContent.value.editorImgUrls === undefined) {
+    emit("closeModal");
+    return;
+  }
+
+  editContent.value.editorImgUrls.forEach(async (url) => {
+    const imageName = url.split("/").pop();
+    await axios
+      .delete(`/editor/imgDelete/${imageName}`)
+      .then((response) => {
+        console.log("Image deleted successfully");
+      })
+      .catch((error) => {
+        console.error("Error deleting image:", error);
+      });
+  });
   emit("closeModal");
 };
 

@@ -29,10 +29,11 @@ const modelValue = (value) => {
   emit("update:eidtorContent", value);
 };
 const imageUrls = (value) => {
-  console.log("image", value);
+  emit("update:images", value);
 };
 const deletedImageUrls = (value) => {
-  console.log("deletedimage", value);
+  emit("update:deletedImages", value);
+  console.log(value);
 };
 
 watch(

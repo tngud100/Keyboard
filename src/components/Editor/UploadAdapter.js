@@ -22,6 +22,7 @@ export default class UploadAdapter {
                 .then((res) => {
                     const returnUrl = res.data.url;
                     this.imageUrls.push(returnUrl); 
+                    console.log('Image URL added to imageUrls:', this.imageUrls); // 추가된 URL을 로그로 확인
                     resolve({
                          default: returnUrl,
                     });
