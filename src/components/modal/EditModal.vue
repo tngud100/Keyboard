@@ -34,6 +34,7 @@
         @update:deletedImages="updateDeletedImagesUrls"
         :selectedContent="editContent.content"
         :boardIdx="boardIdx"
+        :isContentUpdating="isContentUpdating"
       />
       <div :class="$style.btnContainer">
         <button :class="$style.submitBtn" @click="handleSubmit">
@@ -53,7 +54,7 @@ import Close from "#/icons/IconClose.vue";
 import { boardPostAPI } from "@/api/boardPostDataAPI.js";
 import { boardGetDataAPI } from "@/api/boardGetDataAPI.js";
 import { boardPutDataAPI } from "@/api/boardPutDataAPI.js";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import axios from "@/utils/axiosInstance.js";
 
 const emit = defineEmits(["closeModal", "enrollBoard"]);
@@ -87,9 +88,12 @@ const editContent = ref({
   ask: "",
   files: [],
   fileNames: [],
-  editorImgUrls: [],
-  deletedEditorImgUrls: [],
+  editorImgUrls: [], // 현재 content의 이미지
+  uploadEditorImgUrls: [], // submit 버튼을 눌렀을시의 이미지
+  deletedEditorImgUrls: [], // 삭제된 이미지
 });
+
+let isContentUpdating = reactive(false);
 
 const updateTitle = (value) => {
   editContent.value.title = value;
@@ -112,25 +116,26 @@ const updateImagesUrls = (value) => {
 };
 const updateDeletedImagesUrls = (value) => {
   editContent.value.deletedEditorImgUrls = value;
-  console.log("modal", value);
 };
 
 const handleSubmit = async () => {
+  isContentUpdating = true;
   let data = {};
-
-  await new Promise((resolve) => setTimeout(resolve, 1500));
 
   editContent.value.content = editContent.value.content.replace(
     /(<img[^>]*src=")([^"]*editor\/[^"]*)("[^>]*>)/g,
-    (match, p1, p2, p3) => p1 + p2.replace("editor/", "") + p3
+    (match, p1, p2, p3) => p1 + p2.replace("/editor/", "\\") + p3
   );
+
+  editContent.value.uploadEditorImgUrls = editContent.value.editorImgUrls;
+  editContent.value.editorImgUrls = [];
 
   if (props.boardIdx === 1) {
     data = {
       title: editContent.value.title,
       content: editContent.value.content,
-      imageUrls: editContent.value.editorImgUrls,
-      deleteImageUrls: editContent.value.deletedEditorImgUrls,
+      imageUrls: editContent.value.uploadEditorImgUrls || [],
+      deleteImageUrls: editContent.value.deletedEditorImgUrls || [],
     };
   } else if (props.boardIdx === 2) {
     data = {
@@ -138,35 +143,38 @@ const handleSubmit = async () => {
       category: editContent.value.category,
       ask: editContent.value.ask,
       comment: editContent.value.content,
-      imageUrls: editContent.value.editorImgUrls,
-      deleteImageUrls: editContent.value.deletedEditorImgUrls,
+      imageUrls: editContent.value.uploadEditorImgUrls || [],
+      deleteImageUrls: editContent.value.deletedEditorImgUrls || [],
     };
   } else if (props.boardIdx === 3) {
     const formData = new FormData();
     formData.append("title", editContent.value.title);
     formData.append("content", editContent.value.content);
     formData.append("category", editContent.value.category);
-    for (var i = 0; i < editContent.value.editorImgUrls.length; i++) {
-      formData.append("imageUrls", editContent.value.editorImgUrls[i]);
+    for (var i = 0; i < editContent.value.uploadEditorImgUrls.length; i++) {
+      formData.append(
+        "imageUrls",
+        editContent.value.uploadEditorImgUrls[i] || []
+      );
     }
     for (var i = 0; i < editContent.value.deletedEditorImgUrls.length; i++) {
       formData.append(
         "deleteImageUrls",
-        editContent.value.deletedEditorImgUrls[i]
+        editContent.value.deletedEditorImgUrls[i] || []
       );
     }
 
     data = formData;
   }
   console.log(data);
-  if (props.selectedId) {
-    await modifyContent(data);
-  } else {
-    await enrollContent(data);
-  }
-
-  resetEditContent();
-  closeModal();
+  // if (props.selectedId) {
+  //   await modifyContent(data);
+  // } else {
+  //   await enrollContent(data);
+  // }
+  // resetEditContent();
+  // await closeModal();
+  isContentUpdating = false;
 };
 
 const enrollContent = async (data) => {
@@ -216,27 +224,27 @@ const resetEditContent = () => {
     content: "",
     ask: "",
     files: [],
+    fileNames: [],
+    editorImgUrls: [],
+    uploadEditorImgUrls: [],
+    deletedEditorImgUrls: [],
   };
 };
 
-const closeModal = () => {
-  if (editContent.value.editorImgUrls === undefined) {
-    emit("closeModal");
-    return;
-  }
-
-  editContent.value.editorImgUrls.forEach(async (url) => {
-    const imageName = url.split("/").pop();
-    await axios
-      .delete(`/editor/imgDelete/${imageName}`)
-      .then((response) => {
+const closeModal = async () => {
+  if (editContent.value.editorImgUrls.length !== 0) {
+    for (const url of editContent.value.editorImgUrls) {
+      const imageName = url.split("/").pop();
+      try {
+        console.log("execute deleteImageFromServer");
+        await axios.delete(`/editor/imgDelete/${imageName}`);
         console.log("Image deleted successfully");
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error deleting image:", error);
-      });
-  });
-  emit("closeModal");
+      }
+    }
+  }
+  await emit("closeModal");
 };
 
 const fetchData = async () => {

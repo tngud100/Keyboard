@@ -6,6 +6,7 @@
       @update:deletedImages="deletedImageUrls"
       :selectedContent="selectedContent"
       :boardIdx="boardIdx"
+      :isContentUpdating="isContentUpdating"
     />
   </div>
 </template>
@@ -24,6 +25,7 @@ let selectedContent = ref("");
 const props = defineProps({
   selectedContent: String,
   boardIdx: Number,
+  isContentUpdating: Boolean,
 });
 const modelValue = (value) => {
   emit("update:eidtorContent", value);

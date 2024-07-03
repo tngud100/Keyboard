@@ -1,9 +1,9 @@
 import axios from '@/utils/axiosInstance.js';
 
 export default class UploadAdapter {
-    constructor(loader, imageUrls) {
+    constructor(loader, uplodedImageUrls) {
         this.loader = loader;
-        this.imageUrls = imageUrls;
+        this.uplodedImageUrls = uplodedImageUrls;
         this.loader.file.then((pic) => (this.file = pic));
     }
 
@@ -21,8 +21,8 @@ export default class UploadAdapter {
                 })
                 .then((res) => {
                     const returnUrl = res.data.url;
-                    this.imageUrls.push(returnUrl); 
-                    console.log('Image URL added to imageUrls:', this.imageUrls); // 추가된 URL을 로그로 확인
+                    this.uplodedImageUrls.push(returnUrl); 
+                    console.log('Image URL added to uplodedImageUrls:', this.uplodedImageUrls); // 추가된 URL을 로그로 확인
                     resolve({
                          default: returnUrl,
                     });

@@ -49,6 +49,7 @@ const emit = defineEmits([
 const props = defineProps({
   selectedContent: String,
   boardIdx: Number,
+  isContentUpdating: Boolean,
 });
 
 const editor = ClassicEditor;
@@ -139,7 +140,12 @@ const deleteImageFromServer = async (imageURL) => {
 
 const onEditorReady = (editorInstance) => {
   editorInstance.model.document.on("change:data", () => {
+    console.log(props.isContentUpdating);
+    if (props.isContentUpdating) return;
+
     const editorContent = editorInstance.getData();
+
+    console.log(editorContent, imageUrls);
     imageUrls.forEach((image, index) => {
       if (!editorContent.includes(image)) {
         deleteImageFromServer(image);
@@ -151,22 +157,26 @@ const onEditorReady = (editorInstance) => {
   });
 };
 
+const extractInitialImageUrls = (content) => {
+  // 초기 이미지 URL을 추출하는 로직을 여기에 추가합니다.
+  // 예를 들어, content에서 <img> 태그를 찾고 src 속성을 추출합니다.
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(content, "text/html");
+  const imgs = doc.querySelectorAll("img");
+  imageUrls.length = 0; // 기존 이미지 URL 목록을 초기화합니다.
+  imgs.forEach((img) => {
+    imageUrls.push(img.src);
+  });
+};
+
 watch(
   () => props.selectedContent,
   () => {
     text.value = props.selectedContent;
-    // extractInitialImageUrls(props.selectedContent);
-  }
+    extractInitialImageUrls(props.selectedContent);
+  },
+  { immediate: true }
 );
-
-const extractInitialImageUrls = (content) => {
-  const imgTagRegex = /<img[^>]+src="([^">]+)"/g;
-  let match;
-  imageUrls.length = 0; // 기존 이미지 URL 초기화
-  while ((match = imgTagRegex.exec(content)) !== null) {
-    imageUrls.push(match[1]);
-  }
-};
 
 watch(text, (newValue, oldValue) => {
   emit("update:modelValue", newValue);
