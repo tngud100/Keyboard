@@ -35,7 +35,6 @@ const imageUrls = (value) => {
 };
 const deletedImageUrls = (value) => {
   emit("update:deletedImages", value);
-  console.log(value);
 };
 
 watch(

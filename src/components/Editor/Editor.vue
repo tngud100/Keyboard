@@ -140,26 +140,39 @@ const deleteImageFromServer = async (imageURL) => {
 
 const onEditorReady = (editorInstance) => {
   editorInstance.model.document.on("change:data", () => {
-    console.log(props.isContentUpdating);
     if (props.isContentUpdating) return;
 
     const editorContent = editorInstance.getData();
 
-    console.log(editorContent, imageUrls);
-    imageUrls.forEach((image, index) => {
-      if (!editorContent.includes(image)) {
-        deleteImageFromServer(image);
-        let deletedImageName = image.replace("http://localhost:8080", "");
+    console.log("ReadyContent");
+    console.log("imageUrls", imageUrls);
+    console.log("imageUrlsLength", imageUrls.length);
+
+    const encodedImageUrls = imageUrls.map((url) => encodeURI(url));
+
+    for (let i = 0; i < imageUrls.length; i++) {
+      console.log("imageUrls" + i, imageUrls[i]);
+      console.log(editorContent.includes(encodedImageUrls[i]));
+      if (!editorContent.includes(encodedImageUrls[i])) {
+        console.log("imageUrls[i]", imageUrls[i]);
+        console.log(editorContent);
+        deleteImageFromServer(imageUrls[i]);
+        let deletedImageName = imageUrls[i].replace(
+          "http://localhost:8080",
+          ""
+        );
         deletedImageUrls.push(deletedImageName); // 삭제된 이미지를 추가
-        imageUrls.splice(index, 1);
+        imageUrls.splice(i, 1);
       }
-    });
+      console.log("end");
+    }
+    console.log("imageUrlsLength", imageUrls.length);
+    console.log("deletedImageUrls", deletedImageUrls);
   });
 };
 
+// 모든 이미지를 content에서 추출하여 imageUrls에 넣는다
 const extractInitialImageUrls = (content) => {
-  // 초기 이미지 URL을 추출하는 로직을 여기에 추가합니다.
-  // 예를 들어, content에서 <img> 태그를 찾고 src 속성을 추출합니다.
   const parser = new DOMParser();
   const doc = parser.parseFromString(content, "text/html");
   const imgs = doc.querySelectorAll("img");

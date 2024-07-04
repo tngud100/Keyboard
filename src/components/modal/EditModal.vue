@@ -120,11 +120,12 @@ const updateDeletedImagesUrls = (value) => {
 
 const handleSubmit = async () => {
   isContentUpdating = true;
+  console.log(isContentUpdating);
   let data = {};
 
   editContent.value.content = editContent.value.content.replace(
     /(<img[^>]*src=")([^"]*editor\/[^"]*)("[^>]*>)/g,
-    (match, p1, p2, p3) => p1 + p2.replace("/editor/", "\\") + p3
+    (match, p1, p2, p3) => p1 + p2.replace("/editor/", "/") + p3
   );
 
   editContent.value.uploadEditorImgUrls = editContent.value.editorImgUrls;
@@ -167,13 +168,13 @@ const handleSubmit = async () => {
     data = formData;
   }
   console.log(data);
-  // if (props.selectedId) {
-  //   await modifyContent(data);
-  // } else {
-  //   await enrollContent(data);
-  // }
-  // resetEditContent();
-  // await closeModal();
+  if (props.selectedId) {
+    await modifyContent(data);
+  } else {
+    await enrollContent(data);
+  }
+  resetEditContent();
+  await closeModal();
   isContentUpdating = false;
 };
 
