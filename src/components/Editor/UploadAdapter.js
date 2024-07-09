@@ -21,10 +21,12 @@ export default class UploadAdapter {
                 })
                 .then((res) => {
                     const returnUrl = res.data.url;
-                    this.uplodedImageUrls.push(returnUrl); 
+                    const decodeUrl = decodeURIComponent(returnUrl);
+                    // console.log('File uploaded:', returnUrl, decodeUrl); // 업로드된 URL을 로그로 확인
+                    this.uplodedImageUrls.push(decodeUrl); 
                     console.log('Image URL added to uplodedImageUrls:', this.uplodedImageUrls); // 추가된 URL을 로그로 확인
                     resolve({
-                         default: returnUrl,
+                         default: decodeUrl,
                     });
                 })
                 .catch((error) => {

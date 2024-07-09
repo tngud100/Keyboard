@@ -1,14 +1,17 @@
 .topSideWrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   border-top: 1px solid #d6d6d6;
   border-bottom: 1px solid #d6d6d6;
-  padding: 20px 60px 25px;
 }
 
 .topSide {
   display: flex;
+  align-items: center;
   gap: 19px;
+  width: 1400px;
+  height: 100px;
 }
 
 .topSideList {
@@ -38,9 +41,8 @@
 }
 
 .bottomSideWrapper {
-  padding: 12px 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   font-size: 14px;
 }
@@ -48,7 +50,15 @@
 .bottomSide {
   display: flex;
   align-items: center;
+  width: 1400px;
+  height: 48px;
+  justify-content: space-between;
+}
+
+.bottomBox{
   gap: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .customerService {
@@ -57,6 +67,7 @@
 
 .tel {
   font-size: 24px;
+  font-weight: 500;
 }
 
 .copyright {

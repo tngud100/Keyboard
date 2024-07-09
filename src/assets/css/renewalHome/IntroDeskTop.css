@@ -1,0 +1,13 @@
+.introWrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 730px;
+}
+.introContent{
+    margin-top: 85px;
+    width: 1400px;
+    margin: auto;
+    
+}

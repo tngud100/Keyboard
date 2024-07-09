@@ -8,13 +8,7 @@ import axios from 'axios';
 import "@/utils/axiosInstance.js";
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import "@/assets/css/editor/content-style.css";
-
-// import "@vueup/vue-quill/dist/vue-quill.snow.css";
-// import { Quill } from '@vueup/vue-quill';
-// import ImageResize from 'quill-image-resize-module';
-
-// Quill.register('modules/imageResize', ImageResize);
-
+import "@/routes/redirect.js";
 
 let app = createApp(App);  
 let pinia = createPinia();  

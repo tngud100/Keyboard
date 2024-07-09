@@ -144,18 +144,13 @@ const onEditorReady = (editorInstance) => {
 
     const editorContent = editorInstance.getData();
 
-    console.log("ReadyContent");
-    console.log("imageUrls", imageUrls);
-    console.log("imageUrlsLength", imageUrls.length);
-
-    const encodedImageUrls = imageUrls.map((url) => encodeURI(url));
+    // console.log("ReadyContent");
+    // console.log("imageUrls", imageUrls);
+    // console.log("imageUrlsLength", imageUrls.length);
 
     for (let i = 0; i < imageUrls.length; i++) {
-      console.log("imageUrls" + i, imageUrls[i]);
-      console.log(editorContent.includes(encodedImageUrls[i]));
-      if (!editorContent.includes(encodedImageUrls[i])) {
-        console.log("imageUrls[i]", imageUrls[i]);
-        console.log(editorContent);
+      imageUrls[i] = decodeURIComponent(imageUrls[i]);
+      if (!editorContent.includes(imageUrls[i])) {
         deleteImageFromServer(imageUrls[i]);
         let deletedImageName = imageUrls[i].replace(
           "http://localhost:8080",
@@ -164,10 +159,9 @@ const onEditorReady = (editorInstance) => {
         deletedImageUrls.push(deletedImageName); // 삭제된 이미지를 추가
         imageUrls.splice(i, 1);
       }
-      console.log("end");
     }
-    console.log("imageUrlsLength", imageUrls.length);
-    console.log("deletedImageUrls", deletedImageUrls);
+    // console.log("imageUrlsLength", imageUrls.length);
+    // console.log("deletedImageUrls", deletedImageUrls);
   });
 };
 

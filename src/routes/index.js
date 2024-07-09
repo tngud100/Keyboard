@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import getTokenData from '@/utils/getTokenData';
-import HomeView from '@/views/HomeView.vue';
+// import HomeView from '@/views/HomeView.vue';
+import RenewalHomeView from '@/views/RenewalHomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
 import SignupCompleteView from '@/views/SignupCompleteView.vue';
@@ -36,7 +37,7 @@ export const ROUTE_PATH = {
 
 
 const routes = [
-  { path: '/', component: HomeView },
+  { path: '/', component: RenewalHomeView },
   { path: '/login', component: LoginView },
   { path: '/mypage', component: MypageView, meta: { requiresAuth: true } },
   { path: '/signup', component: SignupView },

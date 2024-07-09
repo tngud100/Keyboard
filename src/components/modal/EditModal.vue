@@ -120,7 +120,6 @@ const updateDeletedImagesUrls = (value) => {
 
 const handleSubmit = async () => {
   isContentUpdating = true;
-  console.log(isContentUpdating);
   let data = {};
 
   editContent.value.content = editContent.value.content.replace(
@@ -130,6 +129,14 @@ const handleSubmit = async () => {
 
   editContent.value.uploadEditorImgUrls = editContent.value.editorImgUrls;
   editContent.value.editorImgUrls = [];
+
+  // 디코딩된 이미지 URL 배열
+  editContent.value.uploadEditorImgUrls =
+    editContent.value.uploadEditorImgUrls.map((url) => decodeURIComponent(url));
+  editContent.value.deletedEditorImgUrls =
+    editContent.value.deletedEditorImgUrls.map((url) =>
+      decodeURIComponent(url)
+    );
 
   if (props.boardIdx === 1) {
     data = {
@@ -152,17 +159,23 @@ const handleSubmit = async () => {
     formData.append("title", editContent.value.title);
     formData.append("content", editContent.value.content);
     formData.append("category", editContent.value.category);
-    for (var i = 0; i < editContent.value.uploadEditorImgUrls.length; i++) {
-      formData.append(
-        "imageUrls",
-        editContent.value.uploadEditorImgUrls[i] || []
-      );
+    if (editContent.value.uploadEditorImgUrls.length > 0) {
+      for (var i = 0; i < editContent.value.uploadEditorImgUrls.length; i++) {
+        formData.append("imageUrls", editContent.value.uploadEditorImgUrls[i]);
+      }
+    } else {
+      formData.append("imageUrls", []);
     }
-    for (var i = 0; i < editContent.value.deletedEditorImgUrls.length; i++) {
-      formData.append(
-        "deleteImageUrls",
-        editContent.value.deletedEditorImgUrls[i] || []
-      );
+
+    if (editContent.value.deletedEditorImgUrls.length > 0) {
+      for (var i = 0; i < editContent.value.deletedEditorImgUrls.length; i++) {
+        formData.append(
+          "deleteImageUrls",
+          editContent.value.deletedEditorImgUrls[i]
+        );
+      }
+    } else {
+      formData.append("deleteImageUrls", []);
     }
 
     data = formData;

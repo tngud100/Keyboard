@@ -1,7 +1,9 @@
 <script setup>
-import Header from "@/layouts/Header.vue";
-import Nav from "@/layouts/Nav.vue";
-import Footer from "@/layouts/Footer.vue";
+// import Header from "@/layouts/Header.vue";
+import Header from "@/layouts/RenewalHeader.vue";
+// import Nav from "@/layouts/Nav.vue";
+// import Footer from "@/layouts/Footer.vue";
+import Footer from "@/layouts/RenewalFooter.vue";
 import Menu from "@/layouts/Menu.vue";
 import AdminHeader from "@/layouts/AdminHeader.vue";
 import AdminSideBar from "@/layouts/AdminSideBar.vue";
@@ -12,6 +14,11 @@ import { storeToRefs } from "pinia";
 
 const { isShowingMenuByRoute } = storeToRefs(useMenuStore());
 const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
+import { useMobileSizeStore } from "@/store/useMobileSizeStore";
+
+const mobileSizeStore = useMobileSizeStore();
+
+mobileSizeStore.checkMobileSize();
 </script>
 
 <template>
@@ -25,11 +32,11 @@ const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
   </div>
   <div v-else>
     <Header />
-    <Nav />
+    <!-- <Nav /> -->
     <section class="contents">
       <router-view />
-      <Menu v-if="isShowingMenuByRoute" />
     </section>
+    <!-- <Menu v-if="isShowingMenuByRoute" /> -->
     <Footer />
   </div>
 </template>
@@ -37,7 +44,7 @@ const { isAdminPageRouter, isAdminLoginPage } = storeToRefs(useAdminStore());
 
 <style scoped>
 .contents {
-  padding: 0 60px;
+  /* padding: 0 60px; */
 }
 .adminLayout {
   display: flex;
