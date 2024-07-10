@@ -1,0 +1,122 @@
+.wrapper{
+    width: 1400px;
+    margin: 120px auto 0px auto;
+}
+
+.menuConatainer{
+    width: 250px;
+}
+.menuTitle{
+    line-height: 1.2;
+}
+.subTitle{
+    font-size: 20px;
+    font-weight: 600;
+}
+.title{
+    font-size: 32px;
+    font-weight: 900;
+}
+.linkBox{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+.linkTo{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+
+.contentContainer{
+    width: 1400px;
+    margin-top: 22px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menuButtonBox{
+    display: grid;
+    justify-content: left;
+    align-items: center;
+    height: 240px;
+    gap: 10px;
+}
+.menuBtn{
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ADADAD;
+    border-radius: 50px;
+    color: #ADADAD;
+    font-size: 16px;
+}
+.menuBtn:hover{
+    border: 2px solid #A70000;
+    color: #A70000;
+    font-weight: 900;
+}
+
+.contentBox{
+    width: 1150px;
+    height: 400px;
+    background-color: #F5F5F5;
+    padding-top: 37px;
+    padding-left: 58px;
+    display: flex;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.leftContet{
+    padding-top: 33px;
+}
+.nameBox{
+}
+.categoryName{
+    text-decoration: underline;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.productName{
+    font-size: 24px;
+    font-weight: 900;
+}
+.describeBox{
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+.gotoStore{
+    margin-top: 116px;
+    width: 162px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #434343;
+    border-radius: 6px;
+    color: #434343;
+    font-size: 16px;
+    font-weight: 500;
+}
+.rightArrow{
+    width: 6px;
+    height: 12px;
+    object-fit: cover;
+    margin-left: 5px;
+}
+
+.gotoStore:hover{
+    border: 2px solid #A70000;
+    color: #A70000;
+    font-weight: 900;
+}
+
+.rightContent{
+    margin-left: 64px;
+    margin-top: 44px;
+}

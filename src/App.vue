@@ -41,7 +41,11 @@ mobileSizeStore.checkMobileSize();
   </div>
 </template>
 
-
+<style>
+body {
+  overflow-x: hidden;
+}
+</style>
 <style scoped>
 .contents {
   /* padding: 0 60px; */
