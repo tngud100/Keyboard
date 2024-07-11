@@ -1,17 +1,26 @@
 <template>
-  <div :class="['swiper-container', $style.slide]">
+  <div
+    :class="['swiper-container', $style.slide]"
+    :style="{
+      maxWidth: props.imgSize.maxWidth + 'px',
+      height: props.imgSize.height + 'px',
+    }"
+  >
     <div class="swiper-wrapper">
       <div
         :class="['swiper-slide', $style.swiperSlide]"
+        :style="{ maxWidth: props.imgSize.maxWidth + 'px' }"
         v-for="slide in item"
         :key="slide.idx"
       >
         <img :src="slide.img" :alt="slide.productName" :class="$style.img" />
         <div :class="$style.textCon">
-          <h3 :class="$style.title">제품명</h3>
+          <h3 :class="$style.title">{{ slide.productTitle }}</h3>
           <p :class="$style.text">{{ slide.productName }}</p>
         </div>
+        <!-- 네비게이션 버튼 요소 추가 -->
       </div>
+      <div v-if="props.pagination" class="swiper-pagination"></div>
     </div>
   </div>
 </template>
@@ -38,7 +47,15 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  pagination: {
+    type: Boolean,
+    default: true,
+  },
   item: {
+    type: Array,
+    required: true,
+  },
+  imgSize: {
     type: Array,
     required: true,
   },
@@ -63,7 +80,6 @@ const initSwiper = () => {
           disableOnInteraction: false,
         }
       : false,
-
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
@@ -118,3 +134,13 @@ onBeforeUnmount(() => {
 </script>
 
 <style src="@/assets/css/swiper/AllScreenSwipe.css" module></style>
+<style>
+.swiper-pagination-bullet {
+  background-color: white;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  background-color: #494949;
+  opacity: 1;
+}
+</style>

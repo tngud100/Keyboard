@@ -46,8 +46,10 @@
       :spaceBetween="0"
       :autoplay="true"
       :loop="true"
-      :item="item"
+      :pagination="false"
       :autoSwipe="autoSwipe"
+      :item="item"
+      :imgSize="itemSize"
       @currentPage="changePage"
     />
   </div>
@@ -67,11 +69,16 @@ import IconPaginationPlay from "#/icons/IconPaginationPlay.vue";
 import { ref, watch } from "vue";
 
 const autoSwipe = ref(true);
+const itemSize = {
+  maxWidth: 1920,
+  height: 798,
+};
 const item = [
   {
     idx: 0,
     link: "",
     img: firstBackground,
+    productTitle: "제품명",
     productName: "SG87W",
     text: "해태 87은<br />조선의 느낌을 강렬히 표현한<br />조선 컨셉",
   },
@@ -79,6 +86,7 @@ const item = [
     idx: 1,
     link: "",
     img: secondBackground,
+    // productTitle: "제품명",
     // productName: "title",
     text: "조선타자기2<br /> 혜태 87에 설명 문구 필요! <br />(제품설명)",
   },
@@ -86,6 +94,7 @@ const item = [
     idx: 2,
     link: "",
     img: thirdBackground,
+    // productTitle: "제품명",
     // productName: "title",
     text: "조선타자기3<br /> 혜태 87에 설명 문구 필요! <br />(제품설명)",
   },

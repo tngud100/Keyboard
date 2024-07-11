@@ -44,7 +44,6 @@ import introImg2 from "@/assets/images/introImg2.svg";
 import introImg3 from "@/assets/images/introImg3.svg";
 import introImg4 from "@/assets/images/introImg4.svg";
 import introImg5 from "@/assets/images/introImg5.svg";
-import introImg6 from "@/assets/images/introImg6.svg";
 
 const imgList = [
   { imgSrc: introImg1 },
@@ -52,7 +51,6 @@ const imgList = [
   { imgSrc: introImg3 },
   { imgSrc: introImg4 },
   { imgSrc: introImg5 },
-  { imgSrc: introImg6 },
 ];
 </script>
-<style src="@/assets/css/renewalHome/IntroDeskTop.css" module></style>
+<style src="@/assets/css/renewalHome/deskTop/IntroDeskTop.css" module></style>
