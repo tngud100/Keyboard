@@ -3,7 +3,9 @@
     <div :class="$style.wrapper">
       <div :class="[$style.title, 'title']">
         <!-- <img :src="logo" alt="logo" :class="$style.logo" /> -->
-        <img :src="logoText" alt="logo" :class="$style.logoText" />
+        <router-link to="/">
+          <img :src="logoText" alt="logo" :class="$style.logoText" />
+        </router-link>
       </div>
       <div :class="$style.navContainer">
         <ul :class="$style.nav" @mouseleave="closeDropList()">
@@ -11,6 +13,7 @@
             v-for="list in dropItem"
             :key="list.idx"
             @mouseover="showDropList(list.idx, $event)"
+            @click="gotoLink(list.idx)"
           >
             <span :class="`itemText${list.idx}`">{{ list.title }}</span>
             <ul
@@ -37,6 +40,9 @@
 import logo from "@/assets/images/logo.jpg";
 import logoText from "@/assets/images/logoText.svg";
 import { computed, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const dropItem = [
   { idx: 0, title: "회사소개" },
@@ -93,6 +99,23 @@ const showDropList = (idx, event) => {
 const closeDropList = () => {
   isHoverList.value = false;
   listIdx.value = null;
+};
+
+const gotoLink = (idx) => {
+  switch (idx) {
+    case 0:
+      router.push(`/intro`);
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+
+    default:
+      break;
+  }
 };
 </script>
 

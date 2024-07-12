@@ -1,7 +1,7 @@
 .footer{
-    height: 375px;
 }
 .box{
+    border-top: 1px solid #D6D6D6;
     padding: 10px 15px;
 }
 .topSideList{
@@ -16,14 +16,13 @@
 
 .midBox{
     border-top: 1px solid #D6D6D6;
-    border-bottom: 1px solid #D6D6D6;
     font-size: 12px;
 }
 .company{
     line-height: 1.4;
 }
 .customerService{
-    margin: 15px 0px;
+    margin: 10px 0px 2px 0px;
     font-size: 15px;
     font-weight: 500;
 }

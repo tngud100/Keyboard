@@ -30,7 +30,7 @@
       </div>
     </div>
     <div :class="$style.copyright">
-      <p>Copyrightⓒ 2023 조선타자기 All right reserved.</p>
+      <p>Copyrightⓒ 2024 조선타자기 All right reserved.</p>
     </div>
   </section>
 </template>

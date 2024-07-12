@@ -40,7 +40,6 @@
 .menuButtonBox{
     display: grid;
     justify-content: left;
-    align-items: center;
     height: 240px;
     gap: 10px;
 }

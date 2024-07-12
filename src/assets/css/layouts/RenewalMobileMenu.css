@@ -16,6 +16,7 @@
     align-items: center;
     height: 80px;
     font-size: 18px;
+    font-weight: 600;
     background:white;
     border-bottom: 1px solid #EEEEEE;
     z-index: 1;
@@ -63,6 +64,7 @@
 .btn:hover{
     border: 2px solid #B51717;
     color: #B51717;
+    font-weight: 900;
 }
 .copyright{
     height: 40px;

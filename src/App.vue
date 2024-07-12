@@ -65,7 +65,7 @@ const isClickedMenu = (value) => {
 
 <style>
 body {
-  overflow-x: hidden;
+  overflow-x: scroll;
 }
 </style>
 <style scoped>

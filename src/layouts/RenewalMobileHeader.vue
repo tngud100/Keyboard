@@ -1,7 +1,9 @@
 <template>
   <header>
     <div :class="$style.header">
-      <img :src="logoText" alt="logo" :class="$style.logoText" />
+      <router-link to="/">
+        <img :src="logoText" alt="logo" :class="$style.logoText" />
+      </router-link>
       <div :class="$style.btnBox">
         <menuIcon
           @click="clickMenu"

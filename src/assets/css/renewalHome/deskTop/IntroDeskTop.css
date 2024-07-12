@@ -1,8 +1,6 @@
 .introWrapper{
-    position: absolute;
-    top: 0;
-    left: 0;
     margin: auto;
+    min-width: 1400px;
     height: 730px;
     background-image: url("@/assets/images/HomeIntroBackGround.jpg");
 }
@@ -62,7 +60,7 @@
     margin: auto;
 }
 .imgContainer{
-    width: 1300px;
+    width: calc(260px * 5);
     height: 304px;
     display: flex;
     transition: all 1s linear;

@@ -26,13 +26,13 @@
 <script setup>
 import Swiper from "#/swiper/AllScreenSwipe.vue";
 import firstBackground from "@/assets/images/firstBackgroundMobile.svg";
-import secondBackground from "@/assets/images/secondBackground.png";
-import thirdBackground from "@/assets/images/thirdBackground.png";
+import secondBackground from "@/assets/images/secondBackgroundMobile.svg";
+import thirdBackground from "@/assets/images/thirdBackgroundMobile.svg";
 import { ref, watch } from "vue";
 
 const autoSwipe = ref(true);
 const itemSize = {
-  height: 375,
+  // height: 375,
 };
 const item = [
   {

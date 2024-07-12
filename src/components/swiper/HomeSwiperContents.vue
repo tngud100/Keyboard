@@ -70,6 +70,7 @@ import { ref, watch } from "vue";
 
 const autoSwipe = ref(true);
 const itemSize = {
+  minWidth: 1400,
   maxWidth: 1920,
   height: 798,
 };

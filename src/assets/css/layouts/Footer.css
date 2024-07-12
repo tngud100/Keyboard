@@ -1,7 +1,4 @@
 .topSideWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-top: 1px solid #d6d6d6;
   border-bottom: 1px solid #d6d6d6;
 }
@@ -12,6 +9,7 @@
   gap: 19px;
   width: 1400px;
   height: 100px;
+  margin: auto;
 }
 
 .topSideList {
@@ -41,10 +39,8 @@
 }
 
 .bottomSideWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 14px;
+  margin: auto;
 }
 
 .bottomSide {
@@ -53,6 +49,7 @@
   width: 1400px;
   height: 48px;
   justify-content: space-between;
+  margin: auto;
 }
 
 .bottomBox{

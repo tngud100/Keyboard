@@ -2,6 +2,7 @@
   <div
     :class="['swiper-container', $style.slide]"
     :style="{
+      minWidth: props.imgSize.minWidth + 'px',
       maxWidth: props.imgSize.maxWidth + 'px',
       height: props.imgSize.height + 'px',
     }"
