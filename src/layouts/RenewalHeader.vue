@@ -24,6 +24,7 @@
                 v-for="subItem in list.item"
                 :key="subItem.idx"
                 :class="$style.dropItem"
+                @click="dropGotoLink(subItem.idx)"
               >
                 <span :class="$style.dropText">{{ subItem.text }} </span>
               </li>
@@ -70,6 +71,7 @@ const dropItem = [
 ];
 const isHoverList = ref(false);
 const listIdx = ref(null);
+const dropIdx = ref(null);
 
 const itemLeft = ref(0);
 const itemWidth = ref(0);
@@ -107,6 +109,7 @@ const gotoLink = (idx) => {
       router.push(`/intro`);
       break;
     case 1:
+      dropGotoLink(dropIdx.value);
       break;
     case 2:
       break;
@@ -115,6 +118,31 @@ const gotoLink = (idx) => {
 
     default:
       break;
+  }
+};
+const dropGotoLink = (dropNum) => {
+  dropIdx.value = dropNum;
+  if (listIdx.value === 1) {
+    switch (dropNum) {
+      case 0:
+        router.push(`/product/keyboard`);
+        break;
+      case 1:
+        router.push(`/product/switch`);
+        break;
+      case 2:
+        router.push(`/product/pcb`);
+        break;
+      case 3:
+        router.push(`/product/keycap`);
+        break;
+      case 4:
+        router.push(`/product/tool`);
+        break;
+      default:
+        router.push(`/product/keyboard`);
+        break;
+    }
   }
 };
 </script>

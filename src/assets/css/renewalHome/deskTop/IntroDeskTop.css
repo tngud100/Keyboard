@@ -1,7 +1,6 @@
 .introWrapper{
     margin: auto;
     min-width: 1400px;
-    height: 730px;
     background-image: url("@/assets/images/HomeIntroBackGround.jpg");
 }
 .introContents{

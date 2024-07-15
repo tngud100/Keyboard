@@ -1,6 +1,9 @@
 <template>
-  <div :class="$style.introWrapper">
-    <div :class="$style.introContents">
+  <div
+    :class="$style.introWrapper"
+    :style="{ height: props.introState ? 630 + 'px' : 730 + 'px' }"
+  >
+    <div :class="$style.introContents" :style="paddingTop">
       <div :class="$style.logoContainer">
         <img
           src="@/assets/images/logoRed.svg"
@@ -14,7 +17,13 @@
         <p>소비자분들과의 양방향 소통으로</p>
         <p>여러분의 의견을 담은 제품과 개선되는 서비스를 제공합니다.</p>
       </div>
-      <button :class="$style.introBtn">회사소개</button>
+      <button
+        :class="$style.introBtn"
+        v-if="!props.introState"
+        @click="gotoIntro"
+      >
+        회사소개
+      </button>
     </div>
     <div :class="$style.infiniteImgWrapper">
       <div :class="$style.imgContainer">
@@ -44,6 +53,13 @@ import introImg2 from "@/assets/images/introImg2.svg";
 import introImg3 from "@/assets/images/introImg3.svg";
 import introImg4 from "@/assets/images/introImg4.svg";
 import introImg5 from "@/assets/images/introImg5.svg";
+import { useRouter } from "vue-router";
+
+const props = defineProps({
+  introState: Boolean,
+  default: false,
+});
+const router = useRouter();
 
 const imgList = [
   { imgSrc: introImg1 },
@@ -52,5 +68,9 @@ const imgList = [
   { imgSrc: introImg4 },
   { imgSrc: introImg5 },
 ];
+
+const gotoIntro = () => {
+  router.push("/intro");
+};
 </script>
 <style src="@/assets/css/renewalHome/deskTop/IntroDeskTop.css" module></style>

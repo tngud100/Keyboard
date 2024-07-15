@@ -14,12 +14,12 @@
         :class="$style.backgroundImg"
         ref="backgroundRef"
       />
-      <img
+      <!-- <img
         :src="props.productImg"
         alt="상품 이미지"
         :class="$style.productImg"
         ref="productRef"
-      />
+      /> -->
     </div>
     <div :class="$style.infoWrapper">
       <h3 :class="$style.name">{{ props.name }}</h3>
@@ -48,9 +48,9 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  productImg: {
-    type: String,
-  },
+  // productImg: {
+  //   type: String,
+  // },
   backgroundImg: {
     type: String,
     required: true,
@@ -69,22 +69,24 @@ const emit = defineEmits(["click"]);
 
 const imgWrapperRef = ref(null);
 const backgroundRef = ref(null);
-const productRef = ref(null);
+// const productRef = ref(null);
 
 const isNormalType = computed(() => props.type === TYPE.NORMAL);
 
 const clickProduct = () => emit("click", props.id);
 
 const mouseenterImgCallback = () => {
-  backgroundRef.value.style.filter = "blur(1px)";
-  productRef.value.style.width = "85%";
-  backgroundRef.value.style.borderRadius = "13px";
+  // backgroundRef.value.style.filter = "blur(1px)";
+  // productRef.value.style.width = "85%";
+  // backgroundRef.value.style.borderRadius = "13px";
+  backgroundRef.value.style.transform = "scale(1.1)";
 };
 
 const mouseleaveImgCallback = () => {
-  backgroundRef.value.style.filter = "blur(0px)";
-  productRef.value.style.width = "75%";
-  backgroundRef.value.style.borderRadius = "0px";
+  // backgroundRef.value.style.filter = "blur(0px)";
+  // productRef.value.style.width = "75%";
+  // backgroundRef.value.style.borderRadius = "0px";
+  backgroundRef.value.style.transform = "scale(1)";
 };
 
 onMounted(() => {

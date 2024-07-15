@@ -1,7 +1,14 @@
 <template>
-  <section>asd</section>
+  <section>
+    <IntroText />
+    <Intro :introState="true" />
+    <Value />
+  </section>
 </template>
 
 <script setup>
+import IntroText from "#/renewalIntro/mobile/IntroText.vue";
+import Intro from "#/renewalHome/mobile/IntroMobile.vue";
+import Value from "#/renewalIntro/mobile/IntroValue.vue";
 </script>
-<!-- <style src="@/assets/css/renewalIntro/MobileContents.css" module></style> -->
+

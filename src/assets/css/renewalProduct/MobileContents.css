@@ -1,0 +1,13 @@
+.textWrapper{
+    margin-top: 100px;
+    margin-bottom: 25px;
+}
+.text{
+    width: 1400px;
+    margin: auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 900;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}

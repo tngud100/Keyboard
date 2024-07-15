@@ -1,14 +1,13 @@
 .introWrapper{
     margin: auto;
-    height: 565px;
     background-image: url("@/assets/images/HomeIntroBackGround.jpg");
+    padding: 80px 0px 80px 0px;
 }
 .introContents{
     display: grid;
     justify-content: center;
     align-items: center;
     margin: auto;
-    padding-top: 85px;
 }
 .logoContainer{
     font-size: 20px;
@@ -28,7 +27,6 @@
     line-height: 1.6;
     text-align: center;
     margin-top: 20px;
-    
 }
 .introBtn{
     width:120px;
@@ -61,7 +59,6 @@
 }
 .imgContainer{
     width: calc(185px * 5);
-    height: 304px;
     display: flex;
     transition: all 1s linear;
     animation: infiniteMove 32s linear infinite;
