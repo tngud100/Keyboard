@@ -4,6 +4,8 @@ import getTokenData from '@/utils/getTokenData';
 import RenewalHomeView from '@/views/RenewalHomeView.vue';
 import RenewalIntroView from '@/views/RenewalIntroView.vue';
 import RenewalProductView from '@/views/RenewalProductView.vue';
+import RenewalBoardView from '@/views/RenewalBoardView.vue';
+import RenewalBoardDetailView from '@/views/RenewalBoardDetailView.vue';
 
 // import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
@@ -42,12 +44,20 @@ export const ROUTE_PATH = {
 
 const routes = [
   { path: '/', component: RenewalHomeView },
+
   { path: '/intro', component: RenewalIntroView },
+
   { path: '/product/keyboard', component: RenewalProductView },
   { path: '/product/switch', component: RenewalProductView },
   { path: '/product/pcb', component: RenewalProductView },
   { path: '/product/keycap', component: RenewalProductView },
   { path: '/product/tool', component: RenewalProductView },
+
+  { path: '/board/notice', component: RenewalBoardView },
+  { path: '/board/notice/:id', component: RenewalBoardDetailView },
+  { path: '/board/faq', component: RenewalBoardView },
+  { path: '/board/download', component: RenewalBoardView },
+  { path: '/board/download/:id', component: RenewalBoardDetailView },
   
   
   { path: '/login', component: LoginView },

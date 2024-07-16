@@ -1,5 +1,11 @@
 <template>
-  <li :class="$style.productItem" @click="clickProduct">
+  <li
+    :class="$style.productItem"
+    @click="clickProduct"
+    :style="{
+      width: props.isMobile ? 'calc(100%/2 - 5px)' : 'calc(1400px/4 - 48px)',
+    }"
+  >
     <div v-if="isNormalType" :class="$style.imgWrapper">
       <img
         :src="props.backgroundImg"
@@ -22,11 +28,19 @@
       /> -->
     </div>
     <div :class="$style.infoWrapper">
-      <h3 :class="$style.name">{{ props.name }}</h3>
-      <p :class="$style.price">
-        <IconCurrency :style="{ width: '17.33px', height: '13px' }" />{{
-          props.price
-        }}
+      <p
+        :class="$style.name"
+        :style="{ fontSize: props.isMobile ? '14px' : '20px' }"
+      >
+        {{ props.name }}
+      </p>
+
+      <p
+        :class="$style.price"
+        :style="{ fontSize: props.isMobile ? '16px' : '18px' }"
+      >
+        <!-- <IconCurrency :style="[{ width: '17.33px', height: '13px' }]" /> -->
+        {{ formattedPrice(props.price) }}원
       </p>
     </div>
   </li>
@@ -34,6 +48,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { formattedPrice } from "@/utils/index.js";
 import IconCurrency from "#/icons/IconCurrency.vue";
 
 const TYPE = {
@@ -62,6 +77,10 @@ const props = defineProps({
   price: {
     type: Number,
     required: true,
+  },
+  isMobile: {
+    type: Boolean,
+    default: false,
   },
 });
 

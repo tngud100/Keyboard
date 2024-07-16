@@ -2,19 +2,30 @@
     border-top: 1px solid #EEEEEE;
     border-bottom: 1px solid #EEEEEE;
     height: 60px;
-    align-content: center;
     margin-top: 25px;
     margin-bottom: 30px;
+    display: flex;
+    overflow: hidden;
+    padding: 0px 15px;
 }
 .navList{
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
-    gap: 60px;
+    gap: 10px;
     margin: auto;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 .navItem{
     font-size: 16px;
     font-weight: 500;
+    width: 75px;
     color: #AFAFAF;
+    text-align: center;
+    flex-shrink: 0;
+
+}
+.iconImg{
+    width: 70px;
+    height: 27px;
 }

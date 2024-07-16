@@ -1,10 +1,9 @@
 .productItem {
-  width: calc(1400px/4 - 48px);
 }
 
 .imgWrapper {
   width: 100%;
-  height: calc(1400px/4 - 48px);
+  aspect-ratio: 1 / 1;
   cursor: pointer;
   transition: all 1s;
   overflow: hidden;
@@ -51,6 +50,5 @@
 
 .price {
   margin-top: 6px;
-  font-size: 18px;
-  font-weight: 500;
+  font-weight: 900;
 }

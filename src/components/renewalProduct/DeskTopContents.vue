@@ -24,13 +24,19 @@ import Nav from "@/layouts/RenewalProductNav.vue";
 import Product from "#/common/Product.vue";
 import { useRouter } from "vue-router";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 const { getProductList } = getProductAPI();
 
 const router = useRouter();
 
 const productList = ref([]);
+
+const path = computed(() => router.currentRoute.value.path);
+
+watch(path, (newVal) => {
+  getProductData();
+});
 
 const moveKeyboardDetailPage = (id) => {
   router.push({
@@ -40,12 +46,13 @@ const moveKeyboardDetailPage = (id) => {
 };
 
 const getProductData = async () => {
+  productList.value = [];
   const dataList = await getProductList();
-
-  console.log(router.path);
-
   for (let i = 0; i < dataList.value.length; i++) {
-    if (dataList.value[i].type === "keyboard") {
+    if (
+      dataList.value[i].type.toLowerCase() ===
+      path.value.split("/")[2].toLowerCase()
+    ) {
       const data = dataList.value[i];
       productList.value.push({
         id: data.productId,
@@ -53,6 +60,7 @@ const getProductData = async () => {
         listImg: data.listImg,
         listBackImg: data.listBackImg,
         amount: data.amount,
+        type: data.type,
       });
     }
   }

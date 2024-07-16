@@ -28,6 +28,9 @@ const isClickMenu = ref(false);
 const isClickedMenu = (value) => {
   isClickMenu.value = value;
 };
+const gotoLink = () => {
+  isClickMenu.value = false;
+};
 </script>
 
 <template>
@@ -53,8 +56,8 @@ const isClickedMenu = (value) => {
     </div>
     <!-- 모바일버전 -->
     <div v-else>
-      <MobileHeader @isClickMenu="isClickedMenu" />
-      <RenewalMobileMenu v-if="isClickMenu" />
+      <MobileHeader @isClickMenu="isClickedMenu" :isClickedMenu="isClickMenu" />
+      <RenewalMobileMenu v-if="isClickMenu" @gotoLink="gotoLink" />
       <section class="mobileContents">
         <router-view />
       </section>

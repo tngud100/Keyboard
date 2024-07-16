@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.tableContainer">
-    <div :class="$style.tableHeader">
+    <div :class="$style.tableHeader" v-if="type !== 'faq'">
       <div
         v-for="(column, index) in columns"
         :key="index"
@@ -14,7 +14,10 @@
         {{ column.label }}
       </div>
     </div>
-    <div :class="$style.tableBody">
+    <div
+      :class="$style.tableBody"
+      :style="{ borderTop: type == 'faq' ? 'solid 1px #CFCFCF' : '' }"
+    >
       <div v-for="(row, rowIndex) in rows" :key="rowIndex">
         <div
           :class="[$style.tableRow, row.isClicked ? $style.isClicked : '']"
@@ -31,6 +34,9 @@
               },
             ]"
           >
+            <span v-if="type == 'faq' && colIndex === 0" :class="$style.QnAMark"
+              >Q</span
+            >
             {{ row[column.field] }}
             <Icondownload
               v-if="column.label === '제목' && type == 'download'"
@@ -57,11 +63,17 @@
         >
           {{ row.content.text }}
         </div>
+
         <div
           v-if="row.isClicked && row.content?.comment"
           :class="[$style.contentBox, $style.comment]"
         >
-          {{ row.content.comment }}
+          <span
+            v-if="type == 'faq'"
+            :style="{ width: `${columns[0].width}`, paddingRight: '21px' }"
+            :class="$style.QnAMark"
+            >A</span
+          >{{ row.content.comment }}
         </div>
       </div>
     </div>

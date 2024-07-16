@@ -114,6 +114,7 @@ const gotoLink = (idx) => {
     case 2:
       break;
     case 3:
+      dropGotoLink(dropIdx.value);
       break;
 
     default:
@@ -141,6 +142,21 @@ const dropGotoLink = (dropNum) => {
         break;
       default:
         router.push(`/product/keyboard`);
+        break;
+    }
+  } else if (listIdx.value === 3) {
+    switch (dropNum) {
+      case 0:
+        router.push(`/board/notice`);
+        break;
+      case 1:
+        router.push(`/board/faq`);
+        break;
+      case 2:
+        router.push(`/board/download`);
+        break;
+      default:
+        router.push(`/board/notice`);
         break;
     }
   }

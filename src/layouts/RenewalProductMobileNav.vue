@@ -1,50 +1,35 @@
 <template>
   <nav :class="$style.nav">
     <ul :class="$style.navList">
-      <li>
-        <router-link
-          :class="$style.navItem"
-          to="/product/keyboard"
-          v-show="!isShowingKeyboardImg"
-          >Keyboard</router-link
+      <li :class="$style.navItem">
+        <router-link to="/product/keyboard" v-show="!isShowingKeyboardImg"
+          >키보드</router-link
         >
-        <IconKeyboard v-show="isShowingKeyboardImg" />
+        <IconKeyboard v-show="isShowingKeyboardImg" :class="$style.iconImg" />
       </li>
-      <li>
-        <router-link
-          :class="$style.navItem"
-          to="/product/switch"
-          v-show="!isShowingSwitchImg"
-          >Switch</router-link
+      <li :class="$style.navItem">
+        <router-link to="/product/switch" v-show="!isShowingSwitchImg"
+          >스위치</router-link
         >
-        <IconSwitch v-show="isShowingSwitchImg" />
+        <IconSwitch v-show="isShowingSwitchImg" :class="$style.iconImg" />
       </li>
-      <li>
-        <router-link
-          :class="$style.navItem"
-          to="/product/pcb"
-          v-show="!isShowingPcbImg"
-          >PCBs</router-link
+      <li :class="$style.navItem">
+        <router-link to="/product/pcb" v-show="!isShowingPcbImg"
+          >PCB</router-link
         >
-        <IconPcb v-show="isShowingPcbImg" />
+        <IconPcb v-show="isShowingPcbImg" :class="$style.iconImg" />
       </li>
-      <li>
-        <router-link
-          :class="$style.navItem"
-          to="/product/keycap"
-          v-show="!isShowinKeycapImg"
-          >Keycaps</router-link
+      <li :class="$style.navItem">
+        <router-link to="/product/keycap" v-show="!isShowinKeycapImg"
+          >키캡</router-link
         >
-        <IconKeycap v-show="isShowinKeycapImg" />
+        <IconKeycap v-show="isShowinKeycapImg" :class="$style.iconImg" />
       </li>
-      <li>
-        <router-link
-          :class="$style.navItem"
-          to="/product/tool"
-          v-show="!isShowinToolImg"
-          >Tool</router-link
+      <li :class="$style.navItem">
+        <router-link to="/product/tool" v-show="!isShowinToolImg"
+          >도구</router-link
         >
-        <IconTool v-show="isShowinToolImg" />
+        <IconTool v-show="isShowinToolImg" :class="$style.iconImg" />
       </li>
     </ul>
   </nav>

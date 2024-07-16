@@ -1,18 +1,22 @@
 <template>
   <section :class="$style.menuSection">
     <ul :class="$style.box">
-      <a :class="$style.gotoBtn">
+      <router-link to="/intro" :class="$style.gotoBtn" @click="gotoLink">
         <li>회사소개</li>
-      </a>
-      <a :class="$style.gotoBtn">
+      </router-link>
+      <router-link
+        to="/product/keyboard"
+        :class="$style.gotoBtn"
+        @click="gotoLink(1)"
+      >
         <li>상품</li>
-      </a>
+      </router-link>
       <a :class="$style.gotoBtn">
         <li>스토어 바로가기</li>
       </a>
-      <a :class="$style.gotoBtn">
+      <router-link to="/board/notice" :class="$style.gotoBtn" @click="gotoLink">
         <li>고객지원</li>
-      </a>
+      </router-link>
     </ul>
     <div :class="$style.container">
       <div :class="$style.textBox">
@@ -36,6 +40,11 @@
 </template>
 
 <script setup>
+const emit = defineEmits(["gotoLink"]);
+
+const gotoLink = () => {
+  emit("gotoLink");
+};
 </script>
 
 <style src="@/assets/css/layouts/RenewalMobileMenu.css" module></style>
