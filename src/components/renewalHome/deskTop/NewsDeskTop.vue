@@ -3,10 +3,17 @@
     <div :class="$style.newsBox">
       <div :class="$style.header">
         <div :class="$style.title">공지사항</div>
-        <a :class="$style.more" href="/">더보기 +</a>
+        <router-link to="/board/notice" :class="$style.more"
+          >더보기 +</router-link
+        >
       </div>
       <div :class="$style.list">
-        <div v-for="item in newsList" :key="item.idx" :class="$style.listItem">
+        <div
+          v-for="item in newsList"
+          :key="item.idx"
+          :class="$style.listItem"
+          @click="linkTo(item.idx)"
+        >
           <div :class="$style.title">
             <span :class="$style.category">[{{ item.category }}]</span>
             {{ item.title }}
@@ -25,8 +32,12 @@
           <p>주말 및 공휴일 휴무</p>
         </div>
         <div :class="$style.btnBox">
-          <button :class="$style.btn">자주묻는 질문</button>
-          <button :class="$style.btn">자료실</button>
+          <router-link to="/board/faq" :class="$style.btn"
+            >자주묻는 질문</router-link
+          >
+          <router-link to="/board/download" :class="$style.btn"
+            >자료실</router-link
+          >
         </div>
       </div>
     </div>
@@ -35,24 +46,34 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const newsList = ref([
   {
+    idx: 1,
     category: "공지",
     title: "공지사항 제목",
     date: "2021.09.01",
   },
   {
+    idx: 2,
     category: "공지",
     title: "공지사항 제목",
     date: "2021.09.01",
   },
   {
+    idx: 3,
     category: "공지",
     title: "공지사항 제목",
     date: "2021.09.01",
   },
 ]);
+
+const linkTo = (idx) => {
+  router.push("/board/notice/" + idx);
+};
 </script>
 
 <style src="@/assets/css/renewalHome/deskTop/NewsDeskTop.css" module></style>

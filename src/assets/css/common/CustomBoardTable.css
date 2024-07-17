@@ -49,15 +49,12 @@
     
 }
 .contentBox{
-  padding: 23px 0px 23px 0px;
   font-size: 16px;
-  min-height: 80px;
-  border-top: 1px solid #ccc;
   text-align: left;
+  border-top: solid 1px #CFCFCF;
 }
 .QnAMark{
   display: block;
-  font-size: 18px;
   font-weight: 900;
   text-align: center;
 }

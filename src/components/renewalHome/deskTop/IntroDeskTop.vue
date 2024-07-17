@@ -9,10 +9,11 @@
           src="@/assets/images/logoRed.svg"
           alt="introLogo"
           :class="$style.introLogo"
+          ref="introLogo"
         />
-        <p>조선타자기는</p>
+        <p ref="introText">조선타자기는</p>
       </div>
-      <div :class="$style.textContainer">
+      <div :class="$style.textContainer" ref="introDesc">
         <p>높은 접근성을 추구하는 키보드회사입니다.</p>
         <p>소비자분들과의 양방향 소통으로</p>
         <p>여러분의 의견을 담은 제품과 개선되는 서비스를 제공합니다.</p>
@@ -21,6 +22,7 @@
         :class="$style.introBtn"
         v-if="!props.introState"
         @click="gotoIntro"
+        ref="introBtn"
       >
         회사소개
       </button>
@@ -54,12 +56,19 @@ import introImg3 from "@/assets/images/introImg3.svg";
 import introImg4 from "@/assets/images/introImg4.svg";
 import introImg5 from "@/assets/images/introImg5.svg";
 import { useRouter } from "vue-router";
+import { fadeInElements } from "@/utils/gsapUtils.js";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
   introState: Boolean,
   default: false,
 });
 const router = useRouter();
+
+const introLogo = ref(null);
+const introText = ref(null);
+const introDesc = ref(null);
+const introBtn = ref(null);
 
 const imgList = [
   { imgSrc: introImg1 },
@@ -72,5 +81,15 @@ const imgList = [
 const gotoIntro = () => {
   router.push("/intro");
 };
+// start: "top-=100px center",
+//         end: "+=50%",
+onMounted(() => {
+  fadeInElements(introLogo.value, [
+    introLogo.value,
+    introText.value,
+    introDesc.value,
+    introBtn.value,
+  ]);
+});
 </script>
 <style src="@/assets/css/renewalHome/deskTop/IntroDeskTop.css" module></style>

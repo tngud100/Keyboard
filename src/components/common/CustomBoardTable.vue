@@ -16,7 +16,9 @@
     </div>
     <div
       :class="$style.tableBody"
-      :style="{ borderTop: type == 'faq' ? 'solid 1px #CFCFCF' : '' }"
+      :style="{
+        borderTop: type == 'faq' && !isMobile ? 'solid 1px #CFCFCF' : '',
+      }"
     >
       <div v-for="(row, rowIndex) in rows" :key="rowIndex">
         <div
@@ -34,7 +36,10 @@
               },
             ]"
           >
-            <span v-if="type == 'faq' && colIndex === 0" :class="$style.QnAMark"
+            <span
+              v-if="type == 'faq' && colIndex === 0"
+              :class="$style.QnAMark"
+              :style="{ fontSize: isMobile ? '16px' : '18px' }"
               >Q</span
             >
             {{ row[column.field] }}
@@ -45,14 +50,16 @@
               v-if="
                 row.content?.comment &&
                 colIndex === columns.length - 1 &&
-                !row.isClicked
+                !row.isClicked &&
+                !isMobile
               "
             />
             <IconDownArrow
               v-if="
                 row.content?.comment &&
                 colIndex === columns.length - 1 &&
-                row.isClicked
+                row.isClicked &&
+                !isMobile
               "
             />
           </div>
@@ -67,10 +74,18 @@
         <div
           v-if="row.isClicked && row.content?.comment"
           :class="[$style.contentBox, $style.comment]"
+          :style="{
+            minHeight: isMobile ? '60px' : '80px',
+            padding: isMobile ? '20px 0' : '23px 0',
+          }"
         >
           <span
             v-if="type == 'faq'"
-            :style="{ width: `${columns[0].width}`, paddingRight: '21px' }"
+            :style="{
+              width: `${columns[0].width}`,
+              paddingRight: isMobile ? '' : '21px',
+              fontSize: isMobile ? '16px' : '18px',
+            }"
             :class="$style.QnAMark"
             >A</span
           >{{ row.content.comment }}
@@ -93,6 +108,7 @@ const props = defineProps({
   columns: Array,
   rows: Array,
   type: String,
+  isMobile: Boolean,
 });
 
 const emits = defineEmits(["row-click"]);

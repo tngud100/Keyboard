@@ -88,4 +88,4 @@ const toggleRow = (index) => {
 };
 </script>
 
-<style src="@/assets/css/renewalBoard/deskTop/Notice.css" module></style>
+<style src="@/assets/css/renewalBoard/deskTop/Board.css" module></style>

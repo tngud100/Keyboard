@@ -6,7 +6,9 @@
         <p :class="$style.title">상품</p>
       </div>
       <div :class="$style.linkBox">
-        <a :class="$style.linkTo" href="/">더보기 +</a>
+        <router-link to="/product/keyboard" :class="$style.linkTo"
+          >더보기 +</router-link
+        >
       </div>
     </div>
     <div :class="$style.contentContainer">

@@ -1,24 +1,27 @@
 <template>
   <section :class="$style.header">
     <div :class="$style.wrapper">
-      <div :class="[$style.title, 'title']">
+      <div :class="$style.title">
         <!-- <img :src="logo" alt="logo" :class="$style.logo" /> -->
         <router-link to="/">
           <img :src="logoText" alt="logo" :class="$style.logoText" />
         </router-link>
       </div>
-      <div :class="$style.navContainer">
+      <div :class="[$style.navContainer, 'navBox']">
         <ul :class="$style.nav" @mouseleave="closeDropList()">
           <li
             v-for="list in dropItem"
             :key="list.idx"
+            style=""
             @mouseover="showDropList(list.idx, $event)"
             @click="gotoLink(list.idx)"
           >
             <span :class="`itemText${list.idx}`">{{ list.title }}</span>
+
             <ul
+              :class="[$style.dropBox, 'dropList']"
+              :style="dropBoxLeft"
               v-if="isHoverList && listIdx === list.idx"
-              :class="$style.dropBox"
             >
               <li
                 v-for="subItem in list.item"
@@ -76,6 +79,8 @@ const dropIdx = ref(null);
 const itemLeft = ref(0);
 const itemWidth = ref(0);
 
+const dropBoxLeft = computed(() => ({}));
+
 const underLineAnime = computed(() => ({
   width: itemWidth.value + "px",
   transform: `translateX(${itemLeft.value}px)`,
@@ -83,17 +88,16 @@ const underLineAnime = computed(() => ({
 }));
 
 const showDropList = (idx, event) => {
-  const titleX = document.querySelector(".title").getBoundingClientRect().right;
+  const titleX = document.querySelector(".navBox").getBoundingClientRect().left;
   const textX = document
     .querySelector(`.itemText${idx}`)
-    .getBoundingClientRect().right;
+    .getBoundingClientRect().left;
 
   itemWidth.value = document
     .querySelector(`.itemText${idx}`)
     .getBoundingClientRect().width;
 
-  itemLeft.value = textX - (titleX + itemWidth.value);
-
+  itemLeft.value = textX - titleX;
   isHoverList.value = true;
   listIdx.value = idx;
 };

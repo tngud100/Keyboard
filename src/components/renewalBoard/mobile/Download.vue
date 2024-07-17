@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.boardWrapper">
-    <CustomBoardTable
+    <CustomMobileBoardTable
       :columns="tableColumns"
       :rows="paginatedData"
       :type="'download'"
@@ -16,30 +16,15 @@
 
 <script setup>
 import Pagination from "#/common/Pagination.vue";
-import CustomBoardTable from "#/common/CustomBoardTable.vue";
+import CustomMobileBoardTable from "#/common/CustomMobileBoardTable.vue";
 import { computed, ref } from "vue";
-
-const tableColumns = [
-  { label: "번호", field: "num", width: "9%" },
-  { label: "카테고리", field: "category", width: "10%" },
-  {
-    label: "제목",
-    field: "title",
-    width: "69%",
-    textAlign: "left",
-    paddingLeft: "21px",
-  },
-  { label: "작성일", field: "date", width: "12%" },
-];
 
 const tableRows = ref([
   {
     num: 1,
     category: "메뉴얼",
+    author: "조선타자기",
     title: "이거슨 제목입니다",
-    content: {
-      text: "이거슨 또 다른 내용입니다.",
-    },
     linkTo: `/board/download`,
     date: "2024.05.03",
     isClicked: false,
@@ -47,10 +32,8 @@ const tableRows = ref([
   {
     num: 2,
     category: "소프트웨어",
+    author: "조선타자기",
     title: "이거슨 제목입니다",
-    content: {
-      text: "이거슨 또 다른 내용입니다.",
-    },
     linkTo: `/board/download`,
     date: "2024.05.03",
     isClicked: false,
@@ -58,10 +41,8 @@ const tableRows = ref([
   {
     num: 3,
     category: "문제해결",
+    author: "조선타자기",
     title: "이거슨 제목입니다",
-    content: {
-      text: "이거슨 또 다른 내용입니다.",
-    },
     linkTo: `/board/download`,
     date: "2024.05.03",
     isClicked: false,
@@ -90,4 +71,4 @@ const toggleRow = (index) => {
 };
 </script>
 
-<style src="@/assets/css/renewalBoard/deskTop/Board.css" module></style>
+<style src="@/assets/css/renewalBoard/mobile/Download.css" module></style>

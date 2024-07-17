@@ -68,7 +68,7 @@ const gotoLink = () => {
 
 <style>
 body {
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
 }
 </style>
 <style scoped>

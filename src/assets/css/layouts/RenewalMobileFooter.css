@@ -2,21 +2,24 @@
 }
 .box{
     border-top: 1px solid #D6D6D6;
-    padding: 10px 15px;
 }
-.topSideList{
+/* .topSideList{
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 .topSideItem {
     font-size: 14px;
-    position: relative; /* 가상 요소의 위치를 설정하기 위해 */
-}
+    position: relative; 가상 요소의 위치를 설정하기 위해
+} */
 
 .midBox{
-    border-top: 1px solid #D6D6D6;
     font-size: 12px;
+    padding: 15px;
+}
+.logo{
+    width: 168px;
+    margin-bottom: 15px;
 }
 .company{
     line-height: 1.4;
@@ -26,15 +29,16 @@
     font-size: 15px;
     font-weight: 500;
 }
-.timeList{
+/* .timeList{
     line-height: 1.4;
-}
+} */
 
 .bottomBox{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
-    height: 20px;
+    padding: 0px 15px;
+    height: 40px;
     border-bottom: 1px solid #D6D6D6;
 }
 .copyright{

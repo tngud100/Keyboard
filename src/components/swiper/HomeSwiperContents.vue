@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="$style.swiperText">
-      <div :class="$style.textBox">
+      <div :class="$style.textBox" ref="textBox">
         <p
           v-html="item[currentPage - 1].text"
           :class="[$style.text, 'text']"
@@ -67,6 +67,9 @@ import IconPaginationPlay from "#/icons/IconPaginationPlay.vue";
 // import IconPaginationLeftArrowGrayVue from "#/icons/IconPaginationLeftArrowGray.vue";
 // import IconPaginationRightArrowGrayVue from "#/icons/IconPaginationRightArrowGray.vue";
 import { ref, watch } from "vue";
+import { XdirectfadeIn } from "@/utils/gsapUtils";
+
+const textBox = ref(null);
 
 const autoSwipe = ref(true);
 const itemSize = {
@@ -104,6 +107,7 @@ const currentPage = ref(1);
 
 const changePage = (page) => {
   currentPage.value = page;
+  XdirectfadeIn(textBox.value);
 };
 
 const autoToggle = () => {

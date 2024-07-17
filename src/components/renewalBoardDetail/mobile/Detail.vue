@@ -1,11 +1,15 @@
 <template>
   <header :class="$style.header">
-    <h3 :class="$style.title">
+    <p :class="$style.title">
       {{ title }}&nbsp;<Icondownload v-if="fileName && fileLink" />
-    </h3>
+    </p>
     <div :class="$style.createdDate">{{ createdDate }}</div>
   </header>
-  <div v-html="content" :class="$style.content"></div>
+  <div
+    v-html="content"
+    :class="$style.content"
+    :style="{ borderBottom: fileName && fileLink ? '' : '1px solid #707070' }"
+  ></div>
   <div :class="$style.fileDownloadContainer" v-if="fileName && fileLink">
     <span :class="$style.fileDownloadBox">
       <a
@@ -61,4 +65,4 @@ const gotoList = () => {
 };
 </script>
 
-<style src="@/assets/css/renewalBoardDetail/deskTop/Detail.css" module></style>
+<style src="@/assets/css/renewalBoardDetail/mobile/Detail.css" module></style>

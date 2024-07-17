@@ -3,7 +3,8 @@
     <CustomBoardTable
       :columns="tableColumns"
       :rows="paginatedData"
-      :type="'download'"
+      :type="'faq'"
+      :isMobile="true"
       @row-click="toggleRow"
     />
     <Pagination
@@ -20,50 +21,47 @@ import CustomBoardTable from "#/common/CustomBoardTable.vue";
 import { computed, ref } from "vue";
 
 const tableColumns = [
-  { label: "번호", field: "num", width: "9%" },
-  { label: "카테고리", field: "category", width: "10%" },
+  { label: "question", field: "", width: "10%", textAlign: "center" },
   {
     label: "제목",
     field: "title",
-    width: "69%",
+    width: "90%",
     textAlign: "left",
-    paddingLeft: "21px",
+    paddingLeft: "0px",
   },
-  { label: "작성일", field: "date", width: "12%" },
 ];
 
 const tableRows = ref([
   {
     num: 1,
-    category: "메뉴얼",
-    title: "이거슨 제목입니다",
+    title: "이거슨 제목입니다.",
     content: {
-      text: "이거슨 또 다른 내용입니다.",
+      comment: "이거슨 댓글입니다.",
     },
-    linkTo: `/board/download`,
-    date: "2024.05.03",
     isClicked: false,
   },
   {
     num: 2,
-    category: "소프트웨어",
-    title: "이거슨 제목입니다",
+    title: "이거슨 또 다른 제목입니다.",
     content: {
-      text: "이거슨 또 다른 내용입니다.",
+      comment: "이거슨 또 다른 댓글입니다.",
     },
-    linkTo: `/board/download`,
-    date: "2024.05.03",
     isClicked: false,
   },
   {
     num: 3,
-    category: "문제해결",
-    title: "이거슨 제목입니다",
+    title: "이거슨 제목입니다.",
     content: {
-      text: "이거슨 또 다른 내용입니다.",
+      comment: "이거슨 댓글입니다.",
     },
-    linkTo: `/board/download`,
-    date: "2024.05.03",
+    isClicked: false,
+  },
+  {
+    num: 4,
+    title: "이거슨 또 다른 제목입니다.",
+    content: {
+      comment: "이거슨 또 다른 댓글입니다.",
+    },
     isClicked: false,
   },
 ]);
@@ -90,4 +88,4 @@ const toggleRow = (index) => {
 };
 </script>
 
-<style src="@/assets/css/renewalBoard/deskTop/Board.css" module></style>
+<style src="@/assets/css/renewalBoard/mobile/Notice.css" module></style>

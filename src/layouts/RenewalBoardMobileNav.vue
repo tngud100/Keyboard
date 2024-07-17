@@ -1,4 +1,7 @@
 <template>
+  <div :class="$style.titleBox">
+    <p :class="$style.title">고객지원</p>
+  </div>
   <nav :class="$style.nav">
     <ul :class="$style.navList">
       <li>
@@ -42,12 +45,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 
-const selectedBoardNum = ref(0);
-const selected = (num) => {
-  selectedBoardNum.value = num;
-};
+const router = useRouter();
+
+const selectedBoardNum = computed(() => {
+  const path = router.currentRoute.value.path;
+  if (path.includes("/board/notice")) {
+    return 0;
+  } else if (path === "/board/faq") {
+    return 1;
+  } else if (path.includes("/board/download")) {
+    return 2;
+  }
+  return 0;
+});
 </script>
 
-<style src="@/assets/css/layouts/RenewalBoardNav.css" module></style>
+<style src="@/assets/css/layouts/RenewalBoardMobileNav.css" module></style>
