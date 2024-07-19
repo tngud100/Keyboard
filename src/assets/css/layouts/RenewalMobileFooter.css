@@ -19,7 +19,7 @@
 }
 .logo{
     width: 168px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .company{
     line-height: 1.4;
@@ -39,7 +39,6 @@
     align-items: center;
     padding: 0px 15px;
     height: 40px;
-    border-bottom: 1px solid #D6D6D6;
 }
 .copyright{
     font-size: 12px;

@@ -12,7 +12,7 @@
 }
 .header .title{
     font-size: 26px;
-    font-weight: 900;
+    font-weight: 800;
 }
 .header .more{
     font-size: 14px;
@@ -58,7 +58,7 @@
 .callNum{
     margin-top: 5px;
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 800;
 }
 .detail{
     margin-top: 5px;
@@ -84,7 +84,7 @@
     border-radius: 5px;
 }
 .btn:hover{
-    font-weight: 900;
+    font-weight: 800;
     border: 2px solid #A70000;
     color: #A70000;
 }

@@ -10,7 +10,7 @@
           to="/board/notice"
           :style="{
             color: selectedBoardNum === 0 ? 'black' : '#AFAFAF',
-            fontWeight: selectedBoardNum === 0 ? '900' : ' 500',
+            fontWeight: selectedBoardNum === 0 ? '800' : ' 500',
           }"
           >공지사항</router-link
         >
@@ -21,7 +21,7 @@
           to="/board/faq"
           :style="{
             color: selectedBoardNum === 1 ? 'black' : '#AFAFAF',
-            fontWeight: selectedBoardNum === 1 ? '900' : ' 500',
+            fontWeight: selectedBoardNum === 1 ? '800' : ' 500',
           }"
           >자주묻는 질문</router-link
         >
@@ -32,7 +32,7 @@
           to="/board/download"
           :style="{
             color: selectedBoardNum === 2 ? 'black' : '#AFAFAF',
-            fontWeight: selectedBoardNum === 2 ? '900' : ' 500',
+            fontWeight: selectedBoardNum === 2 ? '800' : ' 500',
           }"
           >자료실</router-link
         >

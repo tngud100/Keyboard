@@ -31,7 +31,7 @@
       </div>
       <div :class="[$style.bottomBox, $style.box]">
         <p :class="$style.copyright">
-          Copyrightⓒ 2023 조선타자기 All right reserved.
+          Copyrightⓒ 2024 조선타자기 All right reserved.
         </p>
       </div>
     </div>

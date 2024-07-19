@@ -18,7 +18,7 @@
 }
 .title{
     font-size: 26px;
-    font-weight: 900;
+    font-weight: 800;
 }
 .moreLink{
     font-size: 14px;
@@ -57,7 +57,7 @@
 .active{
     color: #B51717;
     border: 2px solid #B51717;
-    font-weight: 900;
+    font-weight: 800;
 }
 
 .bottomContainer{
@@ -80,7 +80,7 @@
 }
 .productName{
     font-size: 18px;
-    font-weight: 900;
+    font-weight: 800;
 }
 .descBox{
     font-size: 14px;
@@ -119,5 +119,5 @@
 .moreBtn:hover{
     color: #B51717;
     border: 2px solid #B51717;
-    font-weight: 900;
+    font-weight: 800;
 }

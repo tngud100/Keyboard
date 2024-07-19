@@ -58,7 +58,7 @@ const props = defineProps({
   },
   imgSize: {
     type: Array,
-    required: true,
+    required: false,
   },
   autoSwipe: {
     type: Boolean,

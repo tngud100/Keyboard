@@ -2,31 +2,46 @@
   <nav :class="$style.nav">
     <ul :class="$style.navList">
       <li :class="$style.navItem">
-        <router-link to="/product/keyboard" v-show="!isShowingKeyboardImg"
+        <router-link
+          to="/product/keyboard"
+          v-show="!isShowingKeyboardImg"
+          :class="$style.item"
           >키보드</router-link
         >
         <IconKeyboard v-show="isShowingKeyboardImg" :class="$style.iconImg" />
       </li>
       <li :class="$style.navItem">
-        <router-link to="/product/switch" v-show="!isShowingSwitchImg"
+        <router-link
+          to="/product/switch"
+          v-show="!isShowingSwitchImg"
+          :class="$style.item"
           >스위치</router-link
         >
         <IconSwitch v-show="isShowingSwitchImg" :class="$style.iconImg" />
       </li>
       <li :class="$style.navItem">
-        <router-link to="/product/pcb" v-show="!isShowingPcbImg"
+        <router-link
+          to="/product/pcb"
+          v-show="!isShowingPcbImg"
+          :class="$style.item"
           >PCB</router-link
         >
         <IconPcb v-show="isShowingPcbImg" :class="$style.iconImg" />
       </li>
       <li :class="$style.navItem">
-        <router-link to="/product/keycap" v-show="!isShowinKeycapImg"
+        <router-link
+          to="/product/keycap"
+          v-show="!isShowinKeycapImg"
+          :class="$style.item"
           >키캡</router-link
         >
         <IconKeycap v-show="isShowinKeycapImg" :class="$style.iconImg" />
       </li>
       <li :class="$style.navItem">
-        <router-link to="/product/tool" v-show="!isShowinToolImg"
+        <router-link
+          to="/product/tool"
+          v-show="!isShowinToolImg"
+          :class="$style.item"
           >도구</router-link
         >
         <IconTool v-show="isShowinToolImg" :class="$style.iconImg" />

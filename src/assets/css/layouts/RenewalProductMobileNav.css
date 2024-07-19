@@ -17,15 +17,16 @@
     scrollbar-width: none;
 }
 .navItem{
-    font-size: 16px;
-    font-weight: 500;
     width: 75px;
-    color: #AFAFAF;
     text-align: center;
     flex-shrink: 0;
-
 }
 .iconImg{
     width: 70px;
     height: 27px;
+}
+.item{
+    font-size: 16px;
+    font-weight: 500;
+    color: #AFAFAF;
 }

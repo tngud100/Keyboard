@@ -55,7 +55,7 @@ export const letterSpaceScaleFadeIn = (element, duration = null, delay) => {
 }
 export const mobileLetterSpaceScaleFadeIn = (element, duration = null, delay) => {
   gsap.fromTo(element,
-    {  letterSpacing: '5px', fontSize: '40px', opacity: 0 },
+    {  letterSpacing: '10px', fontSize: '40px', opacity: 0 },
     {
       opacity: 1,
       fontSize: '30px',

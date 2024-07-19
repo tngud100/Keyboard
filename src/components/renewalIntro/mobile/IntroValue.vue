@@ -63,17 +63,22 @@ const valueList = [
 ];
 
 onMounted(async () => {
-  fadeInElements(valueCon.value, [valueCon.value], null, 50);
   fadeInElements(
     valueCon.value,
-    [value0.value, value1.value, value2.value, value3.value],
+    [valueCon.value, value0.value, value1.value, value2.value, value3.value],
     null,
-    50,
-    1,
-    1,
-    null,
-    0.2
+    50
   );
+  // fadeInElements(
+  //   valueCon.value,
+  //   [value0.value, value1.value, value2.value, value3.value],
+  //   null,
+  //   50,
+  //   1,
+  //   1,
+  //   null,
+  //   0.2
+  // );
 });
 </script>
 

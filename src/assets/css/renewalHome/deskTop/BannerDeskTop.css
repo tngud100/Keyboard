@@ -16,7 +16,7 @@
 }
 .bannerName {
   font-size: 30px;
-  font-weight: 900;
+  font-weight: 800;
   margin-bottom: 22px;
 }
 .text {
@@ -32,6 +32,6 @@
   border: 1px solid #d6e3f2;
   border-radius: 10px;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 800;
   background-color: #d6e3f2;
 }

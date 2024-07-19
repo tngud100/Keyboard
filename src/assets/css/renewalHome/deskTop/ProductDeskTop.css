@@ -16,7 +16,7 @@
 }
 .title{
     font-size: 32px;
-    font-weight: 900;
+    font-weight: 800;
 }
 .linkBox{
     display: flex;
@@ -57,12 +57,12 @@
 .active{
     border: 2px solid #A70000;
     color: #A70000;
-    font-weight: 900;
+    font-weight: 800;
 }
 .menuBtn:hover{
     border: 2px solid #A70000;
     color: #A70000;
-    font-weight: 900;
+    font-weight: 800;
 }
 
 .contentBox{
@@ -85,7 +85,7 @@
 }
 .productName{
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 800;
 }
 .describeBox{
     margin-top: 30px;
@@ -117,7 +117,7 @@
 .gotoStore:hover{
     border: 2px solid #A70000;
     color: #A70000;
-    font-weight: 900;
+    font-weight: 800;
 }
 .rightContent{
     width: 887px;

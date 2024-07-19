@@ -11,7 +11,7 @@
 }
 .logoContainer{
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 800;
     text-align: center;
     gap: 10px;
 }
@@ -41,7 +41,7 @@
     margin: 20px auto 0px auto;
 }
 .introBtn:hover{
-    font-weight: 900;
+    font-weight: 800;
     border: 2px solid #B51717;
     color: #B51717;
 }

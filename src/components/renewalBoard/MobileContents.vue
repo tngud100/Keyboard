@@ -30,4 +30,4 @@ const selectedBoardNum = computed(() => {
 });
 </script>
 
-<style src="@/assets/css/renewalBoard/DeskTopContents.css" module></style>
+<style src="@/assets/css/renewalBoard/MobileContents.css" module></style>

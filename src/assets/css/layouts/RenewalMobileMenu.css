@@ -42,7 +42,7 @@
 }
 .callNum{
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 800;
     color: black;
 }
 .btnBox{
@@ -64,7 +64,7 @@
 .btn:hover{
     border: 2px solid #B51717;
     color: #B51717;
-    font-weight: 900;
+    font-weight: 800;
 }
 .copyright{
     height: 40px;
@@ -72,5 +72,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid #EEEEEE;
 }
