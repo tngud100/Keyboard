@@ -3,7 +3,10 @@
     :class="$style.introWrapper"
     :style="{ height: props.introState ? 630 + 'px' : 730 + 'px' }"
   >
-    <div :class="$style.introContents" :style="paddingTop">
+    <div
+      :class="$style.introContents"
+      :style="{ paddingTop: props.introState ? 70 + 'px' : 80 + 'px' }"
+    >
       <div :class="$style.logoContainer">
         <img
           src="@/assets/images/logoRed.svg"
@@ -81,15 +84,14 @@ const imgList = [
 const gotoIntro = () => {
   router.push("/intro");
 };
-// start: "top-=100px center",
-//         end: "+=50%",
+
 onMounted(() => {
-  fadeInElements(introLogo.value, [
+  fadeInElements(
     introLogo.value,
-    introText.value,
-    introDesc.value,
-    introBtn.value,
-  ]);
+    [introLogo.value, introText.value, introDesc.value, introBtn.value],
+    null,
+    50
+  );
 });
 </script>
 <style src="@/assets/css/renewalHome/deskTop/IntroDeskTop.css" module></style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.wrapper">
+  <div :class="$style.wrapper" ref="news">
     <div :class="$style.newsBox">
       <div :class="$style.header">
         <div :class="$style.title">공지사항</div>
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div :class="$style.contactBox">
+    <div :class="$style.contactBox" ref="contact">
       <div :class="$style.box">
         <p :class="$style.callName">고객센터</p>
         <p :class="$style.callNum">051-000-0000</p>
@@ -45,10 +45,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { fadeInElements } from "@/utils/gsapUtils.js";
 
 const router = useRouter();
+
+const news = ref(null);
+const contact = ref(null);
 
 const newsList = ref([
   {
@@ -74,6 +78,10 @@ const newsList = ref([
 const linkTo = (idx) => {
   router.push("/board/notice/" + idx);
 };
+
+onMounted(() => {
+  fadeInElements(news.value, [news.value], null, 50);
+});
 </script>
 
 <style src="@/assets/css/renewalHome/deskTop/NewsDeskTop.css" module></style>

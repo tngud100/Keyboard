@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.bannerBox">
+  <div :class="$style.bannerBox" ref="banner">
     <img :src="homeBanner" alt="네이버 스마트 스토어" :class="$style.banner" />
     <!-- <div :class="$style.textBox"> -->
     <!-- <p :class="$style.BannerName">네이버 스마트 스토어</p>
@@ -12,6 +12,14 @@
 <script setup>
 import homeBanner from "@/assets/images/homeBanner.svg";
 // import IconRightClearArrow from "#/icons/IconRightWhiteArrow.vue";
+import { fadeInElements } from "@/utils/gsapUtils.js";
+import { onMounted, ref } from "vue";
+
+const banner = ref(null);
+
+onMounted(() => {
+  fadeInElements(banner.value, [banner.value], null, 50);
+});
 </script>
 
 <style src="@/assets/css/renewalHome/deskTop/BannerDeskTop.css" module></style>

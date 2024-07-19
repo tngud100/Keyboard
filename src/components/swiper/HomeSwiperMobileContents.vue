@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="$style.swiperText">
-      <div :class="$style.textBox">
+      <div :class="$style.textBox" ref="textBox">
         <p
           v-html="item[currentPage - 1].text"
           :class="[$style.text, 'text']"
@@ -28,12 +28,15 @@ import Swiper from "#/swiper/AllScreenSwipe.vue";
 import firstBackground from "@/assets/images/firstBackgroundMobile.svg";
 import secondBackground from "@/assets/images/secondBackgroundMobile.svg";
 import thirdBackground from "@/assets/images/thirdBackgroundMobile.svg";
+import { XdirectfadeIn } from "@/utils/gsapUtils";
 import { ref, watch } from "vue";
 
 const autoSwipe = ref(true);
 const itemSize = {
   // height: 375,
 };
+const textBox = ref(null);
+
 const item = [
   {
     idx: 0,
@@ -58,6 +61,7 @@ const currentPage = ref(1);
 
 const changePage = (page) => {
   currentPage.value = page;
+  XdirectfadeIn(textBox.value);
 };
 </script>
 

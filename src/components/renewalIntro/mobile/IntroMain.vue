@@ -56,7 +56,7 @@ import introImg3 from "@/assets/images/introImg3.svg";
 import introImg4 from "@/assets/images/introImg4.svg";
 import introImg5 from "@/assets/images/introImg5.svg";
 import { useRouter } from "vue-router";
-import { fadeInElements } from "@/utils/gsapUtils.js";
+import { YdirectfadeIn } from "@/utils/gsapUtils.js";
 import { onMounted, ref } from "vue";
 
 const props = defineProps({
@@ -83,16 +83,9 @@ const gotoIntro = () => {
 };
 
 onMounted(() => {
-  fadeInElements(
-    introLogo.value,
-    [introLogo.value, introText.value, introDesc.value, introBtn.value],
-    null,
-    50,
-    0,
-    1,
-    50,
-    0.2
-  );
+  YdirectfadeIn(introLogo.value, null, 1);
+  YdirectfadeIn(introText.value, null, 1.1);
+  YdirectfadeIn(introDesc.value, null, 1.2);
 });
 </script>
 <style src="@/assets/css/renewalHome/mobile/IntroMobile.css" module></style>

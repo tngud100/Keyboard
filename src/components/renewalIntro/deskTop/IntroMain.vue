@@ -1,9 +1,12 @@
 <template>
   <div
     :class="$style.introWrapper"
-    :style="{ paddingTop: props.introState ? 0 + 'px' : 80 + 'px' }"
+    :style="{ height: props.introState ? 630 + 'px' : 730 + 'px' }"
   >
-    <div :class="$style.introContents">
+    <div
+      :class="$style.introContents"
+      :style="{ paddingTop: props.introState ? 70 + 'px' : 80 + 'px' }"
+    >
       <div :class="$style.logoContainer">
         <img
           src="@/assets/images/logoRed.svg"
@@ -15,14 +18,13 @@
       </div>
       <div :class="$style.textContainer" ref="introDesc">
         <p>높은 접근성을 추구하는 키보드회사입니다.</p>
-        <p>소비자분들과의 양방향 소통으로 여러분의</p>
-        <p>의견을 담은 제품과 개선되는 서비스를 제공합니다.</p>
+        <p>소비자분들과의 양방향 소통으로</p>
+        <p>여러분의 의견을 담은 제품과 개선되는 서비스를 제공합니다.</p>
       </div>
       <button
         :class="$style.introBtn"
         v-if="!props.introState"
         @click="gotoIntro"
-        ref="introBtn"
       >
         회사소개
       </button>
@@ -56,7 +58,7 @@ import introImg3 from "@/assets/images/introImg3.svg";
 import introImg4 from "@/assets/images/introImg4.svg";
 import introImg5 from "@/assets/images/introImg5.svg";
 import { useRouter } from "vue-router";
-import { fadeInElements } from "@/utils/gsapUtils.js";
+import { YdirectfadeIn } from "@/utils/gsapUtils.js";
 import { onMounted, ref } from "vue";
 
 const props = defineProps({
@@ -64,6 +66,10 @@ const props = defineProps({
   default: false,
 });
 const router = useRouter();
+
+const introLogo = ref(null);
+const introText = ref(null);
+const introDesc = ref(null);
 
 const imgList = [
   { imgSrc: introImg1 },
@@ -73,26 +79,14 @@ const imgList = [
   { imgSrc: introImg5 },
 ];
 
-const introLogo = ref(null);
-const introText = ref(null);
-const introDesc = ref(null);
-const introBtn = ref(null);
-
 const gotoIntro = () => {
   router.push("/intro");
 };
 
 onMounted(() => {
-  fadeInElements(
-    introLogo.value,
-    [introLogo.value, introText.value, introDesc.value, introBtn.value],
-    null,
-    50,
-    0,
-    1,
-    50,
-    0.2
-  );
+  YdirectfadeIn(introLogo.value, null, 1);
+  YdirectfadeIn(introText.value, null, 1.1);
+  YdirectfadeIn(introDesc.value, null, 1.2);
 });
 </script>
-<style src="@/assets/css/renewalHome/mobile/IntroMobile.css" module></style>
+<style src="@/assets/css/renewalHome/deskTop/IntroDeskTop.css" module></style>

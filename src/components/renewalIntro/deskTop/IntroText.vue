@@ -1,20 +1,28 @@
 <template>
   <div :class="$style.textWrapper">
     <div :class="$style.textBox">
-      <p :class="$style.title">회사 소개</p>
+      <p :class="$style.title" ref="text">회사 소개</p>
     </div>
   </div>
   <div :class="$style.sloganWrapper">
     <div :class="$style.sloganBox">
-      <span :class="[$style.slogan, 'slogan']"> 타건의 즐거움을 더하다, </span>
+      <span :class="[$style.slogan, 'slogan']" ref="slogan">
+        타건의 즐거움을 더하다,
+      </span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { gsap } from "gsap";
+import { letterSpaceScaleFadeIn } from "@/utils/gsapUtils.js";
+import { onMounted, ref } from "vue";
 
-gsap.to(".slogan", { y: 50, duration: 1 });
+const text = ref(null);
+const slogan = ref(null);
+
+onMounted(async () => {
+  await letterSpaceScaleFadeIn(slogan.value, 1.2);
+});
 </script>
 
 <style src="@/assets/css/renewalIntro/deskTop/IntroText.css" module></style>

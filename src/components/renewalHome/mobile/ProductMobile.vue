@@ -1,25 +1,27 @@
 <template>
   <div :class="$style.wrapper">
-    <div :class="$style.titleBox">
-      <p :class="$style.subTitle">조선타자기 베스트</p>
-      <div :class="$style.textBox">
-        <span :class="$style.title">상품</span>
-        <a :class="$style.moreLink" href="/">더보기 +</a>
+    <div ref="menuBox">
+      <div :class="$style.titleBox">
+        <p :class="$style.subTitle">조선타자기 베스트</p>
+        <div :class="$style.textBox">
+          <span :class="$style.title">상품</span>
+          <a :class="$style.moreLink" href="/">더보기 +</a>
+        </div>
+      </div>
+      <div :class="$style.menuWrapper">
+        <div :class="$style.menuBtnBox">
+          <button
+            :class="[$style.menuBtn, { [$style.active]: item.idx === menuNum }]"
+            v-for="item in productItem"
+            :key="item.idx"
+            @click="clickMenu(item.idx)"
+          >
+            {{ item.category }}
+          </button>
+        </div>
       </div>
     </div>
-    <div :class="$style.menuWrapper">
-      <div :class="$style.menuBtnBox">
-        <button
-          :class="[$style.menuBtn, { [$style.active]: item.idx === menuNum }]"
-          v-for="item in productItem"
-          :key="item.idx"
-          @click="clickMenu(item.idx)"
-        >
-          {{ item.category }}
-        </button>
-      </div>
-    </div>
-    <div :class="$style.bottomContainer">
+    <div :class="$style.bottomContainer" ref="productBox">
       <div
         :class="$style.product"
         v-for="item in filterProductItem"
@@ -60,13 +62,17 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import homeProductKeyboard from "@/assets/images/homeProductMobileKeyboard.svg";
 import IconHomeProductArrow from "#/icons/IconHomeProductArrow.vue";
 import IconHomeProductRedArrow from "#/icons/IconHomeProductRedArrow.vue";
+import { fadeInElements } from "@/utils/gsapUtils.js";
 
 const gotoStore = ref(false);
 const menuNum = ref(0);
+
+const menuBox = ref(null);
+const productBox = ref(null);
 
 const productItem = ref([
   {
@@ -117,6 +123,19 @@ const filterProductItem = computed(() =>
 const clickMenu = (num) => {
   menuNum.value = num;
 };
+
+onMounted(() => {
+  fadeInElements(
+    menuBox.value,
+    [menuBox.value, productBox.value],
+    null,
+    50,
+    0,
+    1,
+    80,
+    0.3
+  );
+});
 </script>
 
 <style src="@/assets/css/renewalHome/mobile/ProductMobile.css" module></style>

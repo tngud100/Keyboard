@@ -12,7 +12,6 @@
             color: selectedBoardNum === 0 ? 'black' : '#AFAFAF',
             fontWeight: selectedBoardNum === 0 ? '900' : ' 500',
           }"
-          @click="selected(0)"
           >공지사항</router-link
         >
       </li>
@@ -24,7 +23,6 @@
             color: selectedBoardNum === 1 ? 'black' : '#AFAFAF',
             fontWeight: selectedBoardNum === 1 ? '900' : ' 500',
           }"
-          @click="selected(1)"
           >자주묻는 질문</router-link
         >
       </li>
@@ -36,7 +34,6 @@
             color: selectedBoardNum === 2 ? 'black' : '#AFAFAF',
             fontWeight: selectedBoardNum === 2 ? '900' : ' 500',
           }"
-          @click="selected(2)"
           >자료실</router-link
         >
       </li>

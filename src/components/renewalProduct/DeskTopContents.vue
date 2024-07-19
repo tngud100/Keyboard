@@ -25,6 +25,7 @@ import Product from "#/common/Product.vue";
 import { useRouter } from "vue-router";
 import { getProductAPI } from "@/api/ProductGetDataAPI.js";
 import { computed, onMounted, ref, watch } from "vue";
+import { YdirectfadeIn } from "@/utils/gsapUtils.js";
 
 const { getProductList } = getProductAPI();
 
