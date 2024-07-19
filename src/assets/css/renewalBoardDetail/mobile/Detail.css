@@ -56,6 +56,7 @@
   border: 1px solid #707070;
   border-radius: 5px;
   font-size: 18px;
+  color: black;
 }
 .listBtn:hover{
   background-color: black;

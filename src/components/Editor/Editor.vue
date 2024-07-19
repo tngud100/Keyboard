@@ -152,8 +152,12 @@ const onEditorReady = (editorInstance) => {
       imageUrls[i] = decodeURIComponent(imageUrls[i]);
       if (!editorContent.includes(imageUrls[i])) {
         deleteImageFromServer(imageUrls[i]);
+        // let deletedImageName = imageUrls[i].replace(
+        //   "http://localhost:8080",
+        //   ""
+        // );
         let deletedImageName = imageUrls[i].replace(
-          "http://localhost:8080",
+          "http://JoseonbackApp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com",
           ""
         );
         deletedImageUrls.push(deletedImageName); // 삭제된 이미지를 추가

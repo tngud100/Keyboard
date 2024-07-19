@@ -115,6 +115,7 @@
     border-radius: 6px;
     color: #434343;
     cursor: pointer;
+    box-sizing: border-box;
 }
 .moreBtn:hover{
     color: #B51717;

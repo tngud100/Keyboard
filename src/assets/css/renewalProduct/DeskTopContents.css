@@ -7,13 +7,13 @@
 .text{
     text-align: center;
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 5px;
 }
 .productWrapper{
     width: 1400px;
-    min-height: 580px;
+    min-height: 430px;
     margin: 0px auto 30px auto;
 }
 .productList{

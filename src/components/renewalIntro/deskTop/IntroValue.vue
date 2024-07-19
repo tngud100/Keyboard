@@ -5,16 +5,32 @@
       <p :class="$style.value">이런 가치를 지니고 있습니다.</p>
     </div>
     <div :class="$style.valueWrapper">
-      <div
-        v-for="item in valueList"
-        :key="item.idx"
-        :class="$style.valueBox"
-        :ref="'value' + item.idx"
-      >
-        <img :class="$style.valueImg" :src="item.img" alt="" />
+      <div :class="$style.valueBox" ref="value0">
+        <img :class="$style.valueImg" :src="valueList[0].img" alt="" />
         <div :class="$style.valueText">
-          <p :class="$style.valueTitle">{{ item.title }}</p>
-          <p :class="$style.valueDesc">{{ item.value }}</p>
+          <p :class="$style.valueTitle">{{ valueList[0].title }}</p>
+          <p :class="$style.valueDesc">{{ valueList[0].value }}</p>
+        </div>
+      </div>
+      <div :class="$style.valueBox" ref="value1">
+        <img :class="$style.valueImg" :src="valueList[1].img" alt="" />
+        <div :class="$style.valueText">
+          <p :class="$style.valueTitle">{{ valueList[1].title }}</p>
+          <p :class="$style.valueDesc">{{ valueList[1].value }}</p>
+        </div>
+      </div>
+      <div :class="$style.valueBox" ref="value2">
+        <img :class="$style.valueImg" :src="valueList[2].img" alt="" />
+        <div :class="$style.valueText">
+          <p :class="$style.valueTitle">{{ valueList[2].title }}</p>
+          <p :class="$style.valueDesc">{{ valueList[2].value }}</p>
+        </div>
+      </div>
+      <div :class="$style.valueBox" ref="value3">
+        <img :class="$style.valueImg" :src="valueList[3].img" alt="" />
+        <div :class="$style.valueText">
+          <p :class="$style.valueTitle">{{ valueList[3].title }}</p>
+          <p :class="$style.valueDesc">{{ valueList[3].value }}</p>
         </div>
       </div>
     </div>
@@ -27,7 +43,7 @@ import introValue2 from "@/assets/images/icon_price.svg";
 import introValue3 from "@/assets/images/icon_price-1.svg";
 import introValue1 from "@/assets/images/icon_communication.svg";
 import { fadeInElements } from "@/utils/gsapUtils.js";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 
 const text = ref(null);
 const slogan = ref(null);
@@ -66,17 +82,23 @@ const valueList = [
 ];
 
 onMounted(async () => {
-  fadeInElements(valueCon.value, [valueCon.value], null, 50);
-  fadeInElements(
+  await nextTick();
+  await fadeInElements(
     valueCon.value,
-    [value0.value, value1.value, value2.value, value3.value],
+    [valueCon.value, value0.value, value1.value, value2.value, value3.value],
     null,
-    50,
-    0.5,
-    1,
-    null,
-    0.3
+    50
   );
+  // fadeInElements(
+  //   valueCon.value,
+  //   [value0.value, value1.value, value2.value, value3.value],
+  //   null,
+  //   50,
+  //   0.5,
+  //   1,
+  //   null,
+  //   0.3
+  // );
 });
 </script>
 

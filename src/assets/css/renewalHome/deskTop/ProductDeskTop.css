@@ -106,6 +106,7 @@
     color: #434343;
     font-size: 16px;
     font-weight: 500;
+    box-sizing: border-box;
 }
 .rightArrow{
     width: 6px;

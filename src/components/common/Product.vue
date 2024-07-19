@@ -30,7 +30,7 @@
     <div :class="$style.infoWrapper">
       <p
         :class="$style.name"
-        :style="{ fontSize: props.isMobile ? '14px' : '20px' }"
+        :style="{ fontSize: props.isMobile ? '14px' : '16px' }"
       >
         {{ props.name }}
       </p>

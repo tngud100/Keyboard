@@ -10,7 +10,8 @@
 }
 .nav{
     height: 60px;
-    align-content: center;
+    display: flex;
+    align-items: center;
     margin-bottom: 15px;
     border-top: 1px solid #EEEEEE;
     border-bottom: 1px solid #EEEEEE;
