@@ -248,11 +248,17 @@ const resetEditContent = () => {
 const closeModal = async () => {
   if (editContent.value.editorImgUrls.length !== 0) {
     for (const url of editContent.value.editorImgUrls) {
-      const imageName = url.split("/").pop();
+      const originName = url.split("/").pop();
+      const imagePathName = url.split("/").slice(-2).join("/");
       try {
-        console.log("execute deleteImageFromServer");
-        await axios.delete(`/editor/imgDelete/${imageName}`);
-        console.log("Image deleted successfully");
+        await axios.delete(`/editor/imgDelete/${originName}`, {
+          params: {
+            originalName: imagePathName,
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } catch (error) {
         console.error("Error deleting image:", error);
       }

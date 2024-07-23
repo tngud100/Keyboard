@@ -127,9 +127,18 @@ function CustomUploadAdapterPlugin(editor) {
 }
 
 const deleteImageFromServer = async (imageURL) => {
-  const imageName = imageURL.split("/").pop();
+  const originName = imageURL.split("/").pop();
+  const imagePathName = imageURL.split("/").slice(-2).join("/");
+
   return await axios
-    .delete(`/editor/imgDelete/${imageName}`)
+    .delete(`/editor/imgDelete/${originName}`, {
+      params: {
+        originalName: imagePathName,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
     .then((response) => {
       console.log("Image deleted successfully");
     })
@@ -151,15 +160,23 @@ const onEditorReady = (editorInstance) => {
     for (let i = 0; i < imageUrls.length; i++) {
       imageUrls[i] = decodeURIComponent(imageUrls[i]);
       if (!editorContent.includes(imageUrls[i])) {
+        console.log("deleteImageFromServer", imageUrls[i]);
         deleteImageFromServer(imageUrls[i]);
         // let deletedImageName = imageUrls[i].replace(
         //   "http://localhost:8080",
         //   ""
         // );
+
         let deletedImageName = imageUrls[i].replace(
-          "http://JoseonbackApp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com",
+          "https://joseonkeyboard-server-bucketimg.s3.ap-northeast-2.amazonaws.com",
           ""
         );
+
+        // let deletedImageName = imageUrls[i].replace(
+        //   "http://JoseonbackApp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com",
+        //   ""
+        // );
+        console.log("deletedImageName", deletedImageName);
         deletedImageUrls.push(deletedImageName); // 삭제된 이미지를 추가
         imageUrls.splice(i, 1);
       }

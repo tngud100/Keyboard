@@ -12,7 +12,8 @@ export default class UploadAdapter {
         return this.loader.file.then((uploadedFile) => {
             return new Promise((resolve, reject) => {
                 const formData = new FormData();
-                formData.append('upload', uploadedFile);
+                formData.append('file', uploadedFile);
+                formData.append('dirName', 'editorImage');
 
                 axios.post('/editor/imgUpload', formData, {
                     headers: {
@@ -22,7 +23,7 @@ export default class UploadAdapter {
                 .then((res) => {
                     const returnUrl = res.data.url;
                     const decodeUrl = decodeURIComponent(returnUrl);
-                    // console.log('File uploaded:', returnUrl, decodeUrl); // 업로드된 URL을 로그로 확인
+                    console.log('File uploaded:', returnUrl, decodeUrl); // 업로드된 URL을 로그로 확인
                     this.uplodedImageUrls.push(decodeUrl); 
                     console.log('Image URL added to uplodedImageUrls:', this.uplodedImageUrls); // 추가된 URL을 로그로 확인
                     resolve({
