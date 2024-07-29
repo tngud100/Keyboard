@@ -133,7 +133,7 @@ const deleteImageFromServer = async (imageURL) => {
   return await axios
     .delete(`/editor/imgDelete/${originName}`, {
       params: {
-        originalName: imagePathName,
+        originalName: decodeURIComponent(imagePathName),
       },
       headers: {
         "Content-Type": "application/json",
@@ -199,9 +199,9 @@ const extractInitialImageUrls = (content) => {
 
 watch(
   () => props.selectedContent,
-  () => {
-    text.value = props.selectedContent;
+  async () => {
     extractInitialImageUrls(props.selectedContent);
+    text.value = props.selectedContent;
   },
   { immediate: true }
 );

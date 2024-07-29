@@ -122,10 +122,13 @@ const handleSubmit = async () => {
   isContentUpdating = true;
   let data = {};
 
-  editContent.value.content = editContent.value.content.replace(
-    /(<img[^>]*src=")([^"]*editor\/[^"]*)("[^>]*>)/g,
-    (match, p1, p2, p3) => p1 + p2.replace("/editor/", "/") + p3
-  );
+  console.log("editContent.value.content", editContent.value.content);
+
+  // editContent.value.content = editContent.value.content.replace(
+  //   /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
+  //   (match, p1, p2, p3) => p1 + p2.replace("editorImage/", "board/notice/") + p3
+  // );
+  // console.log("editContent.value.content", editContent.value.content);
 
   editContent.value.uploadEditorImgUrls = editContent.value.editorImgUrls;
   editContent.value.editorImgUrls = [];
@@ -139,6 +142,11 @@ const handleSubmit = async () => {
     );
 
   if (props.boardIdx === 1) {
+    editContent.value.content = editContent.value.content.replace(
+      /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
+      (match, p1, p2, p3) =>
+        p1 + p2.replace("editorImage/", "board/notice/") + p3
+    );
     data = {
       title: editContent.value.title,
       content: editContent.value.content,
@@ -146,6 +154,10 @@ const handleSubmit = async () => {
       deleteImageUrls: editContent.value.deletedEditorImgUrls || [],
     };
   } else if (props.boardIdx === 2) {
+    editContent.value.content = editContent.value.content.replace(
+      /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
+      (match, p1, p2, p3) => p1 + p2.replace("editorImage/", "board/faq/") + p3
+    );
     data = {
       title: editContent.value.title,
       category: editContent.value.category,
@@ -155,6 +167,11 @@ const handleSubmit = async () => {
       deleteImageUrls: editContent.value.deletedEditorImgUrls || [],
     };
   } else if (props.boardIdx === 3) {
+    editContent.value.content = editContent.value.content.replace(
+      /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
+      (match, p1, p2, p3) =>
+        p1 + p2.replace("editorImage/", "board/download/") + p3
+    );
     const formData = new FormData();
     formData.append("title", editContent.value.title);
     formData.append("content", editContent.value.content);
@@ -180,7 +197,7 @@ const handleSubmit = async () => {
 
     data = formData;
   }
-  console.log(data);
+  console.log("data", data);
   if (props.selectedId) {
     await modifyContent(data);
   } else {
@@ -248,6 +265,7 @@ const resetEditContent = () => {
 const closeModal = async () => {
   if (editContent.value.editorImgUrls.length !== 0) {
     for (const url of editContent.value.editorImgUrls) {
+      console.log(url);
       const originName = url.split("/").pop();
       const imagePathName = url.split("/").slice(-2).join("/");
       try {
