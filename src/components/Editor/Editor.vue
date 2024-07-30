@@ -154,7 +154,7 @@ const onEditorReady = (editorInstance) => {
     const editorContent = editorInstance.getData();
 
     // console.log("ReadyContent");
-    // console.log("imageUrls", imageUrls);
+    console.log("imageUrls", imageUrls);
     // console.log("imageUrlsLength", imageUrls.length);
 
     for (let i = 0; i < imageUrls.length; i++) {
@@ -168,14 +168,10 @@ const onEditorReady = (editorInstance) => {
         // );
 
         let deletedImageName = imageUrls[i].replace(
-          "https://joseonkeyboard-server-bucketimg.s3.ap-northeast-2.amazonaws.com",
+          "https://joseonkeyboard-server-bucketimg.s3.ap-northeast-2.amazonaws.com/",
           ""
         );
 
-        // let deletedImageName = imageUrls[i].replace(
-        //   "http://JoseonbackApp-env.eba-jqirxxdp.ap-northeast-2.elasticbeanstalk.com",
-        //   ""
-        // );
         console.log("deletedImageName", deletedImageName);
         deletedImageUrls.push(deletedImageName); // 삭제된 이미지를 추가
         imageUrls.splice(i, 1);
