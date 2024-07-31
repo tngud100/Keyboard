@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <section :class="$style.wrapper">
     <div :class="$style.adminContainer">
-      <div :class="$style.pageLabel">
+      <!-- <div :class="$style.pageLabel">
         <span>{{ label[boardIdx] }}</span>
         <div :class="$style.header">
           <button
@@ -22,30 +22,30 @@
             </button>
           </div>
         </div>
-      </div>
-
+      </div> -->
+      <AdminNav @showEditModal="showEditModal" />
       <EditModal
         v-if="isEditModal"
         :boardIdx="boardIdx"
         :selectedId="selectedId"
         @closeModal="closeEditModal"
       />
-      <ReviewContents :boardIdx="boardIdx" v-if="boardIdx == 0" />
+      <!-- <ReviewContents :boardIdx="boardIdx" v-if="boardIdx == 0" /> -->
       <NoticeContents
         :boardIdx="boardIdx"
-        v-if="boardIdx == 1"
+        v-if="boardIdx == 0"
         @itemSelected="itemSelected"
         ref="noticeContentsRef"
       />
       <FaqContents
         :boardIdx="boardIdx"
-        v-if="boardIdx == 2"
+        v-if="boardIdx == 1"
         @itemSelected="itemSelected"
         ref="faqContentsRef"
       />
       <DownloadContents
         :boardIdx="boardIdx"
-        v-if="boardIdx == 3"
+        v-if="boardIdx == 2"
         @itemSelected="itemSelected"
         ref="downloadContentsRef"
       />
@@ -55,12 +55,13 @@
 
 <script setup>
 import useAdminStore from "@/store/useAdminPageStore.js";
-import ReviewContents from "#/adminBoard/ReviewContents.vue";
+// import ReviewContents from "#/adminBoard/ReviewContents.vue";
 import IconSearch from "#/icons/IconSearch.vue";
 import NoticeContents from "#/adminBoard/NoticeContents.vue";
 import FaqContents from "#/adminBoard/FaqContents.vue";
 import DownloadContents from "#/adminBoard/downloadContents.vue";
 import EditModal from "#/modal/EditModal.vue";
+import AdminNav from "@/layouts/AdminNav.vue";
 import { computed, ref } from "vue";
 
 const adminStore = useAdminStore();
@@ -77,13 +78,15 @@ const downloadContentsRef = ref(null); // NoticeContents 컴포넌트의 ref
 
 const showEditModal = () => {
   isEditModal.value = true;
+  document.body.style.overflow = "hidden";
 };
 const closeEditModal = () => {
   isEditModal.value = false;
   selectedId.value = null;
-  if (boardIdx.value == 1) noticeContentsRef.value.fetchData();
-  if (boardIdx.value == 2) faqContentsRef.value.fetchData();
-  if (boardIdx.value == 3) downloadContentsRef.value.fetchData();
+  document.body.style.overflow = "auto";
+  if (boardIdx.value == 0) noticeContentsRef.value.fetchData();
+  if (boardIdx.value == 1) faqContentsRef.value.fetchData();
+  if (boardIdx.value == 2) downloadContentsRef.value.fetchData();
 };
 
 const itemSelected = (value) => {

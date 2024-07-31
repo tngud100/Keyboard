@@ -1,7 +1,7 @@
-.wrapper{
+.container {
     width: calc(100% - 300px);
 }
-.adminContainer {
+.wrapper{
     min-height: 100vh;
     background-color: #F1F1F1;
     padding: 32px;

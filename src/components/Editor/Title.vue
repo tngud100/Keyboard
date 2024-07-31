@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.titleText">
     <select
-      v-if="boardIdx === 2 || boardIdx === 3"
+      v-if="boardIdx === 1 || boardIdx === 2"
       :class="$style.categorySelect"
       v-model="selectCategory"
     >
@@ -30,9 +30,9 @@ const emit = defineEmits(["update:title"]);
 
 const category = computed(() => {
   switch (props.boardIdx) {
-    case 2:
+    case 1:
       return ["keycap", "keyboard", "PCB"];
-    case 3:
+    case 2:
       return ["메뉴얼", "소프트웨어", "문제해결"];
   }
 });

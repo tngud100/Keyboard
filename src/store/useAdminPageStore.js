@@ -4,6 +4,9 @@ import { useRoute } from "vue-router";
 
 export const useAdminStore = defineStore("Admin", () => {
     const route = useRoute();
+
+    const adminMainIndex = ref(0);
+    const adminProductIndex = ref(0);
     const adminBoardIndex = ref(0);
 
     const isAdminPageRouter = computed(() => {
@@ -19,21 +22,23 @@ export const useAdminStore = defineStore("Admin", () => {
     });
 
     const adminSideBarIndex = computed(() => {
-        if (route.path.toLowerCase() === "/admin/products") {
+        if (route.path.toLowerCase() === "/admin/main") {
             return 0;
-        }else if (route.path.toLowerCase() === "/admin/member") {
+        }else if (route.path.toLowerCase() === "/admin/products") {
             return 1;
-        }else if (route.path.toLowerCase() === "/admin/order") {
-            return 2;
         }else if (route.path.toLowerCase() === "/admin/board") {
-            return 3;
-        }else if (route.path.toLowerCase() === "/admin/inquire") {
-            return 4;
+            return 2;
         }else {
             return 0;
         }
     })
 
+    const setAdminMainIndex = (index) => {
+        adminMainIndex.value = index;
+    }
+    const setAdminProductIndex = (index) => {
+        adminProductIndex.value = index;
+    }
     const setAdminBoardIndex = (index) => {
         adminBoardIndex.value = index;
     }
@@ -42,8 +47,12 @@ export const useAdminStore = defineStore("Admin", () => {
         isAdminPageRouter,
         isAdminLoginPage,
         adminSideBarIndex,
+        adminMainIndex,
+        adminProductIndex,
         adminBoardIndex,
-        setAdminBoardIndex
+        setAdminMainIndex,
+        setAdminProductIndex,
+        setAdminBoardIndex,
     };
 });
 

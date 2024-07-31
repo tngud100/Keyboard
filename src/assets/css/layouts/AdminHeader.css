@@ -1,10 +1,20 @@
 .headerBox{
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
-    padding: 31px;
+    border-bottom: 1px solid #D2D2D2;
+    height: 80px;
+    padding-right: 12px;
 }
-
+.logoBox{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+}
+.logoImg{
+    width: 206px;
+    object-fit: cover;
+}
 .headerSpan{
     font-size: 18px;
     font-weight: 500;

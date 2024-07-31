@@ -16,13 +16,13 @@
         @update:category="updateCategory"
       />
       <File
-        v-if="props.boardIdx === 3"
+        v-if="props.boardIdx === 2"
         @fileChange="fileChange"
         :selectedFiles="editContent.files"
         :selectedFileNames="editContent.fileNames"
       />
       <AskEditor
-        v-if="props.boardIdx === 2"
+        v-if="props.boardIdx === 1"
         @update:category="updateAsk"
         :spanText="'Q. '"
         :placeholder="'질문을 입력해주세요'"
@@ -72,11 +72,11 @@ const props = defineProps({
 
 const type = computed(() => {
   switch (props.boardIdx) {
-    case 1:
+    case 0:
       return "공지사항 작성";
-    case 2:
+    case 1:
       return "자주묻는 질문 작성";
-    case 3:
+    case 2:
       return "자료실 작성";
   }
 });
@@ -141,7 +141,7 @@ const handleSubmit = async () => {
       decodeURIComponent(url)
     );
 
-  if (props.boardIdx === 1) {
+  if (props.boardIdx === 0) {
     editContent.value.content = editContent.value.content.replace(
       /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
       (match, p1, p2, p3) =>
@@ -153,7 +153,7 @@ const handleSubmit = async () => {
       imageUrls: editContent.value.uploadEditorImgUrls || [],
       deleteImageUrls: editContent.value.deletedEditorImgUrls || [],
     };
-  } else if (props.boardIdx === 2) {
+  } else if (props.boardIdx === 1) {
     editContent.value.content = editContent.value.content.replace(
       /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
       (match, p1, p2, p3) => p1 + p2.replace("editorImage/", "board/faq/") + p3
@@ -166,7 +166,7 @@ const handleSubmit = async () => {
       imageUrls: editContent.value.uploadEditorImgUrls || [],
       deleteImageUrls: editContent.value.deletedEditorImgUrls || [],
     };
-  } else if (props.boardIdx === 3) {
+  } else if (props.boardIdx === 2) {
     editContent.value.content = editContent.value.content.replace(
       /(<img[^>]*src=")([^"]*editorImage\/[^"]*)("[^>]*>)/g,
       (match, p1, p2, p3) =>
@@ -210,13 +210,13 @@ const handleSubmit = async () => {
 
 const enrollContent = async (data) => {
   switch (props.boardIdx) {
-    case 1:
+    case 0:
       await enrollNotice(data);
       break;
-    case 2:
+    case 1:
       await enrollFAQ(data);
       break;
-    case 3:
+    case 2:
       editContent.value.files.forEach((file, index) => {
         data.append("files", file);
       });
@@ -227,15 +227,15 @@ const enrollContent = async (data) => {
 
 const modifyContent = async (data) => {
   switch (props.boardIdx) {
-    case 1:
+    case 0:
       data.notices_id = props.selectedId;
       await updateNoticeBoard(props.selectedId, data);
       break;
-    case 2:
+    case 1:
       data.faqs_id = props.selectedId;
       await updateFAQBoard(props.selectedId, data);
       break;
-    case 3:
+    case 2:
       editContent.value.files.forEach((file, index) => {
         data.append("files", file);
       });
@@ -289,27 +289,27 @@ const fetchData = async () => {
   if (props.selectedId) {
     let data;
     switch (props.boardIdx) {
-      case 1:
+      case 0:
         data = await getNoticeByNoticeId(props.selectedId);
         break;
-      case 2:
+      case 1:
         data = await getFAQByFAQId(props.selectedId);
         break;
-      case 3:
+      case 2:
         data = await getDownloadByDownloadId(props.selectedId);
         break;
     }
-    if (props.boardIdx === 1) {
+    if (props.boardIdx === 0) {
       editContent.value.title = data.title;
       editContent.value.content = data.content;
     }
-    if (props.boardIdx === 2) {
+    if (props.boardIdx === 1) {
       editContent.value.category = data.category;
       editContent.value.title = data.title;
       editContent.value.ask = data.ask;
       editContent.value.content = data.comment;
     }
-    if (props.boardIdx === 3) {
+    if (props.boardIdx === 2) {
       editContent.value.title = data.boardList.title;
       editContent.value.content = data.boardList.content;
       editContent.value.category = data.boardList.category;

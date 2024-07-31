@@ -36,9 +36,9 @@ const gotoLink = () => {
 <template>
   <div v-if="isAdminPageRouter" class="adminLayout">
     <!-- 어드민 버전 -->
-    <AdminSideBar v-if="isAdminLoginPage" class="sideBar" />
+    <AdminHeader v-if="isAdminLoginPage" />
     <div class="headerContent" v-if="isAdminLoginPage">
-      <AdminHeader />
+      <AdminSideBar v-if="isAdminLoginPage" class="sideBar" />
       <router-view />
     </div>
     <router-view v-if="!isAdminLoginPage" />
@@ -79,10 +79,8 @@ body {
   padding-top: 90px;
 }
 .adminLayout {
-  display: flex;
-  justify-content: center;
 }
 .headerContent {
-  width: calc(100% - 300px);
+  display: flex;
 }
 </style>

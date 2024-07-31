@@ -1,41 +1,97 @@
 <template>
   <div :class="$style.container">
-    <div :class="$style.logoBox">
-      <IconNewLogo />
-    </div>
     <ul :class="$style.listBox">
-      <router-link to="/admin/products"
+      <router-link to="/admin/main"
         ><li
           :class="[$style.list, selectedIndex === 0 ? $style.selected : '']"
           @click="selectIndex(0)"
         >
-          상품
-        </li></router-link
-      >
-      <router-link to="/admin/member"
+          메인
+        </li>
+        <ul :class="$style.listdownBox" v-if="selectedIndex === 0">
+          <li
+            :class="[
+              $style.listdown,
+              selectedMainIndex === 0 ? $style.selectedListdown : '',
+            ]"
+            @click="selectMainIndex(0)"
+          >
+            화보 상품
+          </li>
+          <li
+            :class="[
+              $style.listdown,
+              selectedMainIndex === 1 ? $style.selectedListdown : '',
+            ]"
+            @click="selectMainIndex(1)"
+          >
+            베스트 상품
+          </li>
+        </ul>
+      </router-link>
+      <router-link to="/admin/products"
         ><li
           :class="[$style.list, selectedIndex === 1 ? $style.selected : '']"
           @click="selectIndex(1)"
         >
-          회원
-        </li></router-link
-      >
-      <router-link to="/admin/order"
+          상품
+        </li>
+        <ul :class="$style.listdownBox" v-if="selectedIndex === 1">
+          <li
+            :class="[
+              $style.listdown,
+              selectedProductIndex === 0 ? $style.selectedListdown : '',
+            ]"
+            @click="selectProductIndex(0)"
+          >
+            키보드
+          </li>
+          <li
+            :class="[
+              $style.listdown,
+              selectedProductIndex === 1 ? $style.selectedListdown : '',
+            ]"
+            @click="selectProductIndex(1)"
+          >
+            스위치
+          </li>
+          <li
+            :class="[
+              $style.listdown,
+              selectedProductIndex === 2 ? $style.selectedListdown : '',
+            ]"
+            @click="selectProductIndex(2)"
+          >
+            PCB
+          </li>
+          <li
+            :class="[
+              $style.listdown,
+              selectedProductIndex === 3 ? $style.selectedListdown : '',
+            ]"
+            @click="selectProductIndex(3)"
+          >
+            키캡
+          </li>
+          <li
+            :class="[
+              $style.listdown,
+              selectedProductIndex === 4 ? $style.selectedListdown : '',
+            ]"
+            @click="selectProductIndex(4)"
+          >
+            도구
+          </li>
+        </ul>
+      </router-link>
+      <router-link to="/admin/board"
         ><li
           :class="[$style.list, selectedIndex === 2 ? $style.selected : '']"
           @click="selectIndex(2)"
         >
-          주문
-        </li></router-link
-      >
-      <router-link to="/admin/board"
-        ><li
-          :class="[$style.list, selectedIndex === 3 ? $style.selected : '']"
-          @click="selectIndex(3)"
-        >
           게시판
         </li>
-        <ul :class="$style.listdownBox" v-if="selectedIndex === 3">
+        <ul :class="$style.listdownBox" v-if="selectedIndex === 2">
           <li
             :class="[
               $style.listdown,
@@ -43,7 +99,7 @@
             ]"
             @click="selectBoardIndex(0)"
           >
-            리뷰
+            공지사항
           </li>
           <li
             :class="[
@@ -52,7 +108,7 @@
             ]"
             @click="selectBoardIndex(1)"
           >
-            공지사항
+            자주묻는 질문
           </li>
           <li
             :class="[
@@ -61,33 +117,15 @@
             ]"
             @click="selectBoardIndex(2)"
           >
-            자주묻는 질문
-          </li>
-          <li
-            :class="[
-              $style.listdown,
-              boardIndex === 3 ? $style.selectedListdown : '',
-            ]"
-            @click="selectBoardIndex(3)"
-          >
             자료실
           </li>
         </ul>
       </router-link>
-      <router-link to="/admin/inquire"
-        ><li
-          :class="[$style.list, selectedIndex === 4 ? $style.selected : '']"
-          @click="selectIndex(4)"
-        >
-          1:1문의
-        </li></router-link
-      >
     </ul>
   </div>
 </template>
 
 <script setup>
-import IconNewLogo from "#/icons/IconNewLogo.vue";
 import { useAdminStore } from "@/store/useAdminPageStore.js";
 import { onMounted, ref } from "vue";
 
@@ -97,10 +135,21 @@ const adminStore = useAdminStore();
 
 const selectedIndex = ref(0);
 
+const selectedMainIndex = ref(0);
+const selectedProductIndex = ref(0);
 const boardIndex = ref(0);
 
 const selectIndex = (index) => {
   selectedIndex.value = index;
+};
+
+const selectMainIndex = (index) => {
+  selectedMainIndex.value = index;
+  adminStore.setAdminMainIndex(index);
+};
+const selectProductIndex = (index) => {
+  selectedProductIndex.value = index;
+  adminStore.setAdminProductIndex(index);
 };
 const selectBoardIndex = (index) => {
   boardIndex.value = index;

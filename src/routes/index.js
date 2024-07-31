@@ -26,12 +26,15 @@ import SwitchView from '@/views/SwitchView.vue';
 import PcbView from '@/views/PcbView.vue';
 import KeycapView from '@/views/KeycapView.vue';
 import ToolView from '@/views/ToolView.vue';
+
 import AdminLoginView from '@/views/AdminLoginView.vue';
-import AdminProductView from '@/views/AdminProductView.vue';
+import AdminMainView from '@/views/AdminMainView.vue';
+import AdminProductView from '@/views/AdminRenewalProductView.vue';
 import AdminBoardView from '@/views/AdminBoardView.vue';
-import AdminInquireView from '@/views/AdminInquireView.vue';
-import AdminMemberView from '@/views/AdminMemberView.vue';
-import AdminOrderView from '@/views/AdminOrderView.vue';
+// import AdminProductView from '@/views/AdminProductView.vue';
+// import AdminInquireView from '@/views/AdminInquireView.vue';
+// import AdminMemberView from '@/views/AdminMemberView.vue';
+// import AdminOrderView from '@/views/AdminOrderView.vue';
 
 export const ROUTE_PATH = {
   ORDER: "/mypage",
@@ -59,7 +62,6 @@ const routes = [
   { path: '/board/download', component: RenewalBoardView },
   { path: '/board/download/:id', component: RenewalBoardDetailView },
   
-  
   { path: '/login', component: LoginView },
   { path: '/mypage', component: MypageView, meta: { requiresAuth: true } },
   { path: '/signup', component: SignupView },
@@ -80,11 +82,13 @@ const routes = [
   { path: '/order', component: OrderView },
 
   { path: '/admin/login', component: AdminLoginView },
+  { path: '/admin/main', component: AdminMainView },
   { path: '/admin/products', component: AdminProductView },
-  { path: '/admin/member', component: AdminMemberView },
-  { path: '/admin/order', component: AdminOrderView },
   { path: '/admin/board', component: AdminBoardView },
-  { path: '/admin/inquire', component: AdminInquireView },
+  // { path: '/admin/products', component: AdminProductView },
+  // { path: '/admin/member', component: AdminMemberView },
+  // { path: '/admin/order', component: AdminOrderView },
+  // { path: '/admin/inquire', component: AdminInquireView },
 ];
 
 const router = createRouter({

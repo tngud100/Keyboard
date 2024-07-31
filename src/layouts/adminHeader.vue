@@ -1,5 +1,8 @@
 <template>
   <div :class="$style.headerBox">
+    <div :class="$style.logoBox">
+      <img :src="IconNewLogo" alt="로고" :class="$style.logoImg" />
+    </div>
     <div>
       <span :class="$style.headerSpan">관리자 계정</span>
       <span :class="$style.headerSpan">|</span>
@@ -20,6 +23,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/useAuthStore.js";
 import { AuthAPI } from "@/api/AuthAPI.js";
 import { computed } from "vue";
+import IconNewLogo from "@/assets/images/logoText.svg";
 
 const router = useRouter();
 const authStore = useAuthStore();

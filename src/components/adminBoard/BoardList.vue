@@ -69,6 +69,7 @@ const emit = defineEmits(["itemSelected", "deleteItem"]);
 
 const handleClick = (item) => {
   emit("itemSelected", item);
+  document.body.style.overflow = "hidden";
 };
 
 const activeBtn = (active, item) => {

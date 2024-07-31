@@ -20,7 +20,16 @@
           :key="colIndex"
           :style="{ width: column.width }"
         >
-          {{ row[column.field] }}
+          <button
+            v-if="column.field === 'active'"
+            @click="$emit('activeBtn', row.id)"
+            :class="$style.active"
+          >
+            {{ row[column.field] }}
+          </button>
+          <span v-else>
+            {{ row[column.field] }}
+          </span>
         </div>
       </div>
     </div>
