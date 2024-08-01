@@ -1,12 +1,34 @@
 <template>
   <div :class="$style.wrapper">
-    <CustomTable :columns="columns" :rows="rows" @activeBtn="deleteBtn" />
+    <CustomTable
+      :columns="columns"
+      :rows="rows"
+      @activeBtn="deleteBtn"
+      @listClick="listClick"
+    />
+    <modal
+      v-if="modalOpen"
+      :title="title"
+      :rows="modalOption"
+      @closeBtn="$emit('closeBtn')"
+      @submit="handleSubmit"
+    />
   </div>
 </template>
 
 <script setup>
 import CustomTable from "@/components/common/CustomTable.vue";
 import { formattedPrice } from "@/utils/index.js";
+import modal from "@/components/modal/RenewalEnrollModal.vue";
+import { watch } from "vue";
+const props = defineProps({
+  modalOpen: Boolean,
+  title: String,
+  selectedId: Number,
+});
+
+const emit = defineEmits(["closeBtn", "selectedList"]);
+
 const columns = [
   {
     label: "카테고리",
@@ -56,8 +78,54 @@ const rows = [
     active: "삭제",
   },
 ];
+const modalOption = [
+  {
+    label: "카테고리",
+    field: "category",
+    placeholder: "카테고리를 입력해주세요",
+  },
+  {
+    label: "상품명",
+    field: "productName",
+    placeholder: "상품을 입력해주세요",
+  },
+  {
+    label: "금액",
+    field: "amount",
+    placeholder: "금액을 입력해주세요",
+  },
+  {
+    label: "이미지",
+    field: "image",
+    placeholder: "이미지를 입력해주세요",
+    imgFile: true,
+  },
+  {
+    label: "링크",
+    field: "link",
+    placeholder: "URL주소를 입력해주세요",
+  },
+];
+
+watch(
+  () => props.selectedId,
+  (selectedId) => {
+    if (selectedId !== null) {
+      console.log("New selected ID:", selectedId);
+    }
+  }
+);
+
+const listClick = (id) => {
+  console.log(id);
+  emit("selectedList", id);
+};
 const deleteBtn = (id) => {
   console.log(id);
+};
+
+const handleSubmit = (formData) => {
+  console.log("formData", formData);
 };
 </script>
 

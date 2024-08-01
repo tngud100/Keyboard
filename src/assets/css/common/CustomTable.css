@@ -34,6 +34,7 @@
     min-height: 70px;
     width: 100%; /* 각 행의 너비 100% */
     align-items: center;
+    cursor: pointer;
 }
 
 .tableRow > div {
@@ -51,18 +52,4 @@
 
 .tableRow > div:first-child {
   border-left: none;
-}
-
-.action {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #4E4E4E;
-  padding: 12px;
-  border-radius: 6px;
-  background-color: white;
-}
-.action:hover {
-  background-color: #4E4E4E;
-  color: white;
 }

@@ -8,8 +8,8 @@
     />
     <modal
       v-if="modalOpen"
-      :rows="modalOption"
       :title="title"
+      :rows="modalOption"
       @closeBtn="$emit('closeBtn')"
       @submit="handleSubmit"
     />
@@ -18,12 +18,12 @@
 
 <script setup>
 import CustomTable from "@/components/common/CustomTable.vue";
+import { formattedPrice } from "@/utils/index.js";
 import modal from "@/components/modal/RenewalEnrollModal.vue";
 import { watch } from "vue";
-
 const props = defineProps({
-  title: String,
   modalOpen: Boolean,
+  title: String,
   selectedId: Number,
 });
 
@@ -33,71 +33,48 @@ const columns = [
   {
     label: "카테고리",
     field: "category",
-    width: "5%",
+    width: "10%",
   },
   {
     label: "상품명",
     field: "product",
-    width: "14%",
+    width: "20%",
   },
   {
-    label: "문구",
-    field: "comment",
-    width: "25%",
+    label: "금액",
+    field: "price",
+    width: "10%",
   },
   {
     label: "이미지",
     field: "img",
-    width: "16%",
+    width: "20%",
   },
   {
     label: "링크",
     field: "link",
-    width: "24%",
+    width: "20%",
   },
   {
     label: "등록일",
     field: "regdate",
-    width: "8%",
+    width: "10%",
   },
   {
     label: "관리",
     field: "active",
-    width: "8%",
+    width: "10%",
   },
 ];
 const rows = [
   {
     id: 0,
-    category: "키보드",
+    category: "스위치",
     product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
+    price: formattedPrice(180239) + "원",
     img: "SG0001 키보드.jpeg",
     link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
-    active: "삭제",
-  },
-  {
-    id: 1,
-    category: "키캡",
-    product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
-    active: "삭제",
-  },
-  {
-    id: 2,
-    category: "PCB",
-    product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
+    regdate: "등록일",
     active: "삭제",
   },
 ];
@@ -110,19 +87,17 @@ const modalOption = [
   {
     label: "상품명",
     field: "productName",
-    placeholder: "상품명을 입력해주세요",
+    placeholder: "상품을 입력해주세요",
   },
   {
-    label: "문구",
-    field: "comment",
-    placeholder: "내용을 입력해주세요",
-    height: "160px",
-    feildAlign: "start",
-    textArea: true,
+    label: "금액",
+    field: "amount",
+    placeholder: "금액을 입력해주세요",
   },
   {
     label: "이미지",
     field: "image",
+    placeholder: "이미지를 입력해주세요",
     imgFile: true,
   },
   {
@@ -141,11 +116,12 @@ watch(
   }
 );
 
+const listClick = (id) => {
+  console.log(id);
+  emit("selectedList", id);
+};
 const deleteBtn = (id) => {
   console.log(id);
-};
-const listClick = (id) => {
-  emit("selectedList", id);
 };
 
 const handleSubmit = (formData) => {

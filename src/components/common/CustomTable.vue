@@ -14,6 +14,7 @@
         v-for="(row, rowIndex) in rows"
         :key="rowIndex"
         :class="$style.tableRow"
+        @click="$emit('listClick', row.id)"
       >
         <div
           v-for="(column, colIndex) in columns"

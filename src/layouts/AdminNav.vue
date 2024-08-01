@@ -33,11 +33,11 @@ const boardIdx = computed(() => adminStore.adminBoardIndex);
 const label = computed(() => {
   switch (adminSideBarIndex.value) {
     case 0:
-      return main[mainIdx.value];
+      return "메인 > " + main[mainIdx.value];
     case 1:
-      return products[productIdx.value];
+      return "상품 > " + products[productIdx.value];
     case 2:
-      return board[boardIdx.value];
+      return "고객지원 > " + board[boardIdx.value];
   }
 });
 </script>

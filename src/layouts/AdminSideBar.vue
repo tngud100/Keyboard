@@ -89,7 +89,7 @@
           :class="[$style.list, selectedIndex === 2 ? $style.selected : '']"
           @click="selectIndex(2)"
         >
-          게시판
+          고객지원
         </li>
         <ul :class="$style.listdownBox" v-if="selectedIndex === 2">
           <li
