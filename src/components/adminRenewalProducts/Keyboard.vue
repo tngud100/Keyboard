@@ -10,7 +10,7 @@
       v-if="modalOpen"
       :title="title"
       :rows="modalOption"
-      @closeBtn="$emit('closeBtn')"
+      @closeBtn="closeBtn"
       @submit="handleSubmit"
     />
   </div>
@@ -20,7 +20,11 @@
 import CustomTable from "@/components/common/CustomTable.vue";
 import { formattedPrice } from "@/utils/index.js";
 import modal from "@/components/modal/RenewalEnrollModal.vue";
-import { watch } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { renewalDataAPI } from "@/api/RenewalDataAPI.js";
+
+const { getProductAllList, enrollProduct } = renewalDataAPI();
+
 const props = defineProps({
   modalOpen: Boolean,
   title: String,
@@ -37,12 +41,12 @@ const columns = [
   },
   {
     label: "상품명",
-    field: "product",
+    field: "name",
     width: "20%",
   },
   {
     label: "금액",
-    field: "price",
+    field: "amount",
     width: "10%",
   },
   {
@@ -52,7 +56,7 @@ const columns = [
   },
   {
     label: "링크",
-    field: "link",
+    field: "shopping_link",
     width: "20%",
   },
   {
@@ -66,18 +70,6 @@ const columns = [
     width: "10%",
   },
 ];
-const rows = [
-  {
-    id: 0,
-    category: "키보드",
-    product: "MM Studio Class 0413- 898cc55 click",
-    price: formattedPrice(180239) + "원",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "등록일",
-    active: "삭제",
-  },
-];
 const modalOption = [
   {
     label: "카테고리",
@@ -86,7 +78,7 @@ const modalOption = [
   },
   {
     label: "상품명",
-    field: "productName",
+    field: "name",
     placeholder: "상품을 입력해주세요",
   },
   {
@@ -102,10 +94,23 @@ const modalOption = [
   },
   {
     label: "링크",
-    field: "link",
+    field: "shopping_link",
     placeholder: "URL주소를 입력해주세요",
   },
 ];
+// const rows = [
+//   {
+//     id: 0,
+//     category: "키보드",
+//     product: "MM Studio Class 0413- 898cc55 click",
+//     price: formattedPrice(180239) + "원",
+//     img: "SG0001 키보드.jpeg",
+//     link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
+//     regdate: "등록일",
+//     active: "삭제",
+//   },
+// ];
+const rows = ref([]);
 
 watch(
   () => props.selectedId,
@@ -124,9 +129,34 @@ const deleteBtn = (id) => {
   console.log(id);
 };
 
-const handleSubmit = (formData) => {
+const handleSubmit = async (formData) => {
   console.log("formData", formData);
+  await enrollProduct(formData);
 };
+
+const closeBtn = () => {
+  emit("closeBtn");
+};
+
+const fetchProductAllList = async () => {
+  const data = await getProductAllList();
+  if (data) {
+    rows.value = data.map((item) => {
+      return {
+        ...item,
+        id: item.product_id,
+        active: "삭제",
+      };
+    });
+  } else {
+    console.log("there is no data");
+  }
+  console.log(rows.value);
+};
+
+onMounted(async () => {
+  fetchProductAllList();
+});
 </script>
 
 <style src="@/assets/css/adminMain/TableList.css" module></style>

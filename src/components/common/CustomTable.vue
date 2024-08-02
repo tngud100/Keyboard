@@ -23,7 +23,7 @@
         >
           <button
             v-if="column.field === 'active'"
-            @click="$emit('activeBtn', row.id)"
+            @click.stop="$emit('activeBtn', row.id)"
             :class="$style.active"
           >
             {{ row[column.field] }}
