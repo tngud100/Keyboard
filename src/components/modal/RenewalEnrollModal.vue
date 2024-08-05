@@ -94,7 +94,7 @@ import { onMounted, ref } from "vue";
 const props = defineProps({
   title: String,
   rows: Array,
-  select: Array,
+  selectedData: Array,
 });
 
 const emit = defineEmits(["closeBtn", "submit", "emitChecking"]);
@@ -105,6 +105,11 @@ onMounted(() => {
   props.rows.forEach((row) => {
     formData.value[row.field] = row.defaultValue || "";
   });
+  if (props.selectedData) {
+    formData.value = {
+      ...props.selectedData,
+    };
+  }
 });
 
 const imgNames = ref(props.rows.map(() => ""));
@@ -123,6 +128,8 @@ const handleSubmit = () => {
 
 const closeBtn = () => {
   emit("closeBtn");
+  formData.value = {};
+  imgNames.value = imgNames.value.map(() => "");
 };
 </script>
 

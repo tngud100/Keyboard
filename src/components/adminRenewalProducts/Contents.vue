@@ -94,6 +94,7 @@ const showEditModal = () => {
 
 const closeEditModal = () => {
   modalOpen.value = false;
+  selectedId.value = null;
   document.body.style.overflow = "auto";
 };
 </script>

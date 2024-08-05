@@ -10,6 +10,7 @@
       v-if="modalOpen"
       :title="title"
       :rows="modalOption"
+      :selectedData="selectedData"
       @closeBtn="closeBtn"
       @submit="handleSubmit"
     />
@@ -23,7 +24,8 @@ import modal from "@/components/modal/RenewalEnrollModal.vue";
 import { onMounted, ref, watch } from "vue";
 import { renewalDataAPI } from "@/api/RenewalDataAPI.js";
 
-const { getProductAllList, enrollProduct } = renewalDataAPI();
+const { getProductAllList, enrollProduct, getProductListById } =
+  renewalDataAPI();
 
 const props = defineProps({
   modalOpen: Boolean,
@@ -112,17 +114,20 @@ const modalOption = [
 // ];
 const rows = ref([]);
 
-watch(
-  () => props.selectedId,
-  (selectedId) => {
-    if (selectedId !== null) {
-      console.log("New selected ID:", selectedId);
-    }
-  }
-);
+const selectedData = ref(null);
 
-const listClick = (id) => {
-  console.log(id);
+// watch(
+//   () => props.selectedId,
+//   (selectedId) => {
+//     if (selectedId !== null) {
+//       console.log("New selected ID:", selectedId);
+//     }
+//   }
+// );
+
+const listClick = async (id) => {
+  const data = await getProductListById(id);
+  selectedData.value = data;
   emit("selectedList", id);
 };
 const deleteBtn = (id) => {
@@ -135,6 +140,7 @@ const handleSubmit = async (formData) => {
 };
 
 const closeBtn = () => {
+  selectedData.value = null;
   emit("closeBtn");
 };
 
@@ -145,13 +151,13 @@ const fetchProductAllList = async () => {
       return {
         ...item,
         id: item.product_id,
+        amount: formattedPrice(item.amount) + "원",
         active: "삭제",
       };
     });
   } else {
     console.log("there is no data");
   }
-  console.log(rows.value);
 };
 
 onMounted(async () => {
