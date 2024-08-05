@@ -65,7 +65,7 @@
           <select
             v-if="row.select"
             :class="$style.select"
-            @change="formData.selectNum = $event.target.value"
+            @change="formData.sequence = $event.target.value"
           >
             <option :value="null" disabled selected hidden>순서</option>
             <option

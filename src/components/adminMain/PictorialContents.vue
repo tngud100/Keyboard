@@ -19,7 +19,10 @@
 <script setup>
 import CustomTable from "@/components/common/CustomTable.vue";
 import modal from "@/components/modal/RenewalEnrollModal.vue";
-import { watch } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { renewalDataAPI } from "@/api/RenewalDataAPI.js";
+
+const { enrollPictorialProduct, getMainPictorialList } = renewalDataAPI();
 
 const props = defineProps({
   title: String,
@@ -66,56 +69,56 @@ const columns = [
     width: "8%",
   },
 ];
-const rows = [
-  {
-    id: 0,
-    num: "1",
-    product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
-    active: "삭제",
-  },
-  {
-    id: 1,
-    num: "2",
-    product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
-    active: "삭제",
-  },
-  {
-    id: 2,
-    num: "3",
-    product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
-    active: "삭제",
-  },
-  {
-    id: 3,
-    num: "4",
-    product: "MM Studio Class 0413- 898cc55 click",
-    comment:
-      "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
-    img: "SG0001 키보드.jpeg",
-    link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
-    regdate: "2024-08-29",
-    active: "삭제",
-  },
-];
+// const rows = [
+//   {
+//     id: 0,
+//     num: "1",
+//     product: "MM Studio Class 0413- 898cc55 click",
+//     comment:
+//       "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
+//     img: "SG0001 키보드.jpeg",
+//     link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
+//     regdate: "2024-08-29",
+//     active: "삭제",
+//   },
+//   {
+//     id: 1,
+//     num: "2",
+//     product: "MM Studio Class 0413- 898cc55 click",
+//     comment:
+//       "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
+//     img: "SG0001 키보드.jpeg",
+//     link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
+//     regdate: "2024-08-29",
+//     active: "삭제",
+//   },
+//   {
+//     id: 2,
+//     num: "3",
+//     product: "MM Studio Class 0413- 898cc55 click",
+//     comment:
+//       "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
+//     img: "SG0001 키보드.jpeg",
+//     link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
+//     regdate: "2024-08-29",
+//     active: "삭제",
+//   },
+//   {
+//     id: 3,
+//     num: "4",
+//     product: "MM Studio Class 0413- 898cc55 click",
+//     comment:
+//       "조선타자기 컨셉의 이런 저런 설명 쭉 나오고 쭉 설명 설명 설명 줄바뀜으로 나오면서 중앙정렬",
+//     img: "SG0001 키보드.jpeg",
+//     link: "https://www.youtube.com/watch?v=zo4f_B04-cE",
+//     regdate: "2024-08-29",
+//     active: "삭제",
+//   },
+// ];
 const modalOption = [
   {
-    label: "상품명",
-    field: "productName",
+    label: "상품번호",
+    field: "product_id",
     placeholder: "상품명을 입력해주세요",
     select: [1, 2, 3],
   },
@@ -132,12 +135,10 @@ const modalOption = [
     field: "image",
     imgFile: true,
   },
-  {
-    label: "링크",
-    field: "link",
-    placeholder: "URL주소를 입력해주세요",
-  },
 ];
+
+const rows = ref([]);
+const selectedData = ref(null);
 
 watch(
   () => props.selectedId,
@@ -149,15 +150,38 @@ watch(
 );
 
 const listClick = (id) => {
+  // const data = await getProductListById(id);
+  // selectedData.value = data;
   emit("selectedList", id);
 };
 const deleteBtn = (id) => {
   console.log(id);
 };
 
-const handleSubmit = (formData) => {
+const handleSubmit = async (formData) => {
   console.log("formData", formData);
+  await enrollPictorialProduct(formData);
 };
+
+const fetchPictorialAllList = async () => {
+  const data = await getMainPictorialList();
+  if (data) {
+    rows.value = data.map((item) => {
+      return {
+        ...item,
+        // id: item.product_id,
+        // amount: formattedPrice(item.amount) + "원",
+        active: "삭제",
+      };
+    });
+  } else {
+    console.log("there is no data");
+  }
+};
+
+onMounted(async () => {
+  fetchPictorialAllList();
+});
 </script>
 
 <style src="@/assets/css/adminMain/TableList.css" module></style>
