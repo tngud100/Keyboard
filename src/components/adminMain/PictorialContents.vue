@@ -10,8 +10,10 @@
       v-if="modalOpen"
       :title="title"
       :rows="modalOption"
-      @closeBtn="$emit('closeBtn')"
+      :selectedData="selectedData"
+      @closeBtn="closeBtn"
       @submit="handleSubmit"
+      @update="handleUpdate"
     />
   </div>
 </template>
@@ -22,7 +24,13 @@ import modal from "@/components/modal/RenewalEnrollModal.vue";
 import { onMounted, ref, watch } from "vue";
 import { renewalDataAPI } from "@/api/RenewalDataAPI.js";
 
-const { enrollPictorialProduct, getMainPictorialList } = renewalDataAPI();
+const {
+  enrollPictorialProduct,
+  getMainPictorialList,
+  getProductListById,
+  updatePictorialProduct,
+  deletePictorialProduct,
+} = renewalDataAPI();
 
 const props = defineProps({
   title: String,
@@ -34,9 +42,14 @@ const emit = defineEmits(["closeBtn", "selectedList"]);
 
 const columns = [
   {
-    label: "번호",
-    field: "num",
-    width: "5%",
+    label: "순서",
+    field: "sequence",
+    width: "6%",
+  },
+  {
+    label: "상품번호",
+    field: "product_id",
+    width: "6%",
   },
   {
     label: "상품명",
@@ -46,7 +59,7 @@ const columns = [
   {
     label: "문구",
     field: "comment",
-    width: "25%",
+    width: "21%",
   },
   {
     label: "화보 이미지",
@@ -56,7 +69,7 @@ const columns = [
   {
     label: "링크",
     field: "link",
-    width: "24%",
+    width: "21%",
   },
   {
     label: "등록일",
@@ -119,8 +132,10 @@ const modalOption = [
   {
     label: "상품번호",
     field: "product_id",
-    placeholder: "상품명을 입력해주세요",
-    select: [1, 2, 3],
+    placeholder: "상품 번호를 입력해주세요",
+    sideSelect: [1, 2, 3],
+    sideSelectField: "sequence",
+    sideSelectPlaceHolder: "순서",
   },
   {
     label: "문구",
@@ -138,42 +153,87 @@ const modalOption = [
 ];
 
 const rows = ref([]);
+
 const selectedData = ref(null);
 
-watch(
-  () => props.selectedId,
-  (selectedId) => {
-    if (selectedId !== null) {
-      console.log("New selected ID:", selectedId);
+const listClick = async (id) => {
+  const data = await getMainPictorialList();
+  data.map((item) => {
+    console.log(item, id);
+    if (item.pictorial_product_id === id) {
+      selectedData.value = {
+        ...item,
+        sideSelect: item.sequence,
+      };
     }
-  }
-);
-
-const listClick = (id) => {
-  // const data = await getProductListById(id);
-  // selectedData.value = data;
+  });
   emit("selectedList", id);
 };
-const deleteBtn = (id) => {
-  console.log(id);
+
+const deleteBtn = async (id) => {
+  await deletePictorialProduct(id);
+  fetchPictorialAllList();
 };
 
 const handleSubmit = async (formData) => {
   console.log("formData", formData);
-  await enrollPictorialProduct(formData);
+
+  if (!formData.product_id || !formData.comment || !formData.sequence) {
+    alert("모든 항목을 입력해주세요.");
+    return;
+  }
+
+  const isExistProduct = await getProductListById(formData.product_id);
+
+  if (!isExistProduct) {
+    alert("존재하지 않는 상품입니다.");
+    return;
+  }
+
+  // await enrollPictorialProduct(formData);
+  closeBtn();
+};
+
+const handleUpdate = async (formData) => {
+  console.log("formData", formData);
+
+  if (!formData.product_id || !formData.comment || !formData.sequence) {
+    alert("모든 항목을 입력해주세요.");
+    return;
+  }
+
+  const isExistProduct = await getProductListById(formData.product_id);
+
+  if (!isExistProduct) {
+    alert("존재하지 않는 상품입니다.");
+    return;
+  }
+
+  // await updatePictorialProduct(formData);
+  closeBtn();
+};
+
+const closeBtn = () => {
+  selectedData.value = null;
+  emit("closeBtn");
+  fetchPictorialAllList();
 };
 
 const fetchPictorialAllList = async () => {
   const data = await getMainPictorialList();
   if (data) {
-    rows.value = data.map((item) => {
-      return {
-        ...item,
-        // id: item.product_id,
-        // amount: formattedPrice(item.amount) + "원",
-        active: "삭제",
-      };
-    });
+    rows.value = await Promise.all(
+      data.map(async (item) => {
+        const productData = await getProductListById(item.product_id);
+        return {
+          ...item,
+          id: item.pictorial_product_id,
+          product: productData.name,
+          link: productData.shopping_link,
+          active: "삭제",
+        };
+      })
+    );
   } else {
     console.log("there is no data");
   }

@@ -2,43 +2,48 @@
   <div :class="$style.container">
     <div :class="$style.wrapper">
       <AdminNav @showEditModal="showEditModal" />
-      <keyboard
+      <ProductsTable
         v-if="adminProductIndex === 0"
         :modalOpen="modalOpen"
         :title="title"
         :selectedId="selectedId"
+        :fetchFunc="fetchProductAllList"
         @closeBtn="closeEditModal"
         @selectedList="selectedList"
       />
-      <Keycap
+      <ProductsTable
         v-if="adminProductIndex === 1"
         :modalOpen="modalOpen"
         :title="title"
         :selectedId="selectedId"
+        :fetchFunc="fetchProductAllList"
         @closeBtn="closeEditModal"
         @selectedList="selectedList"
       />
-      <PCB
+      <ProductsTable
         v-if="adminProductIndex === 2"
         :modalOpen="modalOpen"
         :title="title"
         :selectedId="selectedId"
+        :fetchFunc="fetchProductAllList"
         @closeBtn="closeEditModal"
         @selectedList="selectedList"
       />
-      <Switch
+      <ProductsTable
         v-if="adminProductIndex === 3"
         :modalOpen="modalOpen"
         :title="title"
         :selectedId="selectedId"
+        :fetchFunc="fetchProductAllList"
         @closeBtn="closeEditModal"
         @selectedList="selectedList"
       />
-      <Tool
+      <ProductsTable
         v-if="adminProductIndex === 4"
         :modalOpen="modalOpen"
         :title="title"
         :selectedId="selectedId"
+        :fetchFunc="fetchProductAllList"
         @closeBtn="closeEditModal"
         @selectedList="selectedList"
       />
@@ -48,13 +53,17 @@
 
 <script setup>
 import AdminNav from "@/layouts/AdminNav.vue";
-import Keyboard from "#/adminRenewalProducts/Keyboard.vue";
-import Keycap from "#/adminRenewalProducts/Keycap.vue";
-import PCB from "#/adminRenewalProducts/PCB.vue";
-import Switch from "#/adminRenewalProducts/Switch.vue";
-import Tool from "#/adminRenewalProducts/Tool.vue";
+import ProductsTable from "#/adminRenewalProducts/ProductsTable.vue";
+// import Keycap from "#/adminRenewalProducts/Keycap.vue";
+// import PCB from "#/adminRenewalProducts/PCB.vue";
+// import Switch from "#/adminRenewalProducts/Switch.vue";
+// import Tool from "#/adminRenewalProducts/Tool.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import useAdminStore from "@/store/useAdminPageStore.js";
+import { formattedPrice } from "@/utils/index.js";
+import { renewalDataAPI } from "@/api/RenewalDataAPI.js";
+
+const { getProductAllList } = renewalDataAPI();
 
 const adminStore = useAdminStore();
 
@@ -71,9 +80,9 @@ const title = computed(() => {
     case 2:
       return "PCB";
     case 3:
-      return "도구";
+      return "키캡";
     case 4:
-      return "게시판";
+      return "도구";
 
     default:
       return "키보드";
@@ -96,6 +105,22 @@ const closeEditModal = () => {
   modalOpen.value = false;
   selectedId.value = null;
   document.body.style.overflow = "auto";
+};
+
+const fetchProductAllList = async () => {
+  const data = await getProductAllList();
+  console.log(JSON.stringify(data));
+  console.log(data);
+  if (data) {
+    data.forEach((item) => {
+      item.id = item.product_id;
+      item.amount = formattedPrice(item.amount) + "원";
+      item.active = "삭제";
+    });
+    return data;
+  } else {
+    console.log("there is no data");
+  }
 };
 </script>
 

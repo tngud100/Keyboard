@@ -23,7 +23,7 @@
           <div
             :class="$style.inputBox"
             :style="{ height: row.height }"
-            v-if="!row.imgFile && !row.textArea"
+            v-if="!row.imgFile && !row.textArea && !row.select"
           >
             <input
               type="text"
@@ -64,12 +64,46 @@
 
           <select
             v-if="row.select"
-            :class="$style.select"
-            @change="formData.sequence = $event.target.value"
+            :class="$style.inputBox"
+            @change="formData[row.field] = $event.target.value"
           >
-            <option :value="null" disabled selected hidden>순서</option>
+            <option
+              :value="selectedData ? formData[row.field] : null"
+              disabled
+              selected
+              hidden
+            >
+              <span :class="$style.placeHolder">{{
+                selectedData ? formData[row.field] : row.placeholder
+              }}</span>
+            </option>
             <option
               v-for="item in row.select"
+              :key="item"
+              :class="$style.input"
+              :value="item"
+            >
+              {{ item }}
+            </option>
+          </select>
+
+          <select
+            v-if="row.sideSelect"
+            :class="$style.select"
+            @change="formData[row.sideSelectField] = $event.target.value"
+          >
+            <option
+              :value="selectedData ? formData[row.field] : null"
+              disabled
+              selected
+              hidden
+            >
+              <span :class="$style.placeHolder">{{
+                selectedData ? formData.sideSelect : row.sideSelectPlaceHolder
+              }}</span>
+            </option>
+            <option
+              v-for="item in row.sideSelect"
               :key="item"
               :class="$style.option"
               :value="item"
@@ -81,7 +115,12 @@
       </div>
 
       <div :class="$style.buttonBox">
-        <button :class="$style.button" @click="handleSubmit">등록</button>
+        <button
+          :class="$style.button"
+          @click="selectedData ? handleUpdate() : handleSubmit()"
+        >
+          {{ selectedData ? "수정" : "등록" }}
+        </button>
       </div>
     </div>
   </div>
@@ -97,7 +136,7 @@ const props = defineProps({
   selectedData: Array,
 });
 
-const emit = defineEmits(["closeBtn", "submit", "emitChecking"]);
+const emit = defineEmits(["closeBtn", "submit", "emitChecking", "update"]);
 
 const formData = ref({});
 
@@ -109,6 +148,7 @@ onMounted(() => {
     formData.value = {
       ...props.selectedData,
     };
+    console.log(formData.value);
   }
 });
 
@@ -120,6 +160,10 @@ const uploadProductMainPicBtn = (event, index, field) => {
     imgNames.value[index] = file.name;
     formData.value[field] = file;
   }
+};
+
+const handleUpdate = () => {
+  emit("update", formData.value);
 };
 
 const handleSubmit = () => {

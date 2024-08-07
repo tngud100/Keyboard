@@ -96,7 +96,7 @@
     border: none;
 }
 
-.input[type="text"]:focus{
+.input[type="text"]:focus, .inputBox:focus{
     outline: none;
 }
 .input[type="text"]::placeholder{

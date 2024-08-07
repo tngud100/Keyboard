@@ -13,29 +13,42 @@
       :selectedData="selectedData"
       @closeBtn="closeBtn"
       @submit="handleSubmit"
+      @update="handleUpdate"
     />
   </div>
 </template>
 
 <script setup>
 import CustomTable from "@/components/common/CustomTable.vue";
-import { formattedPrice } from "@/utils/index.js";
 import modal from "@/components/modal/RenewalEnrollModal.vue";
 import { onMounted, ref, watch } from "vue";
 import { renewalDataAPI } from "@/api/RenewalDataAPI.js";
 
-const { getProductAllList, enrollProduct, getProductListById } =
-  renewalDataAPI();
+const {
+  enrollProduct,
+  getProductListById,
+  updateRenewalProduct,
+  deleteRenewalProduct,
+} = renewalDataAPI();
 
 const props = defineProps({
   modalOpen: Boolean,
   title: String,
   selectedId: Number,
+  fetchFunc: {
+    type: Function,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["closeBtn", "selectedList"]);
 
 const columns = [
+  {
+    label: "상품번호",
+    field: "product_id",
+    width: "6%",
+  },
   {
     label: "카테고리",
     field: "category",
@@ -44,7 +57,7 @@ const columns = [
   {
     label: "상품명",
     field: "name",
-    width: "20%",
+    width: "18%",
   },
   {
     label: "금액",
@@ -54,12 +67,12 @@ const columns = [
   {
     label: "이미지",
     field: "img",
-    width: "20%",
+    width: "18%",
   },
   {
     label: "링크",
     field: "shopping_link",
-    width: "20%",
+    width: "18%",
   },
   {
     label: "등록일",
@@ -76,7 +89,8 @@ const modalOption = [
   {
     label: "카테고리",
     field: "category",
-    placeholder: "카테고리를 입력해주세요",
+    select: ["키보드", "스위치", "PCB", "키캡", "도구"],
+    placeholder: "카테고리를 선택해주세요",
   },
   {
     label: "상품명",
@@ -116,52 +130,71 @@ const rows = ref([]);
 
 const selectedData = ref(null);
 
-// watch(
-//   () => props.selectedId,
-//   (selectedId) => {
-//     if (selectedId !== null) {
-//       console.log("New selected ID:", selectedId);
-//     }
-//   }
-// );
-
 const listClick = async (id) => {
   const data = await getProductListById(id);
   selectedData.value = data;
   emit("selectedList", id);
 };
-const deleteBtn = (id) => {
-  console.log(id);
+
+const deleteBtn = async (id) => {
+  await deleteRenewalProduct(id);
+  getFetchData();
 };
 
 const handleSubmit = async (formData) => {
   console.log("formData", formData);
+  if (
+    !formData.category ||
+    !formData.name ||
+    !formData.amount ||
+    !formData.shopping_link
+  ) {
+    alert("모든 항목을 입력해주세요.");
+    return;
+  }
   await enrollProduct(formData);
+  closeBtn();
+};
+
+const handleUpdate = async (formData) => {
+  console.log("formData", formData);
+
+  if (
+    !formData.category ||
+    !formData.name ||
+    !formData.amount ||
+    !formData.shopping_link
+  ) {
+    alert("모든 항목을 입력해주세요.");
+    return;
+  }
+
+  await updateRenewalProduct(formData);
+  closeBtn();
 };
 
 const closeBtn = () => {
   selectedData.value = null;
   emit("closeBtn");
+  getFetchData();
 };
 
-const fetchProductAllList = async () => {
-  const data = await getProductAllList();
-  if (data) {
-    rows.value = data.map((item) => {
-      return {
+const getFetchData = async () => {
+  rows.value = [];
+  const fetchData = await props.fetchFunc();
+
+  fetchData.map((item) => {
+    if (item.category === props.title) {
+      rows.value.push({
         ...item,
-        id: item.product_id,
-        amount: formattedPrice(item.amount) + "원",
-        active: "삭제",
-      };
-    });
-  } else {
-    console.log("there is no data");
-  }
+        select: item.category,
+      });
+    }
+  });
 };
 
-onMounted(async () => {
-  fetchProductAllList();
+onMounted(() => {
+  getFetchData();
 });
 </script>
 
