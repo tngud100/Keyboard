@@ -163,6 +163,10 @@ const listClick = async (id) => {
     if (item.pictorial_product_id === id) {
       selectedData.value = {
         ...item,
+        image: {
+          name: item.picture_name,
+          path: item.picture_path,
+        },
         sideSelect: item.sequence,
       };
     }
@@ -178,7 +182,12 @@ const deleteBtn = async (id) => {
 const handleSubmit = async (formData) => {
   console.log("formData", formData);
 
-  if (!formData.product_id || !formData.comment || !formData.sequence) {
+  if (
+    !formData.product_id ||
+    !formData.comment ||
+    !formData.sequence ||
+    !formData.image
+  ) {
     alert("모든 항목을 입력해주세요.");
     return;
   }
@@ -190,14 +199,19 @@ const handleSubmit = async (formData) => {
     return;
   }
 
-  // await enrollPictorialProduct(formData);
+  await enrollPictorialProduct(formData);
   closeBtn();
 };
 
 const handleUpdate = async (formData) => {
   console.log("formData", formData);
 
-  if (!formData.product_id || !formData.comment || !formData.sequence) {
+  if (
+    !formData.product_id ||
+    !formData.comment ||
+    !formData.sequence ||
+    !formData.image
+  ) {
     alert("모든 항목을 입력해주세요.");
     return;
   }
@@ -209,8 +223,7 @@ const handleUpdate = async (formData) => {
     return;
   }
 
-  // await updatePictorialProduct(formData);
-  closeBtn();
+  await updatePictorialProduct(formData);
 };
 
 const closeBtn = () => {
@@ -221,15 +234,18 @@ const closeBtn = () => {
 
 const fetchPictorialAllList = async () => {
   const data = await getMainPictorialList();
+  console.log(data);
   if (data) {
     rows.value = await Promise.all(
       data.map(async (item) => {
         const productData = await getProductListById(item.product_id);
+        console.log(productData);
         return {
           ...item,
+          img: item.picture_name,
           id: item.pictorial_product_id,
-          product: productData.name,
-          link: productData.shopping_link,
+          product: productData.productList.name,
+          link: productData.productList.shopping_link,
           active: "삭제",
         };
       })

@@ -144,10 +144,17 @@ const selectedData = ref(null);
 
 const listClick = async (id) => {
   const data = await getMainBestList();
-  data.map((item) => {
-    console.log(item, id);
+  console.log(data);
+  const productList = data.productLists;
+  const productImageList = data.productImageLists;
+  productList.map((item) => {
     if (item.best_product_id === id) {
-      selectedData.value = item;
+      selectedData.value = {
+        ...item,
+        image: productImageList.find(
+          (img) => img.best_product_id === item.best_product_id
+        ),
+      };
     }
   });
 
@@ -201,17 +208,23 @@ const closeBtn = () => {
 };
 
 const fetchBestAllList = async () => {
-  const data = await getMainBestList();
-  if (data) {
+  const bestData = await getMainBestList();
+  const bestList = bestData.productLists;
+  const bestImageList = bestData.productImageLists;
+
+  if (bestData) {
     rows.value = await Promise.all(
-      data.map(async (item) => {
+      bestList.map(async (item) => {
         const productData = await getProductListById(item.product_id);
         return {
           ...item,
           id: item.best_product_id,
-          product: productData.name,
-          category: productData.category,
-          link: productData.shopping_link,
+          product: productData.productList?.name,
+          category: productData.productList?.category,
+          link: productData.productList?.shopping_link,
+          img: bestImageList.find(
+            (img) => img.best_product_id === item.best_product_id
+          )?.name,
           active: "삭제",
         };
       })

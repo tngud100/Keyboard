@@ -132,7 +132,15 @@ const selectedData = ref(null);
 
 const listClick = async (id) => {
   const data = await getProductListById(id);
-  selectedData.value = data;
+  const productList = data.productList;
+  const productImageList = data.productImageList;
+  const clickedData = {
+    ...productList,
+    image: productImageList,
+  };
+  console.log("clickedData", clickedData);
+
+  selectedData.value = clickedData;
   emit("selectedList", id);
 };
 

@@ -109,15 +109,18 @@ const closeEditModal = () => {
 
 const fetchProductAllList = async () => {
   const data = await getProductAllList();
-  console.log(JSON.stringify(data));
-  console.log(data);
-  if (data) {
-    data.forEach((item) => {
+  const productList = data.productLists;
+  const productImageList = data.productImageLists;
+  if (productList) {
+    productList.forEach((item) => {
       item.id = item.product_id;
       item.amount = formattedPrice(item.amount) + "원";
+      item.img = productImageList.find(
+        (img) => img.product_id === item.product_id
+      )?.name;
       item.active = "삭제";
     });
-    return data;
+    return productList;
   } else {
     console.log("there is no data");
   }

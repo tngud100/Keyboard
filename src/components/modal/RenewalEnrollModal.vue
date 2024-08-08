@@ -52,8 +52,10 @@
             <span v-if="imgNames[rowIndex]" :class="$style.fileName">{{
               imgNames[rowIndex]
             }}</span>
+            <span v-else-if="formData[row.field]" :class="$style.fileName">{{
+              formData[row.field].name
+            }}</span>
             <div v-else :class="$style.placeHolder">파일을 선택해 주세요</div>
-
             <label
               :for="'uploadButton' + rowIndex"
               :class="$style.uploadButton"
