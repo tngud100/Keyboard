@@ -142,10 +142,13 @@ const emit = defineEmits(["closeBtn", "submit", "emitChecking", "update"]);
 
 const formData = ref({});
 
+const isChangedImage = ref(false);
+
 onMounted(() => {
   props.rows.forEach((row) => {
     formData.value[row.field] = row.defaultValue || "";
   });
+
   if (props.selectedData) {
     formData.value = {
       ...props.selectedData,
@@ -162,9 +165,13 @@ const uploadProductMainPicBtn = (event, index, field) => {
     imgNames.value[index] = file.name;
     formData.value[field] = file;
   }
+  isChangedImage.value = true;
 };
 
 const handleUpdate = () => {
+  if (!isChangedImage.value && props.selectedData) {
+    formData.value.image = null;
+  }
   emit("update", formData.value);
 };
 

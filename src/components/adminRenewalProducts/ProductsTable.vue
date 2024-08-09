@@ -138,7 +138,6 @@ const listClick = async (id) => {
     ...productList,
     image: productImageList,
   };
-  console.log("clickedData", clickedData);
 
   selectedData.value = clickedData;
   emit("selectedList", id);
@@ -166,6 +165,7 @@ const handleSubmit = async (formData) => {
 
 const handleUpdate = async (formData) => {
   console.log("formData", formData);
+  formData.image;
 
   if (
     !formData.category ||

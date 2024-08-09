@@ -182,12 +182,7 @@ const deleteBtn = async (id) => {
 const handleSubmit = async (formData) => {
   console.log("formData", formData);
 
-  if (
-    !formData.product_id ||
-    !formData.comment ||
-    !formData.sequence ||
-    !formData.image
-  ) {
+  if (!formData.product_id || !formData.comment || !formData.sequence) {
     alert("모든 항목을 입력해주세요.");
     return;
   }
@@ -206,12 +201,7 @@ const handleSubmit = async (formData) => {
 const handleUpdate = async (formData) => {
   console.log("formData", formData);
 
-  if (
-    !formData.product_id ||
-    !formData.comment ||
-    !formData.sequence ||
-    !formData.image
-  ) {
+  if (!formData.product_id || !formData.comment || !formData.sequence) {
     alert("모든 항목을 입력해주세요.");
     return;
   }
@@ -224,6 +214,7 @@ const handleUpdate = async (formData) => {
   }
 
   await updatePictorialProduct(formData);
+  closeBtn();
 };
 
 const closeBtn = () => {
